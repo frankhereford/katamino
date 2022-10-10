@@ -9,4 +9,7 @@ export const pieceRouter = t.router({
         shape: `Hello ${input?.id ?? "world"}`,
       };
     }),
+  getAll: t.procedure.query(({ ctx }) => {
+    return ctx.prisma.example.findMany();
+  }),
 });
