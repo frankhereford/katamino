@@ -3,27 +3,30 @@ import { z } from "zod";
 
 export const pieceRouter = t.router({
   get: authedProcedure
-    .input(z.object({ color: z.string().nullish() }).nullish())
-    .query(({ input }) => {
+    .input(z.object({ id: z.string().nullish() }).nullish())
+    .query(async ({ ctx, input }) => {
+      const piece = await ctx.prisma.piece.findUnique({
+        where: {
+          id: input.id,
+        }
+      })
       return {
-        shape: [],
+        piece: piece
       }
     }),
   set: authedProcedure
     .input(z.object({ color: z.string().nullish() }).nullish())
     .query(async ({ ctx, input }) => {
-      console.log(ctx)
-      console.log(input)
+      //console.log(ctx)
+      //console.log(input)
       const piece = await ctx.prisma.piece.create({
         data: {
           color: input.color,
-          shape: 'this is my shape',
+          shape: ['one', 'two'],
           userId: ctx.session.user.id
         },
       })
-      var shape = ['taco', 'beef']
-      console.log(piece)
-      return { shape: shape }
+      return { piece: piece}
     }),
   getAll: t.procedure.query(({ ctx }) => {
     return ctx.prisma.piece.findMany();
