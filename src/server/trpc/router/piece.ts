@@ -3,13 +3,13 @@ import { z } from "zod";
 
 export const pieceRouter = t.router({
   get: authedProcedure
-    .input(z.object({ id: z.number().nullish() }).nullish())
+    .input(z.object({ color: z.string().nullish() }).nullish())
     .query(({ input }) => {
       return {
-        shape: `Hello ${input?.id ?? "world"}`,
-      };
+        shape: [],
+      }
     }),
   getAll: t.procedure.query(({ ctx }) => {
-    return ctx.prisma.example.findMany();
+    return ctx.prisma.piece.findMany();
   }),
 });
