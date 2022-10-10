@@ -4,7 +4,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-  const hello = trpc.piece.get.useQuery({ id: 1 });
+  const hello = trpc.piece.get.useQuery({ color: 'red' });
 
   return (
     <>
