@@ -5,7 +5,6 @@ import { trpc } from "../utils/trpc";
 
 const Piece: NextPage = () => {
   const pieces = trpc.piece.list.useQuery();  
-  console.log(pieces.data)
 
   return (
     <>
@@ -14,7 +13,29 @@ const Piece: NextPage = () => {
         <meta name="description" content="Create and view pieces" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>👋</div>
+      <div className="overflow-x-auto">
+        <table className="table w-full">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Color</th>
+              <th>Shape</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pieces.data?.map((piece, index) => (
+              <tr key={index}>
+                <td>{piece.id}</td>
+                <td>{piece.color}</td>
+                <td>{piece.shape}</td>
+              </tr>
+            ))
+            }
+          </tbody>
+        </table>
+      </div>
+    
+
     </>
   );
 }
