@@ -1,3 +1,65 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+:root {
+    /* Border Colors are all transparent colors. These will tint or shade the background color of the square. */
+    --border-left-color: rgba(255, 255, 255, 0.20);
+    --border-top-color: rgba(255, 255, 255, 0.33);
+    --border-right-color: rgba(0, 0, 0, 0.15);
+    --border-bottom-color: rgba(0, 0, 0, 0.5);
+
+    /* Square Colors:  background colors for the squares.*/
+    --color-red: #b40d0d;
+    --color-green: #95ff85;
+    --color-grey: #808080;
+
+    --cols: 12;
+
+    /* Numbers define values that will be used throughout the CSS.
+    --tile-size: 20px for example will set size of the grid squares. */
+    --tile-size: 40px;
+    --border-width: 2px;
+}
+
+/* Colors */
+.color-red {
+    background-color: var(--color-red);
+}
+
+.color-green {
+    background-color: var(--color-green);
+}
+
+.color-grey {
+    background-color: var(--color-grey);
+}
+
+/* Grid Square */
+.grid-square {
+    border-style: solid;
+    width: var(--tile-size);
+    height: var(--tile-size);
+    border-width: var(--border-width);
+    border-left-color: var(--border-left-color);
+    border-top-color: var(--border-top-color);
+    border-right-color: var(--border-right-color);
+    border-bottom-color: var(--border-bottom-color);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.grid-board {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), var(--tile-size));
+    grid-gap: 0;
+    align-self: flex-start;
+}
+
+.grid-board.piece {
+    --cols: 5;
+}
