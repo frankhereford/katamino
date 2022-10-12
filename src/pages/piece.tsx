@@ -3,6 +3,9 @@ import Head from "next/head";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
 
+import GridSquare from './components/GridSquare'
+import GridBoard from './components/GridBoard'
+
 const Piece: NextPage = () => {
   const pieces = trpc.piece.list.useQuery();  
 
@@ -35,6 +38,7 @@ const Piece: NextPage = () => {
         </table>
       </div>
     
+      <GridBoard color='grey' size='piece'/>
 
     </>
   );
