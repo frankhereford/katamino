@@ -1,20 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import GridSquare from './GridSquare'
+
 
 // Represents a 10 x 18 grid of grid squares
 
 export default function GridBoard(props : {
+    board_color : string;
     piece : any;
-    color : any;
-    size : string;
+    size : number;
 }) {
 
+
+  //const [shape, setShape] = useState([
+    //piece.shape
+  //]);
+
   const grid = []
-  for (let row = 0; row < props.piece.length; row++) {
+  for (let row = 0; row < props.piece.shape.length; row++) {
     grid.push([])
-    for (let col = 0; col < props.piece[row].length; col++) {
+    for (let col = 0; col < props.piece.shape[row].length; col++) {
       grid[row].push (
-        <GridSquare key={`${col}${row}`} row={row} col={col} color={`${props.piece[row][col] ? 'red' : props.color}`} />
+        <GridSquare
+          key={`${col}${row}`}
+          row={row} col={col}
+          color={`${props.piece.shape[row][col] ? props.piece.color : props.board_color}`} />
       )
     }
   }
@@ -23,9 +32,9 @@ export default function GridBoard(props : {
     <div className="grid-board"
       style={
         {
-          '--cols': props.piece[0].length,
-          '--tile-size': '40px',
-          '--border-width': '2px'
+          '--cols': props.piece.shape[0].length,
+          '--tile-size': props.size + 'px',
+          '--border-width': props.size / 20 + 'px'
         }
       }>
     {grid} </div>

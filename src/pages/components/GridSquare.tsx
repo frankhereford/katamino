@@ -2,7 +2,7 @@ import React from 'react'
 
 // Represents a grid square with a color
 
-export default function GridSquare(props) {
+export default function GridSquare(props: { row: any; col: any; color: any; }) {
 
   const clickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
