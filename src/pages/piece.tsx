@@ -36,7 +36,6 @@ const Piece: NextPage = () => {
         [1, 0, 0, 0, 0],
       ]
     });
-    refetch();
   };
 
   return (
