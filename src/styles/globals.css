@@ -20,8 +20,9 @@
 
     /* Numbers define values that will be used throughout the CSS.
     --tile-size: 20px for example will set size of the grid squares. */
-    --tile-size: 40px;
-    --border-width: 2px;
+
+    --tile-size: 15px;
+    --border-width: 1px;
 }
 
 /* Colors */
@@ -58,8 +59,4 @@
     grid-template-columns: repeat(var(--cols), var(--tile-size));
     grid-gap: 0;
     align-self: flex-start;
-}
-
-.grid-board.piece {
-    --cols: 5;
 }
