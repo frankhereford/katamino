@@ -27,7 +27,7 @@ const Piece: NextPage = () => {
 
   const addPiece = () => {
     mutation.mutate({
-      color: 'red',
+      color: 'green',
       shape: [
         [0, 0, 0, 0, 0],
         [0, 1, 1, 0, 1],
