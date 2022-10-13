@@ -5,8 +5,6 @@ import GridSquare from './GridSquare'
 
 export default function GridBoard(props: { piece: any; color: any; size: string; }) {
 
-    const cols = props.piece[0].length;
-
     const grid = []
     for (let row = 0; row < props.piece.length; row++) {
         grid.push([])
