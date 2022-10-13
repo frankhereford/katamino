@@ -24,7 +24,7 @@ export const pieceRouter = t.router({
     .mutation(async ({ ctx, input }) => {
       //console.log(ctx)
       //console.log(input)
-      shape = nj.zeros([5,5])
+      const shape = nj.zeros([5,5])
       const piece = await ctx.prisma.piece.create({
         data: {
           color: input.color,
