@@ -8,19 +8,21 @@ import GridBoard from './components/GridBoard'
 
 const nascent_piece_template = {
   color: 'red',
-  shape: nj.ones([5,5]).tolist(),
+  shape: nj.zeros([5,5]).tolist(),
 }
 
 const Piece: NextPage = () => {
   //🪝
   const mutation = trpc.piece.set.useMutation({
     onSuccess: () => {
-      refetch();
+      pieces_refetch();
     }
   });
+  const { data: pieces, refetch: pieces_refetch } = trpc.piece.list.useQuery();  
+  
+  // TODO: build an array options per docs and use jam in the default one, and use that as a single react node to select down there
 
-  const { isLoading, isError, data: pieces, error, refetch } = trpc.piece.list.useQuery();  
-
+  const colors = trpc.color.list.useQuery();
   const [nascent_piece, set_nascent_piece] = useState(nascent_piece_template);
 
   // ƛ
@@ -36,14 +38,6 @@ const Piece: NextPage = () => {
     set_nascent_piece({...nascent_piece});
   }
 
-  if (isLoading) {
-    return <span>Loading...</span>
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>
-  }
-
   return (
     <>
       <Head>
@@ -52,6 +46,12 @@ const Piece: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
+        <select defaultValue='default' className="select w-full max-w-xs">
+          <option value='default' disabled selected>Pick Color</option>
+          {colors.data?.map((color) => {
+              <option value={color}>{color}</option>
+            })}
+        </select>
         <GridBoard board_color='grey' piece={nascent_piece} square_size='40' square_click_handler={square_click_handler} />
         <button onClick={addPiece} className='btn btn-primary'>Add piece</button>
       </div>
