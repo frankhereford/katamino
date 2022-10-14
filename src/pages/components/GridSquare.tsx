@@ -5,8 +5,8 @@ import React from 'react'
 export default function GridSquare(props: { row: any; col: any; color: any; }) {
 
   const clickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    console.log(event.target);
+    //event.preventDefault();
+    //console.log(event.target);
     console.log(props.row);
     console.log(props.col);
   }

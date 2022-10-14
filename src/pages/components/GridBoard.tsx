@@ -1,19 +1,11 @@
 import React, { useState } from 'react'
 import GridSquare from './GridSquare'
 
-
-// Represents a 10 x 18 grid of grid squares
-
 export default function GridBoard(props : {
     board_color : string;
     piece : any;
     size : number;
 }) {
-
-
-  //const [shape, setShape] = useState([
-    //piece.shape
-  //]);
 
   const grid = []
   for (let row = 0; row < props.piece.shape.length; row++) {
@@ -37,6 +29,7 @@ export default function GridBoard(props : {
           '--border-width': props.size / 20 + 'px'
         }
       }>
-    {grid} </div>
+      {grid}
+    </div>
   )
 }

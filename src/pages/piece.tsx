@@ -5,17 +5,20 @@ import { trpc } from "../utils/trpc";
 
 import GridBoard from './components/GridBoard'
 
+const nascent_piece = {
+  color: 'red',
+  shape: [
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+  ]
+}
 
 const Piece: NextPage = () => {
 
-  const mutation = trpc.piece.set.useMutation({
-    onSuccess: () => {
-      refetch();
-    }
-  });
-
   const { isLoading, isError, data: pieces, error, refetch } = trpc.piece.list.useQuery();  
-  //const [pieces, setPieces] = useState(pieces_result);
 
   if (isLoading) {
     return <span>Loading...</span>
@@ -25,17 +28,14 @@ const Piece: NextPage = () => {
     return <span>Error: {error.message}</span>
   }
 
+  const mutation = trpc.piece.set.useMutation({
+    onSuccess: () => {
+      refetch();
+    }
+  });
+
   const addPiece = () => {
-    mutation.mutate({
-      color: 'green',
-      shape: [
-        [0, 0, 0, 0, 0],
-        [0, 1, 1, 0, 1],
-        [0, 0, 1, 0, 0],
-        [0, 0, 1, 1, 0],
-        [1, 0, 0, 0, 0],
-      ]
-    });
+    mutation.mutate(nascent_piece);
   };
 
   return (
@@ -45,7 +45,10 @@ const Piece: NextPage = () => {
         <meta name="description" content="Create and view pieces" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <button onClick={addPiece} className='btn btn-primary'>Add piece</button>
+      <div>
+        <GridBoard board_color='grey' piece={nascent_piece} size='40' />
+        <button onClick={addPiece} className='btn btn-primary'>Add piece</button>
+      </div>
       <div className="overflow-x-auto">
         <table className="table w-full">
           <thead>
@@ -60,7 +63,6 @@ const Piece: NextPage = () => {
               <tr key={index}>
                 <td>{piece.id}</td>
                 <td>{piece.color}</td>
-                {/*<td>{JSON.stringify(piece.shape)}</td>*/}
                 <td>
                   <GridBoard board_color='grey' piece={piece} size='15' />
                 </td>
