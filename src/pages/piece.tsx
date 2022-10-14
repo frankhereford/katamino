@@ -17,8 +17,19 @@ const nascent_piece = {
 }
 
 const Piece: NextPage = () => {
+  //🪝
+  const mutation = trpc.piece.set.useMutation({
+    onSuccess: () => {
+      refetch();
+    }
+  });
 
   const { isLoading, isError, data: pieces, error, refetch } = trpc.piece.list.useQuery();  
+
+  // ƛ
+  const addPiece = () => {
+    mutation.mutate(nascent_piece);
+  };
 
   if (isLoading) {
     return <span>Loading...</span>
@@ -27,16 +38,6 @@ const Piece: NextPage = () => {
   if (isError) {
     return <span>Error: {error.message}</span>
   }
-
-  const mutation = trpc.piece.set.useMutation({
-    onSuccess: () => {
-      refetch();
-    }
-  });
-
-  const addPiece = () => {
-    mutation.mutate(nascent_piece);
-  };
 
   return (
     <>
