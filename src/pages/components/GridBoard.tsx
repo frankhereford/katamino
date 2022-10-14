@@ -4,7 +4,7 @@ import GridSquare from './GridSquare'
 export default function GridBoard(props : {
     board_color : string;
     piece : any;
-    size : number;
+    square_size: number;
 }) {
 
   const grid = []
@@ -25,8 +25,8 @@ export default function GridBoard(props : {
       style={
         {
           '--cols': props.piece.shape[0].length,
-          '--tile-size': props.size + 'px',
-          '--border-width': props.size / 20 + 'px'
+          '--tile-size': props.square_size + 'px',
+          '--border-width': props.square_size / 20 + 'px'
         }
       }>
       {grid}

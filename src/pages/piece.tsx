@@ -46,7 +46,7 @@ const Piece: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <GridBoard board_color='grey' piece={nascent_piece} size='40' />
+        <GridBoard board_color='grey' piece={nascent_piece} square_size='40' />
         <button onClick={addPiece} className='btn btn-primary'>Add piece</button>
       </div>
       <div className="overflow-x-auto">
@@ -64,7 +64,7 @@ const Piece: NextPage = () => {
                 <td>{piece.id}</td>
                 <td>{piece.color}</td>
                 <td>
-                  <GridBoard board_color='grey' piece={piece} size='15' />
+                  <GridBoard board_color='grey' piece={piece} square_size='15' />
                 </td>
               </tr>))
             }
