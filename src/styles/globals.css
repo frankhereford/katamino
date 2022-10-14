@@ -12,9 +12,16 @@
     --border-bottom-color: rgba(0, 0, 0, 0.5);
 
     /* Square Colors:  background colors for the squares.*/
+    --color-grey: #808080;
     --color-red: #b40d0d;
     --color-green: #95ff85;
-    --color-grey: #808080;
+    --color-dark-grey: #353535;
+    --color-purple: #66009d;
+    --color-brown: #583200;
+    --color-blue: #002fff;
+    --color-dark-green: #004d00;
+    --color-yellow: #f9d237;
+    --color-teal: #00b3b3;
 
     --cols: 12;
 
@@ -26,6 +33,10 @@
 }
 
 /* Colors */
+.color-grey {
+    background-color: var(--color-grey);
+}
+
 .color-red {
     background-color: var(--color-red);
 }
@@ -34,9 +45,34 @@
     background-color: var(--color-green);
 }
 
-.color-grey {
-    background-color: var(--color-grey);
+.color-dark-grey {
+    background-color: var(--color-dark-grey);
 }
+
+.color-purple {
+    background-color: var(--color-purple);
+}
+
+.color-brown {
+    background-color: var(--color-brown);
+}
+
+.color-blue {
+    background-color: var(--color-blue);
+}
+
+.color-dark-green {
+    background-color: var(--color-dark-green);
+}
+
+.color-yellow {
+    background-color: var(--color-yellow);
+}
+
+.color-teal {
+    background-color: var(--color-teal);
+}
+
 
 /* Grid Square */
 .grid-square {
