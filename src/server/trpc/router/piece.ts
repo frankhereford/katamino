@@ -1,7 +1,5 @@
 import { t, authedProcedure } from "../trpc";
 import { z } from "zod";
-import nj from "numjs"
-
 
 export const pieceRouter = t.router({
   list: authedProcedure
@@ -23,9 +21,7 @@ export const pieceRouter = t.router({
   set: authedProcedure
     .input(z.object({ color: z.string().nullish(), shape: z.any() }).nullish())
     .mutation(async ({ ctx, input }) => {
-      //console.log(ctx)
       console.log(input)
-      const shape = nj.zeros([5,5])
       const piece = await ctx.prisma.piece.create({
         data: {
           color: input.color,

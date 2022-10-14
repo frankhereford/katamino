@@ -5,6 +5,7 @@ export default function GridBoard(props : {
     board_color : string;
     piece : any;
     square_size: number;
+    square_click_handler?: any;
 }) {
 
   const grid = []
@@ -15,7 +16,9 @@ export default function GridBoard(props : {
         <GridSquare
           key={`${col}${row}`}
           row={row} col={col}
-          color={`${props.piece.shape[row][col] ? props.piece.color : props.board_color}`} />
+          color={`${props.piece.shape[row][col] ? props.piece.color : props.board_color}`}
+          square_click_handler={props.square_click_handler}
+          />
       )
     }
   }
