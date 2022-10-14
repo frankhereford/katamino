@@ -19,6 +19,12 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+// reminder - this cuid isn't the only option, i think there's an autoincrement as well
+model Color { 
+    id String @id @default(cuid())
+    name String @unique
+}
+
 model Piece {
     id              String @id @default(cuid())
     userId          String
@@ -26,6 +32,10 @@ model Piece {
     shape           Json
     user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+
+
+
 
 // Necessary for Next auth
 model Account {
