@@ -12,6 +12,7 @@
     --border-bottom-color: rgba(0, 0, 0, 0.5);
 
     /* Square Colors:  background colors for the squares.*/
+    --color-white: #ffffff;
     --color-grey: #808080;
     --color-red: #b40d0d;
     --color-green: #95ff85;
@@ -33,6 +34,10 @@
 }
 
 /* Colors */
+.color-white {
+    background-color: var(--color-white);
+}
+
 .color-grey {
     background-color: var(--color-grey);
 }

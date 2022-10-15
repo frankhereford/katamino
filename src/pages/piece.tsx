@@ -8,7 +8,7 @@ import GridBoard from './components/GridBoard'
 
 const nascent_piece_template = {
   colorId: 'default',
-  color: { name: 'red' },
+  color: { name: 'white' },
   shape: nj.zeros([5,5]).tolist(),
 }
 
@@ -31,7 +31,6 @@ const Piece: NextPage = () => {
 
   // ƛ
   const addPiece = () => {
-    console.log(nascent_piece)
     mutation.mutate(nascent_piece);
   };
 
@@ -45,12 +44,10 @@ const Piece: NextPage = () => {
 
   const color_change_handler = async (color_id: string) => {
     nascent_piece.colorId = color_id;
-    nascent_piece.color.name = colors.data?.find((color) => color.id === color_id)?.name || 'red';
-    console.log(nascent_piece);
+    nascent_piece.color.name = colors.data?.find((color) => color.id === color_id)?.name || 'white';
     set_nascent_piece({ ...nascent_piece });
   }
 
-  //console.log(pieces?.[0]);
   return (
     <>
       <Head>
@@ -64,8 +61,12 @@ const Piece: NextPage = () => {
               return ( <option key={color.value} value={color.value}>{color.label}</option> )
             })}
         </select>
-        <GridBoard board_color='grey' piece={nascent_piece} square_size='40' square_click_handler={square_click_handler} />
-        <button onClick={addPiece} className='btn btn-primary'>Add piece</button>
+        {nascent_piece.colorId !== 'default' && 
+          <div>
+            <GridBoard board_color='grey' piece={nascent_piece} square_size={40} square_click_handler={square_click_handler} />
+            <button onClick={addPiece} className='btn btn-primary'>Add piece</button>
+          </div>
+        }
       </div>
       <div className="overflow-x-auto">
         <table className="table w-full">

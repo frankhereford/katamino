@@ -10,6 +10,7 @@ export default function GridBoard(props : {
     square_click_handler?: any;
 }) {
 
+  //console.log(props.piece)
 
   const grid = []
   for (let row = 0; row < props.piece.shape.length; row++) {

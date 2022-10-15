@@ -23,7 +23,6 @@ export const pieceRouter = t.router({
   create: authedProcedure
     .input(z.object({ colorId: z.any(), shape: z.any() }).nullish())
     .mutation(async ({ ctx, input }) => {
-      console.log("input: ", input)
       const piece = await ctx.prisma.piece.create({
         data: {
           colorId: input.colorId,
