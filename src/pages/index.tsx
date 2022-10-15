@@ -30,6 +30,11 @@ const Home: NextPage = () => {
             link="penta"
           />
         </div>
+        <div className="mt-3">🎩 Tip of the hat to&nbsp;
+          <a className="underline decoration-dotted underline-offset-2" href='https://makeschool.org/mediabook/oa/tutorials/react-redux-tetris-app-tutorial-o4s/tetris-introduction/'>
+            Make Schools' React Redux Tetris App Tutorial
+          </a>
+        </div>
       </main>
 
     </>
