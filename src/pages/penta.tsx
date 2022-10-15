@@ -4,6 +4,8 @@ import Head from "next/head";
 import { trpc } from "../utils/trpc";
 import nj from "numjs"
 
+import PentaBoard from './components/PentaBoard'
+
 const Penta: NextPage = () => {
   //🪝
 
@@ -18,7 +20,7 @@ const Penta: NextPage = () => {
         <meta name="description" content="Create and view pentas" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <PentaBoard board_color='grey' square_size={60} />
     </>
   );
 }
