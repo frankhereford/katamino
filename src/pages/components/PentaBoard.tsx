@@ -8,8 +8,6 @@ export default function PentaBoard(props : {
     columns: number;
 }) {
 
-  console.log(props)
-
   const grid = []
   for (let row = 0; row < 5; row++) {
     grid.push([])

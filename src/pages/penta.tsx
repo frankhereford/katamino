@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { trpc } from "../utils/trpc";
 import nj from "numjs"
+import sets from "array-operations"
 
 import PentaBoard from './components/PentaBoard'
 import GridBoard from './components/GridBoard'
@@ -16,13 +17,20 @@ const Penta: NextPage = () => {
 
   // use the use effect to adjust the way data is shown; update indicator border on pieces
   useEffect(() => {
-  });
+  console.log("blocks changed: ", blocks)
+  }, [blocks]);
 
   // 🛠
  
   // ƛ
   const block_click_handler = async (event) => {
-    console.log(event.currentTarget.id)
+    const clicked_set = [event.currentTarget.id]
+    if (sets.intersection(clicked_set, blocks).length > 0) {
+      set_blocks(sets.difference(blocks, clicked_set))
+    }
+    else {
+      set_blocks(sets.union(blocks, clicked_set))
+    }
   }
 
   
