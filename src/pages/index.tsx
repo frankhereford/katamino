@@ -38,7 +38,7 @@ const Home: NextPage = () => {
 
 export default Home;
 
-type TechnologyCardProps = {
+type CardProps = {
   name: string;
   description: string;
   link: string;
@@ -48,7 +48,7 @@ const Card = ({
   name,
   description,
   link,
-}: TechnologyCardProps) => {
+}: CardProps) => {
   return (
     <section className="flex flex-col justify-center rounded border-2 border-gray-500 p-6 shadow-xl duration-500 motion-safe:hover:scale-105">
        <a
