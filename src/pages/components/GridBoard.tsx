@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import GridSquare from './GridSquare'
 import { trpc } from "../../utils/trpc";
+import Piece from '../piece';
 
 export default function GridBoard(props : {
     board_color : string;
@@ -9,9 +10,6 @@ export default function GridBoard(props : {
     square_click_handler?: any;
 }) {
 
-  const color_name = trpc.color.get.useQuery(
-    { id: props.piece.color },
-  );
 
   const grid = []
   for (let row = 0; row < props.piece.shape.length; row++) {
@@ -21,7 +19,7 @@ export default function GridBoard(props : {
         <GridSquare
           key={`${col}${row}`}
           row={row} col={col}
-          color={`${props.piece.shape[row][col] ? color_name.data?.name : props.board_color}`}
+          color={`${props.piece.shape[row][col] ? props.piece.color.name : props.board_color}`}
           square_click_handler={props.square_click_handler}
           />
       )

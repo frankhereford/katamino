@@ -4,7 +4,9 @@ import { z } from "zod";
 export const pieceRouter = t.router({
   list: authedProcedure
     .query(async ({ ctx, input }) => {
-      return await ctx.prisma.piece.findMany({});
+      return await ctx.prisma.piece.findMany({
+        include: { color: true },
+      });
     }),
 
   get: authedProcedure
@@ -19,12 +21,12 @@ export const pieceRouter = t.router({
     }),
 
   create: authedProcedure
-    .input(z.object({ color: z.string().nullish(), shape: z.any() }).nullish())
+    .input(z.object({ colorId: z.any(), shape: z.any() }).nullish())
     .mutation(async ({ ctx, input }) => {
-      console.log(input)
+      console.log("input: ", input)
       const piece = await ctx.prisma.piece.create({
         data: {
-          color: input.color,
+          colorId: input.colorId,
           shape: input.shape,
           userId: ctx.session.user.id,
         },

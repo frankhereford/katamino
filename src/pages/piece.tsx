@@ -7,7 +7,8 @@ import nj from "numjs"
 import GridBoard from './components/GridBoard'
 
 const nascent_piece_template = {
-  color: 'default',
+  colorId: 'default',
+  color: { name: 'red' },
   shape: nj.zeros([5,5]).tolist(),
 }
 
@@ -18,18 +19,19 @@ const Piece: NextPage = () => {
       pieces_refetch();
     }
   });
-  const { data: pieces, refetch: pieces_refetch } = trpc.piece.list.useQuery();  
+  const { data: pieces, refetch: pieces_refetch } = trpc.piece.list.useQuery();
   const [nascent_piece, set_nascent_piece] = useState(nascent_piece_template);
   const colors = trpc.color.list.useQuery();
 
   
   // 🛠
-  const color_choices = [ { value: 'default', label: 'Pick a color' } ] // default
-  colors.data?.map((color) => { color_choices.push({ value: color.id, label: color.name}) });
+  const color_choices = [{ value: 'default', label: 'Pick a color' }] // default
+  colors.data?.map((color) => { color_choices.push({ value: color.id, label: color.name }) });
 
 
   // ƛ
   const addPiece = () => {
+    console.log(nascent_piece)
     mutation.mutate(nascent_piece);
   };
 
@@ -38,14 +40,17 @@ const Piece: NextPage = () => {
     let shape = nj.array(nascent_piece.shape);
     shape.set(row, col, shape.get(row, col) ? 0 : 1);
     nascent_piece.shape = shape.tolist();
-    set_nascent_piece({...nascent_piece});
-  }
-
-  const color_change_handler = async (color_id: string) => {
-    nascent_piece.color = color_id;
     set_nascent_piece({ ...nascent_piece });
   }
 
+  const color_change_handler = async (color_id: string) => {
+    nascent_piece.colorId = color_id;
+    nascent_piece.color.name = colors.data?.find((color) => color.id === color_id)?.name || 'red';
+    console.log(nascent_piece);
+    set_nascent_piece({ ...nascent_piece });
+  }
+
+  //console.log(pieces?.[0]);
   return (
     <>
       <Head>
@@ -75,7 +80,7 @@ const Piece: NextPage = () => {
             {pieces?.map((piece, index) => (
               <tr key={index}>
                 <td>{piece.id}</td>
-                <td>{piece.color}</td>
+                <td>{piece.color.name}</td>
                 <td>
                   <GridBoard board_color='grey' piece={piece} square_size='15'/>
                 </td>
