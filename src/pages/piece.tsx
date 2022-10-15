@@ -7,23 +7,26 @@ import nj from "numjs"
 import GridBoard from './components/GridBoard'
 
 const nascent_piece_template = {
-  color: 'red',
+  color: 'default',
   shape: nj.zeros([5,5]).tolist(),
 }
 
 const Piece: NextPage = () => {
   //🪝
-  const mutation = trpc.piece.set.useMutation({
+  const mutation = trpc.piece.create.useMutation({
     onSuccess: () => {
       pieces_refetch();
     }
   });
   const { data: pieces, refetch: pieces_refetch } = trpc.piece.list.useQuery();  
-  
-  // TODO: build an array options per docs and use jam in the default one, and use that as a single react node to select down there
-
-  const colors = trpc.color.list.useQuery();
   const [nascent_piece, set_nascent_piece] = useState(nascent_piece_template);
+  const colors = trpc.color.list.useQuery();
+
+  
+  // 🛠
+  const color_choices = [ { value: 'default', label: 'Pick a color' } ] // default
+  colors.data?.map((color) => { color_choices.push({ value: color.id, label: color.name}) });
+
 
   // ƛ
   const addPiece = () => {
@@ -38,6 +41,11 @@ const Piece: NextPage = () => {
     set_nascent_piece({...nascent_piece});
   }
 
+  const color_change_handler = async (color_id: string) => {
+    nascent_piece.color = color_id;
+    set_nascent_piece({ ...nascent_piece });
+  }
+
   return (
     <>
       <Head>
@@ -46,10 +54,9 @@ const Piece: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <select defaultValue='default' className="select w-full max-w-xs">
-          <option value='default' disabled selected>Pick Color</option>
-          {colors.data?.map((color) => {
-              <option value={color}>{color}</option>
+        <select onChange={event => color_change_handler(event.target.value)} defaultValue='default' className="select w-full max-w-xs">
+          {color_choices.map((color) => {
+              return ( <option key={color.value} value={color.value}>{color.label}</option> )
             })}
         </select>
         <GridBoard board_color='grey' piece={nascent_piece} square_size='40' square_click_handler={square_click_handler} />

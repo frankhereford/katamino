@@ -18,7 +18,7 @@ export const pieceRouter = t.router({
       return piece;
     }),
 
-  set: authedProcedure
+  create: authedProcedure
     .input(z.object({ color: z.string().nullish(), shape: z.any() }).nullish())
     .mutation(async ({ ctx, input }) => {
       console.log(input)
