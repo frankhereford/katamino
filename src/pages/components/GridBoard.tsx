@@ -7,6 +7,7 @@ export default function GridBoard(props : {
     piece : any;
     square_size: number;
     square_click_handler?: any;
+    onClick?: any;
 }) {
 
   //console.log(props.piece)
@@ -28,6 +29,7 @@ export default function GridBoard(props : {
 
   return (
     <div className="grid-board"
+      onClick={props.onClick}
       style={
         {
           '--cols': props.piece.shape[0].length,

@@ -14,6 +14,9 @@ const Penta: NextPage = () => {
 
   const { data: pieces, refetch: pieces_refetch } = trpc.piece.list.useQuery();
 
+  useEffect(() => {
+  });
+
   // 🛠
  
   // ƛ
@@ -30,9 +33,15 @@ const Penta: NextPage = () => {
         <PentaBoard board_color='grey' square_size={80} columns={columns} />
       </div>
 
-      <div>
+      <div className="flex w-full">
         {pieces?.map((piece, index) => (
-          <GridBoard board_color='grey' piece={piece} square_size='15'/>
+          <div key={index} className="card w-96 bg-base-100 shadow-xl">
+            <div className="card-body">
+              <div className="card-actions justify-end">
+                <GridBoard onClick={() => {console.log('hi')}} board_color='grey' piece={piece} square_size='15'/>
+              </div>
+            </div>
+          </div>          
         ))}  
       </div>
 
