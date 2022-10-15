@@ -19,7 +19,7 @@ model Color {
   @@map(name: "colors")
 }
 
-// a peice is a particular tangible block from the game box, they are used in a penta
+// a piece is a particular tangible block from the game box, they are used in a penta
 model Piece {
   id      String @id @default(cuid())
   userId  String
