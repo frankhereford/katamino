@@ -14,12 +14,17 @@ const Penta: NextPage = () => {
 
   const { data: pieces, refetch: pieces_refetch } = trpc.piece.list.useQuery();
 
+  // use the use effect to adjust the way data is shown; update indicator border on pieces
   useEffect(() => {
   });
 
   // 🛠
  
   // ƛ
+  const block_click_handler = async (event) => {
+    console.log(event.currentTarget.id)
+  }
+
   
   return (
     <>
@@ -35,10 +40,10 @@ const Penta: NextPage = () => {
 
       <div className="flex w-full">
         {pieces?.map((piece, index) => (
-          <div key={index} className="card w-96 bg-base-100 shadow-xl">
+          <div onClick={block_click_handler} key={index} id={piece.id} className="card w-96 bg-base-100 shadow-xl">
             <div className="card-body">
               <div className="card-actions justify-end">
-                <GridBoard onClick={() => {console.log('hi')}} board_color='grey' piece={piece} square_size='15'/>
+                <GridBoard  board_color='grey' piece={piece} square_size='15'/>
               </div>
             </div>
           </div>          
