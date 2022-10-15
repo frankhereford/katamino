@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import GridSquare from './GridSquare'
 
+
 export default function GridBoard(props : {
     board_color : string;
     piece : any;
