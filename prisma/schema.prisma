@@ -6,26 +6,20 @@ generator client {
 }
 
 datasource db {
-  //provider = "sqlite"
-  //url      = env("DATABASE_URL")
-  // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-  // Further reading: 
-  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-// reminder - this cuid isn't the only option, i think there's an autoincrement as well
+// reminder - this cuid() isn't the only option, i think there's an autoincrement as well
 model Color {
   id    String  @id @default(cuid())
   name  String  @unique
-  Piece Piece[]
+  pieces Piece[]
 
   @@map(name: "colors")
 }
 
+// a peice is a particular tangible block from the game box, they are used in a penta
 model Piece {
   id      String @id @default(cuid())
   userId  String
@@ -33,9 +27,37 @@ model Piece {
   shape   Json
   user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   color   Color  @relation(fields: [colorId], references: [id], onDelete: Cascade)
+  blocks  Block[]
 
   @@map(name: "pieces")
 }
+
+// a block belongs to a penta
+model Block {
+  id          String @id @default(cuid())
+  pieceId     String
+  pentaId     String
+  translation Json
+  rotation    Json
+  reflection  Boolean
+  piece       Piece  @relation(fields: [pieceId], references: [id], onDelete: Cascade)
+  penta       Penta  @relation(fields: [pentaId], references: [id], onDelete: Cascade)
+
+  @@map(name: "blocks")
+}
+
+// a penta is a particular puzzle board configuration
+model Penta {
+  id      String @id @default(cuid())
+  userId  String
+  columns Int
+  blocks  Block[]
+
+  @@map(name: "pentas")
+}
+
+
+// 👇🏻 Auth from here out
 
 // Necessary for Next auth
 model Account {

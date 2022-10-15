@@ -6,8 +6,6 @@ import { trpc } from "../utils/trpc";
 const Home: NextPage = () => {
 
   return (
-    
-
     <>
       <Head>
         <title>Create T3 App</title>
@@ -16,20 +14,24 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
-
         <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
           Play <span className="text-purple-300">Katamino</span>
         </h1>
         <p className="text-2xl text-gray-700">Explore this app:</p>
         <div className="mt-3 grid gap-3 pt-3 text-center md:grid-cols-3 lg:w-2/3">
-          <TechnologyCard
+          <Card
             name="Pieces"
-            description="Edit and create pieces available for play"
+            description="Edit and create pieces available"
             link="piece"
           />
+          <Card
+            name="Pentas"
+            description="Pick or create challenges made of pieces"
+            link="penta"
+          />
         </div>
-
       </main>
+
     </>
   );
 };
@@ -42,7 +44,7 @@ type TechnologyCardProps = {
   link: string;
 };
 
-const TechnologyCard = ({
+const Card = ({
   name,
   description,
   link,

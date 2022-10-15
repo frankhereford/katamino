@@ -35,7 +35,7 @@ const Piece: NextPage = () => {
   };
 
   // should this get set in a useContext context or passed down by hand? does it depend on the intended use on the page?
-  const square_click_handler = (row: number, col: number) => {
+  const square_click_handler = async (row: number, col: number) => {
     let shape = nj.array(nascent_piece.shape);
     shape.set(row, col, shape.get(row, col) ? 0 : 1);
     nascent_piece.shape = shape.tolist();
