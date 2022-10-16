@@ -16,7 +16,7 @@ function useForceUpdate() {
 const Penta: NextPage = () => {
   //🪝
   const forceUpdate = useForceUpdate();
-  const [columns, set_columns] = useState(12);
+  const [columns, set_columns] = useState(4);
   const [blocks, set_blocks] = useState([]);
 
   const { data: pieces } = trpc.piece.list.useQuery();
