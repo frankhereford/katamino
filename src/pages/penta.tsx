@@ -22,7 +22,10 @@ const Penta: NextPage = () => {
   // use the use effect to adjust the way data is shown; update indicator border on pieces
   useEffect(() => {
     pieces?.forEach((piece, index) => {
-      if (sets.intersection(blocks, [piece.id]).length > 0) {
+      if (blocks.length == 0) {
+        pieces[index].opacity = 1
+      }
+      else if (sets.intersection(blocks, [piece.id]).length > 0) {
         pieces[index].opacity = 1
       }
       else {
@@ -74,9 +77,14 @@ const Penta: NextPage = () => {
       </div>
 
       <div>
+        <button className='btn btn-primary' onClick={() => set_blocks([])}>Clear</button>
+      </div>
+
+      <div>
         <button className='btn btn-primary' onClick={() => handle_size_request( 1)}>➕</button>
         <button className='btn btn-primary' onClick={() => handle_size_request(-1)}>➖</button>
       </div>
+
 
     </>
   );
