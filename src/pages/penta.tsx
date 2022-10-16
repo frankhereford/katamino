@@ -18,7 +18,6 @@ const Penta: NextPage = () => {
   const forceUpdate = useForceUpdate();
   const [columns, set_columns] = useState(4);
   const [blocks, set_blocks] = useState([]);
-
   const { data: pieces } = trpc.piece.list.useQuery();
 
   // use the use effect to adjust the way data is shown; update indicator border on pieces
@@ -47,6 +46,13 @@ const Penta: NextPage = () => {
     }
   }
 
+  function handle_size_request(change: number) {
+    const requested_size = columns + change;
+    if (requested_size < 4) { return; }
+    if (requested_size > 12) { return; }
+    set_columns(requested_size);
+  }
+
   return (
     <>
 
@@ -67,6 +73,12 @@ const Penta: NextPage = () => {
           </div>
         ))}  
       </div>
+
+      <div>
+        <button className='btn btn-primary' onClick={() => handle_size_request(1)}>➕</button>
+        <button className='btn btn-primary' onClick={() => handle_size_request(-1)}>➖</button>
+      </div>
+
 
     </>
   );
