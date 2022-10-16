@@ -15,7 +15,7 @@ function useForceUpdate() {
 const Penta: NextPage = () => {
   //🪝
   const forceUpdate = useForceUpdate();
-  const [columns, set_columns] = useState(4);
+  const [columns, set_columns] = useState(3);
   const [blocks, set_blocks] = useState([]);
   const { data: pieces } = trpc.piece.list.useQuery();
   const { data: pentas, refetch: pentas_refetch} = trpc.penta.list.useQuery();
@@ -62,7 +62,6 @@ const Penta: NextPage = () => {
   }
 
   const save_handler = async () => {
-    console.log(blocks)
     mutation.mutate({ blocks: blocks, columns: columns })
   }
 
@@ -99,7 +98,7 @@ const Penta: NextPage = () => {
           {columns < 12 &&
             <button className='btn btn-primary' onClick={() => handle_size_request( 1)}>➕</button>
           }
-          {columns > 4 &&
+          {columns > 3 &&
             <button className='btn btn-primary' onClick={() => handle_size_request(-1)}>➖</button>
           }
         </div>
@@ -114,6 +113,7 @@ const Penta: NextPage = () => {
           <table className="table w-full">
             <thead>
               <tr>
+                <th>Play</th>
                 <th>ID</th>
                 <th>Columns</th>
                 <th>Pieces</th>
@@ -122,6 +122,11 @@ const Penta: NextPage = () => {
             <tbody>
               {pentas?.map((penta, index) => (
                 <tr key={index}>
+                  <td>
+                    <a href={`/penta/${penta.id}`}>
+                      <button className='btn btn-primary'>Play</button>
+                    </a>
+                  </td>
                   <td>{penta.id}</td>
                   <td>{penta.columns}</td>
                   <td>

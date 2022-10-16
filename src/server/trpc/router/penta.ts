@@ -31,7 +31,7 @@ export const pentaRouter = t.router({
     }),
 
   create: authedProcedure
-    .input(z.object({ blocks: z.any(), columns: z.number() }).nullish())
+    .input(z.object({ blocks: z.string().array(), columns: z.number() }).nullish())
     .mutation(async ({ ctx, input }) => {
       const penta = await ctx.prisma.penta.create({
         data: {
