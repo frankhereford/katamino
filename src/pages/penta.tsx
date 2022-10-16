@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import type { NextPage } from "next";
 import Head from "next/head";
 import { trpc } from "../utils/trpc";
-import nj from "numjs"
 import sets from "array-operations"
 
 import PentaBoard from './components/PentaBoard'
@@ -48,7 +47,7 @@ const Penta: NextPage = () => {
 
   function handle_size_request(change: number) {
     const requested_size = columns + change;
-    if (requested_size < 4) { return; }
+    if (requested_size <  3) { return; }
     if (requested_size > 12) { return; }
     set_columns(requested_size);
   }
@@ -75,10 +74,9 @@ const Penta: NextPage = () => {
       </div>
 
       <div>
-        <button className='btn btn-primary' onClick={() => handle_size_request(1)}>➕</button>
+        <button className='btn btn-primary' onClick={() => handle_size_request( 1)}>➕</button>
         <button className='btn btn-primary' onClick={() => handle_size_request(-1)}>➖</button>
       </div>
-
 
     </>
   );
