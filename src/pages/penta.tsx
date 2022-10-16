@@ -18,10 +18,12 @@ const Penta: NextPage = () => {
   const [columns, set_columns] = useState(4);
   const [blocks, set_blocks] = useState([]);
   const { data: pieces } = trpc.piece.list.useQuery();
+  const { data: pentas, refetch: pentas_refetch} = trpc.penta.list.useQuery();
 
   const mutation = trpc.penta.create.useMutation({
-    //onSuccess: () => { }
+    onSuccess: () => { pentas_refetch(); }
   });
+
 
   // use the use effect to adjust the way data is shown; update indicator border on pieces
   useEffect(() => {
@@ -74,7 +76,7 @@ const Penta: NextPage = () => {
       </Head>
 
       <div className="mb-4">
-        <PentaBoard board_color='grey' square_size={80} columns={columns} />
+        <PentaBoard board_color='grey' square_size={50} columns={columns} />
       </div>
 
       <div className="flex">
@@ -107,6 +109,33 @@ const Penta: NextPage = () => {
             <button className='btn btn-primary' onClick={() => save_handler()}>Save</button>
           </div>
         }
+
+        <div className="overflow-x-auto">
+          <table className="table w-full">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Columns</th>
+                <th>Pieces</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pentas?.map((penta, index) => (
+                <tr key={index}>
+                  <td>{penta.id}</td>
+                  <td>{penta.columns}</td>
+                  <td>
+                    <div className="flex">
+                      {penta.blocks.map((block, index) => (
+                        <GridBoard key={index} board_color='grey' piece={block.piece} square_size='15'/>
+                      ))}
+                    </div>
+                  </td>
+                </tr>))
+              }
+            </tbody>
+          </table>
+        </div>
 
       </div>
 

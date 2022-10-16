@@ -5,6 +5,17 @@ export const pentaRouter = t.router({
   list: authedProcedure
     .query(async ({ ctx, input }) => {
       return await ctx.prisma.penta.findMany({
+        include: {
+          blocks:  {
+            include: {
+              piece:   {
+                include: {
+                  color: true // how cute is that bracket indentation?
+                }
+              }
+            }
+          }
+        },
       });
     }),
 
@@ -22,7 +33,6 @@ export const pentaRouter = t.router({
   create: authedProcedure
     .input(z.object({ blocks: z.any(), columns: z.number() }).nullish())
     .mutation(async ({ ctx, input }) => {
-      console.log(input);
       const penta = await ctx.prisma.penta.create({
         data: {
           columns: input.columns,

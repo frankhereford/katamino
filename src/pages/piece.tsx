@@ -55,6 +55,7 @@ const Piece: NextPage = () => {
         <meta name="description" content="Create and view pieces" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <div>
         <select onChange={event => color_change_handler(event.target.value)} defaultValue='default' className="select w-full max-w-xs">
           {color_choices.map((color) => {
@@ -68,6 +69,7 @@ const Piece: NextPage = () => {
           </div>
         }
       </div>
+
       <div className="overflow-x-auto">
         <table className="table w-full">
           <thead>
@@ -90,6 +92,7 @@ const Piece: NextPage = () => {
           </tbody>
         </table>
       </div>
+
     </>
   );
 }
