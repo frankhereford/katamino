@@ -40,7 +40,6 @@ export const pentaRouter = t.router({
         }
 
       });
-      console.log('penta: ', penta)
       return penta;
     }),
 
