@@ -8,8 +8,8 @@ import PentaBoard from './components/PentaBoard'
 import GridBoard from './components/GridBoard'
 
 function useForceUpdate() {
-    const [value, setValue] = useState(0); // integer state
-    return () => setValue(value => value + 1); // update state to force render
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue(value => value + 1); // update state to force render
 }
 
 const Penta: NextPage = () => {
@@ -18,6 +18,10 @@ const Penta: NextPage = () => {
   const [columns, set_columns] = useState(4);
   const [blocks, set_blocks] = useState([]);
   const { data: pieces } = trpc.piece.list.useQuery();
+
+  const mutation = trpc.penta.create.useMutation({
+    //onSuccess: () => { }
+  });
 
   // use the use effect to adjust the way data is shown; update indicator border on pieces
   useEffect(() => {
@@ -55,6 +59,11 @@ const Penta: NextPage = () => {
     set_columns(requested_size);
   }
 
+  const save_handler = async () => {
+    console.log(blocks)
+    mutation.mutate({ blocks: blocks, columns: columns })
+  }
+
   return (
     <>
 
@@ -64,11 +73,11 @@ const Penta: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div>
+      <div className="mb-4">
         <PentaBoard board_color='grey' square_size={80} columns={columns} />
       </div>
 
-      <div className="flex w-full">
+      <div className="flex">
         {pieces?.map((piece, index) => (
           <div onClick={block_click_handler} key={index} id={piece.id}>
             <GridBoard board_color='grey' piece={piece} square_size={15}/>
@@ -76,19 +85,29 @@ const Penta: NextPage = () => {
         ))}  
       </div>
 
-      { blocks.length > 0 &&
-        <div>
-          <button className='btn btn-primary' onClick={() => set_blocks([])}>Clear Selection</button>
-        </div>
-      }
+      <div className="mt-4 space-y-4">
 
-      <div>
-        {columns < 12 &&
-          <button className='btn btn-primary' onClick={() => handle_size_request( 1)}>➕</button>
+        { blocks.length > 0 &&
+          <div>
+            <button className='btn btn-primary' onClick={() => set_blocks([])}>Clear Selection</button>
+          </div>
         }
-        {columns > 4 &&
-          <button className='btn btn-primary' onClick={() => handle_size_request(-1)}>➖</button>
+
+        <div>
+          {columns < 12 &&
+            <button className='btn btn-primary' onClick={() => handle_size_request( 1)}>➕</button>
+          }
+          {columns > 4 &&
+            <button className='btn btn-primary' onClick={() => handle_size_request(-1)}>➖</button>
+          }
+        </div>
+
+        { blocks.length > 0 &&
+          <div>
+            <button className='btn btn-primary' onClick={() => save_handler()}>Save</button>
+          </div>
         }
+
       </div>
 
     </>
