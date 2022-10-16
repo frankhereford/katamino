@@ -8,22 +8,36 @@ import sets from "array-operations"
 import PentaBoard from './components/PentaBoard'
 import GridBoard from './components/GridBoard'
 
+function useForceUpdate() {
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => value + 1); // update state to force render
+}
+
 const Penta: NextPage = () => {
   //🪝
+  const forceUpdate = useForceUpdate();
   const [columns, set_columns] = useState(12);
   const [blocks, set_blocks] = useState([]);
 
-  const { data: pieces, refetch: pieces_refetch } = trpc.piece.list.useQuery();
+  const { data: pieces } = trpc.piece.list.useQuery();
 
   // use the use effect to adjust the way data is shown; update indicator border on pieces
   useEffect(() => {
-  console.log("blocks changed: ", blocks)
-  }, [blocks]);
+    pieces?.forEach((piece, index) => {
+      if (sets.intersection(blocks, [piece.id]).length > 0) {
+        pieces[index].opacity = 1
+      }
+      else {
+        pieces[index].opacity = 0.5
+      }
+    })
+    forceUpdate();
+    }, [blocks]);
 
   // 🛠
  
   // ƛ
-  const block_click_handler = async (event) => {
+  const block_click_handler = async (event : any) => {
     const clicked_set = [event.currentTarget.id]
     if (sets.intersection(clicked_set, blocks).length > 0) {
       set_blocks(sets.difference(blocks, clicked_set))
@@ -33,9 +47,9 @@ const Penta: NextPage = () => {
     }
   }
 
-  
   return (
     <>
+
       <Head>
         <title>Edit Pentas</title>
         <meta name="description" content="Create and view pentas" />
@@ -48,13 +62,9 @@ const Penta: NextPage = () => {
 
       <div className="flex w-full">
         {pieces?.map((piece, index) => (
-          <div onClick={block_click_handler} key={index} id={piece.id} className="card w-96 bg-base-100 shadow-xl">
-            <div className="card-body">
-              <div className="card-actions justify-end">
-                <GridBoard  board_color='grey' piece={piece} square_size='15'/>
-              </div>
-            </div>
-          </div>          
+          <div onClick={block_click_handler} key={index} id={piece.id}>
+            <GridBoard board_color='grey' piece={piece} square_size={15}/>
+          </div>
         ))}  
       </div>
 

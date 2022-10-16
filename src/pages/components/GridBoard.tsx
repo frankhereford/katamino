@@ -8,9 +8,9 @@ export default function GridBoard(props : {
     square_size: number;
     square_click_handler?: any;
     onClick?: any;
+    opacity?: number;
 }) {
 
-  //console.log(props.piece)
 
   const grid = []
   for (let row = 0; row < props.piece.shape.length; row++) {
@@ -28,13 +28,15 @@ export default function GridBoard(props : {
   }
 
   return (
+    //<div style={{ opacity: props.opacity ? props.opacity : 1 } className="grid-board"
     <div className="grid-board"
       onClick={props.onClick}
       style={
         {
           '--cols': props.piece.shape[0].length,
           '--tile-size': props.square_size + 'px',
-          '--border-width': props.square_size / 20 + 'px'
+          '--border-width': props.square_size / 20 + 'px',
+          'opacity': props.piece.opacity ? props.piece.opacity : 1
         }
       }>
       {grid}
