@@ -76,15 +76,20 @@ const Penta: NextPage = () => {
         ))}  
       </div>
 
-      <div>
-        <button className='btn btn-primary' onClick={() => set_blocks([])}>Clear</button>
-      </div>
+      { blocks.length > 0 &&
+        <div>
+          <button className='btn btn-primary' onClick={() => set_blocks([])}>Clear Selection</button>
+        </div>
+      }
 
       <div>
-        <button className='btn btn-primary' onClick={() => handle_size_request( 1)}>➕</button>
-        <button className='btn btn-primary' onClick={() => handle_size_request(-1)}>➖</button>
+        {columns < 12 &&
+          <button className='btn btn-primary' onClick={() => handle_size_request( 1)}>➕</button>
+        }
+        {columns > 4 &&
+          <button className='btn btn-primary' onClick={() => handle_size_request(-1)}>➖</button>
+        }
       </div>
-
 
     </>
   );
