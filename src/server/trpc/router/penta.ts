@@ -20,13 +20,27 @@ export const pentaRouter = t.router({
     }),
 
   get: authedProcedure
-    .input(z.object({ id: z.string().nullish() }).nullish())
+    .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
+      console.log("input: ", input)
       const penta = await ctx.prisma.penta.findUnique({
         where: {
           id: input.id,
+        },
+        include: {
+          blocks: {
+            include: {
+              piece: {
+                include: {
+                  color: true // how cute is that bracket indentation?
+                }
+              }
+            }
+          }
         }
+
       });
+      console.log('penta: ', penta)
       return penta;
     }),
 

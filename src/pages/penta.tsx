@@ -12,7 +12,7 @@ function useForceUpdate() {
   return () => setValue(value => value + 1); // update state to force render
 }
 
-const Penta: NextPage = () => {
+const Pentas: NextPage = () => {
   //🪝
   const forceUpdate = useForceUpdate();
   const [columns, set_columns] = useState(3);
@@ -148,4 +148,4 @@ const Penta: NextPage = () => {
   );
 }
 
-export default Penta
+export default Pentas
