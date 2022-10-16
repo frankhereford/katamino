@@ -15,6 +15,10 @@ const Penta: NextPage = () => {
     { enabled: isReady }
   );
   const [active_block, set_active_block] = useState();
+  useEffect(() => { // is this wrong? doesn't this fire every redraw? is that really what we do want?
+    document.addEventListener('keydown', handle_keydown, true);
+  }, []);
+
 
   // 🛠
   if (penta == undefined) {
@@ -25,6 +29,10 @@ const Penta: NextPage = () => {
   const block_click_handler = async (event: any) => {
     set_active_block(event.currentTarget.id)
   };
+
+  const handle_keydown = (event: any) => {
+  console.log(event)
+  }
 
   return (
     <>
