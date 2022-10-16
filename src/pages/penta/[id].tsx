@@ -7,7 +7,6 @@ import sets from "array-operations"
 
 const Penta: NextPage = () => {
   //🪝
-
   const { query } = useRouter()
 
   // 🛠
@@ -15,6 +14,11 @@ const Penta: NextPage = () => {
   // ƛ
   return (
     <>
+      <Head>
+        <title>Play a Penta</title>
+        <meta name="description" content="Play Penta" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       hi!
     </>
   );
