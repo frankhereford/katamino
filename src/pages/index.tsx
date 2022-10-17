@@ -5,6 +5,8 @@ import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
 
+  const { data: sessionData } = useSession();
+
   return (
     <>
       <Head>
@@ -35,6 +37,12 @@ const Home: NextPage = () => {
             Make Schools' React Redux Tetris App Tutorial
           </a>
         </div>
+        <button
+          className="rounded-md border border-black bg-violet-50 px-4 py-2 text-xl shadow-lg hover:bg-violet-100"
+          onClick={sessionData ? () => signOut() : () => signIn()}
+        >
+          {sessionData ? "Sign out" : "Sign in"}
+        </button>
       </main>
 
     </>
