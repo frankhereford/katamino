@@ -8,6 +8,25 @@ import PentaBoard from '../components/PentaBoard'
 import GridBoard from '../components/GridBoard'
 import useKeypress from 'react-use-keypress';
 
+
+function find_previous(array, item) {
+  const element = array.find((element) => element.id === item);
+  const index = array.indexOf(element);
+  if (index === 0) {
+    return array[array.length - 1].id;
+  }
+  return array[index - 1].id;
+}
+
+function find_next(array, item) {
+  const element = array.find((element) => element.id === item);
+  const index = array.indexOf(element);
+  if (index === array.length - 1) {
+    return array[0].id;
+  }
+  return array[index + 1].id;
+}
+
 const Penta: NextPage = () => {
   //🪝
   const { query, isReady } = useRouter()
@@ -16,14 +35,15 @@ const Penta: NextPage = () => {
     { enabled: isReady }
   );
   const [active_block, set_active_block] = useState();
-  useKeypress(['ArrowLeft', 'ArrowRight'], (event) => {
-    if (event.key === 'ArrowLeft') {
-      //set_active_block(active_block - 1)
-      console.log('left')
+
+  useKeypress(['q', 'e'], (event) => {
+    if (event.key === 'q') {
+      const previous = find_previous(penta?.blocks, active_block);
+      set_active_block(previous);
     }
-    if (event.key === 'ArrowRight') {
-      //set_active_block(active_block + 1)
-      console.log('right')
+    if (event.key === 'e') {
+      const next = find_next(penta?.blocks, active_block);
+      set_active_block(next);
     }
   });
 
