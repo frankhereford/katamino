@@ -5,7 +5,7 @@ import Head from "next/head";
 import { trpc } from "../../utils/trpc";
 import sets from "array-operations"
 import PentaBoard from '../components/PentaBoard'
-import GridBoard from '../components/GridBoard'
+import Block from '../components/Block'
 import useKeypress from 'react-use-keypress';
 
 
@@ -79,7 +79,7 @@ const Penta: NextPage = () => {
             }
             return (
               <div id={block.id} onClick={block_click_handler} key={index} className={classes.join(' ')}>
-                <GridBoard key={index} board_color='grey' piece={block.piece} square_size='15'/>
+                <Block key={index} board_color='grey' block={block} square_size='15'/>
               </div>
             );
           })}
