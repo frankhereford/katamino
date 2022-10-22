@@ -10,6 +10,7 @@ import useKeypress from 'react-use-keypress';
 
 
 function find_previous(array, item) {
+  if (!item) { return array[0].id; }
   const element = array.find((element) => element.id === item);
   const index = array.indexOf(element);
   if (index === 0) {
@@ -19,6 +20,7 @@ function find_previous(array, item) {
 }
 
 function find_next(array, item) {
+  if (!item) { return array[0].id; }
   const element = array.find((element) => element.id === item);
   const index = array.indexOf(element);
   if (index === array.length - 1) {
@@ -31,7 +33,7 @@ const Penta: NextPage = () => {
   //🪝
   const { query, isReady } = useRouter()
   const { data: penta } = trpc.penta.get.useQuery(
-    { id: query.id, },
+    { id: query.id, }
     { enabled: isReady }
   );
   const [active_block, set_active_block] = useState();
