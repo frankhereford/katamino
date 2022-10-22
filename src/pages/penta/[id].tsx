@@ -9,24 +9,24 @@ import GridBoard from '../components/GridBoard'
 import useKeypress from 'react-use-keypress';
 
 
-function find_previous(array, item) {
-  if (!item) { return array[0].id; }
-  const element = array.find((element) => element.id === item);
-  const index = array.indexOf(element);
+function find_previous(blocks: [object], item: string) {
+  if (!item) { return blocks[0].id; }
+  const element = blocks.find((element) => element.id === item);
+  const index = blocks.indexOf(element);
   if (index === 0) {
-    return array[array.length - 1].id;
+    return blocks[blocks.length - 1].id;
   }
-  return array[index - 1].id;
+  return blocks[index - 1].id;
 }
 
-function find_next(array, item) {
-  if (!item) { return array[0].id; }
-  const element = array.find((element) => element.id === item);
-  const index = array.indexOf(element);
-  if (index === array.length - 1) {
-    return array[0].id;
+function find_next(blocks: [object], item: string) {
+  if (!item) { return blocks[0].id; }
+  const element = blocks.find((element) => element.id === item);
+  const index = blocks.indexOf(element);
+  if (index === blocks.length - 1) {
+    return blocks[0].id;
   }
-  return array[index + 1].id;
+  return blocks[index + 1].id;
 }
 
 const Penta: NextPage = () => {
