@@ -6,6 +6,7 @@ import { trpc } from "../../utils/trpc";
 import sets from "array-operations"
 import PentaBoard from '../components/PentaBoard'
 import GridBoard from '../components/GridBoard'
+import useKeypress from 'react-use-keypress';
 
 const Penta: NextPage = () => {
   //🪝
@@ -15,10 +16,16 @@ const Penta: NextPage = () => {
     { enabled: isReady }
   );
   const [active_block, set_active_block] = useState();
-  useEffect(() => { // is this wrong? doesn't this fire every redraw? is that really what we do want?
-    document.addEventListener('keydown', handle_keydown, true);
-  }, []);
-
+  useKeypress(['ArrowLeft', 'ArrowRight'], (event) => {
+    if (event.key === 'ArrowLeft') {
+      //set_active_block(active_block - 1)
+      console.log('left')
+    }
+    if (event.key === 'ArrowRight') {
+      //set_active_block(active_block + 1)
+      console.log('right')
+    }
+  });
 
   // 🛠
   if (penta == undefined) {
@@ -29,10 +36,6 @@ const Penta: NextPage = () => {
   const block_click_handler = async (event: any) => {
     set_active_block(event.currentTarget.id)
   };
-
-  const handle_keydown = (event: any) => {
-  console.log(event)
-  }
 
   return (
     <>
