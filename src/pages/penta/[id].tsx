@@ -33,8 +33,8 @@ const Penta: NextPage = () => {
   //🪝
   const { query, isReady } = useRouter()
   const { data: penta } = trpc.penta.get.useQuery(
-    { id: query.id, }
-    { enabled: isReady }
+    { id: query.id, },
+    { enabled: isReady },
   );
   const [active_block, set_active_block] = useState();
 
