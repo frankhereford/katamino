@@ -39,7 +39,7 @@ model Block {
   pentaId     String
   translation Json
   rotation    Json
-  reflection  Boolean
+  reflection  Json
   piece       Piece  @relation(fields: [pieceId], references: [id], onDelete: Cascade)
   penta       Penta  @relation(fields: [pentaId], references: [id], onDelete: Cascade)
 
