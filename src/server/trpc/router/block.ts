@@ -27,15 +27,29 @@ export const blockRouter = t.router({
       return block;
     }),
 
-  set_transformation: authedProcedure
-    .input(z.object({ id: z.string(), transformation: z.any() }))
+  set_rotation: authedProcedure
+    .input(z.object({ id: z.string(), clockwise: z.any() }))
     .mutation(async ({ ctx, input }) => {
       const penta = await ctx.prisma.block.update({
         where: {
           id: input.id,
         },
         data: {
-          rotation: { clockwise: input.transformation.rotation.clockwise }
+          rotation: { clockwise: input.clockwise ? input.clockwise : 0 }
+        },
+      });
+      return penta;
+    }),
+
+  set_reflection: authedProcedure
+    .input(z.object({ id: z.string(), reflection: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      const penta = await ctx.prisma.block.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          reflection : input.reflection,
         },
       });
       return penta;

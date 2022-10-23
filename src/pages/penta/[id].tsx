@@ -39,12 +39,16 @@ const Penta: NextPage = () => {
   );
   const [active_block, set_active_block] = useState();
 
-  const set_transformation = trpc.block.set_transformation.useMutation({
+  const set_rotation = trpc.block.set_rotation.useMutation({
+    onSuccess: () => { penta_refetch(); }
+  });
+
+  const set_reflection = trpc.block.set_reflection.useMutation({
     onSuccess: () => { penta_refetch(); }
   });
 
 
-  useKeypress(['q', 'e', 'w'], (event) => {
+  useKeypress(['q', 'e', 'w', 'd'], (event) => {
     if (!penta) { return; }
     if (event.key === 'q') {
       const previous = find_previous(penta.blocks, active_block);
@@ -56,16 +60,19 @@ const Penta: NextPage = () => {
     }
     if (event.key === 'w') {
       const index = get_block_index(penta.blocks, active_block);
-      //penta.blocks[index].rotation.clockwise
-      set_transformation.mutate({
+      set_rotation.mutate({
         id: active_block,
-        transformation: {
-          rotation: {
-            clockwise: (penta.blocks[index]?.rotation.clockwise + 1) % 4,
-          }
-        }
+        clockwise: (penta.blocks[index]?.rotation.clockwise + 1) % 4,
       })
     }
+    if (event.key === 'd') {
+      const index = get_block_index(penta.blocks, active_block);
+      set_reflection.mutate({
+        id: active_block,
+        reflection: penta.blocks[index].reflection ? false : true,
+      })
+    }
+
   });
 
   // 🛠

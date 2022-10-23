@@ -21,10 +21,10 @@ export default function Block(props : {
       shape = Array2D.rotate(shape, Array2D.DIRECTIONS.RIGHT)
     }
 
-    if (props.block.reflection.x) {
+    if (props.block.reflection) {
       shape = Array2D.flip(shape, Array2D.AXES.X);
     }
-    if (props.block.reflection.y) {
+    if (props.block.reflection) {
       shape = Array2D.flip(shape, Array2D.AXES.Y);
     }
 

@@ -25,7 +25,6 @@ export const pentaRouter = t.router({
   get: authedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
-      console.log("input: ", input)
       const penta = await ctx.prisma.penta.findUnique({
         where: {
           id: input.id,
@@ -62,7 +61,7 @@ export const pentaRouter = t.router({
                 pieceId: block,
                 translation: { up: 0, right: 0 },
                 rotation: {clockwise: 0},
-                reflection: {x: false, y: false},
+                reflection: false,
               }
             }),
           },
