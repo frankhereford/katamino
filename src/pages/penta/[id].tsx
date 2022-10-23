@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import type { NextPage } from "next";
 import Head from "next/head";
 import { trpc } from "../../utils/trpc";
-import sets from "array-operations"
 import PentaBoard from '../components/PentaBoard'
 import Block from '../components/Block'
 import useKeypress from 'react-use-keypress';
