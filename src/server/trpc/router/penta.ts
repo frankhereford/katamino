@@ -6,13 +6,16 @@ export const pentaRouter = t.router({
     .query(async ({ ctx, input }) => {
       return await ctx.prisma.penta.findMany({
         include: {
-          blocks:  {
+          blocks: {
             include: {
-              piece:   {
+              piece: {
                 include: {
                   color: true
                 }
               }
+            },
+            orderBy: {
+              id: "asc"
             }
           }
         },
@@ -35,6 +38,9 @@ export const pentaRouter = t.router({
                   color: true
                 }
               }
+            },
+            orderBy: {
+              id: "asc"
             }
           }
         }

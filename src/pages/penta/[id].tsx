@@ -7,11 +7,14 @@ import PentaBoard from '../components/PentaBoard'
 import Block from '../components/Block'
 import useKeypress from 'react-use-keypress';
 
+function get_block_index(blocks: [object], item: string) {
+  const element = blocks.find((element) => element.id === item);
+  return blocks.indexOf(element);
+}
 
 function find_previous(blocks: [object], item: string) {
   if (!item) { return blocks[0].id; }
-  const element = blocks.find((element) => element.id === item);
-  const index = blocks.indexOf(element);
+  const index = get_block_index(blocks, item);
   if (index === 0) {
     return blocks[blocks.length - 1].id;
   }
@@ -19,9 +22,8 @@ function find_previous(blocks: [object], item: string) {
 }
 
 function find_next(blocks: [object], item: string) {
+  const index = get_block_index(blocks, item);
   if (!item) { return blocks[0].id; }
-  const element = blocks.find((element) => element.id === item);
-  const index = blocks.indexOf(element);
   if (index === blocks.length - 1) {
     return blocks[0].id;
   }
@@ -31,20 +33,38 @@ function find_next(blocks: [object], item: string) {
 const Penta: NextPage = () => {
   //🪝
   const { query, isReady } = useRouter()
-  const { data: penta } = trpc.penta.get.useQuery(
+  const { data: penta, refetch: penta_refetch } = trpc.penta.get.useQuery(
     { id: query.id, },
     { enabled: isReady },
   );
   const [active_block, set_active_block] = useState();
 
-  useKeypress(['q', 'e'], (event) => {
+  const set_transformation = trpc.block.set_transformation.useMutation({
+    onSuccess: () => { penta_refetch(); }
+  });
+
+
+  useKeypress(['q', 'e', 'w'], (event) => {
+    if (!penta) { return; }
     if (event.key === 'q') {
-      const previous = find_previous(penta?.blocks, active_block);
+      const previous = find_previous(penta.blocks, active_block);
       set_active_block(previous);
     }
     if (event.key === 'e') {
-      const next = find_next(penta?.blocks, active_block);
+      const next = find_next(penta.blocks, active_block);
       set_active_block(next);
+    }
+    if (event.key === 'w') {
+      const index = get_block_index(penta.blocks, active_block);
+      //penta.blocks[index].rotation.clockwise
+      set_transformation.mutate({
+        id: active_block,
+        transformation: {
+          rotation: {
+            clockwise: (penta.blocks[index]?.rotation.clockwise + 1) % 4,
+          }
+        }
+      })
     }
   });
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import GridSquare from './GridSquare'
 import Array2D from 'array2d'
+import GridSquare from './GridSquare'
 
 export default function Block(props : {
     board_color : string;
@@ -27,7 +27,7 @@ export default function Block(props : {
     if (props.block.reflection.y) {
       shape = Array2D.flip(shape, Array2D.AXES.Y);
     }
-    //shape = Array2D.flip(shape, Array2D.AXES.Y);
+
     //shape = Array2D.slide(shape, Array2D.DIRECTIONS.UP, 1);
 
     set_board(shape)
