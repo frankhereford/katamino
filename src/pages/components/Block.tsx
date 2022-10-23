@@ -12,20 +12,26 @@ export default function Block(props : {
 }) {
 
   const [board, set_board] = useState(Array2D.build(5,5,0))
-    
+
   useEffect(() => {
     let shape = props.block.piece.shape
+
+    // order of transformations matters
     for (let i = 0; i < props.block.rotation.clockwise; i++) {
       shape = Array2D.rotate(shape, Array2D.DIRECTIONS.RIGHT)
     }
-    //shape = Array2D.rotate(shape, Array2D.DIRECTIONS.RIGHT);
-    //shape = Array2D.rotate(shape, Array2D.DIRECTIONS.LEFT);
+
+    if (props.block.reflection.x) {
+      shape = Array2D.flip(shape, Array2D.AXES.X);
+    }
+    if (props.block.reflection.y) {
+      shape = Array2D.flip(shape, Array2D.AXES.Y);
+    }
     //shape = Array2D.flip(shape, Array2D.AXES.Y);
-    //shape = Array2D.flip(shape, Array2D.AXES.X);
     //shape = Array2D.slide(shape, Array2D.DIRECTIONS.UP, 1);
 
     set_board(shape)
-  }, [props.block, ]);
+  }, [props.block]);
 
   const grid = []
   for (let row = 0; row < board.length; row++) {
@@ -41,7 +47,6 @@ export default function Block(props : {
       )
     }
   }
-
 
   return (
     //<div style={{ opacity: props.opacity ? props.opacity : 1 } className="grid-board"
