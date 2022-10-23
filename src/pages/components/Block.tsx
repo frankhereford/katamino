@@ -17,16 +17,14 @@ export default function Block(props : {
     let shape = props.block.piece.shape
 
     // order of transformations matters
+    if (props.block.reflection) {
+      shape = Array2D.flip(shape, Array2D.AXES.X);
+    }
     for (let i = 0; i < props.block.rotation.clockwise; i++) {
       shape = Array2D.rotate(shape, Array2D.DIRECTIONS.RIGHT)
     }
 
-    if (props.block.reflection) {
-      shape = Array2D.flip(shape, Array2D.AXES.X);
-    }
-    if (props.block.reflection) {
-      shape = Array2D.flip(shape, Array2D.AXES.Y);
-    }
+
 
     //shape = Array2D.slide(shape, Array2D.DIRECTIONS.UP, 1);
 
