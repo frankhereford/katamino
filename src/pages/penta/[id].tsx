@@ -58,14 +58,14 @@ const Penta: NextPage = () => {
       const next = find_next(penta.blocks, active_block);
       set_active_block(next);
     }
-    if (event.key === 'w') {
+    if (event.key === 'd') {
       const index = get_block_index(penta.blocks, active_block);
       set_rotation.mutate({
         id: active_block,
         clockwise: (penta.blocks[index]?.rotation.clockwise + 1) % 4,
       })
     }
-    if (event.key === 'd') {
+    if (event.key === 'w') {
       const index = get_block_index(penta.blocks, active_block);
       set_reflection.mutate({
         id: active_block,
