@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import GridSquare from './GridSquare'
 
 
@@ -11,21 +11,35 @@ export default function Block(props : {
     opacity?: number;
 }) {
 
+  const [board, set_board] = useState([
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+  ])
+    
+  useEffect(() => {
+    const shape = props.block.piece.shape
+    // apply transformations
+    set_board(shape)
+  }, [props.block, ]);
 
   const grid = []
-  for (let row = 0; row < props.block.piece.shape.length; row++) {
+  for (let row = 0; row < board.length; row++) {
     grid.push([])
-    for (let col = 0; col < props.block.piece.shape[row].length; col++) {
+    for (let col = 0; col < board[row].length; col++) {
       grid[row].push (
         <GridSquare
           key={`${col}${row}`}
           row={row} col={col}
-          color={`${props.block.piece.shape[row][col] ? props.block.piece.color.name : props.board_color}`}
+          color={`${board[row][col] ? props.block.piece.color.name : props.board_color}`}
           square_click_handler={props.square_click_handler}
           />
       )
     }
   }
+
 
   return (
     //<div style={{ opacity: props.opacity ? props.opacity : 1 } className="grid-board"
