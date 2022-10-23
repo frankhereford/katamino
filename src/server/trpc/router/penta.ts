@@ -10,7 +10,7 @@ export const pentaRouter = t.router({
             include: {
               piece:   {
                 include: {
-                  color: true // how cute is that bracket indentation?
+                  color: true
                 }
               }
             }
@@ -32,7 +32,7 @@ export const pentaRouter = t.router({
             include: {
               piece: {
                 include: {
-                  color: true // how cute is that bracket indentation?
+                  color: true
                 }
               }
             }
