@@ -54,9 +54,9 @@ export const pentaRouter = t.router({
             create: input.blocks.map((block) => {
               return {
                 pieceId: block,
-                translation: {},
-                rotation: {},
-                reflection: false,
+                translation: { up: 0, right: 0 },
+                rotation: {clockwise: 0},
+                reflection: {x: false, y: false},
               }
             }),
           },
