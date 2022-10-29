@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import Array2D from 'array2d'
 import GridSquare from './GridSquare'
+import { transform_piece_shape } from "../../utils/transformations";
+import Array2D from 'array2d'
 
 export default function Block(props : {
     board_color : string;
@@ -14,20 +15,7 @@ export default function Block(props : {
   const [board, set_board] = useState(Array2D.build(5,5,0))
 
   useEffect(() => {
-    let shape = props.block.piece.shape
-
-    // order of transformations matters
-    if (props.block.reflection) {
-      shape = Array2D.flip(shape, Array2D.AXES.X);
-    }
-    for (let i = 0; i < props.block.rotation.clockwise; i++) {
-      shape = Array2D.rotate(shape, Array2D.DIRECTIONS.RIGHT)
-    }
-
-
-
-    //shape = Array2D.slide(shape, Array2D.DIRECTIONS.UP, 1);
-
+    const shape = transform_piece_shape(props.block)
     set_board(shape)
   }, [props.block]);
 
