@@ -1,7 +1,7 @@
 import Array2D from 'array2d'
 
 
-export function transform_piece_shape(block: any) {
+export function transform_block_shape(block: any) {
   let shape = block.piece.shape
 
   // order of transformations matters

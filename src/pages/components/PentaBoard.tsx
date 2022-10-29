@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { trpc } from "../../utils/trpc";
 import GridSquare from './GridSquare'
-import { transform_piece_shape } from "../../utils/transformations";
+import { transform_block_shape } from "../../utils/transformations";
 import { get_block_index } from "../../utils/block_list";
 
 
 function check_block_coordinate(block: [object], row: number, column: number) {
   if (!block) { return false; }
-  const shape = transform_piece_shape(block)
+  const shape = transform_block_shape(block)
   return shape[row][column] ? true : false
 }
 

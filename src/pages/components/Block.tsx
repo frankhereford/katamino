@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import GridSquare from './GridSquare'
-import { transform_piece_shape } from "../../utils/transformations";
+import { transform_block_shape } from "../../utils/transformations";
 import Array2D from 'array2d'
 
 export default function Block(props : {
@@ -15,7 +15,7 @@ export default function Block(props : {
   const [board, set_board] = useState(Array2D.build(5,5,0))
 
   useEffect(() => {
-    const shape = transform_piece_shape(props.block)
+    const shape = transform_block_shape(props.block)
     set_board(shape)
   }, [props.block]);
 
