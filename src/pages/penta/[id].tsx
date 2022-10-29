@@ -32,13 +32,14 @@ const Penta: NextPage = () => {
   });
 
 
-  useKeypress(['q', 'e', 'w', 'd', 'a', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], (event) => {
+  useKeypress(['Tab', 'q', 'e', 'w', 'd', 'a', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], (event) => {
     if (!penta) { return; }
     if (event.key === 'q') {
       const previous = find_previous(penta.blocks, active_block);
       set_active_block(previous);
     }
-    if (event.key === 'e') {
+    if (event.key === 'e' || event.key === 'Tab') {
+      if (event.key === 'Tab') { event.preventDefault(); }
       const next = find_next(penta.blocks, active_block);
       set_active_block(next);
     }
