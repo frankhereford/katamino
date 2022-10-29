@@ -27,8 +27,12 @@ const Penta: NextPage = () => {
     onSuccess: () => { penta_refetch(); }
   });
 
+  const set_translation = trpc.block.set_translation.useMutation({
+    onSuccess: () => { penta_refetch(); }
+  });
 
-  useKeypress(['q', 'e', 'w', 'd'], (event) => {
+
+  useKeypress(['q', 'e', 'w', 'd', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], (event) => {
     if (!penta) { return; }
     if (event.key === 'q') {
       const previous = find_previous(penta.blocks, active_block);
@@ -50,6 +54,46 @@ const Penta: NextPage = () => {
       set_reflection.mutate({
         id: active_block,
         reflection: penta.blocks[index].reflection ? false : true,
+      })
+    }
+    if (event.key === 'ArrowUp') {
+      const index = get_block_index(penta.blocks, active_block);
+      set_translation.mutate({
+        id: active_block,
+        translation: {
+          up: penta.blocks[index].translation.up + 1,
+          right: penta.blocks[index].translation.right,
+        }
+      })
+    }
+    if (event.key === 'ArrowDown') {
+      const index = get_block_index(penta.blocks, active_block);
+      set_translation.mutate({
+        id: active_block,
+        translation: {
+          up: penta.blocks[index].translation.up - 1,
+          right: penta.blocks[index].translation.right,
+        }
+      })
+    }
+    if (event.key === 'ArrowLeft') {
+      const index = get_block_index(penta.blocks, active_block);
+      set_translation.mutate({
+        id: active_block,
+        translation: {
+          up: penta.blocks[index].translation.up,
+          right: penta.blocks[index].translation.right + 1,
+        }
+      })
+    }
+    if (event.key === 'ArrowRight') {
+      const index = get_block_index(penta.blocks, active_block);
+      set_translation.mutate({
+        id: active_block,
+        translation: {
+          up: penta.blocks[index].translation.up, 
+          right: penta.blocks[index].translation.right - 1,
+        }
       })
     }
 

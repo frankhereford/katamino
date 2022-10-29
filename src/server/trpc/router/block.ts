@@ -55,4 +55,20 @@ export const blockRouter = t.router({
       return penta;
     }),
 
+  set_translation: authedProcedure
+    .input(z.object({ id: z.string(), translation: z.any() }))
+    .mutation(async ({ ctx, input }) => {
+      console.log(input.translation)
+      const penta = await ctx.prisma.block.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          translation : input.translation,
+        },
+      });
+      return penta;
+    }),
+
+
 });

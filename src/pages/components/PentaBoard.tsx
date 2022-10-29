@@ -7,7 +7,7 @@ import { get_block_index } from "../../utils/block_list";
 
 function check_block_coordinate(block: [object], row: number, column: number) {
   if (!block) { return false; }
-  const shape = transform_block_shape(block)
+  const shape = transform_block_shape(block, true) // need to use some sort of argument naming here .. that `true` is to do translations
   return shape[row][column] ? true : false
 }
 
