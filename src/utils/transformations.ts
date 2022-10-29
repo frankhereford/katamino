@@ -8,6 +8,7 @@ export function transform_block_shape(block: any, do_translation: boolean) {
   if (block.reflection) {
     shape = Array2D.flip(shape, Array2D.AXES.X);
   }
+
   for (let i = 0; i < block.rotation.clockwise; i++) {
     shape = Array2D.rotate(shape, Array2D.DIRECTIONS.RIGHT)
   }
@@ -28,9 +29,9 @@ export function transform_block_shape(block: any, do_translation: boolean) {
       shape = Array2D.slide(shape, Array2D.DIRECTIONS.RIGHT, 1);
     }
   }
-  else if (block.translation.right< 0) {
+  else if (block.translation.right < 0) {
     for (let i = block.translation.right; i < 0; i++) {
-      shape = Array2D.slide(shape, Array2D.DIRECTIONS.RIGHT, 1);
+      shape = Array2D.slide(shape, Array2D.DIRECTIONS.LEFT, 1);
     }
   }
 

@@ -32,7 +32,7 @@ const Penta: NextPage = () => {
   });
 
 
-  useKeypress(['q', 'e', 'w', 'd', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], (event) => {
+  useKeypress(['q', 'e', 'w', 'd', 'a', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], (event) => {
     if (!penta) { return; }
     if (event.key === 'q') {
       const previous = find_previous(penta.blocks, active_block);
@@ -82,7 +82,7 @@ const Penta: NextPage = () => {
         id: active_block,
         translation: {
           up: penta.blocks[index].translation.up,
-          right: penta.blocks[index].translation.right + 1,
+          right: penta.blocks[index].translation.right - 1,
         }
       })
     }
@@ -92,8 +92,26 @@ const Penta: NextPage = () => {
         id: active_block,
         translation: {
           up: penta.blocks[index].translation.up, 
-          right: penta.blocks[index].translation.right - 1,
+          right: penta.blocks[index].translation.right + 1,
         }
+      })
+    }
+    if (event.key === 'a') {
+      const index = get_block_index(penta.blocks, active_block);
+      set_translation.mutate({
+        id: active_block,
+        translation: {
+          up: 0,
+          right: 0,
+        }
+      })
+      set_rotation.mutate({
+        id: active_block,
+        clockwise: 0,
+      })
+      set_reflection.mutate({
+        id: active_block,
+        reflection: false,
       })
     }
 
