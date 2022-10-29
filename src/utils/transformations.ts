@@ -13,25 +13,27 @@ export function transform_block_shape(block: any, do_translation: boolean) {
     shape = Array2D.rotate(shape, Array2D.DIRECTIONS.RIGHT)
   }
 
-  if (block.translation.up > 0) {
-    for (let i = 0; i < block.translation.up; i++) {
-      shape = Array2D.slide(shape, Array2D.DIRECTIONS.UP, 1);
+  if (do_translation) {
+    if (block.translation.up > 0) {
+      for (let i = 0; i < block.translation.up; i++) {
+        shape = Array2D.slide(shape, Array2D.DIRECTIONS.UP, 1);
+      }
     }
-  }
-  else if (block.translation.up < 0) {
-    for (let i = block.translation.up; i < 0; i++) {
-      shape = Array2D.slide(shape, Array2D.DIRECTIONS.DOWN, 1);
+    else if (block.translation.up < 0) {
+      for (let i = block.translation.up; i < 0; i++) {
+        shape = Array2D.slide(shape, Array2D.DIRECTIONS.DOWN, 1);
+      }
     }
-  }
 
-  if (block.translation.right > 0) {
-    for (let i = 0; i < block.translation.right; i++) {
-      shape = Array2D.slide(shape, Array2D.DIRECTIONS.RIGHT, 1);
+    if (block.translation.right > 0) {
+      for (let i = 0; i < block.translation.right; i++) {
+        shape = Array2D.slide(shape, Array2D.DIRECTIONS.RIGHT, 1);
+      }
     }
-  }
-  else if (block.translation.right < 0) {
-    for (let i = block.translation.right; i < 0; i++) {
-      shape = Array2D.slide(shape, Array2D.DIRECTIONS.LEFT, 1);
+    else if (block.translation.right < 0) {
+      for (let i = block.translation.right; i < 0; i++) {
+        shape = Array2D.slide(shape, Array2D.DIRECTIONS.LEFT, 1);
+      }
     }
   }
 
