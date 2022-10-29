@@ -93,7 +93,7 @@ const Penta: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <PentaBoard board_color='grey' square_size={50} columns={penta.columns} />
+        <PentaBoard penta={penta} board_color='grey' square_size={50} columns={penta.columns} />
       </div>
       <div>
         <div className="mx-5 flex flex-row space-x-4 mt-10">
