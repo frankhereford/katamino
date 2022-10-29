@@ -15,7 +15,7 @@ export default function Block(props : {
   const [board, set_board] = useState(Array2D.build(5,5,0))
 
   useEffect(() => {
-    const shape = transform_block_shape(props.block)
+    const shape = transform_block_shape({ block: props.block })
     set_board(shape)
   }, [props.block]);
 

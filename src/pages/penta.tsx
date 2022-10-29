@@ -132,7 +132,7 @@ const Pentas: NextPage = () => {
                   <td>
                     <div className="flex">
                       {penta.blocks.map((block, index) => (
-                        <GridBoard key={index} board_color='grey' piece={block.piece} square_size='15'/>
+                        <GridBoard key={index} board_color='grey' piece={block.piece} square_size={15} />
                       ))}
                     </div>
                   </td>
