@@ -2,36 +2,33 @@ import React, { useState } from 'react'
 import { trpc } from "../../utils/trpc";
 import GridSquare from './GridSquare'
 import { transform_piece_shape } from "../../utils/transformations";
+import { get_block_index } from "../../utils/block_list";
 
 
 function check_block_coordinate(block: [object], row: number, column: number) {
-  console.log(block)
-
   const shape = transform_piece_shape(block)
-
-  console.log(shape)
+  return shape[row][column] ? true : false
 }
 
 export default function PentaBoard(props : {
     penta: any;
+    active_block: number;
     board_color : string;
     square_size: number;
     columns: number;
 }) {
   
-
-
   const grid = []
   for (let row = 0; row < 5; row++) {
     grid.push([])
     for (let col = 0; col < props.columns; col++) {
-      console.log("Row: " + row + " Col: " + col)
-      const occupied = check_block_coordinate(props.penta.blocks[0], row, col)
+      const active_block_index = props.active_block ? get_block_index(props.penta.blocks, props.active_block) : 0
+      //console.log("Row: " + row + " Col: " + col + " Occupied: " + occupied + " Active: " + props.active_block + " Draw: " + draw_block)
       grid[row].push (
         <GridSquare
           key={`${col}${row}`}
           row={row} col={col}
-          color={props.board_color}
+          color={check_block_coordinate(props.penta.blocks[active_block_index], row, col) ? props.penta.blocks[active_block_index].piece.color.name : props.board_color}
           />
       )
     }

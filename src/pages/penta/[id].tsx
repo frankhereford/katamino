@@ -6,29 +6,9 @@ import { trpc } from "../../utils/trpc";
 import PentaBoard from '../components/PentaBoard'
 import Block from '../components/Block'
 import useKeypress from 'react-use-keypress';
+import { get_block_index, find_previous, find_next } from "../../utils/block_list";
 
-function get_block_index(blocks: [object], item: string) {
-  const element = blocks.find((element) => element.id === item);
-  return blocks.indexOf(element);
-}
 
-function find_previous(blocks: [object], item: string) {
-  if (!item) { return blocks[0].id; }
-  const index = get_block_index(blocks, item);
-  if (index === 0) {
-    return blocks[blocks.length - 1].id;
-  }
-  return blocks[index - 1].id;
-}
-
-function find_next(blocks: [object], item: string) {
-  const index = get_block_index(blocks, item);
-  if (!item) { return blocks[0].id; }
-  if (index === blocks.length - 1) {
-    return blocks[0].id;
-  }
-  return blocks[index + 1].id;
-}
 
 const Penta: NextPage = () => {
   //🪝
@@ -93,7 +73,7 @@ const Penta: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <PentaBoard penta={penta} board_color='grey' square_size={50} columns={penta.columns} />
+        <PentaBoard active_block={active_block} penta={penta} board_color='grey' square_size={50} columns={penta.columns} />
       </div>
       <div>
         <div className="mx-5 flex flex-row space-x-4 mt-10">
