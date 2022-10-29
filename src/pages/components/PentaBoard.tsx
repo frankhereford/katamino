@@ -6,7 +6,7 @@ import { get_block_index } from "../../utils/block_list";
 
 function check_block_coordinate(block: [object], row: number, column: number) {
   if (!block) { return false; }
-  const shape = transform_block_shape({ block: block, do_translation: true }) // need to use some sort of argument naming here .. that `true` is to do translations
+  const shape = transform_block_shape({ block: block, do_translation: true })
   return shape[row][column] ? true : false
 }
 
@@ -27,7 +27,9 @@ export default function PentaBoard(props : {
         <GridSquare
           key={`${col}${row}`}
           row={row} col={col}
-          color={check_block_coordinate(props.penta?.blocks[active_block_index], row, col) ? props.penta.blocks[active_block_index].piece.color.name : props.board_color}
+          color={check_block_coordinate(props.penta?.blocks[active_block_index], row, col)
+            ? props.penta.blocks[active_block_index].piece.color.name
+            : props.board_color}
           />
       )
     }

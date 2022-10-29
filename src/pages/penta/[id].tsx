@@ -7,6 +7,7 @@ import PentaBoard from '../components/PentaBoard'
 import Block from '../components/Block'
 import useKeypress from 'react-use-keypress';
 import { get_block_index, find_previous, find_next } from "../../utils/block_list";
+import sets from "array-operations"
 
 
 
@@ -34,21 +35,29 @@ const Penta: NextPage = () => {
 
   useKeypress(['Tab', 'q', 'e', 'w', 'd', 'a', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], (event) => {
     if (!penta) { return; }
+
     if (event.key === 'q') {
       const previous = find_previous(penta.blocks, active_block);
       set_active_block(previous);
     }
+
     if (event.key === 'e' || event.key === 'Tab') {
       if (event.key === 'Tab') { event.preventDefault(); }
       const next = find_next(penta.blocks, active_block);
       set_active_block(next);
     }
+
+    if (get_block_index(penta.blocks, active_block) === -1) {
+      return
+    }
+
     if (event.key === 'd') {
       const index = get_block_index(penta.blocks, active_block);
       set_rotation.mutate({
         id: active_block,
         clockwise: (penta.blocks[index]?.rotation.clockwise + 1) % 4,
       })
+
     }
     if (event.key === 'w') {
       const index = get_block_index(penta.blocks, active_block);
@@ -57,6 +66,7 @@ const Penta: NextPage = () => {
         reflection: penta.blocks[index].reflection ? false : true,
       })
     }
+
     if (event.key === 'ArrowUp') {
       const index = get_block_index(penta.blocks, active_block);
       set_translation.mutate({
@@ -67,6 +77,7 @@ const Penta: NextPage = () => {
         }
       })
     }
+
     if (event.key === 'ArrowDown') {
       const index = get_block_index(penta.blocks, active_block);
       set_translation.mutate({
@@ -77,6 +88,7 @@ const Penta: NextPage = () => {
         }
       })
     }
+
     if (event.key === 'ArrowLeft') {
       const index = get_block_index(penta.blocks, active_block);
       set_translation.mutate({
@@ -87,6 +99,7 @@ const Penta: NextPage = () => {
         }
       })
     }
+
     if (event.key === 'ArrowRight') {
       const index = get_block_index(penta.blocks, active_block);
       set_translation.mutate({
@@ -97,6 +110,7 @@ const Penta: NextPage = () => {
         }
       })
     }
+
     if (event.key === 'a') {
       const index = get_block_index(penta.blocks, active_block);
       set_translation.mutate({
