@@ -4,13 +4,6 @@ import { transform_block_shape } from "../../utils/transformations";
 import Array2D from 'array2d'
 import _ from "lodash";
 
-
-function check_block_coordinate(block: [object], penta: any, row: number, column: number) {
-  if (!block) { return false; }
-  const shape = transform_block_shape({ block: block, do_translation: true, columns: penta.columns })
-  return shape[row][column] ? true : false
-}
-
 export default function PentaBoard(props : {
     penta: any;
     active_block: number;
