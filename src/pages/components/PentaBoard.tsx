@@ -34,9 +34,6 @@ export default function PentaBoard(props : {
               const mixed_color = mix_colors(current_board[row][col], colors[toCamelCase(block.piece.color.name)])
               current_board[row][col] = mixed_color
             }
-            //}
-            //else {
-            //}
           }
         }
       }
