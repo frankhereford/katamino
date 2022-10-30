@@ -2,7 +2,6 @@ import Array2D from 'array2d'
 
 
 export function transform_block_shape({ block, do_translation = false, columns = 5}: NamedArguments) {
-  console.log("Columns: ", columns)
   let shape = block.piece.shape
 
   // order of transformations matters
