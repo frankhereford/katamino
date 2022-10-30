@@ -1,4 +1,5 @@
 import React from 'react'
+import { colors, toCamelCase } from "../../utils/colors";
 
 // Represents a grid square with a color
 
@@ -8,7 +9,11 @@ export default function GridSquare(props: { row: any; col: any; color: any; squa
     props.square_click_handler(props.row, props.col);
   }
 
-  const classes = `grid-square color-${props.color}`
-  return <div onClick={ props.square_click_handler ? clickHandler : undefined } className={classes} />
+  const classes = `grid-square`
+  let style = { backgroundColor: colors[toCamelCase(props.color)] }
+  if (props.color[0] === '#') {
+  style = { backgroundColor: props.color }
+  }
+  return <div onClick={props.square_click_handler ? clickHandler : undefined} className={classes} style={style} />
 
 }
