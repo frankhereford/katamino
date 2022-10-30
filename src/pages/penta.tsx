@@ -24,7 +24,6 @@ const Pentas: NextPage = () => {
     onSuccess: () => { pentas_refetch(); }
   });
 
-
   // use the use effect to adjust the way data is shown; update indicator border on pieces
   useEffect(() => {
     pieces?.forEach((piece, index) => {

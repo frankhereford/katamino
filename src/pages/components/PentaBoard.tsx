@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import GridSquare from './GridSquare'
 import { transform_block_shape } from "../../utils/transformations";
 import { get_block_index } from "../../utils/block_list";
-import Penta from '../penta/[id]';
+import Array2D from 'array2d'
+import nj from "numjs"
 
 
 function check_block_coordinate(block: [object], penta: any, row: number, column: number) {
@@ -10,6 +11,8 @@ function check_block_coordinate(block: [object], penta: any, row: number, column
   const shape = transform_block_shape({ block: block, do_translation: true, columns: penta.columns })
   return shape[row][column] ? true : false
 }
+
+
 
 export default function PentaBoard(props : {
     penta: any;
@@ -19,18 +22,39 @@ export default function PentaBoard(props : {
     columns: number;
 }) {
   
+  const [board, set_board] = useState([]);
+
+  
+  useEffect(() => {
+    if (!props.penta) { return}
+    const current_board = Array2D.build(props.penta.columns, 5, props.board_color)
+    
+    props.penta.blocks.forEach((block: any) => {
+      const shape = transform_block_shape({ block: block, do_translation: true, columns: props.penta.columns })
+      for (let row = 0; row < shape.length; row++) {
+        for (let col = 0; col < shape[row].length; col++) {
+          if (shape[row][col]) {
+            current_board[row][col] = block.piece.color.name
+          }
+        }
+      }
+    })
+
+    set_board(current_board)
+    }, [props.penta]);
+
+  
+  
   const grid = []
   for (let row = 0; row < 5; row++) {
     grid.push([])
     for (let col = 0; col < props.columns; col++) {
-      const active_block_index = props.active_block ? get_block_index(props.penta.blocks, props.active_block) : 0
+      //const active_block_index = props.active_block ? get_block_index(props.penta.blocks, props.active_block) : 0
       grid[row].push (
         <GridSquare
           key={`${col}${row}`}
           row={row} col={col}
-          color={check_block_coordinate(props.penta?.blocks[active_block_index], props.penta, row, col)
-            ? props.penta.blocks[active_block_index].piece.color.name
-            : props.board_color}
+          color={board[1] ? board[row][col] : props.board_color}
           />
       )
     }
