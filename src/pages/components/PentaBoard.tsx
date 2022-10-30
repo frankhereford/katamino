@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import GridSquare from './GridSquare'
 import { transform_block_shape } from "../../utils/transformations";
 import { get_block_index } from "../../utils/block_list";
+import Penta from '../penta/[id]';
 
 
-function check_block_coordinate(block: [object], row: number, column: number) {
+function check_block_coordinate(block: [object], penta: any, row: number, column: number) {
   if (!block) { return false; }
-  const shape = transform_block_shape({ block: block, do_translation: true })
+  const shape = transform_block_shape({ block: block, do_translation: true, columns: penta.columns })
   return shape[row][column] ? true : false
 }
 
@@ -27,7 +28,7 @@ export default function PentaBoard(props : {
         <GridSquare
           key={`${col}${row}`}
           row={row} col={col}
-          color={check_block_coordinate(props.penta?.blocks[active_block_index], row, col)
+          color={check_block_coordinate(props.penta?.blocks[active_block_index], props.penta, row, col)
             ? props.penta.blocks[active_block_index].piece.color.name
             : props.board_color}
           />

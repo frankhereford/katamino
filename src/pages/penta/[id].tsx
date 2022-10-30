@@ -7,8 +7,6 @@ import PentaBoard from '../components/PentaBoard'
 import Block from '../components/Block'
 import useKeypress from 'react-use-keypress';
 import { get_block_index, find_previous, find_next } from "../../utils/block_list";
-import sets from "array-operations"
-
 
 
 const Penta: NextPage = () => {
@@ -31,7 +29,6 @@ const Penta: NextPage = () => {
   const set_translation = trpc.block.set_translation.useMutation({
     onSuccess: () => { penta_refetch(); }
   });
-
 
   useKeypress(['Tab', 'q', 'e', 'w', 'd', 'a', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], (event) => {
     if (!penta) { return; }
@@ -59,6 +56,7 @@ const Penta: NextPage = () => {
       })
 
     }
+
     if (event.key === 'w') {
       const index = get_block_index(penta.blocks, active_block);
       set_reflection.mutate({
@@ -129,7 +127,6 @@ const Penta: NextPage = () => {
         reflection: false,
       })
     }
-
   });
 
   // 🛠

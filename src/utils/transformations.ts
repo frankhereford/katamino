@@ -1,7 +1,8 @@
 import Array2D from 'array2d'
 
 
-export function transform_block_shape({ block, do_translation = false}: NamedArguments) {
+export function transform_block_shape({ block, do_translation = false, columns = 5}: NamedArguments) {
+  console.log("Columns: ", columns)
   let shape = block.piece.shape
 
   // order of transformations matters
@@ -14,6 +15,8 @@ export function transform_block_shape({ block, do_translation = false}: NamedArg
   }
 
   if (do_translation) {
+    shape = Array2D.pad(shape, Array2D.EDGES.RIGHT, columns - shape[0].length, 0)
+
     if (block.translation.up > 0) {
       for (let i = 0; i < block.translation.up; i++) {
         shape = Array2D.slide(shape, Array2D.DIRECTIONS.UP, 1);
