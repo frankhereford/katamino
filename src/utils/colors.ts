@@ -32,5 +32,5 @@ export const toSnakeCase = (e) => {
 }
 
 export function mix_colors( color1, color2) {
-  return colord(color1).mix(colord(color2), .5).toHex()
+  return colord(color1).mix(colord(color2), .5).darken(.05).toHex()
 }
