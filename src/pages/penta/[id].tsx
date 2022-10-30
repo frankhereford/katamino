@@ -139,6 +139,8 @@ const Penta: NextPage = () => {
     set_active_block(event.currentTarget.id)
   };
 
+  //const sorted_blocks = penta.blocks.sort((a: any, b: any) => a.id > b.id)
+
   return (
     <>
       <Head>

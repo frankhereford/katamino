@@ -35,6 +35,7 @@ model Piece {
 // a block belongs to a penta
 model Block {
   id          String @id @default(cuid())
+  last_update DateTime @default(now()) @updatedAt
   pieceId     String
   pentaId     String
   translation Json
