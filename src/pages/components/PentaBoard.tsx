@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import GridSquare from './GridSquare'
 import { transform_block_shape } from "../../utils/transformations";
+import { colors, toCamelCase, mix_colors } from "../../utils/colors";
 import Array2D from 'array2d'
 import _ from "lodash";
 
@@ -20,17 +21,26 @@ export default function PentaBoard(props : {
     const blocks = _.cloneDeep(props.penta.blocks);
     const sorted_blocks = blocks.sort((a: any, b: any) => a.last_update - b.last_update)
     sorted_blocks.forEach((block: any) => {
-      //console.log(block)
       const shape = transform_block_shape({ block: block, do_translation: true, columns: props.penta.columns })
       for (let row = 0; row < shape.length; row++) {
         for (let col = 0; col < shape[row].length; col++) {
           if (shape[row][col]) {
-            current_board[row][col] = block.piece.color.name
+            if (current_board[row][col] === props.board_color) {
+              // first piece to apply a color to this square
+              current_board[row][col] = colors[toCamelCase(block.piece.color.name)]
+            }
+            else {
+              // need to blend colors for this square
+              const mixed_color = mix_colors(current_board[row][col], colors[toCamelCase(block.piece.color.name)])
+              current_board[row][col] = mixed_color
+            }
+            //}
+            //else {
+            //}
           }
         }
       }
     })
-
     set_board(current_board)
     }, [props.penta]);
   
