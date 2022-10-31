@@ -38,6 +38,7 @@ model Block {
   last_update DateTime @default(now()) @updatedAt
   pieceId     String
   pentaId     String
+  visible     Boolean @default(false)
   translation Json
   rotation    Json
   reflection  Boolean
