@@ -14,3 +14,4 @@
 * [ ] Fix vercel integration
 * [ ] Draw out penta progress on selection page
 * [ ] Make the shadow-outlines on overlapped pieces red-tinted 🔥
+* [ ] If selecting a active_block and no pieces are visible, make that piece visible
