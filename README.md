@@ -12,3 +12,4 @@
 * [ ] Show/hide blocks with eye icon on the piece component
 * [ ] Fix typing dumpster fire
 * [ ] Fix vercel integration
+* [ ] Draw out penta progress on selection page
