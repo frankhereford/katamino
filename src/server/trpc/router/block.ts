@@ -30,7 +30,7 @@ export const blockRouter = t.router({
   set_rotation: authedProcedure
     .input(z.object({ id: z.string(), clockwise: z.any() }))
     .mutation(async ({ ctx, input }) => {
-      const penta = await ctx.prisma.block.update({
+      const block = await ctx.prisma.block.update({
         where: {
           id: input.id,
         },
@@ -38,13 +38,13 @@ export const blockRouter = t.router({
           rotation: { clockwise: input.clockwise ? input.clockwise : 0 }
         },
       });
-      return penta;
+      return block;
     }),
 
   set_reflection: authedProcedure
     .input(z.object({ id: z.string(), reflection: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const penta = await ctx.prisma.block.update({
+      const block = await ctx.prisma.block.update({
         where: {
           id: input.id,
         },
@@ -52,14 +52,13 @@ export const blockRouter = t.router({
           reflection : input.reflection,
         },
       });
-      return penta;
+      return block;
     }),
 
   set_translation: authedProcedure
     .input(z.object({ id: z.string(), translation: z.any() }))
     .mutation(async ({ ctx, input }) => {
-      console.log(input.translation)
-      const penta = await ctx.prisma.block.update({
+      const block = await ctx.prisma.block.update({
         where: {
           id: input.id,
         },
@@ -67,7 +66,8 @@ export const blockRouter = t.router({
           translation : input.translation,
         },
       });
-      return penta;
+      return block;
+    }),
     }),
 
 
