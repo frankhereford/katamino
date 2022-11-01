@@ -54,6 +54,7 @@ const Penta: NextPage = () => {
 
     if (event.key === 'd') {
       const index = get_block_index(penta.blocks, active_block);
+      if (!penta.blocks[index].visible) { return }
       set_rotation.mutate({
         id: active_block,
         clockwise: (penta.blocks[index]?.rotation.clockwise + 1) % 4,
@@ -63,6 +64,7 @@ const Penta: NextPage = () => {
 
     if (event.key === 'w') {
       const index = get_block_index(penta.blocks, active_block);
+      if (!penta.blocks[index].visible) { return }
       set_reflection.mutate({
         id: active_block,
         reflection: penta.blocks[index].reflection ? false : true,
@@ -71,6 +73,7 @@ const Penta: NextPage = () => {
 
     if (event.key === 'ArrowUp') {
       const index = get_block_index(penta.blocks, active_block);
+      if (!penta.blocks[index].visible) { return }
       set_translation.mutate({
         id: active_block,
         translation: {
@@ -82,6 +85,7 @@ const Penta: NextPage = () => {
 
     if (event.key === 'ArrowDown') {
       const index = get_block_index(penta.blocks, active_block);
+      if (!penta.blocks[index].visible) { return }
       set_translation.mutate({
         id: active_block,
         translation: {
@@ -93,6 +97,7 @@ const Penta: NextPage = () => {
 
     if (event.key === 'ArrowLeft') {
       const index = get_block_index(penta.blocks, active_block);
+      if (!penta.blocks[index].visible) { return }
       set_translation.mutate({
         id: active_block,
         translation: {
@@ -104,6 +109,7 @@ const Penta: NextPage = () => {
 
     if (event.key === 'ArrowRight') {
       const index = get_block_index(penta.blocks, active_block);
+      if (!penta.blocks[index].visible) { return }
       set_translation.mutate({
         id: active_block,
         translation: {
@@ -115,6 +121,7 @@ const Penta: NextPage = () => {
 
     if (event.key === 'a') {
       const index = get_block_index(penta.blocks, active_block);
+      if (!penta.blocks[index].visible) { return }
       set_translation.mutate({
         id: active_block,
         translation: {
