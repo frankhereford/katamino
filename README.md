@@ -1,3 +1,8 @@
+# Katamino
+
+## What is this?
+
+* An experiment with the [T3 stack](https://create.t3.gg/)
 ## TODO
 
 * [ ] This file
