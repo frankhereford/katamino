@@ -13,3 +13,4 @@
 * [ ] Fix typing dumpster fire
 * [ ] Fix vercel integration
 * [ ] Draw out penta progress on selection page
+* [ ] Make the shadow-outlines on overlapped pieces red-tinted 🔥
