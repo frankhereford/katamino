@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import GridSquare from './GridSquare'
 import { transform_block_shape } from "../../utils/transformations";
 import Array2D from 'array2d'
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid'
 
 export default function Block(props : {
     board_color : string;
@@ -35,18 +36,20 @@ export default function Block(props : {
   }
 
   return (
-    //<div style={{ opacity: props.opacity ? props.opacity : 1 } className="grid-board"
-    <div className="grid-board"
-      onClick={props.onClick}
-      style={
-        {
-          '--cols': props.block.piece.shape[0].length,
-          '--tile-size': props.square_size + 'px',
-          '--border-width': props.square_size / 20 + 'px',
-          'opacity': props.block.piece.opacity ? props.piece.opacity : 1
-        }
-      }>
-      {grid}
+    <div>
+     {props.block.visible ? <EyeIcon className="h-6 w-6 text-white" /> : <EyeSlashIcon className="h-6 w-6 text-white" />} 
+      <div className="grid-board"
+        onClick={props.onClick}
+        style={
+          {
+            '--cols': props.block.piece.shape[0].length,
+            '--tile-size': props.square_size + 'px',
+            '--border-width': props.square_size / 20 + 'px',
+            'opacity': props.block.piece.opacity ? props.piece.opacity : 1
+          }
+        }>
+        {grid}
+      </div>
     </div>
   )
 }

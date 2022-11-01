@@ -21,6 +21,7 @@ export default function PentaBoard(props : {
     const blocks = _.cloneDeep(props.penta.blocks);
     const sorted_blocks = blocks.sort((a: any, b: any) => a.last_update - b.last_update)
     sorted_blocks.forEach((block: any) => {
+      if (!block.visible) { return }
       const shape = transform_block_shape({ block: block, do_translation: true, columns: props.penta.columns })
       for (let row = 0; row < shape.length; row++) {
         for (let col = 0; col < shape[row].length; col++) {

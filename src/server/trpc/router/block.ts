@@ -68,7 +68,21 @@ export const blockRouter = t.router({
       });
       return block;
     }),
+
+  set_visibility: authedProcedure
+    .input(z.object({ id: z.string(), visible: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      const block = await ctx.prisma.block.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          visible: input.visible ? input.visible : false,
+        },
+      });
+      return block;
     }),
+
 
 
 });

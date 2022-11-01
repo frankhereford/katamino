@@ -19,7 +19,7 @@ const Penta: NextPage = () => {
   const [active_block, set_active_block] = useState();
 
   const set_rotation = trpc.block.set_rotation.useMutation({
-    onSuccess: () => { penta_refetch(); }
+    onSuccess: () => { penta_refetch(); } // this uses useQuery underneath ... this is probably something that could be done better
   });
 
   const set_reflection = trpc.block.set_reflection.useMutation({
@@ -30,7 +30,11 @@ const Penta: NextPage = () => {
     onSuccess: () => { penta_refetch(); }
   });
 
-  useKeypress(['Tab', 'q', 'e', 'w', 'd', 'a', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], (event) => {
+  const set_visibility = trpc.block.set_visibility.useMutation({
+    onSuccess: () => { penta_refetch(); }
+  });
+
+  useKeypress(['Tab', 'q', 'e', 's', 'w', 'd', 'a', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], (event) => {
     if (!penta) { return; }
 
     if (event.key === 'q') {
@@ -125,6 +129,14 @@ const Penta: NextPage = () => {
       set_reflection.mutate({
         id: active_block,
         reflection: false,
+      })
+    }
+
+    if (event.key === 's') {
+      const index = get_block_index(penta.blocks, active_block);
+      set_visibility.mutate({
+        id: active_block,
+        visible: penta.blocks[index].visible ? false : true,
       })
     }
   });
