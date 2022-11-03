@@ -44,7 +44,7 @@ export default function PentaBoard(props : {
   }, [props.penta]);
 
   const grid = []
-  for (let row = 0; row < 9; row++) {
+  for (let row = 0; row < 5; row++) {
     grid.push([])
     for (let col = 0; col < props.columns; col++) {
       grid[row].push (
