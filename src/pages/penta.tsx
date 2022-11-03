@@ -5,7 +5,7 @@ import Head from "next/head";
 import {trpc} from "../utils/trpc";
 import sets from "array-operations"
 
-import PentaBoard from './components/PentaBoard'
+import EmptyBoard from './components/EmptyBoard'
 import GridBoard from './components/GridBoard'
 
 function useForceUpdate() {
@@ -77,9 +77,10 @@ const Pentas: NextPage = () => { // 🪝
       </Head>
 
       <div className="mb-4">
-        <PentaBoard board_color='grey'
+        <EmptyBoard board_color='grey'
           square_size={50}
-          columns={columns}/>
+          columns={columns}
+          border_width={0}/>
       </div>
 
       <div className="flex">

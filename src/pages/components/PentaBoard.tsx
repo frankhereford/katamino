@@ -14,7 +14,7 @@ export default function PentaBoard(props : {
 }) {
 
   const [board, set_board] = useState([]);
-  const [border_width, set_boarder_width] = useState(3);
+  const [border_width, set_boarder_width] = useState(2);
 
   useEffect(() => {
     if (!props.penta) {
@@ -57,6 +57,7 @@ export default function PentaBoard(props : {
   }, [props.penta]);
 
   const grid = []
+  console.log(board)
   for (let row = 0; row < board.length; row++) {
     grid.push([])
     //for (let col = 0; col < props.columns + 0; col++) {
@@ -74,7 +75,10 @@ export default function PentaBoard(props : {
     }
   }
 
+  //console.log(grid)
+
   return (
+    <>
     <div className="grid-board"
       style={
         {
@@ -84,5 +88,6 @@ export default function PentaBoard(props : {
         }
     }>
       {grid} </div>
+    </>
   )
 }
