@@ -38,13 +38,21 @@ export default function PentaBoard(props : {
               current_board[row][col] = mixed_color
             }
           }
-          if (row < border_width || row >= (current_board.length - border_width) || col < border_width || col >= (current_board[row].length - border_width)) {
-            const mixed_color = mix_colors(current_board[row][col], "#666666")
-            current_board[row][col] = mixed_color
-          }
         }
       }
     })
+
+    // TODO figure out how to do this at the right time, not on change
+    // also i'm really confused about this
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        if (row < border_width || row >= (current_board.length - border_width) || col < border_width || col >= (current_board[row].length - border_width)) {
+          const mixed_color = mix_colors(current_board[row][col], "#aaaaaa")
+          current_board[row][col] = mixed_color
+        }
+      }
+    }
+
     set_board(current_board)
   }, [props.penta]);
 
