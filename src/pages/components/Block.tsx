@@ -42,24 +42,23 @@ export default function Block(props : {
     }
   }
 
-  return (<div> {
-    props.block.visible ? <EyeIcon className="h-6 w-6 text-white"/> : <EyeSlashIcon className="h-6 w-6 text-white"/>
-    }
-  }
-    }
-    <div className="grid-board"
-      onClick={
-        props.onClick
-      }
-      style={
-        {
-          '--cols': props.block.piece.shape[0].length,
-          '--tile-size': props.square_size + 'px',
-          '--border-width': props.square_size / 20 + 'px',
-          'opacity': props.block.piece.opacity ? props.piece.opacity : 1
+  const icon = props.block.visible ? <EyeIcon className="h-6 w-6 text-white"/> : <EyeSlashIcon className="h-6 w-6 text-white"/>
+
+  return (
+    <div> {icon}
+      <div className="grid-board"
+        onClick={
+          props.onClick
         }
-    }>
-      {grid} </div>
-  </div>
+        style={
+          {
+            '--cols': props.block.piece.shape[0].length,
+            '--tile-size': props.square_size + 'px',
+            '--border-width': props.square_size / 20 + 'px',
+            'opacity': props.block.piece.opacity ? props.piece.opacity : 1
+          }
+      }>
+        {grid} </div>
+    </div>
   )
-  }
+}
