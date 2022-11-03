@@ -14,19 +14,20 @@ export default function PentaBoard(props : {
 }) {
 
   const [board, set_board] = useState([]);
+  const [border_width, set_boarder_width] = useState(3);
 
   useEffect(() => {
     if (!props.penta) {
       return
     }
-    const current_board = Array2D.build(props.penta.columns, 5, props.board_color)
+    const current_board = Array2D.build(props.penta.columns + (border_width * 2), 5 + (border_width * 2), props.board_color)
     const blocks = _.cloneDeep(props.penta.blocks);
     const sorted_blocks = blocks.sort((a : any, b : any) => a.last_update - b.last_update)
     sorted_blocks.forEach((block : any) => {
       if (!block.visible) {
         return
       }
-      const shape = transform_block_shape({block: block, do_translation: true, columns: props.penta.columns})
+      const shape = transform_block_shape({block: block, do_translation: true, columns: props.penta.columns, border_width: border_width})
       for (let row = 0; row < shape.length; row++) {
         for (let col = 0; col < shape[row].length; col++) {
           if (shape[row][col]) {
@@ -37,6 +38,10 @@ export default function PentaBoard(props : {
               current_board[row][col] = mixed_color
             }
           }
+          if (row < border_width || row >= (current_board.length - border_width) || col < border_width || col >= (current_board[row].length - border_width)) {
+            const mixed_color = mix_colors(current_board[row][col], "#666666")
+            current_board[row][col] = mixed_color
+          }
         }
       }
     })
@@ -44,9 +49,10 @@ export default function PentaBoard(props : {
   }, [props.penta]);
 
   const grid = []
-  for (let row = 0; row < 5; row++) {
+  for (let row = 0; row < board.length; row++) {
     grid.push([])
-    for (let col = 0; col < props.columns; col++) {
+    //for (let col = 0; col < props.columns + 0; col++) {
+    for (let col = 0; col < board[row].length; col++) {
       grid[row].push (
         <GridSquare key={
             `${col}${row}`
@@ -64,7 +70,7 @@ export default function PentaBoard(props : {
     <div className="grid-board"
       style={
         {
-          '--cols': props.columns,
+          '--cols': props.columns + (border_width * 2),
           '--tile-size': props.square_size + 'px',
           '--border-width': props.square_size / 20 + 'px'
         }

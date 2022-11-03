@@ -4,7 +4,8 @@ import Array2D from 'array2d'
 export function transform_block_shape({
   block,
   do_translation = false,
-  columns = 5
+  columns = 5,
+  border_width = 0
 } : NamedArguments) {
   let shape = block.piece.shape
 
@@ -19,6 +20,13 @@ export function transform_block_shape({
 
   if (do_translation) {
     shape = Array2D.pad(shape, Array2D.EDGES.RIGHT, columns - shape[0].length, 0)
+
+    for (let i = 0; i < border_width; i++) {
+      shape = Array2D.pad(shape, Array2D.EDGES.TOP, 1, 0)
+      shape = Array2D.pad(shape, Array2D.EDGES.LEFT, 1, 0)
+      shape = Array2D.pad(shape, Array2D.EDGES.BOTTOM, 1, 0)
+      shape = Array2D.pad(shape, Array2D.EDGES.RIGHT, 1, 0)
+    }
 
     if (block.translation.up > 0) {
       for (let i = 0; i < block.translation.up; i++) {
