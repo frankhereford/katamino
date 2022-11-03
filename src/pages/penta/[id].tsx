@@ -1,41 +1,64 @@
-import { useRouter } from 'next/router'
-import React, { useState, useEffect } from 'react';
-import type { NextPage } from "next";
+import {useRouter} from 'next/router'
+import React, {useState, useEffect} from 'react';
+import type {NextPage}
+from "next";
 import Head from "next/head";
-import { trpc } from "../../utils/trpc";
+import {trpc} from "../../utils/trpc";
 import PentaBoard from '../components/PentaBoard'
 import Block from '../components/Block'
 import useKeypress from 'react-use-keypress';
-import { get_block_index, find_previous, find_next } from "../../utils/block_list";
+import {get_block_index, find_previous, find_next} from "../../utils/block_list";
 
 
-const Penta: NextPage = () => {
-  //🪝
-  const { query, isReady } = useRouter()
-  const { data: penta, refetch: penta_refetch } = trpc.penta.get.useQuery(
-    { id: query.id, },
-    { enabled: isReady },
-  );
+const Penta: NextPage = () => { // 🪝
+  const {query, isReady} = useRouter()
+  const {data: penta, refetch: penta_refetch} = trpc.penta.get.useQuery({
+    id: query.id
+  }, {
+    enabled: isReady
+  },);
   const [active_block, set_active_block] = useState();
 
   const set_rotation = trpc.block.set_rotation.useMutation({
-    onSuccess: () => { penta_refetch(); } // this uses useQuery underneath ... this is probably something that could be done better
+    onSuccess: () => {
+      penta_refetch();
+    } // this uses useQuery underneath ... this is probably something that could be done better
   });
 
   const set_reflection = trpc.block.set_reflection.useMutation({
-    onSuccess: () => { penta_refetch(); }
+    onSuccess: () => {
+      penta_refetch();
+    }
   });
 
   const set_translation = trpc.block.set_translation.useMutation({
-    onSuccess: () => { penta_refetch(); }
+    onSuccess: () => {
+      penta_refetch();
+    }
   });
 
   const set_visibility = trpc.block.set_visibility.useMutation({
-    onSuccess: () => { penta_refetch(); }
+    onSuccess: () => {
+      penta_refetch();
+    }
   });
 
-  useKeypress(['Tab', 'q', 'e', 's', 'w', 'd', 'a', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], (event) => {
-    if (!penta) { return; }
+  useKeypress([
+    'Tab',
+    'q',
+    'e',
+    's',
+    'w',
+    'd',
+    'a',
+    'ArrowLeft',
+    'ArrowRight',
+    'ArrowUp',
+    'ArrowDown'
+  ], (event) => {
+    if (!penta) {
+      return;
+    }
 
     if (event.key === 'q') {
       const previous = find_previous(penta.blocks, active_block);
@@ -43,7 +66,9 @@ const Penta: NextPage = () => {
     }
 
     if (event.key === 'e' || event.key === 'Tab') {
-      if (event.key === 'Tab') { event.preventDefault(); }
+      if (event.key === 'Tab') {
+        event.preventDefault();
+      }
       const next = find_next(penta.blocks, active_block);
       set_active_block(next);
     }
@@ -54,96 +79,104 @@ const Penta: NextPage = () => {
 
     if (event.key === 'd') {
       const index = get_block_index(penta.blocks, active_block);
-      if (!penta.blocks[index].visible) { return }
+      if (!penta.blocks[index].visible) {
+        return
+      }
       set_rotation.mutate({
         id: active_block,
-        clockwise: (penta.blocks[index]?.rotation.clockwise + 1) % 4,
+        clockwise: (penta.blocks[index] ?. rotation.clockwise + 1) % 4
       })
 
     }
 
     if (event.key === 'w') {
       const index = get_block_index(penta.blocks, active_block);
-      if (!penta.blocks[index].visible) { return }
+      if (!penta.blocks[index].visible) {
+        return
+      }
       set_reflection.mutate({
         id: active_block,
-        reflection: penta.blocks[index].reflection ? false : true,
+        reflection: penta.blocks[index].reflection ? false : true
       })
     }
 
     if (event.key === 'ArrowUp') {
       const index = get_block_index(penta.blocks, active_block);
-      if (!penta.blocks[index].visible) { return }
+      if (!penta.blocks[index].visible) {
+        return
+      }
       set_translation.mutate({
         id: active_block,
         translation: {
           up: penta.blocks[index].translation.up + 1,
-          right: penta.blocks[index].translation.right,
+          right: penta.blocks[index].translation.right
         }
       })
     }
 
     if (event.key === 'ArrowDown') {
       const index = get_block_index(penta.blocks, active_block);
-      if (!penta.blocks[index].visible) { return }
+      if (!penta.blocks[index].visible) {
+        return
+      }
       set_translation.mutate({
         id: active_block,
         translation: {
           up: penta.blocks[index].translation.up - 1,
-          right: penta.blocks[index].translation.right,
+          right: penta.blocks[index].translation.right
         }
       })
     }
 
     if (event.key === 'ArrowLeft') {
       const index = get_block_index(penta.blocks, active_block);
-      if (!penta.blocks[index].visible) { return }
+      if (!penta.blocks[index].visible) {
+        return
+      }
       set_translation.mutate({
         id: active_block,
         translation: {
           up: penta.blocks[index].translation.up,
-          right: penta.blocks[index].translation.right - 1,
+          right: penta.blocks[index].translation.right - 1
         }
       })
     }
 
     if (event.key === 'ArrowRight') {
       const index = get_block_index(penta.blocks, active_block);
-      if (!penta.blocks[index].visible) { return }
+      if (!penta.blocks[index].visible) {
+        return
+      }
       set_translation.mutate({
         id: active_block,
         translation: {
-          up: penta.blocks[index].translation.up, 
-          right: penta.blocks[index].translation.right + 1,
+          up: penta.blocks[index].translation.up,
+          right: penta.blocks[index].translation.right + 1
         }
       })
     }
 
     if (event.key === 'a') {
       const index = get_block_index(penta.blocks, active_block);
-      if (!penta.blocks[index].visible) { return }
+      if (!penta.blocks[index].visible) {
+        return
+      }
       set_translation.mutate({
         id: active_block,
         translation: {
           up: 0,
-          right: 0,
+          right: 0
         }
       })
-      set_rotation.mutate({
-        id: active_block,
-        clockwise: 0,
-      })
-      set_reflection.mutate({
-        id: active_block,
-        reflection: false,
-      })
+      set_rotation.mutate({id: active_block, clockwise: 0})
+      set_reflection.mutate({id: active_block, reflection: false})
     }
 
     if (event.key === 's') {
       const index = get_block_index(penta.blocks, active_block);
       set_visibility.mutate({
         id: active_block,
-        visible: penta.blocks[index].visible ? false : true,
+        visible: penta.blocks[index].visible ? false : true
       })
     }
   });
@@ -152,9 +185,9 @@ const Penta: NextPage = () => {
   if (penta == undefined) {
     return <div>loading...</div>
   }
- 
+
   // ƛ
-  const block_click_handler = async (event: any) => {
+  const block_click_handler = async (event : any) => {
     set_active_block(event.currentTarget.id)
   };
 
@@ -162,27 +195,44 @@ const Penta: NextPage = () => {
     <>
       <Head>
         <title>Play a Penta</title>
-        <meta name="description" content="Play Penta" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content="Play Penta"/>
+        <link rel="icon" href="/favicon.ico"/>
       </Head>
       <div>
-        <PentaBoard active_block={active_block} penta={penta} board_color='grey' square_size={50} columns={penta.columns} />
+        <PentaBoard active_block={active_block}
+          penta={penta}
+          board_color='grey'
+          square_size={50}
+          columns={
+            penta.columns
+          }/>
       </div>
       <div>
         <div className="mx-5 flex flex-row space-x-4 mt-10">
-          {penta.blocks.map((block, index) => {
+          {
+          penta.blocks.map((block, index) => {
             const classes = ['flex-initial']
             if (active_block == block.id) {
               classes.push('ring')
               classes.push('ring-red-500')
             }
             return (
-              <div id={block.id} onClick={block_click_handler} key={index} className={classes.join(' ')}>
-                <Block key={index} board_color='grey' block={block} square_size='15'/>
+              <div id={
+                  block.id
+                }
+                onClick={block_click_handler}
+                key={index}
+                className={
+                  classes.join(' ')
+              }>
+                <Block key={index}
+                  board_color='grey'
+                  block={block}
+                  square_size='15'/>
               </div>
             );
-          })}
-        </div>
+          })
+        } </div>
       </div>
     </>
   );

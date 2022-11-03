@@ -1,4 +1,4 @@
-import { colord, extend } from "colord";
+import {colord, extend} from "colord";
 import mixPlugin from "colord/plugins/mix";
 extend([mixPlugin]);
 
@@ -16,22 +16,18 @@ export const colors = {
   teal: "#00b3b3",
   blue: "#39c9f1",
   orange: "#ff6600",
-  pink: "#ff47c8",
+  pink: "#ff47c8"
 }
 
-//https://gist.github.com/cawfree/c08c10f6f2e7b2c8d225d88b031a03ce
+// https://gist.github.com/cawfree/c08c10f6f2e7b2c8d225d88b031a03ce
 export const toCamelCase = (e) => {
   return e.replace(/[-_]([a-z])/g, (g) => g[1].toUpperCase())
 }
 
 export const toSnakeCase = (e) => {
-  return e.match(/([A-Z])/g).reduce(
-    (str, c) => str.replace(new RegExp(c), '_' + c.toLowerCase()),
-    e
-  )
-    .substring((e.slice(0, 1).match(/([A-Z])/g)) ? 1 : 0)
+  return e.match(/([A-Z])/g).reduce((str, c) => str.replace(new RegExp(c), '_' + c.toLowerCase()), e).substring((e.slice(0, 1).match(/([A-Z])/g)) ? 1 : 0)
 }
 
-export function mix_colors( color1, color2) {
+export function mix_colors(color1, color2) {
   return colord(color1).mix(colord(color2), .5).darken(.05).toHex()
 }
