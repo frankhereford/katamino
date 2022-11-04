@@ -21,6 +21,15 @@ export default function PentaBoard(props : {
       return
     }
     const current_board = Array2D.build(props.penta.columns + (border_width * 2), 5 + (border_width * 2), props.board_color)
+    
+    for (let row = 0; row < current_board.length; row++) {
+      for (let col = 0; col < current_board[row].length; col++) {
+        if (row < border_width || row >= (current_board.length - border_width) || col < border_width || col >= (current_board[row].length - border_width)) {
+          current_board[row][col] = "#555555"
+        }
+      }
+    }
+
     const blocks = _.cloneDeep(props.penta.blocks);
     const sorted_blocks = blocks.sort((a : any, b : any) => a.last_update - b.last_update)
     sorted_blocks.forEach((block : any) => {
@@ -42,22 +51,10 @@ export default function PentaBoard(props : {
       }
     })
 
-    // TODO figure out how to do this at the right time, not on change
-    // also i'm really confused about this
-    for (let row = 0; row < board.length; row++) {
-      for (let col = 0; col < board[row].length; col++) {
-        if (row < border_width || row >= (current_board.length - border_width) || col < border_width || col >= (current_board[row].length - border_width)) {
-          const mixed_color = mix_colors(current_board[row][col], "#aaaaaa")
-          current_board[row][col] = mixed_color
-        }
-      }
-    }
-
     set_board(current_board)
   }, [props.penta]);
 
   const grid = []
-  console.log(board)
   for (let row = 0; row < board.length; row++) {
     grid.push([])
     //for (let col = 0; col < props.columns + 0; col++) {
@@ -74,8 +71,6 @@ export default function PentaBoard(props : {
       )
     }
   }
-
-  //console.log(grid)
 
   return (
     <>
