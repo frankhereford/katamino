@@ -3,8 +3,6 @@ import Head from "next/head";
 import Square from "./components/Square";
 import { signIn, signOut, useSession } from "next-auth/react";
 
-import { trpc } from "../utils/trpc";
-
 const Home: NextPage = () => {
 
 
