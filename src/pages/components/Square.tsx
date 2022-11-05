@@ -13,7 +13,8 @@ export default function Square(props: {color: string}) {
     transition: "all .2s ease",
   }
 
-  function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  function handleClick(e: any){
+    console.log(typeof e)
     console.log(e.target.style.backgroundColor)
     setColor("#ff0000")
   }
