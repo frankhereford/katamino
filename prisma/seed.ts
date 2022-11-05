@@ -7,29 +7,39 @@ async function main() {
       name: 'frank',
     }
   })
- 
-  const colors = [
-    'red', 'green', 'dark-grey',
-    'purple', 'brown', 'blue',
-    'dark-green', 'yellow', 'teal',
-    'dark-blue', 'orange', 'pink'
-  ]
 
-  colors.forEach(async (color) => {
+  const colors = {
+    white: "#ffffff",
+    grey: "#808080",
+    red: "#b40d0d",
+    green: "#95ff85",
+    darkGrey: "#353535",
+    purple: "#66009d",
+    brown: "#583200",
+    darkBlue: "#0222b1",
+    darkGreen: "#004d00",
+    yellow: "#f9d237",
+    teal: "#00b3b3",
+    blue: "#39c9f1",
+    orange: "#ff6600",
+    pink: "#ff47c8"
+  }
+
+  for  await (const [key, value] of Object.entries(colors)) {
     await prisma.color.upsert({
-      where: { name: color },
+      where: { name: key},
       update: {},
       create: {
-        name: color,
-      },
-    },
-    )
-  })
+        name: key,
+        hexCode: value,
+        }
+    })
+  }
 
   const deletePieces = await prisma.piece.deleteMany({})
 
   const pieces = [
-    {name: 'dark-blue',
+    {name: 'darkBlue',
      shape: [[0,0,1,0,0],
              [0,0,1,0,0],
              [0,0,1,0,0],
@@ -77,13 +87,13 @@ async function main() {
              [0,1,1,1,0],
              [0,1,0,0,0],
              [0,0,0,0,0]]},
-    {name: 'dark-grey',
+    {name: 'darkGrey',
      shape: [[0,0,0,0,0],
              [0,0,1,0,0],
              [0,1,1,1,0],
              [0,1,0,0,0],
              [0,0,0,0,0]]},
-    {name: 'dark-green',
+    {name: 'darkGreen',
      shape: [[0,0,0,0,0],
              [0,1,1,1,0],
              [0,0,1,0,0],
