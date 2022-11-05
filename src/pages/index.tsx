@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Square from "./components/Square";
+import Piece from "./components/Piece";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
@@ -17,9 +18,14 @@ const Home: NextPage = () => {
         <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
           Play <span className="text-purple-300">K</span>atamino
         </h1>
-        <h3>A square</h3>
+        <h3 className="mt-2">A square</h3>
         <div className="grid grid-cols-1 gap-0">
           <Square color="#aaaaaa"></Square>
+        </div>
+        <h3 className="mt-5">A piece</h3>
+        <div className="grid grid-cols-1 gap-0">
+          <Piece id="cla3wopfb0018ofxc2ybumjks"></Piece>
+          <Piece></Piece>
         </div>
         <div className="p-4">
           <AuthShowcase />
