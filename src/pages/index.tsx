@@ -38,7 +38,7 @@ const AuthShowcase: React.FC = () => {
     <div className="flex flex-col items-center justify-center gap-2">
       {sessionData && (
         <p className="text-blue-500">
-          Logged in as {sessionData?.user?.name}
+          👋 {sessionData?.user?.name}
         </p>
       )}
       <button
