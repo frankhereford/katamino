@@ -13,9 +13,20 @@ export default function Square(props: {color: string}) {
     transition: "all .2s ease",
   }
 
+  // function to pick a random key from an object
+  function pickRandomKey(obj: any) {
+    var result = '';
+    var count = 0;
+    for (var prop in obj)
+      if (Math.random() < 1 / ++count)
+        result = prop;
+    return result;
+  }
+
+
+
   function handleClick(e: any){
-    console.log(e.target.style.backgroundColor)
-    setColor("#ff0000")
+    setColor(colors[pickRandomKey(colors)])
   }
 
 
