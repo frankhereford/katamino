@@ -22,10 +22,8 @@ model Color {
 // a piece is a particular tangible block from the game box, they are used in a penta
 model Piece {
   id      String @id @default(cuid())
-  userId  String
   colorId String
   shape   Json
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   color   Color  @relation(fields: [colorId], references: [id], onDelete: Cascade)
   blocks  Block[]
   @@map(name: "pieces")
@@ -93,7 +91,6 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  pieces        Piece[]
 }
 
 model VerificationToken {
