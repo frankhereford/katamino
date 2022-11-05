@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import Square from "./components/Square";
 import { signIn, signOut, useSession } from "next-auth/react";
 
