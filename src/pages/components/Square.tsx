@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-//import {colors, toCamelCase} from "../../utils/colors";
+import {colors, toCamelCase} from "../../utils/colors";
 
 
 // Represents a grid square with a color
@@ -14,7 +14,6 @@ export default function Square(props: {color: string}) {
   }
 
   function handleClick(e: any){
-    console.log(typeof e)
     console.log(e.target.style.backgroundColor)
     setColor("#ff0000")
   }
