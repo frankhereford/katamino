@@ -21,7 +21,7 @@ export const colors = {
 
 // https://gist.github.com/cawfree/c08c10f6f2e7b2c8d225d88b031a03ce
 export const toCamelCase = (e: any) => {
-  return e.replace(/[-_]([a-z])/g, (g) => g[1].toUpperCase())
+  return e.replace(/[-_]([a-z])/g, (g: any) => g[1].toUpperCase())
 }
 
 export const toSnakeCase = (e: any) => {
