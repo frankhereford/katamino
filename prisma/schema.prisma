@@ -93,6 +93,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  pieces        Piece[]
 }
 
 model VerificationToken {
