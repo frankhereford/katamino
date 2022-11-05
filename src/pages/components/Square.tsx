@@ -4,8 +4,7 @@ import React, { useState } from 'react'
 
 // Represents a grid square with a color
 
-export default function Square(props: {
-}) {
+export default function Square() {
 
   const [color, setColor] = useState("#aaaaaa")
 
