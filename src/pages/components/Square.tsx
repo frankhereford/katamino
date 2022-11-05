@@ -10,7 +10,7 @@ export default function Square(props: {color: string}) {
   const [color, setColor] = useState(props.color)
 
   function handleClick(e: object){
-    setColor(randomColor[0].hexCode)
+    setColor(randomColor.hexCode)
     // get a color for the next click
     randomColorRefetch()
   } 
