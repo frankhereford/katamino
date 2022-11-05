@@ -10,7 +10,8 @@ export default function Square(props: {color: string}) {
   const [color, setColor] = useState(props.color)
 
   function handleClick(e: object){
-    setColor(randomColor.hexCode)
+    console.log(typeof randomColor)
+    setColor(randomColor?.hexCode ?? "#ff0000") // set a meaningful default to fix typing
     // get a color for the next click
     randomColorRefetch()
   } 
