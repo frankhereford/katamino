@@ -25,7 +25,7 @@ export const toCamelCase = (e: any) => {
 }
 
 export const toSnakeCase = (e: any) => {
-  return e.match(/([A-Z])/g).reduce((str, c) => str.replace(new RegExp(c), '_' + c.toLowerCase()), e).substring((e.slice(0, 1).match(/([A-Z])/g)) ? 1 : 0)
+  return e.match(/([A-Z])/g).reduce((str: any, c: any) => str.replace(new RegExp(c), '_' + c.toLowerCase()), e).substring((e.slice(0, 1).match(/([A-Z])/g)) ? 1 : 0)
 }
 
 export function mix_colors(color1: any, color2: any) {
