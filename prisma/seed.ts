@@ -114,7 +114,6 @@ async function main() {
       data: {
         shape: piece.shape,
         color: { connect: { id: color?.id }, },
-        user: { connect: { id: user?.id }, }
       }
     })
   })
