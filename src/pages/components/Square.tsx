@@ -4,11 +4,21 @@ import React, { useState } from 'react'
 
 // Represents a grid square with a color
 
-export default function Square() {
+export default function Square(props: {color: string}) {
 
-  const [color, setColor] = useState("#aaaaaa")
+  const [color, setColor] = useState(props.color)
+
+  const inlineStyle = {
+    backgroundColor: color,
+    transition: "all .2s ease",
+  }
+
+  function handleClick(e) { 
+    setColor("#ff0000")
+  }
+
 
   return (
-    <div className="box-content h-[20px] w-[20px] p-1 border-2" style={{backgroundColor: color}}></div>
+    <div onClick={handleClick} className="box-content h-[40px] w-[40px] border-[2px]" style={inlineStyle}></div>
   );
 }

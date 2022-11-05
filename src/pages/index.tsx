@@ -8,6 +8,7 @@ import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
 
+
   return (
     <>
       <Head>
@@ -20,16 +21,13 @@ const Home: NextPage = () => {
           Play <span className="text-purple-300">K</span>atamino
         </h1>
         <div className="grid grid-cols-7 gap-0">
-          <Square></Square>
-          <Square></Square>
-          <Square></Square>
-          <Square></Square>
-          <Square></Square>
-          <Square></Square>
-          <Square></Square>
-          <Square></Square>
-          <Square></Square>
-          <Square></Square>
+          <Square color="#ffaaaa"></Square>
+          <Square color="#aaaaaa"></Square>
+          <Square color="#aaaaaa"></Square>
+          <Square color="#aaaaaa"></Square>
+          <Square color="#aaaaaa"></Square>
+          <Square color="#aaaaaa"></Square>
+          <Square color="#aaaaaa"></Square>
         </div>
         <AuthShowcase />
       </main>
