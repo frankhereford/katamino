@@ -20,7 +20,14 @@ const Home: NextPage = () => {
           Play <span className="text-purple-300">K</span>atamino
         </h1>
         <div className="grid grid-cols-7 gap-0">
-          <Square color="#ffaaaa"></Square>
+          <Square color="#aaaaaa"></Square>
+          <Square color="#aaaaaa"></Square>
+          <Square color="#aaaaaa"></Square>
+          <Square color="#aaaaaa"></Square>
+          <Square color="#aaaaaa"></Square>
+          <Square color="#aaaaaa"></Square>
+          <Square color="#aaaaaa"></Square>
+          <Square color="#aaaaaa"></Square>
           <Square color="#aaaaaa"></Square>
           <Square color="#aaaaaa"></Square>
           <Square color="#aaaaaa"></Square>
