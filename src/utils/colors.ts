@@ -20,14 +20,14 @@ export const colors = {
 }
 
 // https://gist.github.com/cawfree/c08c10f6f2e7b2c8d225d88b031a03ce
-export const toCamelCase = (e) => {
+export const toCamelCase = (e: any) => {
   return e.replace(/[-_]([a-z])/g, (g) => g[1].toUpperCase())
 }
 
-export const toSnakeCase = (e) => {
+export const toSnakeCase = (e: any) => {
   return e.match(/([A-Z])/g).reduce((str, c) => str.replace(new RegExp(c), '_' + c.toLowerCase()), e).substring((e.slice(0, 1).match(/([A-Z])/g)) ? 1 : 0)
 }
 
-export function mix_colors(color1, color2) {
+export function mix_colors(color1: any, color2: any) {
   return colord(color1).mix(colord(color2), .5).darken(.05).toHex()
 }
