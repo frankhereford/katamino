@@ -25,7 +25,6 @@ model Piece {
   userId  String
   colorId String
   shape   Json
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   color   Color  @relation(fields: [colorId], references: [id], onDelete: Cascade)
   blocks  Block[]
   @@map(name: "pieces")
@@ -93,7 +92,6 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  pieces        Piece[]
 }
 
 model VerificationToken {
