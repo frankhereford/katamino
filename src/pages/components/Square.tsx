@@ -14,6 +14,7 @@ export default function Square(props: {color: string}) {
   }
 
   function handleClick(e) { 
+    console.log(e.target.style.backgroundColor)
     setColor("#ff0000")
   }
 
