@@ -6,7 +6,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-  const hello = trpc.example.hello.useQuery({ text: "Katamino" });
 
   return (
     <>
@@ -19,9 +18,6 @@ const Home: NextPage = () => {
         <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
           Play <span className="text-purple-300">K</span>atamino
         </h1>
-        <div className="text-blue-500">
-          {hello.data ? <p>{hello.data.greeting}</p> : <p>Loading..</p>}
-        </div>
         <AuthShowcase />
       </main>
     </>
