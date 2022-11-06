@@ -21,6 +21,7 @@ const Pentas: NextPage = () => {
         <table className="table table-zebra">
           <thead>
             <tr>
+              <th>️Play</th>
               <th>ID</th>
               <th>Columns</th>
             </tr>
@@ -28,6 +29,9 @@ const Pentas: NextPage = () => {
           <tbody>
             {pentas && pentas.map((penta) => (
               <tr key={penta.id} className="hover">
+                <td>
+                  <a href={'penta/' + penta.id} role="button" className="btn btn-primary btn-circle">🕹️</a>
+                </td>
                 <td>{penta.id}</td>
                 <td>{penta.columns}</td>
               </tr>
