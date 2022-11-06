@@ -6,9 +6,14 @@ import { useSession } from "next-auth/react";
 import { trpc } from "../../utils/trpc";
 
 const Penta: NextPage = () => {
-  const { query, isReady } = useRouter()
-  const { data: sessionData } = useSession();
+  const { query, isReady: routerReady } = useRouter()
+  const { data: penta, refetch: penta_refetch } = trpc.penta.get.useQuery({
+    id: query.id
+  }, {
+    enabled: routerReady
+  },);
 
+  console.log(penta)
 
   return (
     <>
