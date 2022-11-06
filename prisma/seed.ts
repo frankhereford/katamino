@@ -10,6 +10,7 @@ async function main() {
 
   const colors = {
     white: "#ffffff",
+    lightGrey: "#d3d3d3",
     grey: "#808080",
     red: "#b40d0d",
     green: "#95ff85",
