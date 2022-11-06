@@ -13,11 +13,11 @@ export const pieceRouter = router({
     }),
 
   getPiece: publicProcedure
-    .input(z.object({ id: z.string().nullish() }).nullish())
+    .input(z.object({ id: z.string().optional() }).nullish())
     .query(async ({ ctx, input }) => {
       const piece = await ctx.prisma.piece.findUnique({
         where: {
-          id: input.id
+          id: input?.id
         }
       })
       return piece
