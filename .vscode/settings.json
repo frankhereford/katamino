@@ -5,6 +5,7 @@
     "colord",
     "datasource",
     "penta",
+    "pentas",
     "trpc"
   ]
 }
