@@ -9,29 +9,19 @@ interface PieceProps {
 
 export default function PiecePage(props: PieceProps) {
 
-  const [piece, setPiece] = useState() // somehow tell it that it's a piece
-  const { data: randomPiece } = trpc.piece.randomPiece.useQuery(undefined, {enabled: (!piece && !props.id)});
+  // may not need this randomPiece call..., if i had an ID passed to me and could get the typing figured out
+  const { data: randomPiece } = trpc.piece.randomPiece.useQuery(undefined, { enabled: true });
   const { data: propsPiece } = trpc.piece.getPiece.useQuery({ id: props.id }, {enabled: (props.id != null)});
+  const [piece, setPiece] = useState<typeof randomPiece | null | undefined>(randomPiece) // somehow tell it that it's a piece
 
   useEffect(() => {
     if (!piece?.id && props.id) {
-      //console.log('just need to get a particular piece')
-      //console.log(propsPiece)
-      //console.log(typeof propsPiece)
       setPiece(propsPiece)
     }
     else if (!piece?.id && !props.id) {
-      //console.log('just need to get a random piece')
-      //console.log(randomPiece)
       setPiece(randomPiece)
     }
   })
-
-  //if (!props.id) {
-    //console.log('yo')
-    //props.id = randomPiece?.id ?? "1";
-    //console.log(props)
-  //}
 
 
   return (
