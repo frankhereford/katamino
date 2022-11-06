@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
+
 async function main() {
 
   const user = await prisma.user.findFirst({
@@ -126,6 +127,47 @@ async function main() {
         shape: piece.shape,
         color: { connect: { id: color?.id }, },
       }
+    })
+  })
+
+
+  const pentas = [
+    {
+      columns: 3,
+      pieces: [
+        'red', 'blue', 'green',
+      ]
+    }
+  ]
+
+  pentas.forEach(async (penta) => {
+    penta.pieces.forEach(async (color) => {
+
+      const colorRecord = await prisma.color.findFirst({
+        where: {
+          name: color,
+        },
+        include: {
+          pieces: true
+        }
+      })
+
+      const pieceRecord = await prisma.piece.findMany({
+        where: {
+          color: { 
+            is: {
+              name: {
+                equals: color,
+              }
+            }
+          }
+        }
+      })
+
+      console.log(color, ": ", pieceRecord, " - ", colorRecord)
+    
+      console.log(colorRecord?.pieces)
+    
     })
   })
 
