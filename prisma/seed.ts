@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({ log: ['query'] })
 
 async function main() {
 
@@ -27,7 +27,7 @@ async function main() {
     pink: "#ff47c8"
   }
 
-  for  await (const [key, value] of Object.entries(colors)) {
+  for await (const [key, value] of Object.entries(colors)) {
     await prisma.color.upsert({
       where: { name: key},
       update: {},
@@ -115,20 +115,21 @@ async function main() {
              [0,0,0,0,0]]},
   ]
 
-  pieces.forEach(async (piece) => {
+  await Promise.all(pieces.map(async (piece) => {
     const color = await prisma.color.findFirst({
       where: {
         name: piece.name,
       }
     })
  
-    await prisma.piece.create({
+    const createdPiece = await prisma.piece.create({
       data: {
         shape: piece.shape,
         color: { connect: { id: color?.id }, },
       }
     })
-  })
+    //console.log(createdPiece)
+  }))
 
 
   const pentas = [
@@ -139,37 +140,31 @@ async function main() {
       ]
     }
   ]
-
-  pentas.forEach(async (penta) => {
-    penta.pieces.forEach(async (color) => {
-
-      const colorRecord = await prisma.color.findFirst({
+  
+  await Promise.all(pentas.map(async (penta) => {
+    await Promise.all(penta.pieces.map(async (colorName) => {
+      console.log(colorName)
+      const piece = await prisma.piece.findFirst({
         where: {
-          name: color,
-        },
-        include: {
-          pieces: true
-        }
-      })
-
-      const pieceRecord = await prisma.piece.findMany({
-        where: {
-          color: { 
-            is: {
-              name: {
-                equals: color,
-              }
-            }
+          color: {
+            name: colorName,
           }
         }
       })
+      console.log(piece)
+    }))
+  }))
 
-      console.log(color, ": ", pieceRecord, " - ", colorRecord)
-    
-      console.log(colorRecord?.pieces)
-    
+  /*
+
+  pentas.forEach(async (penta) => {
+    penta.pieces.forEach(async (color) => {
+      console.log(color)
+      const firstPiece = await prisma.piece.findFirst()
+      console.log(firstPiece)
     })
   })
+  */
 
 }
 
