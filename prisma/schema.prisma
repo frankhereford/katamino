@@ -10,50 +10,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 // reminder - this cuid() isn't the only option, i think there's an autoincrement as well
 model Color {
-  id    String  @id @default(cuid())
-  name  String  @unique
-  hexCode String @default("#ffffff")
-  pieces Piece[]
+  id      String  @id @default(cuid())
+  name    String  @unique
+  hexCode String  @default("#ffffff")
+  pieces  Piece[]
+
   @@map(name: "colors")
 }
 
 // a piece is a particular tangible block from the game box, they are used in a penta
 model Piece {
-  id      String @id @default(cuid())
-  colorId String
+  id      String  @id @default(cuid())
+  colorId String  @unique
   shape   Json
-  color   Color  @relation(fields: [colorId], references: [id], onDelete: Cascade)
+  color   Color   @relation(fields: [colorId], references: [id], onDelete: Cascade)
   blocks  Block[]
+
   @@map(name: "pieces")
 }
 
 // a block belongs to a penta
 model Block {
-  id          String @id @default(cuid())
+  id          String   @id @default(cuid())
   last_update DateTime @default(now()) @updatedAt
   pieceId     String
   pentaId     String
-  visible     Boolean @default(false)
+  visible     Boolean  @default(false)
   translation Json
   rotation    Json
   reflection  Boolean
-  piece       Piece  @relation(fields: [pieceId], references: [id], onDelete: Cascade)
-  penta       Penta  @relation(fields: [pentaId], references: [id], onDelete: Cascade)
+  piece       Piece    @relation(fields: [pieceId], references: [id], onDelete: Cascade)
+  penta       Penta    @relation(fields: [pentaId], references: [id], onDelete: Cascade)
+
   @@map(name: "blocks")
 }
 
 // a penta is a particular puzzle board configuration
 model Penta {
-  id      String @id @default(cuid())
+  id      String  @id @default(cuid())
   userId  String
   columns Int
   blocks  Block[]
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@map(name: "pentas")
 }
-
 
 // 👇🏻 Auth from here out
 
@@ -92,6 +95,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  pentas        Penta[]
 }
 
 model VerificationToken {

@@ -4,6 +4,8 @@
     "autoincrement",
     "colord",
     "datasource",
+    "penta",
+    "pentas",
     "trpc"
   ]
 }

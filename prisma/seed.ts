@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({ log: ['query'] })
+
 async function main() {
 
   const user = await prisma.user.findFirst({
@@ -26,7 +27,7 @@ async function main() {
     pink: "#ff47c8"
   }
 
-  for  await (const [key, value] of Object.entries(colors)) {
+  for await (const [key, value] of Object.entries(colors)) {
     await prisma.color.upsert({
       where: { name: key},
       update: {},
@@ -114,20 +115,70 @@ async function main() {
              [0,0,0,0,0]]},
   ]
 
-  pieces.forEach(async (piece) => {
+  await Promise.all(pieces.map(async (piece) => {
     const color = await prisma.color.findFirst({
       where: {
         name: piece.name,
       }
     })
  
-    await prisma.piece.create({
+    const createdPiece = await prisma.piece.create({
       data: {
         shape: piece.shape,
         color: { connect: { id: color?.id }, },
       }
     })
-  })
+    //console.log(createdPiece)
+  }))
+
+
+  const pentas = [
+    { columns: 3, pieces: [ 'orange', 'brown', 'darkGreen', ] },
+    { columns: 4, pieces: [ 'orange', 'brown', 'darkGreen', 'pink' ] },
+    { columns: 5, pieces: [ 'orange', 'brown', 'darkGreen', 'pink', 'green' ] },
+  ]
+
+
+  const deletePentas = await prisma.penta.deleteMany()
+  
+  await Promise.all(pentas.map(async (penta) => {
+
+    const pieces = await prisma.piece.findMany({
+      where: {
+        color: {
+          name: {
+            in: penta.pieces,
+          }
+        }
+      }
+    })
+
+    //console.log(pieces)
+
+    const pentaRecord = await prisma.penta.create({
+      data: {
+        columns: penta.columns,
+        user: { connect: { id: user?.id }, },
+        blocks: {
+          create: pieces.map((piece) => {
+            return {
+              piece: { connect: { id: piece.id }, },
+              translation: {
+                up: 0,
+                right: 0
+              },
+              rotation: {
+                clockwise: 0
+              },
+              reflection: false,
+            }
+          })
+        }
+      }
+    })
+
+    //console.log(pentaRecord)
+  }))
 
 }
 
