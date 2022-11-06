@@ -133,38 +133,53 @@ async function main() {
 
 
   const pentas = [
-    {
-      columns: 3,
-      pieces: [
-        'red', 'blue', 'green',
-      ]
-    }
+    { columns: 3, pieces: [ 'orange', 'brown', 'darkGreen', ] },
+    { columns: 4, pieces: [ 'orange', 'brown', 'darkGreen', 'pink' ] },
+    { columns: 5, pieces: [ 'orange', 'brown', 'darkGreen', 'pink', 'green' ] },
   ]
+
+
+  const deletePentas = await prisma.penta.deleteMany()
   
   await Promise.all(pentas.map(async (penta) => {
-    await Promise.all(penta.pieces.map(async (colorName) => {
-      console.log(colorName)
-      const piece = await prisma.piece.findFirst({
-        where: {
-          color: {
-            name: colorName,
+
+    const pieces = await prisma.piece.findMany({
+      where: {
+        color: {
+          name: {
+            in: penta.pieces,
           }
         }
-      })
-      console.log(piece)
-    }))
-  }))
-
-  /*
-
-  pentas.forEach(async (penta) => {
-    penta.pieces.forEach(async (color) => {
-      console.log(color)
-      const firstPiece = await prisma.piece.findFirst()
-      console.log(firstPiece)
+      }
     })
-  })
-  */
+
+    //console.log(pieces)
+
+    const pentaRecord = await prisma.penta.create({
+      data: {
+        columns: penta.columns,
+        user: { connect: { id: user?.id }, },
+        blocks: {
+          create: pieces.map((piece) => {
+            return {
+              piece: { connect: { id: piece.id }, },
+              translation: {
+                up: 0,
+                right: 0
+              },
+              rotation: {
+                clockwise: 0
+              },
+              reflection: false,
+            }
+          })
+        }
+      }
+    })
+
+    //console.log(pentaRecord)
+
+  }))
 
 }
 
