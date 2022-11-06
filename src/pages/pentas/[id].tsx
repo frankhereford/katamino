@@ -1,20 +1,17 @@
 import { useRouter } from 'next/router'
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useSession } from "next-auth/react";
+import Penta from "../components/Penta";
 
 import { trpc } from "../../utils/trpc";
 
-const Penta: NextPage = () => {
+const PentaPage: NextPage = () => {
   const { query, isReady: routerReady } = useRouter()
   const { data: penta, refetch: penta_refetch } = trpc.penta.get.useQuery({
     id: String(query.id)
   }, {
     enabled: routerReady
   },);
-
-  console.log(query)
-  console.log(penta)
 
   return (
     <>
@@ -24,9 +21,10 @@ const Penta: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <Penta id={penta?.id}></Penta>
       </main>
     </>
   )
 }
 
-export default Penta
+export default PentaPage
