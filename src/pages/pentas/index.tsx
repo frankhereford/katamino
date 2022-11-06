@@ -30,7 +30,7 @@ const Pentas: NextPage = () => {
             {pentas && pentas.map((penta) => (
               <tr key={penta.id} className="hover">
                 <td>
-                  <a href={'penta/' + penta.id} role="button" className="btn btn-primary btn-circle">🕹️</a>
+                  <a href={'pentas/' + penta.id} role="button" className="btn btn-primary btn-circle">🕹️</a>
                 </td>
                 <td>{penta.id}</td>
                 <td>{penta.columns}</td>
