@@ -6,7 +6,7 @@ export const pieceRouter = router({
   randomPiece: publicProcedure
     //.input(z.object({ text: z.string().nullish() }).nullish())
     .query(async ({ ctx }) => {
-      const pieces = await ctx.prisma.piece.findMany({})
+      const pieces = await ctx.prisma.piece.findMany({ include: { color: true } })
       // select a random piece from pieces array
       const randomPiece = pieces[Math.floor(Math.random() * pieces.length)]
       return randomPiece
@@ -18,6 +18,9 @@ export const pieceRouter = router({
       const piece = await ctx.prisma.piece.findUnique({
         where: {
           id: input?.id
+        },
+        include: {
+          color: true
         }
       })
       return piece

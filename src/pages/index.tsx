@@ -6,7 +6,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
 
-
   return (
     <>
       <Head>
@@ -18,15 +17,18 @@ const Home: NextPage = () => {
         <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
           Play <span className="text-purple-300">K</span>atamino
         </h1>
+
         <h3 className="mt-2">A square</h3>
         <div className="grid grid-cols-1 gap-0">
-          <Square color="#aaaaaa"></Square>
+          <Square color="lightGrey"></Square>
         </div>
+
         <h3 className="mt-5">A piece</h3>
         <div className="grid grid-cols-1 gap-0">
-          <Piece id="cla3wopfb0018ofxc2ybumjks"></Piece>
+          <Piece id="cla5i5ggw000woertj7nlpkvo"></Piece>
           <Piece></Piece>
         </div>
+
         <div className="p-4">
           <AuthShowcase />
         </div>

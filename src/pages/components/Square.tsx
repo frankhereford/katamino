@@ -1,17 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { trpc } from "../../utils/trpc";
 
 // Represents a grid square with a color
 
 export default function Square(props: {color: string}) {
 
+  
+  const { data: colorLookup } = trpc.color.getColorLookup.useQuery();
+
   const {data: randomColor, refetch: randomColorRefetch} = trpc.color.randomColor.useQuery();
 
-  const [color, setColor] = useState(props.color)
+  const [color, setColor] = useState('#ffffff')
+
+
+  useEffect(() => {
+    if (props.color[0] === '#') {
+      setColor(props.color)
+    }
+    else {
+      setColor(colorLookup?.[props.color]?.hexCode || '#ffffff')
+    }
+  }, [props.color, colorLookup])
 
   function handleClick(){
     // set a meaningful default to fix typing
-    setColor(randomColor?.hexCode ?? "#ff0000")
+    setColor(randomColor?.hexCode ?? "#ffffff")
     // get a color for the next click
     randomColorRefetch()
   } 
@@ -22,6 +35,6 @@ export default function Square(props: {color: string}) {
   }
 
   return (
-    <div onClick={handleClick} className="box-content h-[40px] w-[40px] border-[2px]" style={inlineStyle}></div>
+    <div onClick={handleClick} className="box-content h-[40px] w-[40px] border-[1px]" style={inlineStyle}></div>
   );
 }
