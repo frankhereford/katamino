@@ -1,14 +1,11 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useSession } from "next-auth/react";
 
 import { trpc } from "../../utils/trpc";
 
 const Pentas: NextPage = () => {
-
-  const { data: sessionData } = useSession();
+  
   const { data: pentas } = trpc.penta.getAll.useQuery();
-
 
   return (
     <>
