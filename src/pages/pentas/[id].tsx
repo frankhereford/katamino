@@ -8,11 +8,12 @@ import { trpc } from "../../utils/trpc";
 const Penta: NextPage = () => {
   const { query, isReady: routerReady } = useRouter()
   const { data: penta, refetch: penta_refetch } = trpc.penta.get.useQuery({
-    id: query.id
+    id: String(query.id)
   }, {
     enabled: routerReady
   },);
 
+  console.log(query)
   console.log(penta)
 
   return (
