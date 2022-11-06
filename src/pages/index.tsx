@@ -25,7 +25,6 @@ const Home: NextPage = () => {
 
         <h3 className="mt-5">A piece</h3>
         <div className="grid grid-cols-1 gap-0">
-          <Piece id="cla5i5ggw000woertj7nlpkvo"></Piece>
           <Piece></Piece>
         </div>
 
