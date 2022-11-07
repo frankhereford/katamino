@@ -15,26 +15,35 @@ const Pentas: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <table className="table table-zebra">
-          <thead>
-            <tr>
-              <th>️Play</th>
-              <th>ID</th>
-              <th>Columns</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pentas && pentas.map((penta) => (
-              <tr key={penta.id} className="hover">
-                <td>
-                  <a href={'pentas/' + penta.id} role="button" className="btn btn-primary btn-circle">🕹️</a>
-                </td>
-                <td>{penta.id}</td>
-                <td>{penta.columns}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="grid grid-cols-10">
+          <div className="col-start-2 col-end-10">
+            <h1 className="font-bold text-center text-4xl">Pick a Penta to play</h1>
+          </div>
+          <div className="col-start-2 col-end-10">
+            {pentas ? 
+              <table className="table table-zebra w-full">
+                <thead>
+                  <tr>
+                    <th>️Play</th>
+                    <th>ID</th>
+                    <th>Columns</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pentas && pentas.map((penta) => (
+                    <tr key={penta.id} className="hover">
+                      <td>
+                        <a href={'pentas/' + penta.id} role="button" className="btn btn-primary btn-circle">🕹️</a>
+                      </td>
+                      <td>{penta.id}</td>
+                      <td>{penta.columns}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            : <p>Loading...</p> }
+          </div>
+        </div>
       </main>
     </>
   )
