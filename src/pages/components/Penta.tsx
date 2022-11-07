@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { trpc } from "../../utils/trpc";
 import Square from "./Square";
-import Array2D from 'array2d'
+//import Array2D from 'array2d'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const Array2D = require('array2d')
 
 // A given puzzle with blocks made out of pieces
 
