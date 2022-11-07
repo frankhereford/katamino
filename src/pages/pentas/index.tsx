@@ -1,9 +1,20 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import { useState, CSSProperties } from "react";
+import RingLoader from "react-spinners/RingLoader";
 
 import { trpc } from "../../utils/trpc";
 
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+};
+
 const Pentas: NextPage = () => {
+  
+  let [loading, setLoading] = useState(true);
+  let [color, setColor] = useState("hsl(var(--pf))");
   
   const { data: pentas } = trpc.penta.getAll.useQuery();
 
@@ -15,11 +26,11 @@ const Pentas: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="grid grid-cols-10">
+        <div className="grid grid-cols-10 mt-10">
           <div className="col-start-2 col-end-10">
             <h1 className="font-bold text-center text-4xl">Pick a Penta to play</h1>
           </div>
-          <div className="col-start-2 col-end-10">
+          <div className="col-start-2 col-end-10 mt-10">
             {pentas ? 
               <table className="table table-zebra w-full">
                 <thead>
@@ -41,7 +52,17 @@ const Pentas: NextPage = () => {
                   ))}
                 </tbody>
               </table>
-            : <p>Loading...</p> }
+              : <div className="mt-20">
+                  <RingLoader
+                    color={color}
+                    loading={loading}
+                    cssOverride={override}
+                    size={75}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                </div>
+            }
           </div>
         </div>
       </main>
