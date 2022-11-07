@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useState, CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import RingLoader from "react-spinners/RingLoader";
 
 import { trpc } from "../../utils/trpc";
@@ -12,9 +12,6 @@ const override: CSSProperties = {
 };
 
 const Pentas: NextPage = () => {
-  
-  let [loading, setLoading] = useState(true);
-  let [color, setColor] = useState("hsl(var(--pf))");
   
   const { data: pentas } = trpc.penta.getAll.useQuery();
 
@@ -54,8 +51,7 @@ const Pentas: NextPage = () => {
               </table>
               : <div className="mt-20">
                   <RingLoader
-                    color={color}
-                    loading={loading}
+                    color={"hsl(var(--pf))"}
                     cssOverride={override}
                     size={75}
                     aria-label="Loading Spinner"
