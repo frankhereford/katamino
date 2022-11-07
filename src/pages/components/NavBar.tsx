@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+//import Image from 'next/image'
 import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function NavBar() {
@@ -7,7 +8,7 @@ export default function NavBar() {
   console.log(sessionData)
   return (
     <>
-      <div className="navbar bg-primary rounded-b-md bg-base-100 mb-2">
+      <div className="navbar bg-primary rounded-b-md mb-2">
         <div className="flex-1">
           <Link href="/" className="btn btn-ghost normal-case text-xl">Katamino</Link>
         </div>
