@@ -33,7 +33,7 @@ export default function Penta(props: PentaProps) {
     setBoard(board)
   }, [penta])
 
-  if (!penta) { return <div></div> }
+
 
   //console.log(board)
 
@@ -42,18 +42,31 @@ export default function Penta(props: PentaProps) {
     for (let col = 0; col < board?.length || 0; col++) {
       const key = `${row}-${col}`
       const color = board?.[row][col] || 'lightGrey'
-      squares.push(<Square key={key} color={color}></Square>)
+      squares.push(<Square key={key} color={color} row={row} col={col}></Square>)
     }
   }
 
-  console.log(squares)
+  //console.log(squares)
+
+  const [width, setWidth] = useState(0)
+
+  useEffect(() => {
+    const columns = penta?.columns || 12;
+    const width = columns * 40 + ((columns - 1) * 2)
+    setWidth(width)
+  }, [penta])
+
+
+  if (!penta) { return <div></div> }
 
   const columns = penta?.columns || 12;
   const classes = ["grid", "grid-cols-" + columns, "gap-0", "m-2"]
 
   return (
-    <div className={classes.join(' ')}>
-      {squares}
-    </div>
+    <>
+      <div className={classes.join(' ')} style={{ width: width + "px" }}>
+        {squares}
+      </div>
+    </>
   );
 }
