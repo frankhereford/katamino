@@ -7,9 +7,7 @@ export default function Square(props: {color: string}) {
 
   
   const { data: colorLookup } = trpc.color.getColorLookup.useQuery();
-
   const {data: randomColor, refetch: randomColorRefetch} = trpc.color.randomColor.useQuery();
-
   const [color, setColor] = useState('#ffffff')
 
 
@@ -34,7 +32,10 @@ export default function Square(props: {color: string}) {
     transition: "all .2s ease",
   }
 
+  const classes = ["rounded-md", 'w-[60px]', 'h-[60px]', 'border-[1px]']
+
   return (
-    <div onClick={handleClick} className="box-content h-[40px] w-[40px] border-[1px]" style={inlineStyle}></div>
+    <div onClick={handleClick} className={classes.join(" ")} style={inlineStyle}>
+    </div>
   );
 }
