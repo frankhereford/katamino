@@ -48,15 +48,6 @@ export default function Penta(props: PentaProps) {
 
   //console.log(squares)
 
-  const [width, setWidth] = useState(0)
-
-  useEffect(() => {
-    const columns = penta?.columns || 12;
-    const width = columns * 40 + ((columns - 1) * 2)
-    setWidth(width)
-  }, [penta])
-
-
   if (!penta) { return <div></div> }
 
 
@@ -77,8 +68,6 @@ export default function Penta(props: PentaProps) {
   if (columns == 10) { classes.push("grid-cols-10") }
   if (columns == 11) { classes.push("grid-cols-11") }
   if (columns == 12) { classes.push("grid-cols-12") }
-
-  //style={{ width: width + "px" }}
 
   return (
     <>
