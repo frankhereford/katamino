@@ -1,7 +1,15 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import type { CSSProperties } from "react";
+import RingLoader from "react-spinners/RingLoader";
 
 import { trpc } from "../../utils/trpc";
+
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+};
 
 const Pentas: NextPage = () => {
   
@@ -15,26 +23,46 @@ const Pentas: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <table className="table table-zebra">
-          <thead>
-            <tr>
-              <th>️Play</th>
-              <th>ID</th>
-              <th>Columns</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pentas && pentas.map((penta) => (
-              <tr key={penta.id} className="hover">
-                <td>
-                  <a href={'pentas/' + penta.id} role="button" className="btn btn-primary btn-circle">🕹️</a>
-                </td>
-                <td>{penta.id}</td>
-                <td>{penta.columns}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="grid grid-cols-10 mt-10">
+          <div className="col-start-2 col-end-10">
+            <h1 className="text-center text-2xl font-extrabold leading-normal text-gray-700 md:text-[4rem]">
+              Pick a <span className="text-purple-300">P</span>enta to Play
+            </h1>
+          </div>
+          <div className="col-start-2 col-end-10 mt-10">
+            {pentas ? 
+              <table className="table table-zebra w-full">
+                <thead>
+                  <tr>
+                    <th>️Play</th>
+                    <th>ID</th>
+                    <th>Columns</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pentas && pentas.map((penta) => (
+                    <tr key={penta.id} className="hover">
+                      <td>
+                        <a href={'pentas/' + penta.id} role="button" className="btn btn-primary btn-circle">🕹️</a>
+                      </td>
+                      <td>{penta.id}</td>
+                      <td>{penta.columns}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              : <div className="mt-20">
+                  <RingLoader
+                    color={"hsl(var(--pf))"}
+                    cssOverride={override}
+                    size={75}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                </div>
+            }
+          </div>
+        </div>
       </main>
     </>
   )
