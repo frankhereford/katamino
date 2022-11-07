@@ -42,7 +42,7 @@ export default function Penta(props: PentaProps) {
     for (let col = 0; col < board?.[row].length || 0; col++) {
       const key = `${row}-${col}`
       const color = board?.[row][col] || 'lightGrey'
-      squares.push(<Square key={key} color={color} row={row} col={col}></Square>)
+      squares.push(<Square key={key} color={color}></Square>)
     }
   }
 

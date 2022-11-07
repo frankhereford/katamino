@@ -3,13 +3,11 @@ import { trpc } from "../../utils/trpc";
 
 // Represents a grid square with a color
 
-export default function Square(props: {color: string, row: number, col: number}) {
+export default function Square(props: {color: string}) {
 
   
   const { data: colorLookup } = trpc.color.getColorLookup.useQuery();
-
   const {data: randomColor, refetch: randomColorRefetch} = trpc.color.randomColor.useQuery();
-
   const [color, setColor] = useState('#ffffff')
 
 
@@ -34,10 +32,7 @@ export default function Square(props: {color: string, row: number, col: number})
     transition: "all .2s ease",
   }
 
-  //const classes = ["h-[40px]", "w-[40px]", "border-[1px]"]
-  const classes = ["rounded-lg", "text-lg", 'w-[60px]', 'h-[60px]', 'border-[1px]']
-  //if (props.row) { classes.push("grid-row: " + props.row) + "/ span 1" }
-  //if (props.col) { classes.push("grid-col: " + props.col) + "/ span 1" }
+  const classes = ["rounded-md", 'w-[60px]', 'h-[60px]', 'border-[1px]']
 
   return (
     <div onClick={handleClick} className={classes.join(" ")} style={inlineStyle}>
