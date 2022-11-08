@@ -1,10 +1,19 @@
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { type NextPage } from "next";
 import Head from "next/head";
 import Penta from "../components/Penta";
 import Block from "../components/Block";
+import useKeypress from 'react-use-keypress';
 
 import { trpc } from "../../utils/trpc";
+
+
+function getBlockIndex(blocks: [object], item: string) {
+  const element = blocks.find((element) => element.id === item);
+  return blocks.indexOf(element);
+}
+
 
 const PentaPage: NextPage = () => {
   const { query, isReady: routerReady } = useRouter()
@@ -13,6 +22,40 @@ const PentaPage: NextPage = () => {
   }, {
     enabled: routerReady
   },);
+
+  const [activeBlock, setActiveBlock] = useState(0)
+  //console.log(activeBlock)
+
+  useKeypress([
+    'Tab',
+    'q',
+    'e',
+    's',
+    'w',
+    'd',
+    'a',
+    'ArrowLeft',
+    'ArrowRight',
+    'ArrowUp',
+    'ArrowDown'
+  ], (event: any) => {
+    if (!penta) {
+      return;
+    }
+
+    if (event.key === 'e' || event.key === 'Tab') {
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        console.log(penta.blocks)
+      }
+      //const next = findNext(penta.blocks, active_block);
+      //setActiveBlock(next);
+    }
+
+
+  })
+
+
 
   let columnClass = null
   if      (penta?.blocks.length === 3)  { columnClass = 'grid-cols-3'  }
@@ -40,9 +83,19 @@ const PentaPage: NextPage = () => {
           <Penta penta={penta} borderWidth={2}></Penta>
         </div>
         <div className={classes.join(" ")}>
-          {penta?.blocks.map((block) => {
+          {penta?.blocks.map((block, index) => {
+            let classes = []
+            // this is cute but just figure out a border
+            if (index === activeBlock) {
+              classes = ["drop-shadow-lg"]
+            }
+            else {
+              classes = ["blur-[2px]"]
+            }
             return (
-              <Block key={block.id} block={block}></Block>
+              <div key={block.id} className={classes.join(" ")}>
+                <Block block={block}></Block>
+              </div>
             )
           })}
         </div>
