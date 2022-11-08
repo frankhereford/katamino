@@ -1,5 +1,5 @@
 * [ ] update object locally to get quicker ui
-* [ ] add visibility indicator
+* [x] add visibility indicator
 * [ ] make blocks transform, but not translate
 * [ ] show mini penta boards on listing page
 
