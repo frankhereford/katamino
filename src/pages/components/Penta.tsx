@@ -10,7 +10,6 @@ import { colord, extend } from "colord";
 import mixPlugin from "colord/plugins/mix";
 extend([mixPlugin]);
 
-
 // A given puzzle with blocks made out of pieces
 
 interface PentaProps {
@@ -42,7 +41,6 @@ export default function Penta(props: PentaProps) {
     const boardHeight = 5
     const board = Array2D.build((props.penta?.columns || 12) + (borderWidth * 2), boardHeight + (borderWidth * 2), boardColor)
 
-
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
         if (row < borderWidth || row >= (board.length - borderWidth) || col < borderWidth || col >= (board[row].length - borderWidth)) {
@@ -69,8 +67,6 @@ export default function Penta(props: PentaProps) {
       for (let row = 0; row < shape.length; row++) {
         for (let col = 0; col < (shape[row] || []).length; col++) {
           if (shape?.[row]?.[col]) {
-            
-
             if (board[row][col] === boardColor) { // first piece to apply a color to this square
               board[row][col] = block.piece.color.name
             } else {
