@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Square from "./Square";
 import { BsSlashLg } from 'react-icons/bs';
+import { transformBlockShape } from "../../utils/transformations";
 
 // One of the pieces in a game
 
@@ -10,13 +11,16 @@ interface BlockProps {
 
 export default function PiecePage(props: BlockProps) {
 
-    const [squares, setSquares] = useState<Array<JSX.Element>>([])
+  const [squares, setSquares] = useState<Array<JSX.Element>>([])
 
   useEffect(() => {
     if (!props.block?.piece.shape) { return }
+
+    let shape = props.block?.piece.shape as Array<number[]>
+    
+    shape = transformBlockShape(props.block, 0, false, 5)
     
     const squares = []
-    const shape = props.block?.piece.shape as Array<number[]>
     for (let row = 0; row < shape.length; row++) {
       for (let col = 0; col < (shape[row] || []).length; col++) { 
         const key = `${row}-${col}`
