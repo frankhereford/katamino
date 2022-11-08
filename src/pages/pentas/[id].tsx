@@ -232,7 +232,7 @@ const PentaPage: NextPage = () => {
               classes = ["outline-dashed", "w-fit", "mx-auto", "outline-4", "outline-cyan-500"]
             }
             else {
-              classes = []
+              classes = ["w-fit", "mx-auto"]
             }
             return (
               <div key={block.id}>

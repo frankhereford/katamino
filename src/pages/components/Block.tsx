@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Square from "./Square";
+import { BsSlashLg } from 'react-icons/bs';
 
 // One of the pieces in a game
 
@@ -27,13 +28,25 @@ export default function PiecePage(props: BlockProps) {
 
   }, [props.block])
 
-  const classes = ["grid", "gap-0", "grid-cols-5"]
+
+  const outerClasses = ["grid", "items-center","justify-center"]
+  if (!props.block?.visible) {
+    outerClasses.push("opacity-50")
+  }
+  const innerClasses = ["grid", "gap-0", "grid-cols-5"]
 
   return (
     <>
-      <div className="grid items-center justify-center">
-        <div className={classes.join(' ')} >
-          {squares}
+      <div>
+        <div className="absolute">
+          {!props.block?.visible &&
+            <BsSlashLg size={100} style={{color: "#00000099"}} />
+          }
+        </div>
+        <div className={outerClasses.join(' ')}>
+          <div className={innerClasses.join(' ')}>
+            {squares}
+          </div>
         </div>
       </div>
     </>
