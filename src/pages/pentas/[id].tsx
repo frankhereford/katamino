@@ -7,9 +7,6 @@ import Block from "../components/Block";
 import { useKeyBindings} from "rooks";
 import { trpc } from "../../utils/trpc";
 
-function keyA() {
-  console.log("A")
-}
 
 
 const PentaPage: NextPage = () => {
@@ -20,10 +17,15 @@ const PentaPage: NextPage = () => {
     enabled: routerReady
   },);
 
+  const set_visibility = trpc.block.set_visibility.useMutation({
+    onSuccess: () => {
+      penta_refetch();
+    }
+  });
+
   const [activeBlock, setActiveBlock] = useState<number>()
 
-  useKeyBindings({ a: keyA, Tab: keyTab })
-
+  useKeyBindings({ s: keyS, Tab: keyTab })
 
   function keyTab(event: KeyboardEvent) {
     console.log("Tab")
@@ -39,7 +41,14 @@ const PentaPage: NextPage = () => {
     else (setActiveBlock(activeBlock + 1))
   }
 
-  //console.log(activeBlock)
+  function keyS() {
+    if (!activeBlock && activeBlock !== 0) { return }
+    console.log("S")
+    set_visibility.mutate({
+      id: penta?.blocks[activeBlock]?.id,
+      visible: penta?.blocks[activeBlock]?.visible ? false : true
+    })
+  }
 
   let columnClass = null
   if      (penta?.blocks.length === 3)  { columnClass = 'grid-cols-3'  }
@@ -73,14 +82,16 @@ const PentaPage: NextPage = () => {
             let classes = []
             // this is cute but just figure out a border
             if (index === activeBlock) {
-              classes = ["drop-shadow-lg"]
+              classes = ["outline-dashed", "w-fit", "mx-auto"]
             }
             else {
               classes = ["blur-[1.5px]"]
             }
             return (
-              <div key={block.id} className={classes.join(" ")}>
-                <Block block={block}></Block>
+              <div key={block.id}>
+                <div className={classes.join(" ")}>
+                  <Block block={block}></Block>
+                </div>
               </div>
             )
           })}
