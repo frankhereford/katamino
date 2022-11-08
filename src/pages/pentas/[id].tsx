@@ -80,12 +80,11 @@ const PentaPage: NextPage = () => {
         <div className={classes.join(" ")}>
           {penta?.blocks.map((block, index) => {
             let classes = []
-            // this is cute but just figure out a border
             if (index === activeBlock) {
-              classes = ["outline-dashed", "w-fit", "mx-auto"]
+              classes = ["outline-dashed", "w-fit", "mx-auto", "outline-4", "outline-cyan-500"]
             }
             else {
-              classes = ["blur-[1.5px]"]
+              classes = []
             }
             return (
               <div key={block.id}>
