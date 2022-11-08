@@ -15,7 +15,7 @@ const PentaPage: NextPage = () => {
   },);
 
   let columnClass = null
-  if      (penta?.blocks.length === 3) { columnClass = 'grid-cols-3' }
+  if      (penta?.blocks.length === 3)  { columnClass = 'grid-cols-3'  }
   else if (penta?.blocks.length === 4)  { columnClass = 'grid-cols-4'  }
   else if (penta?.blocks.length === 5)  { columnClass = 'grid-cols-5'  }
   else if (penta?.blocks.length === 6)  { columnClass = 'grid-cols-6'  }
