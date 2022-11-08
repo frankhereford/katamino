@@ -4,6 +4,7 @@ import Square from "./Square";
 //import Array2D from 'array2d'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const Array2D = require('array2d')
+import _ from "lodash";
 
 // A given puzzle with blocks made out of pieces
 
@@ -23,7 +24,19 @@ export default function Penta(props: PentaProps) {
 
   useEffect(() => {
     const boardHeight = 5
-    const board = Array2D.build((props.penta?.columns || 12) + (borderWidth * 2), boardHeight + (borderWidth * 2))
+    const board = Array2D.build((props.penta?.columns || 12) + (borderWidth * 2), boardHeight + (borderWidth * 2), "lightGrey")
+
+
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        if (row < borderWidth || row >= (board.length - borderWidth) || col < borderWidth || col >= (board[row].length - borderWidth)) {
+          board[row][col] = "#bbbbbb"
+        }
+      }
+    }
+
+
+
     setBoard(board)
   }, [borderWidth, props.penta])
 
@@ -33,7 +46,7 @@ export default function Penta(props: PentaProps) {
   for (let row = 0; row < board?.length|| 0; row++) {
     for (let col = 0; col < board?.[row].length || 0; col++) {
       const key = `${row}-${col}`
-      const color = board?.[row][col] || 'lightGrey'
+      const color = board?.[row][col]
       squares.push(<Square key={key} color={color}></Square>)
     }
   }
