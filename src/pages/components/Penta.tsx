@@ -18,7 +18,7 @@ interface PentaProps {
 }
 
 function transformBlockShape(block: any) {
-  console.log(block)
+  //console.log(block)
   const shape = block.piece.shape
   return shape
   //const array2d = new Array2D(shape)
