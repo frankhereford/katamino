@@ -27,8 +27,6 @@ export default function Penta(props: PentaProps) {
     setBoard(board)
   }, [borderWidth, props.penta])
 
-
-
   //console.log(board)
 
   const squares = []
