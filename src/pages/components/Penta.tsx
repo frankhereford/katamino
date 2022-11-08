@@ -19,9 +19,6 @@ interface PentaProps {
   borderWidth?: number;
 }
 
-
-
-
 export default function Penta(props: PentaProps) {
 
   const { data: colorLookup } = trpc.color.getColorLookup.useQuery();
