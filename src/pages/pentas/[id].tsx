@@ -6,7 +6,7 @@ import Penta from "../components/Penta";
 import Block from "../components/Block";
 import { useKeyBindings} from "rooks";
 import { trpc } from "../../utils/trpc";
-import { PrismaClient, Prisma } from '@prisma/client';
+import { type Prisma } from '@prisma/client';
 
 
 const PentaPage: NextPage = () => {
