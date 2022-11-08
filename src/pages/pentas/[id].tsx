@@ -4,11 +4,19 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Penta from "../components/Penta";
 import Block from "../components/Block";
-//import useKeypress from 'react-use-keypress';
-
+import { useKeyBindings} from "rooks";
 import { trpc } from "../../utils/trpc";
 
-const PentaPage: NextPage = () => {
+function keyA() {
+  console.log("A")
+}
+
+function keyTab() {
+  console.log("Tab")
+}
+
+
+const PentaPage: NextPage = (props) => {
   const { query, isReady: routerReady } = useRouter()
   const { data: penta, refetch: penta_refetch } = trpc.penta.get.useQuery({
     id: String(query.id)
@@ -16,47 +24,12 @@ const PentaPage: NextPage = () => {
     enabled: routerReady
   },);
 
+
+  useKeyBindings({ a: keyA, Tab: keyTab })
+
+
   const [activeBlock, setActiveBlock] = useState(0)
   //console.log(activeBlock)
-
-  // modify this hook to take a function and the key, and execute the function on keyDown
-  // hopefully, reducing its length
-
-  // https://usehooks.com/useKeyPress/
-  function useKeyPress(targetKey: string): boolean {
-    // State for keeping track of whether key is pressed
-    const [keyPressed, setKeyPressed] = useState(false);
-    interface handlerArguments{
-      key: any
-      event: any
-    }
-    // If pressed key is our target key then set to true
-    function downHandler({ key, event }: handlerArguments): void {
-      if (key === targetKey) {
-        setKeyPressed(true);
-      }
-    }
-    // If released key is our target key then set to false
-    const upHandler = ({ key, event }: handlerArguments): void => {
-      if (key === targetKey) {
-        setKeyPressed(false);
-      }
-    };
-    // Add event listeners
-    useEffect(() => {
-      window.addEventListener("keydown", downHandler);
-      window.addEventListener("keyup", upHandler);
-      // Remove event listeners on cleanup
-      return () => {
-        window.removeEventListener("keydown", downHandler);
-        window.removeEventListener("keyup", upHandler);
-      };
-    }, []); // Empty array ensures that effect is only run on mount and unmount
-    return keyPressed;
-  }
-
-  const happyPress: boolean = useKeyPress("Tab");
-
 
   let columnClass = null
   if      (penta?.blocks.length === 3)  { columnClass = 'grid-cols-3'  }
@@ -81,7 +54,6 @@ const PentaPage: NextPage = () => {
       </Head>
       <main>
         <div>
-          {happyPress && <h1>Yay!</h1>}
         </div>
         <div>
           <Penta penta={penta} borderWidth={2}></Penta>
@@ -94,7 +66,7 @@ const PentaPage: NextPage = () => {
               classes = ["drop-shadow-lg"]
             }
             else {
-              classes = ["blur-[2px]"]
+              classes = ["blur-[1.5px]"]
             }
             return (
               <div key={block.id} className={classes.join(" ")}>
