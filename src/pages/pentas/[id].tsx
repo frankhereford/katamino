@@ -6,7 +6,7 @@ import Penta from "../components/Penta";
 import Block from "../components/Block";
 import { useKeyBindings} from "rooks";
 import { trpc } from "../../utils/trpc";
-
+import { PrismaClient, Prisma } from '@prisma/client';
 
 
 const PentaPage: NextPage = () => {
@@ -83,9 +83,11 @@ const PentaPage: NextPage = () => {
   function keyW() {
     if (!penta?.blocks) { return }
     if (!activeBlock && activeBlock !== 0) { return }
+    if (!penta?.blocks[activeBlock]?.id) { return }
+
     console.log('W')
     set_reflection.mutate({
-      id: penta?.blocks[activeBlock]?.id,
+      id: penta?.blocks[activeBlock]?.id || '',
       reflection: penta?.blocks[activeBlock]?.reflection ? false : true
     })
   }
@@ -93,10 +95,18 @@ const PentaPage: NextPage = () => {
   function keyD() {
     if (!penta?.blocks) { return }
     if (!activeBlock && activeBlock !== 0) { return }
-    set_rotation.mutate({
-      id: penta?.blocks[activeBlock]?.id,
-      clockwise: (penta?.blocks[activeBlock]?.rotation?.clockwise + 1) % 4
-    })
+    if (
+      penta?.blocks[activeBlock]?.rotation &&
+      typeof penta?.blocks[activeBlock]?.rotation == 'object' &&
+      !Array.isArray(penta?.blocks[activeBlock]?.rotation)
+    ) {
+      const rotation = penta?.blocks[activeBlock]?.rotation as Prisma.JsonObject
+      const clockwise: number = Number(rotation.clockwise) || 0
+      set_rotation.mutate({
+        id: penta?.blocks[activeBlock]?.id || '',
+        clockwise: (clockwise + 1) % 4
+      })
+    }
   }
 
   function keyTab(event: KeyboardEvent) {
@@ -117,62 +127,73 @@ const PentaPage: NextPage = () => {
     console.log(event.key)
   
     if (!penta) { return }
+    if (!penta?.blocks[activeBlock]?.id) { return } 
+
+    if (
+      penta?.blocks[activeBlock]?.translation &&
+      typeof penta?.blocks[activeBlock]?.translation == 'object' &&
+      !Array.isArray(penta?.blocks[activeBlock]?.translation)
+    ) {
+      const translation = penta?.blocks[activeBlock]?.translation as Prisma.JsonObject
+      const up: number = Number(translation.up) || 0
+      const right: number = Number(translation.right) || 0
   
-    if (event.key === 'ArrowDown') {
-      set_translation.mutate({
-        id: penta?.blocks[activeBlock]?.id,
-        translation: {
-          up: penta?.blocks[activeBlock]?.translation?.up - 1,
-          right: penta?.blocks[activeBlock]?.translation?.right
-        }
-      })
-    }
-    else if (event.key === 'ArrowUp') {
-      set_translation.mutate({
-        id: penta?.blocks[activeBlock]?.id,
-        translation: {
-          up: penta?.blocks[activeBlock]?.translation?.up + 1,
-          right: penta?.blocks[activeBlock]?.translation?.right
-        }
-      })
-    }
-    else if (event.key === 'ArrowLeft') {
-      set_translation.mutate({
-        id: penta?.blocks[activeBlock]?.id,
-        translation: {
-          up: penta?.blocks[activeBlock]?.translation?.up,
-          right: penta?.blocks[activeBlock]?.translation?.right - 1
-        }
-      })
-    }
-    else if (event.key === 'ArrowRight') {
-      set_translation.mutate({
-        id: penta?.blocks[activeBlock]?.id,
-        translation: {
-          up: penta.blocks[activeBlock]?.translation?.up,
-          right: penta?.blocks[activeBlock]?.translation?.right + 1
-        }
-      })
+      if (event.key === 'ArrowDown') {
+        set_translation.mutate({
+          id: penta?.blocks[activeBlock]?.id || '',
+          translation: {
+            up: up - 1,
+            right: right,
+          }
+        })
+      }
+      else if (event.key === 'ArrowUp') {
+        set_translation.mutate({
+          id: penta?.blocks[activeBlock]?.id || '',
+          translation: {
+            up: up + 1,
+            right: right
+          }
+        })
+      }
+      else if (event.key === 'ArrowLeft') {
+        set_translation.mutate({
+          id: penta?.blocks[activeBlock]?.id || '',
+          translation: {
+            up: up,
+            right: right - 1
+          }
+        })
+      }
+      else if (event.key === 'ArrowRight') {
+        set_translation.mutate({
+          id: penta?.blocks[activeBlock]?.id || '',
+          translation: {
+            up: up,
+            right: right + 1
+          }
+        })
+      }
     }
   }
 
   function keyA() {
     if (!activeBlock && activeBlock !== 0) { return }
     set_translation.mutate({
-      id: penta?.blocks[activeBlock]?.id,
+      id: penta?.blocks[activeBlock]?.id || '',
       translation: {
         up: 0,
         right: 0
       }
     })
-    set_rotation.mutate({ id: penta?.blocks[activeBlock]?.id, clockwise: 0 })
-    set_reflection.mutate({ id: penta?.blocks[activeBlock]?.id, reflection: false })
+    set_rotation.mutate({ id: penta?.blocks[activeBlock]?.id || '', clockwise: 0 })
+    set_reflection.mutate({ id: penta?.blocks[activeBlock]?.id || '', reflection: false })
   }
 
   function keyS() {
     if (!activeBlock && activeBlock !== 0) { return }
     set_visibility.mutate({
-      id: penta?.blocks[activeBlock]?.id,
+      id: penta?.blocks[activeBlock]?.id || '',
       visible: penta?.blocks[activeBlock]?.visible ? false : true
     })
   }
@@ -206,7 +227,7 @@ const PentaPage: NextPage = () => {
         </div>
         <div className={classes.join(" ")}>
           {penta?.blocks.map((block, index) => {
-            let classes = []
+            let classes: string[] = []
             if (index === activeBlock) {
               classes = ["outline-dashed", "w-fit", "mx-auto", "outline-4", "outline-cyan-500"]
             }
