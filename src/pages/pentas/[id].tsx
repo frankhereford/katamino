@@ -11,12 +11,8 @@ function keyA() {
   console.log("A")
 }
 
-function keyTab() {
-  console.log("Tab")
-}
 
-
-const PentaPage: NextPage = (props) => {
+const PentaPage: NextPage = () => {
   const { query, isReady: routerReady } = useRouter()
   const { data: penta, refetch: penta_refetch } = trpc.penta.get.useQuery({
     id: String(query.id)
@@ -24,11 +20,25 @@ const PentaPage: NextPage = (props) => {
     enabled: routerReady
   },);
 
+  const [activeBlock, setActiveBlock] = useState<number>()
 
   useKeyBindings({ a: keyA, Tab: keyTab })
 
 
-  const [activeBlock, setActiveBlock] = useState(0)
+  function keyTab(event: KeyboardEvent) {
+    console.log("Tab")
+    event.preventDefault();
+    if (!penta?.blocks) { }
+    else if (!activeBlock && activeBlock !== 0) {
+      console.log(penta?.blocks[0]?.id)
+      setActiveBlock(0)
+    }
+    else if (activeBlock == penta?.blocks.length - 1) {
+      setActiveBlock(0)
+      }
+    else (setActiveBlock(activeBlock + 1))
+  }
+
   //console.log(activeBlock)
 
   let columnClass = null
