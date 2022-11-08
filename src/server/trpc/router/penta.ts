@@ -20,6 +20,9 @@ export const pentaRouter = router({
               }
             }
           },
+          orderBy: {
+            id: "asc"
+          }
         }
       },
       orderBy: {

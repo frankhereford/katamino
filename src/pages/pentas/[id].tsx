@@ -1,10 +1,13 @@
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { type NextPage } from "next";
 import Head from "next/head";
 import Penta from "../components/Penta";
 import Block from "../components/Block";
-
+import { useKeyBindings} from "rooks";
 import { trpc } from "../../utils/trpc";
+import { type Prisma } from '@prisma/client';
+
 
 const PentaPage: NextPage = () => {
   const { query, isReady: routerReady } = useRouter()
@@ -13,6 +16,187 @@ const PentaPage: NextPage = () => {
   }, {
     enabled: routerReady
   },);
+
+  const set_rotation = trpc.block.set_rotation.useMutation({
+    onSuccess: () => {
+      penta_refetch();
+    } // this uses useQuery underneath ... this is probably something that could be done better
+  });
+
+  const set_reflection = trpc.block.set_reflection.useMutation({
+    onSuccess: () => {
+      penta_refetch();
+    }
+  });
+
+  const set_translation = trpc.block.set_translation.useMutation({
+    onSuccess: () => {
+      penta_refetch();
+    }
+  });
+
+  const set_visibility = trpc.block.set_visibility.useMutation({
+    onSuccess: () => {
+      penta_refetch();
+    }
+  });
+
+  const [activeBlock, setActiveBlock] = useState<number>()
+
+  useKeyBindings({
+    q: keyQ,
+    w: keyW,
+    e: keyE,
+    a: keyA,
+    s: keyS,
+    d: keyD,
+    Tab: keyTab,
+    ArrowUp: arrowKey,
+    ArrowDown: arrowKey,
+    ArrowLeft: arrowKey,
+    ArrowRight: arrowKey,
+  })
+
+  function keyQ() {
+    if (!penta?.blocks) { }
+    else if (!activeBlock && activeBlock !== 0) {
+      console.log(penta?.blocks[0]?.id)
+      setActiveBlock(penta?.blocks.length - 1)
+    }
+    else if (activeBlock === 0) {
+      setActiveBlock(penta?.blocks.length - 1)
+    }
+    else { setActiveBlock(activeBlock - 1)}
+  }
+
+  function keyE() {
+    if (!penta?.blocks) { return }
+    else if (!activeBlock && activeBlock !== 0) {
+      setActiveBlock(0)
+    }
+    else if (activeBlock == penta?.blocks.length - 1) {
+      setActiveBlock(0)
+    }
+    else { setActiveBlock(activeBlock + 1) }
+  }
+
+  function keyW() {
+    if (!penta?.blocks) { return }
+    if (!activeBlock && activeBlock !== 0) { return }
+    if (!penta?.blocks[activeBlock]?.id) { return }
+
+    console.log('W')
+    set_reflection.mutate({
+      id: penta?.blocks[activeBlock]?.id || '',
+      reflection: penta?.blocks[activeBlock]?.reflection ? false : true
+    })
+  }
+
+  function keyD() {
+    if (!penta?.blocks) { return }
+    if (!activeBlock && activeBlock !== 0) { return }
+    if (
+      penta?.blocks[activeBlock]?.rotation &&
+      typeof penta?.blocks[activeBlock]?.rotation == 'object' &&
+      !Array.isArray(penta?.blocks[activeBlock]?.rotation)
+    ) {
+      const rotation = penta?.blocks[activeBlock]?.rotation as Prisma.JsonObject
+      const clockwise: number = Number(rotation.clockwise) || 0
+      set_rotation.mutate({
+        id: penta?.blocks[activeBlock]?.id || '',
+        clockwise: (clockwise + 1) % 4
+      })
+    }
+  }
+
+  function keyTab(event: KeyboardEvent) {
+    event.preventDefault();
+    if (!penta?.blocks) { return }
+    else if (!activeBlock && activeBlock !== 0) {
+      console.log(penta?.blocks[0]?.id)
+      setActiveBlock(0)
+    }
+    else if (activeBlock == penta?.blocks.length - 1) {
+      setActiveBlock(0)
+     }
+    else {setActiveBlock(activeBlock + 1)}
+  }
+
+  function arrowKey(event: KeyboardEvent) {
+    if (!activeBlock && activeBlock !== 0) { return }
+    console.log(event.key)
+  
+    if (!penta) { return }
+    if (!penta?.blocks[activeBlock]?.id) { return } 
+
+    if (
+      penta?.blocks[activeBlock]?.translation &&
+      typeof penta?.blocks[activeBlock]?.translation == 'object' &&
+      !Array.isArray(penta?.blocks[activeBlock]?.translation)
+    ) {
+      const translation = penta?.blocks[activeBlock]?.translation as Prisma.JsonObject
+      const up: number = Number(translation.up) || 0
+      const right: number = Number(translation.right) || 0
+  
+      if (event.key === 'ArrowDown') {
+        set_translation.mutate({
+          id: penta?.blocks[activeBlock]?.id || '',
+          translation: {
+            up: up - 1,
+            right: right,
+          }
+        })
+      }
+      else if (event.key === 'ArrowUp') {
+        set_translation.mutate({
+          id: penta?.blocks[activeBlock]?.id || '',
+          translation: {
+            up: up + 1,
+            right: right
+          }
+        })
+      }
+      else if (event.key === 'ArrowLeft') {
+        set_translation.mutate({
+          id: penta?.blocks[activeBlock]?.id || '',
+          translation: {
+            up: up,
+            right: right - 1
+          }
+        })
+      }
+      else if (event.key === 'ArrowRight') {
+        set_translation.mutate({
+          id: penta?.blocks[activeBlock]?.id || '',
+          translation: {
+            up: up,
+            right: right + 1
+          }
+        })
+      }
+    }
+  }
+
+  function keyA() {
+    if (!activeBlock && activeBlock !== 0) { return }
+    set_translation.mutate({
+      id: penta?.blocks[activeBlock]?.id || '',
+      translation: {
+        up: 0,
+        right: 0
+      }
+    })
+    set_rotation.mutate({ id: penta?.blocks[activeBlock]?.id || '', clockwise: 0 })
+    set_reflection.mutate({ id: penta?.blocks[activeBlock]?.id || '', reflection: false })
+  }
+
+  function keyS() {
+    if (!activeBlock && activeBlock !== 0) { return }
+    set_visibility.mutate({
+      id: penta?.blocks[activeBlock]?.id || '',
+      visible: penta?.blocks[activeBlock]?.visible ? false : true
+    })
+  }
 
   let columnClass = null
   if      (penta?.blocks.length === 3)  { columnClass = 'grid-cols-3'  }
@@ -37,12 +221,25 @@ const PentaPage: NextPage = () => {
       </Head>
       <main>
         <div>
+        </div>
+        <div>
           <Penta penta={penta} borderWidth={2}></Penta>
         </div>
         <div className={classes.join(" ")}>
-          {penta?.blocks.map((block) => {
+          {penta?.blocks.map((block, index) => {
+            let classes: string[] = []
+            if (index === activeBlock) {
+              classes = ["outline-dashed", "w-fit", "mx-auto", "outline-4", "outline-cyan-500"]
+            }
+            else {
+              classes = []
+            }
             return (
-              <Block key={block.id} block={block}></Block>
+              <div key={block.id}>
+                <div className={classes.join(" ")}>
+                  <Block block={block}></Block>
+                </div>
+              </div>
             )
           })}
         </div>

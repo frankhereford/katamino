@@ -10,19 +10,13 @@ import { colord, extend } from "colord";
 import mixPlugin from "colord/plugins/mix";
 extend([mixPlugin]);
 
+import { transformBlockShape } from "../../utils/transformations";
+
 // A given puzzle with blocks made out of pieces
 
 interface PentaProps {
   penta: any;
   borderWidth?: number;
-}
-
-function transformBlockShape(shape: Array<number[]>) {
-  return shape
-  //const array2d = new Array2D(shape)
-  //const rotated = array2d.rotate(90)
-  //const flipped = rotated.flip()
-  //return flipped.toArray()
 }
 
 export default function Penta(props: PentaProps) {
@@ -59,10 +53,10 @@ export default function Penta(props: PentaProps) {
     const sortedBlocks = blocks.sort((a: any, b: any) => a.last_update - b.last_update)
     //console.log(sortedBlocks)
     sortedBlocks.forEach((block: any) => {
-      if (block.visible) { // flip this back when you have the key bindings in
+      if (!block.visible) { // flip this back when you have the key bindings in
         return
       }
-      const shape = transformBlockShape(block.piece.shape)
+      const shape = transformBlockShape(block, borderWidth, true, props.penta?.columns)
       //console.log("Transformed Shape: ", shape)
       for (let row = 0; row < shape.length; row++) {
         for (let col = 0; col < (shape[row] || []).length; col++) {
