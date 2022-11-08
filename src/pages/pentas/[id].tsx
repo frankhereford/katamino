@@ -8,13 +8,6 @@ import Block from "../components/Block";
 
 import { trpc } from "../../utils/trpc";
 
-
-function getBlockIndex(blocks: [object], item: string) {
-  const element = blocks.find((element) => element.id === item);
-  return blocks.indexOf(element);
-}
-
-
 const PentaPage: NextPage = () => {
   const { query, isReady: routerReady } = useRouter()
   const { data: penta, refetch: penta_refetch } = trpc.penta.get.useQuery({
@@ -40,7 +33,7 @@ const PentaPage: NextPage = () => {
       }
     }
     // If released key is our target key then set to false
-    const upHandler = ({ key }): void => {
+    const upHandler = ({ key: any }): void => {
       if (key === targetKey) {
         setKeyPressed(false);
       }
