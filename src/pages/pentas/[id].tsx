@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { type NextPage } from "next";
 import Head from "next/head";
 import Penta from "../components/Penta";
 import Block from "../components/Block";
-import useKeypress from 'react-use-keypress';
+//import useKeypress from 'react-use-keypress';
 
 import { trpc } from "../../utils/trpc";
 
@@ -26,35 +26,36 @@ const PentaPage: NextPage = () => {
   const [activeBlock, setActiveBlock] = useState(0)
   //console.log(activeBlock)
 
-  useKeypress([
-    'Tab',
-    'q',
-    'e',
-    's',
-    'w',
-    'd',
-    'a',
-    'ArrowLeft',
-    'ArrowRight',
-    'ArrowUp',
-    'ArrowDown'
-  ], (event: any) => {
-    if (!penta) {
-      return;
-    }
-
-    if (event.key === 'e' || event.key === 'Tab') {
-      if (event.key === 'Tab') {
-        event.preventDefault();
-        console.log(penta.blocks)
+  // https://usehooks.com/useKeyPress/
+  function useKeyPress(targetKey: string): boolean {
+    // State for keeping track of whether key is pressed
+    const [keyPressed, setKeyPressed] = useState(false);
+    // If pressed key is our target key then set to true
+    function downHandler({ key }): void {
+      if (key === targetKey) {
+        setKeyPressed(true);
       }
-      //const next = findNext(penta.blocks, active_block);
-      //setActiveBlock(next);
     }
+    // If released key is our target key then set to false
+    const upHandler = ({ key }): void => {
+      if (key === targetKey) {
+        setKeyPressed(false);
+      }
+    };
+    // Add event listeners
+    useEffect(() => {
+      window.addEventListener("keydown", downHandler);
+      window.addEventListener("keyup", upHandler);
+      // Remove event listeners on cleanup
+      return () => {
+        window.removeEventListener("keydown", downHandler);
+        window.removeEventListener("keyup", upHandler);
+      };
+    }, []); // Empty array ensures that effect is only run on mount and unmount
+    return keyPressed;
+  }
 
-
-  })
-
+  const happyPress: boolean = useKeyPress("Tab");
 
 
   let columnClass = null
@@ -79,6 +80,9 @@ const PentaPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <div>
+          {happyPress && <h1>Yay!</h1>}
+        </div>
         <div>
           <Penta penta={penta} borderWidth={2}></Penta>
         </div>
