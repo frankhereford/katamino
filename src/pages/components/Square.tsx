@@ -32,7 +32,11 @@ export default function Square(props: {color: string, size?: number}) {
     transition: "all .2s ease",
   }
 
-  const classes = ["rounded-md", 'border-[1px]']
+  let roundedClass = 'rounded-md'
+  // think of the 60 as the default value of the size prop
+  if (props.size || 60 <= 20) { roundedClass = 'rounded-sm' }
+
+  const classes = [roundedClass, 'border-[1px]']
 
   if      (props.size == 20) { classes.push('w-[20px] h-[20px]') }
   else if (props.size == 40) { classes.push('w-[40px] h-[40px]') }
