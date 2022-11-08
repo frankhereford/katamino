@@ -23,6 +23,7 @@
     "array2d": "^0.0.5",
     "colord": "^2.9.3",
     "daisyui": "^2.38.1",
+    "lodash": "^4.17.21",
     "next": "13.0.1",
     "next-auth": "^4.15.0",
     "react": "18.2.0",
@@ -32,6 +33,7 @@
     "zod": "^3.18.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.188",
     "@types/node": "18.0.0",
     "@types/react": "18.0.14",
     "@types/react-dom": "18.0.5",
