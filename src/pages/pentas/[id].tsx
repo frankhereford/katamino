@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import { type NextPage } from "next";
 import Head from "next/head";
 import Penta from "../components/Penta";
+import Block from "../components/Block";
 
 import { trpc } from "../../utils/trpc";
 
@@ -21,7 +22,14 @@ const PentaPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Penta id={penta?.id}></Penta>
+        <div>
+          <Penta id={penta?.id}></Penta>
+        </div>
+        <div>
+          {penta?.blocks.map((block) => {
+            return <Block key={block.id} block={block}></Block>
+          })}
+        </div>
       </main>
     </>
   )
