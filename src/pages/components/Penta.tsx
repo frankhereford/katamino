@@ -22,11 +22,10 @@ export default function Penta(props: PentaProps) {
   const [board, setBoard] = useState(genericBoard);
 
   useEffect(() => {
-    const border_width = 0
     const boardHeight = 5
     const board = Array2D.build((props.penta?.columns || 12) + (borderWidth * 2), boardHeight + (borderWidth * 2))
     setBoard(board)
-  }, [props.penta])
+  }, [borderWidth, props.penta])
 
 
 
