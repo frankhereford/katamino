@@ -12,7 +12,7 @@ export default function Square(props: {color: string, size?: number}) {
 
 
   useEffect(() => {
-    if (props?.color[0] === '#') {
+    if (props?.color?.[0] === '#') {
       setColor(props.color)
     }
     else {
