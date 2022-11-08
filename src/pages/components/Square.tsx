@@ -34,9 +34,9 @@ export default function Square(props: {color: string, size?: number}) {
 
   const classes = ["rounded-md", 'border-[1px]']
 
-  if      (props.size == 60) { classes.push('w-[60px] h-[60px]') }
-  else if (props.size == 20) { classes.push('w-[20px] h-[20px]') }
-  else                       { classes.push('w-[40px] h-[40px]') }
+  if      (props.size == 20) { classes.push('w-[20px] h-[20px]') }
+  else if (props.size == 40) { classes.push('w-[40px] h-[40px]') }
+  else                       { classes.push('w-[60px] h-[60px]') }
 
   return (
     <>

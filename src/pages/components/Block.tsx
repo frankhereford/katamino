@@ -13,14 +13,12 @@ export default function PiecePage(props: BlockProps) {
 
   useEffect(() => {
     if (!props.block?.piece.shape) { return }
-    console.log(props.block.piece)
     
     const squares = []
     const shape = props.block?.piece.shape as Array<number[]>
     for (let row = 0; row < shape.length; row++) {
       for (let col = 0; col < (shape[row] || []).length; col++) { 
         const key = `${row}-${col}`
-        console.log(key)
         const color = shape?.[row]?.[col] == 1 ? props.block.piece.color.name : 'lightGrey'
         squares.push(<Square key={key} color={color} size={20}></Square>)
       } 
@@ -33,7 +31,7 @@ export default function PiecePage(props: BlockProps) {
 
   return (
     <>
-      <div className="flex items-center justify-center">
+      <div className="grid items-center justify-center">
         <div className={classes.join(' ')} >
           {squares}
         </div>
