@@ -6,6 +6,11 @@ import Square from "./Square";
 const Array2D = require('array2d')
 import _ from "lodash";
 
+import { colord, extend } from "colord";
+import mixPlugin from "colord/plugins/mix";
+extend([mixPlugin]);
+
+
 // A given puzzle with blocks made out of pieces
 
 interface PentaProps {
@@ -13,8 +18,17 @@ interface PentaProps {
   borderWidth?: number;
 }
 
+function transformBlockShape(shape: Array<number[]>) {
+  return shape
+  //const array2d = new Array2D(shape)
+  //const rotated = array2d.rotate(90)
+  //const flipped = rotated.flip()
+  //return flipped.toArray()
+}
+
 export default function Penta(props: PentaProps) {
 
+  const { data: colorLookup } = trpc.color.getColorLookup.useQuery();
   const [borderWidth, setBorderWidth] = useState(props.borderWidth || 0)
   const boardHeight = 5
   // easier than typing an old library
@@ -22,20 +36,56 @@ export default function Penta(props: PentaProps) {
 
   const [board, setBoard] = useState(genericBoard);
 
+  const boardColor = "lightGrey"
+
   useEffect(() => {
     const boardHeight = 5
-    const board = Array2D.build((props.penta?.columns || 12) + (borderWidth * 2), boardHeight + (borderWidth * 2), "lightGrey")
+    const board = Array2D.build((props.penta?.columns || 12) + (borderWidth * 2), boardHeight + (borderWidth * 2), boardColor)
 
 
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
         if (row < borderWidth || row >= (board.length - borderWidth) || col < borderWidth || col >= (board[row].length - borderWidth)) {
-          board[row][col] = "#bbbbbb"
+          board[row][col] = "#bbbbbb" // this should be a color in the database
         }
       }
     }
 
+    if (!props.penta?.blocks) {
+      setBoard(board)
+      return
+    }
 
+    const blocks = _.cloneDeep(props.penta?.blocks);
+    // im letting my lazy typing come in here with this old code
+    const sortedBlocks = blocks.sort((a: any, b: any) => a.last_update - b.last_update)
+    //console.log(sortedBlocks)
+    sortedBlocks.forEach((block: any) => {
+      if (block.visible) { // flip this back when you have the key bindings in
+        return
+      }
+      const shape = transformBlockShape(block.piece.shape)
+      //console.log("Transformed Shape: ", shape)
+      for (let row = 0; row < shape.length; row++) {
+        for (let col = 0; col < (shape[row] || []).length; col++) {
+          if (shape?.[row]?.[col]) {
+            
+
+            if (board[row][col] === boardColor) { // first piece to apply a color to this square
+              board[row][col] = block.piece.color.name
+            } else {
+              let squareColor = board[row][col]
+              if (board[row][col][0] !== "#") {
+                squareColor = colorLookup?.[board[row][col]]?.hexCode || '#ffffff'
+              }
+              const pieceColor = colorLookup?.[block.piece.color.name]?.hexCode || '#ffffff'
+              const mixedColor = colord(squareColor).mix(colord(pieceColor), .5).darken(.05).toHex()
+              board[row][col] = mixedColor
+            }
+          }
+        }
+      }
+    })
 
     setBoard(board)
   }, [borderWidth, props.penta])
