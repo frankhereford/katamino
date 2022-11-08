@@ -26,14 +26,18 @@ const PentaPage: NextPage = () => {
   function useKeyPress(targetKey: string): boolean {
     // State for keeping track of whether key is pressed
     const [keyPressed, setKeyPressed] = useState(false);
+    interface handlerArguments{
+      key: any
+      event: any
+    }
     // If pressed key is our target key then set to true
-    function downHandler({ key: any }): void {
+    function downHandler({ key, event }: handlerArguments): void {
       if (key === targetKey) {
         setKeyPressed(true);
       }
     }
     // If released key is our target key then set to false
-    const upHandler = ({ key: any }): void => {
+    const upHandler = ({ key, event }: handlerArguments): void => {
       if (key === targetKey) {
         setKeyPressed(false);
       }
