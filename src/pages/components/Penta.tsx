@@ -17,7 +17,9 @@ interface PentaProps {
   borderWidth?: number;
 }
 
-function transformBlockShape(shape: Array<number[]>) {
+function transformBlockShape(block: any) {
+  console.log(block)
+  const shape = block.piece.shape
   return shape
   //const array2d = new Array2D(shape)
   //const rotated = array2d.rotate(90)
@@ -62,7 +64,7 @@ export default function Penta(props: PentaProps) {
       if (block.visible) { // flip this back when you have the key bindings in
         return
       }
-      const shape = transformBlockShape(block.piece.shape)
+      const shape = transformBlockShape(block)
       //console.log("Transformed Shape: ", shape)
       for (let row = 0; row < shape.length; row++) {
         for (let col = 0; col < (shape[row] || []).length; col++) {
