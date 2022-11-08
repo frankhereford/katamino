@@ -9,6 +9,7 @@ const Array2D = require('array2d')
 
 interface PentaProps {
   id?: string;
+  borderWidth?: number;
 }
 
 export default function Penta(props: PentaProps) {
@@ -19,17 +20,17 @@ export default function Penta(props: PentaProps) {
     enabled: !!props.id 
   },);
 
-  const border_width = 0
+  const [borderWidth, setBorderWidth] = useState(props.borderWidth || 0)
   const boardHeight = 5
   // easier than typing an old library
-  const genericBoard = Array2D.build(12 + (border_width * 2), boardHeight + (border_width * 2))
+  const genericBoard = Array2D.build(12 + (borderWidth * 2), boardHeight + (borderWidth * 2))
 
   const [board, setBoard] = useState(genericBoard);
 
   useEffect(() => {
     const border_width = 0
     const boardHeight = 5
-    const board = Array2D.build(penta?.columns || 12 + (border_width * 2), boardHeight + (border_width * 2))
+    const board = Array2D.build((penta?.columns || 12) + (borderWidth * 2), boardHeight + (borderWidth * 2))
     setBoard(board)
   }, [penta])
 
@@ -53,7 +54,7 @@ export default function Penta(props: PentaProps) {
 
   const classes = ["grid", "gap-0"]
 
-  let columns = penta?.columns || 12;
+  let columns = penta?.columns + (borderWidth * 2) || 12;
   if (columns > 12 || columns < 0) { columns = 5; }
   if (columns == 0) { classes.push("grid-cols-none") }
   if (columns == 1) { classes.push("grid-cols-1") }
@@ -68,10 +69,11 @@ export default function Penta(props: PentaProps) {
   if (columns == 10) { classes.push("grid-cols-10") }
   if (columns == 11) { classes.push("grid-cols-11") }
   if (columns == 12) { classes.push("grid-cols-12") }
+  if (columns > 12 ) { classes.push("grid-cols-[" + String(columns) + "]") }
 
   return (
     <>
-      <div className="flex items-center justify-center">
+      <div className="grid items-center justify-center">
         <div className={classes.join(' ')} >
           {squares}
         </div>

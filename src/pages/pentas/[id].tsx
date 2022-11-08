@@ -37,7 +37,7 @@ const PentaPage: NextPage = () => {
       </Head>
       <main>
         <div>
-          <Penta id={penta?.id}></Penta>
+          <Penta id={penta?.id} borderWidth={1}></Penta>
         </div>
         <div className={classes.join(" ")}>
           {penta?.blocks.map((block) => {
