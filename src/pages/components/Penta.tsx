@@ -8,17 +8,11 @@ const Array2D = require('array2d')
 // A given puzzle with blocks made out of pieces
 
 interface PentaProps {
-  id?: string;
+  penta: any;
   borderWidth?: number;
 }
 
 export default function Penta(props: PentaProps) {
-
-  const { data: penta, refetch: penta_refetch } = trpc.penta.get.useQuery({
-    id: String(props.id)
-  }, {
-    enabled: !!props.id 
-  },);
 
   const [borderWidth, setBorderWidth] = useState(props.borderWidth || 0)
   const boardHeight = 5
@@ -30,9 +24,9 @@ export default function Penta(props: PentaProps) {
   useEffect(() => {
     const border_width = 0
     const boardHeight = 5
-    const board = Array2D.build((penta?.columns || 12) + (borderWidth * 2), boardHeight + (borderWidth * 2))
+    const board = Array2D.build((props.penta?.columns || 12) + (borderWidth * 2), boardHeight + (borderWidth * 2))
     setBoard(board)
-  }, [penta])
+  }, [props.penta])
 
 
 
@@ -49,12 +43,11 @@ export default function Penta(props: PentaProps) {
 
   //console.log(squares)
 
-  if (!penta) { return <div></div> }
-
+  if (!props.penta) { return <div></div> }
 
   const classes = ["grid", "gap-0"]
 
-  let columns = penta?.columns + (borderWidth * 2) || 12;
+  let columns = props.penta?.columns + (borderWidth * 2) || 12;
   if (columns > 12 || columns < 0) { columns = 5; }
   if (columns == 0) { classes.push("grid-cols-none") }
   if (columns == 1) { classes.push("grid-cols-1") }
