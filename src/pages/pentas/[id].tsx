@@ -26,6 +26,9 @@ const PentaPage: NextPage = () => {
   const [activeBlock, setActiveBlock] = useState(0)
   //console.log(activeBlock)
 
+  // modify this hook to take a function and the key, and execute the function on keyDown
+  // hopefully, reducing its length
+
   // https://usehooks.com/useKeyPress/
   function useKeyPress(targetKey: string): boolean {
     // State for keeping track of whether key is pressed
