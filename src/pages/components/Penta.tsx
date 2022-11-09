@@ -57,7 +57,7 @@ export default function Penta(props: PentaProps) {
       const sortedCompletionBlocks = completionBlocks.sort((a: any, b: any) => a.last_update - b.last_update)
       sortedCompletionBlocks.forEach((block: any) => {
         if (!block.visible) { return }
-        const shape = transformBlockShape(block, 0, true)
+        const shape = transformBlockShape(block, 0, true, 5)
         for (let row = 0; row < shape.length; row++) {
           for (let col = 0; col < (shape[row] || []).length; col++) {
             if (shape?.[row]?.[col] && board?.[row]?.[col]) {
