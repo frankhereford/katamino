@@ -17,6 +17,7 @@ import { transformBlockShape } from "../../utils/transformations";
 interface PentaProps {
   penta: any;
   borderWidth?: number;
+  size?: number;
 }
 
 export default function Penta(props: PentaProps) {
@@ -87,7 +88,7 @@ export default function Penta(props: PentaProps) {
     for (let col = 0; col < board?.[row].length || 0; col++) {
       const key = `${row}-${col}`
       const color = board?.[row][col]
-      squares.push(<Square key={key} color={color}></Square>)
+      squares.push(<Square key={key} color={color} size={props.size}></Square>)
     }
   }
 
