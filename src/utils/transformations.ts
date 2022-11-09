@@ -5,7 +5,6 @@ export function transformBlockShape(
   block: any,
   borderWidth: number,
   doTranslation: boolean,
-  columns: number,
   ) {
   let shape = block.piece.shape
 
