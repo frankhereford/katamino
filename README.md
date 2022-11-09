@@ -14,6 +14,7 @@
 * [ ] if hidden, don't allow moves on a block
 * [ ]organize penta game, put that stuff in files
 * [ ] look for places where things wrap and use the modulo operator
+* [ ] hook up navbar login/logout
 
 Stuff I want to demo:
 * TailwindCSS - bootstrap but 🍄, like very-🍄
