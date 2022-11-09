@@ -11,6 +11,7 @@
 * [ ] use an icon not a broken image when not logged in
 * [ ] add github login option if in production
 * [ ] if hidden, don't allow moves on a block
+* organize penta game, put that stuff in files
 
 Stuff I want to demo:
 * TailwindCSS - bootstrap but 🍄, like very-🍄

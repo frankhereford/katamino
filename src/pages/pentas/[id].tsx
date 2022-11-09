@@ -284,7 +284,7 @@ const PentaPage: NextPage = () => {
         <div>
         </div>
         <div>
-          <Penta penta={penta} borderWidth={2}></Penta>
+          <Penta penta={penta}></Penta>
         </div>
         <div className={classes.join(" ")}>
           {penta?.blocks.map((block, index) => {
