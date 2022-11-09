@@ -5,6 +5,7 @@ export function transformBlockShape(
   block: any,
   borderWidth: number,
   doTranslation: boolean,
+  columns: number,
   ) {
   let shape = block.piece.shape
 
@@ -18,6 +19,10 @@ export function transformBlockShape(
   }
 
   if (doTranslation) { 
+
+    if (columns > 5) {
+      shape = Array2D.pad(shape, Array2D.EDGES.RIGHT, columns - shape[0].length, 0)
+    }
 
     for (let i = 0; i < borderWidth; i++) {
       shape = Array2D.pad(shape, Array2D.EDGES.TOP, 1, 0)
