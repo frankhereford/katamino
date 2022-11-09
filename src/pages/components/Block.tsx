@@ -32,7 +32,7 @@ export default function PiecePage(props: BlockProps) {
     }
     setSquares(squares)
 
-  }, [props.block])
+  }, [props.block, props.size])
 
 
   const outerClasses = ["grid", "items-center","justify-center"]
