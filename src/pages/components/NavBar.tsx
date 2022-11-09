@@ -6,8 +6,6 @@ import { BsQuestionSquare } from 'react-icons/bs';
 
 export default function NavBar() {
   const { data: sessionData } = useSession();
-  console.log(sessionData)
-
 
   return (
     <>

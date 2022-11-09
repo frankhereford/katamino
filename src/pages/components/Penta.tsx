@@ -11,15 +11,23 @@ extend([mixPlugin]);
 
 import { transformBlockShape } from "../../utils/transformations";
 
+import useWindowSize from 'react-use/lib/useWindowSize'
+import Confetti from 'react-confetti'
+import { useTimeoutWhen } from "rooks";
+
 // A given puzzle with blocks made out of pieces
 
 interface PentaProps {
   penta: any;
   size?: number;
   trimBorder?: boolean;
+  confetti?: boolean;
 }
 
 export default function Penta(props: PentaProps) {
+
+  const { width: windowWidth, height: windowHeight } = useWindowSize()
+  const [showConfetti, setShowConfetti] = useState(false)
 
   const { data: colorLookup } = trpc.color.getColorLookup.useQuery();
   const boardHeight = 5
@@ -28,12 +36,49 @@ export default function Penta(props: PentaProps) {
   const genericBoard = Array2D.build(12 + (props.penta?.borderWidth * 2), boardHeight + (props.penta?.borderWidth * 2))
 
   const [board, setBoard] = useState(genericBoard);
+  const [solved, setSolved] = useState(false);
+  useTimeoutWhen(() => setSolved(false), 5000, solved);
 
   const boardColor = "lightGrey"
 
   useEffect(() => {
     const boardHeight = 5
     let board = Array2D.build((props.penta?.columns || 12) + (props.penta?.borderWidth * 2), boardHeight + (props.penta?.borderWidth * 2), boardColor)
+
+    if (!props.penta?.blocks) {
+      setBoard(board)
+      return
+    }
+    
+    if (props.confetti) {
+      const completionBoard = Array2D.build((props.penta?.columns || 12), boardHeight, false)
+      const completionBlocks = _.cloneDeep(props.penta?.blocks); // do i really need this slow op?
+      // im letting my lazy typing come in here with this old code
+      const sortedCompletionBlocks = completionBlocks.sort((a: any, b: any) => a.last_update - b.last_update)
+      sortedCompletionBlocks.forEach((block: any) => {
+        if (!block.visible) { return }
+        const shape = transformBlockShape(block, 0, true)
+        for (let row = 0; row < shape.length; row++) {
+          for (let col = 0; col < (shape[row] || []).length; col++) {
+            if (shape?.[row]?.[col] && board?.[row]?.[col]) {
+              if (!completionBoard[row][col]) { // first piece to apply a color to this square
+                completionBoard[row][col] = true
+              }
+            }
+          }
+        }
+      })
+      let isSolved = true
+      for (let row = 0; row < completionBoard.length; row++) {
+        for (let col = 0; col < (completionBoard[row] || []).length; col++) {
+          if (!completionBoard[row][col]) {
+            isSolved = false
+          }
+        }
+      }
+      setSolved(isSolved)
+    }
+
 
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
@@ -43,18 +88,11 @@ export default function Penta(props: PentaProps) {
       }
     }
 
-    if (!props.penta?.blocks) {
-      setBoard(board)
-      return
-    }
-
     const blocks = _.cloneDeep(props.penta?.blocks);
     // im letting my lazy typing come in here with this old code
     const sortedBlocks = blocks.sort((a: any, b: any) => a.last_update - b.last_update)
     sortedBlocks.forEach((block: any) => {
-      if (!block.visible) { 
-        return
-      }
+      if (!block.visible) { return }
       const shape = transformBlockShape(block, props.penta?.borderWidth, true, props.penta?.columns)
       for (let row = 0; row < shape.length; row++) {
         for (let col = 0; col < (shape[row] || []).length; col++) {
@@ -86,7 +124,7 @@ export default function Penta(props: PentaProps) {
     }
 
     setBoard(board)
-  }, [props.penta?.borderWidth, props.penta])
+  }, [props.penta?.borderWidth, props.penta, props.confetti, props.trimBorder, colorLookup])
 
   const squares = []
   for (let row = 0; row < board?.length|| 0; row++) {
@@ -123,6 +161,13 @@ export default function Penta(props: PentaProps) {
 
   return (
     <>
+      {solved &&
+        <Confetti
+          width={windowWidth}
+          height={windowWidth}
+          opacity={.5}
+        />
+      }
       <div className="grid items-center justify-center">
         <div className={classes.join(' ')} >
           {squares}
