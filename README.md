@@ -1,5 +1,5 @@
-* [ ] update object locally to get quicker ui
-  * don't refetch until some seconds of inactivity then fetch
+* [x] update object locally to get quicker ui
+  * [x] don't refetch until some seconds of inactivity then fetch
 * [x] add visibility indicator
 * [x] make blocks transform, but not translate
 * [ ] show mini penta boards on listing page
