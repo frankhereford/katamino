@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import type { CSSProperties } from "react";
 import RingLoader from "react-spinners/RingLoader";
+import Penta from "../components/Penta";
 
 import { trpc } from "../../utils/trpc";
 
@@ -37,6 +38,7 @@ const Pentas: NextPage = () => {
                     <th>️Play</th>
                     <th>ID</th>
                     <th>Columns</th>
+                    <th>Penta</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -47,6 +49,9 @@ const Pentas: NextPage = () => {
                       </td>
                       <td>{penta.id}</td>
                       <td>{penta.columns}</td>
+                      <td>
+                        <Penta penta={penta} borderWidth={0} size={15}></Penta>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

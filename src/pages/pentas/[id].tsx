@@ -56,7 +56,6 @@ const PentaPage: NextPage = () => {
   function keyQ() {
     if (!penta?.blocks) { }
     else if (!activeBlock && activeBlock !== 0) {
-      console.log(penta?.blocks[0]?.id)
       setActiveBlock(penta?.blocks.length - 1)
     }
     else if (activeBlock === 0) {
@@ -133,7 +132,6 @@ const PentaPage: NextPage = () => {
 
   function arrowKey(event: KeyboardEvent) {
     if (!activeBlock && activeBlock !== 0) { return }
-    console.log(event.key)
   
     if (!penta) { return }
     if (!penta?.blocks[activeBlock]?.id) { return } 
