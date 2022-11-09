@@ -9,8 +9,6 @@ export function transformBlockShape(
   ) {
   let shape = block.piece.shape
 
-  if (columns == 3) { console.log(columns) }
-
   // order of transformations matters
   if (block.reflection) {
     shape = Array2D.flip(shape, Array2D.AXES.X);
@@ -21,7 +19,6 @@ export function transformBlockShape(
   }
 
   if (doTranslation) { 
-    if (columns == 3) { console.log(shape) }
 
     for (let i = 0; i < borderWidth; i++) {
       shape = Array2D.pad(shape, Array2D.EDGES.TOP, 1, 0)
