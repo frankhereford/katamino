@@ -19,25 +19,21 @@ const PentaPage: NextPage = () => {
     enabled: routerReady
   },);
 
+  const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 2500, false)
+
+  const set_rotation = trpc.block.set_rotation.useMutation({ });
+  const set_reflection = trpc.block.set_reflection.useMutation({ });
+  const set_translation = trpc.block.set_translation.useMutation({ });
+  const set_visibility = trpc.block.set_visibility.useMutation({ });
 
   const [penta, setPenta] = useState(pentaRecord)
+  const [activeBlock, setActiveBlock] = useState<number>()
 
   useEffect(() => {
     if (!pentaRecord) { return }
     setPenta(pentaRecord)
   }, [pentaRecord])
 
-  const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 2500, false)
-
-  const set_rotation = trpc.block.set_rotation.useMutation({ });
-
-  const set_reflection = trpc.block.set_reflection.useMutation({ });
-
-  const set_translation = trpc.block.set_translation.useMutation({ });
-
-  const set_visibility = trpc.block.set_visibility.useMutation({ });
-
-  const [activeBlock, setActiveBlock] = useState<number>()
 
   useKeyBindings({
     q: keyQ,
@@ -54,7 +50,7 @@ const PentaPage: NextPage = () => {
   })
 
   function keyQ() {
-    if (!penta?.blocks) { }
+    if (!penta?.blocks) { return }
     else if (!activeBlock && activeBlock !== 0) {
       setActiveBlock(penta?.blocks.length - 1)
     }
@@ -78,6 +74,7 @@ const PentaPage: NextPage = () => {
   function keyW() {
     if (!penta?.blocks) { return }
     if (!activeBlock && activeBlock !== 0) { return }
+    if (!penta?.blocks[activeBlock]!.visible) { return }
     if (!penta?.blocks[activeBlock]?.id) { return }
 
     if (!penta) { return }
@@ -95,6 +92,7 @@ const PentaPage: NextPage = () => {
   function keyD() {
     if (!penta?.blocks) { return }
     if (!activeBlock && activeBlock !== 0) { return }
+    if (!penta?.blocks[activeBlock]!.visible) { return }
     if (
       penta?.blocks[activeBlock]?.rotation &&
       typeof penta?.blocks[activeBlock]?.rotation == 'object' &&
@@ -131,9 +129,10 @@ const PentaPage: NextPage = () => {
   }
 
   function arrowKey(event: KeyboardEvent) {
-    if (!activeBlock && activeBlock !== 0) { return }
   
     if (!penta) { return }
+    if (!activeBlock && activeBlock !== 0) { return }
+    if (!penta?.blocks[activeBlock]!.visible) { return }
     if (!penta?.blocks[activeBlock]?.id) { return } 
 
     if (
@@ -222,10 +221,10 @@ const PentaPage: NextPage = () => {
   }
 
   function keyA() {
-    if (!activeBlock && activeBlock !== 0) { return }
-    
-
     if (!penta) { return }
+    if (!activeBlock && activeBlock !== 0) { return }
+    if (!penta?.blocks[activeBlock]!.visible) { return }
+
     const pentaCopy = _.cloneDeep(penta);
     pentaCopy.blocks[activeBlock]!.translation = { up: 0, right: 0, }
     pentaCopy.blocks[activeBlock]!.rotation = { clockwise: 0 }
