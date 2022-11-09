@@ -33,7 +33,7 @@ export default function Penta(props: PentaProps) {
 
   useEffect(() => {
     const boardHeight = 5
-    const board = Array2D.build((props.penta?.columns || 12) + (props.penta?.borderWidth * 2), boardHeight + (props.penta?.borderWidth * 2), boardColor)
+    let board = Array2D.build((props.penta?.columns || 12) + (props.penta?.borderWidth * 2), boardHeight + (props.penta?.borderWidth * 2), boardColor)
 
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
@@ -77,6 +77,16 @@ export default function Penta(props: PentaProps) {
       }
     })
 
+    if (props.trimBorder) {
+      board = Array2D.crop(
+        board,
+        props.penta?.borderWidth,
+        props.penta?.borderWidth,
+        board[0].length - (props.penta?.borderWidth * 2),
+        board.length - (props.penta?.borderWidth * 2),
+      )
+    }
+
     setBoard(board)
   }, [props.penta?.borderWidth, props.penta])
 
@@ -98,6 +108,9 @@ export default function Penta(props: PentaProps) {
   const classes = ["grid", "gap-0"]
 
   let columns = props.penta?.columns + (props.penta?.borderWidth * 2) || 12;
+  if (props.trimBorder) {
+    columns = props.penta?.columns
+    }
   if (columns > 12 || columns < 0) { columns = 5; }
   if (columns == 0) { classes.push("grid-cols-none") }
   if (columns == 1) { classes.push("grid-cols-1") }

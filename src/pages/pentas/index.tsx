@@ -50,7 +50,7 @@ const Pentas: NextPage = () => {
                       <td>{penta.id}</td>
                       <td>{penta.columns}</td>
                       <td>
-                        <Penta penta={penta} size={15}></Penta>
+                        <Penta penta={penta} size={15} trimBorder={true}></Penta>
                       </td>
                     </tr>
                   ))}
