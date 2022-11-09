@@ -136,6 +136,9 @@ async function main() {
     { columns: 3, pieces: [ 'orange', 'brown', 'darkGreen', ] },
     { columns: 4, pieces: [ 'orange', 'brown', 'darkGreen', 'pink' ] },
     { columns: 5, pieces: [ 'orange', 'brown', 'darkGreen', 'pink', 'green' ] },
+    { columns: 6, pieces: [ 'orange', 'brown', 'darkGreen', 'pink', 'green', 'teal' ] },
+    { columns: 7, pieces: [ 'orange', 'brown', 'darkGreen', 'pink', 'green', 'teal', 'blue' ] },
+    { columns: 8, pieces: [ 'orange', 'brown', 'darkGreen', 'pink', 'green', 'teal', 'blue', 'purple' ] },
   ]
 
 

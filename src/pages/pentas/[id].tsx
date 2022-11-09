@@ -289,10 +289,10 @@ const PentaPage: NextPage = () => {
           {penta?.blocks.map((block, index) => {
             let classes: string[] = []
             if (index === activeBlock) {
-              classes = ["outline-dashed", "w-fit", "mx-auto", "outline-4", "outline-cyan-500"]
+              classes = ["outline-dashed", "w-fit", "mx-auto", "mt-2", "outline-4", "outline-cyan-500"]
             }
             else {
-              classes = ["w-fit", "mx-auto"]
+              classes = ["w-fit", "mx-auto", "mt-2"]
             }
             return (
               <div key={block.id}>
