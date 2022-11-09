@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { trpc } from "../../utils/trpc";
 import Square from "./Square";
-//import Array2D from 'array2d'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const Array2D = require('array2d')
 import _ from "lodash";
@@ -54,11 +53,11 @@ export default function Penta(props: PentaProps) {
     const sortedBlocks = blocks.sort((a: any, b: any) => a.last_update - b.last_update)
     //console.log(sortedBlocks)
     sortedBlocks.forEach((block: any) => {
-      if (!block.visible) { // flip this back when you have the key bindings in
+      if (!block.visible) { 
         return
       }
       const shape = transformBlockShape(block, borderWidth, true, props.penta?.columns)
-      //console.log("Transformed Shape: ", shape)
+      console.log("Transformed Shape: ", shape)
       for (let row = 0; row < shape.length; row++) {
         for (let col = 0; col < (shape[row] || []).length; col++) {
           if (shape?.[row]?.[col]) {
