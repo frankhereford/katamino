@@ -55,7 +55,7 @@ export default function Penta(props: PentaProps) {
       if (!block.visible) { 
         return
       }
-      const shape = transformBlockShape(block, props.penta?.borderWidth, true, props.penta?.columns)
+      const shape = transformBlockShape(block, props.penta?.borderWidth, true)
       for (let row = 0; row < shape.length; row++) {
         for (let col = 0; col < (shape[row] || []).length; col++) {
           if (shape?.[row]?.[col] && board?.[row]?.[col]) {

@@ -18,7 +18,7 @@ export default function PiecePage(props: BlockProps) {
 
     let shape = props.block?.piece.shape as Array<number[]>
     
-    shape = transformBlockShape(props.block, 0, false, 5)
+    shape = transformBlockShape(props.block, 0, false)
     
     const squares = []
     for (let row = 0; row < shape.length; row++) {
