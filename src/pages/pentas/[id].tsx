@@ -7,39 +7,33 @@ import Block from "../components/Block";
 import { useKeyBindings} from "rooks";
 import { trpc } from "../../utils/trpc";
 import { type Prisma } from '@prisma/client';
+import _ from "lodash";
 
 
 const PentaPage: NextPage = () => {
-  const { query, isReady: routerReady } = useRouter()
-  const { data: penta, refetch: penta_refetch } = trpc.penta.get.useQuery({
+  const { query, isReady: routerReady} = useRouter()
+  const { data: pentaRecord, refetch: pentaRefetch, isFetching: pentaLoading } = trpc.penta.get.useQuery({
     id: String(query.id)
   }, {
     enabled: routerReady
   },);
 
-  const set_rotation = trpc.block.set_rotation.useMutation({
-    onSuccess: () => {
-      penta_refetch();
-    } // this uses useQuery underneath ... this is probably something that could be done better
-  });
 
-  const set_reflection = trpc.block.set_reflection.useMutation({
-    onSuccess: () => {
-      penta_refetch();
-    }
-  });
+  const [penta, setPenta] = useState(pentaRecord)
 
-  const set_translation = trpc.block.set_translation.useMutation({
-    onSuccess: () => {
-      penta_refetch();
-    }
-  });
+  useEffect(() => {
+    if (!pentaRecord) { return }
+    setPenta(pentaRecord)
+  }, [pentaRecord])
 
-  const set_visibility = trpc.block.set_visibility.useMutation({
-    onSuccess: () => {
-      penta_refetch();
-    }
-  });
+
+  const set_rotation = trpc.block.set_rotation.useMutation({ });
+
+  const set_reflection = trpc.block.set_reflection.useMutation({ });
+
+  const set_translation = trpc.block.set_translation.useMutation({ });
+
+  const set_visibility = trpc.block.set_visibility.useMutation({ });
 
   const [activeBlock, setActiveBlock] = useState<number>()
 
@@ -85,7 +79,13 @@ const PentaPage: NextPage = () => {
     if (!activeBlock && activeBlock !== 0) { return }
     if (!penta?.blocks[activeBlock]?.id) { return }
 
-    console.log('W')
+    if (!penta) { return }
+    const pentaCopy = _.cloneDeep(penta);
+    console.log("Copy: ", pentaCopy)
+    console.log(pentaCopy.blocks[activeBlock])
+    pentaCopy.blocks[activeBlock]!.reflection = !pentaCopy?.blocks?.[activeBlock]?.reflection
+    setPenta(pentaCopy)
+
     set_reflection.mutate({
       id: penta?.blocks[activeBlock]?.id || '',
       reflection: penta?.blocks[activeBlock]?.reflection ? false : true
@@ -102,6 +102,15 @@ const PentaPage: NextPage = () => {
     ) {
       const rotation = penta?.blocks[activeBlock]?.rotation as Prisma.JsonObject
       const clockwise: number = Number(rotation.clockwise) || 0
+      
+      if (!penta) { return }
+      const pentaCopy = _.cloneDeep(penta);
+      console.log("Copy: ", pentaCopy)
+      pentaCopy.blocks[activeBlock]!.rotation = {
+        clockwise: (clockwise + 1) % 4
+      }
+      setPenta(pentaCopy)
+
       set_rotation.mutate({
         id: penta?.blocks[activeBlock]?.id || '',
         clockwise: (clockwise + 1) % 4
@@ -113,7 +122,6 @@ const PentaPage: NextPage = () => {
     event.preventDefault();
     if (!penta?.blocks) { return }
     else if (!activeBlock && activeBlock !== 0) {
-      console.log(penta?.blocks[0]?.id)
       setActiveBlock(0)
     }
     else if (activeBlock == penta?.blocks.length - 1) {
@@ -139,6 +147,16 @@ const PentaPage: NextPage = () => {
       const right: number = Number(translation.right) || 0
   
       if (event.key === 'ArrowDown') {
+        
+        if (!penta) { return }
+        const pentaCopy = _.cloneDeep(penta);
+        console.log("Copy: ", pentaCopy)
+        pentaCopy.blocks[activeBlock]!.translation = {
+          up: up - 1,
+          right: right,
+        }
+        setPenta(pentaCopy)
+
         set_translation.mutate({
           id: penta?.blocks[activeBlock]?.id || '',
           translation: {
@@ -148,6 +166,16 @@ const PentaPage: NextPage = () => {
         })
       }
       else if (event.key === 'ArrowUp') {
+
+        if (!penta) { return }
+        const pentaCopy = _.cloneDeep(penta);
+        console.log("Copy: ", pentaCopy)
+        pentaCopy.blocks[activeBlock]!.translation = {
+          up: up + 1,
+          right: right,
+        }
+        setPenta(pentaCopy)
+
         set_translation.mutate({
           id: penta?.blocks[activeBlock]?.id || '',
           translation: {
@@ -157,6 +185,16 @@ const PentaPage: NextPage = () => {
         })
       }
       else if (event.key === 'ArrowLeft') {
+
+        if (!penta) { return }
+        const pentaCopy = _.cloneDeep(penta);
+        console.log("Copy: ", pentaCopy)
+        pentaCopy.blocks[activeBlock]!.translation = {
+          up: up,
+          right: right - 1,
+        }
+        setPenta(pentaCopy)
+
         set_translation.mutate({
           id: penta?.blocks[activeBlock]?.id || '',
           translation: {
@@ -166,6 +204,16 @@ const PentaPage: NextPage = () => {
         })
       }
       else if (event.key === 'ArrowRight') {
+
+        if (!penta) { return }
+        const pentaCopy = _.cloneDeep(penta);
+        console.log("Copy: ", pentaCopy)
+        pentaCopy.blocks[activeBlock]!.translation = {
+          up: up,
+          right: right + 1,
+        }
+        setPenta(pentaCopy)
+
         set_translation.mutate({
           id: penta?.blocks[activeBlock]?.id || '',
           translation: {
@@ -179,6 +227,17 @@ const PentaPage: NextPage = () => {
 
   function keyA() {
     if (!activeBlock && activeBlock !== 0) { return }
+    
+
+    if (!penta) { return }
+    const pentaCopy = _.cloneDeep(penta);
+    console.log("Copy: ", pentaCopy)
+    pentaCopy.blocks[activeBlock]!.translation = { up: 0, right: 0, }
+    pentaCopy.blocks[activeBlock]!.rotation = { clockwise: 0 }
+    pentaCopy.blocks[activeBlock]!.reflection = false
+    //pentaCopy.blocks[activeBlock].visible = false
+    setPenta(pentaCopy)
+
     set_translation.mutate({
       id: penta?.blocks[activeBlock]?.id || '',
       translation: {
@@ -192,6 +251,12 @@ const PentaPage: NextPage = () => {
 
   function keyS() {
     if (!activeBlock && activeBlock !== 0) { return }
+    if (!penta) { return }
+    const pentaCopy = _.cloneDeep(penta);
+    console.log("Copy: ", pentaCopy)
+    pentaCopy.blocks[activeBlock]!.visible = !pentaCopy.blocks[activeBlock]!.visible
+    setPenta(pentaCopy)
+
     set_visibility.mutate({
       id: penta?.blocks[activeBlock]?.id || '',
       visible: penta?.blocks[activeBlock]?.visible ? false : true
