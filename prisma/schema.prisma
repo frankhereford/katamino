@@ -52,6 +52,7 @@ model Penta {
   id      String  @id @default(cuid())
   userId  String
   columns Int
+  borderWidth Int @default(2)
   blocks  Block[]
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 

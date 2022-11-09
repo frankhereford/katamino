@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { trpc } from "../../utils/trpc";
 import Square from "./Square";
-//import Array2D from 'array2d'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const Array2D = require('array2d')
 import _ from "lodash";
@@ -16,17 +15,17 @@ import { transformBlockShape } from "../../utils/transformations";
 
 interface PentaProps {
   penta: any;
-  borderWidth?: number;
   size?: number;
+  trimBorder?: boolean;
 }
 
 export default function Penta(props: PentaProps) {
 
   const { data: colorLookup } = trpc.color.getColorLookup.useQuery();
-  const [borderWidth, setBorderWidth] = useState(props.borderWidth || 0)
   const boardHeight = 5
+
   // easier than typing an old library
-  const genericBoard = Array2D.build(12 + (borderWidth * 2), boardHeight + (borderWidth * 2))
+  const genericBoard = Array2D.build(12 + (props.penta?.borderWidth * 2), boardHeight + (props.penta?.borderWidth * 2))
 
   const [board, setBoard] = useState(genericBoard);
 
@@ -34,11 +33,11 @@ export default function Penta(props: PentaProps) {
 
   useEffect(() => {
     const boardHeight = 5
-    const board = Array2D.build((props.penta?.columns || 12) + (borderWidth * 2), boardHeight + (borderWidth * 2), boardColor)
+    let board = Array2D.build((props.penta?.columns || 12) + (props.penta?.borderWidth * 2), boardHeight + (props.penta?.borderWidth * 2), boardColor)
 
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
-        if (row < borderWidth || row >= (board.length - borderWidth) || col < borderWidth || col >= (board[row].length - borderWidth)) {
+        if (row < props.penta?.borderWidth || row >= (board.length - props.penta?.borderWidth) || col < props.penta?.borderWidth || col >= (board[row].length - props.penta?.borderWidth)) {
           board[row][col] = "#bbbbbb" // this should be a color in the database
         }
       }
@@ -54,14 +53,14 @@ export default function Penta(props: PentaProps) {
     const sortedBlocks = blocks.sort((a: any, b: any) => a.last_update - b.last_update)
     //console.log(sortedBlocks)
     sortedBlocks.forEach((block: any) => {
-      if (!block.visible) { // flip this back when you have the key bindings in
+      if (!block.visible) { 
         return
       }
-      const shape = transformBlockShape(block, borderWidth, true, props.penta?.columns)
-      //console.log("Transformed Shape: ", shape)
+      const shape = transformBlockShape(block, props.penta?.borderWidth, true, props.penta?.columns)
+      console.log("Transformed Shape: ", shape)
       for (let row = 0; row < shape.length; row++) {
         for (let col = 0; col < (shape[row] || []).length; col++) {
-          if (shape?.[row]?.[col]) {
+          if (shape?.[row]?.[col] && board?.[row]?.[col]) {
             if (board[row][col] === boardColor) { // first piece to apply a color to this square
               board[row][col] = block.piece.color.name
             } else {
@@ -78,8 +77,18 @@ export default function Penta(props: PentaProps) {
       }
     })
 
+    if (props.trimBorder) {
+      board = Array2D.crop(
+        board,
+        props.penta?.borderWidth,
+        props.penta?.borderWidth,
+        board[0].length - (props.penta?.borderWidth * 2),
+        board.length - (props.penta?.borderWidth * 2),
+      )
+    }
+
     setBoard(board)
-  }, [borderWidth, props.penta])
+  }, [props.penta?.borderWidth, props.penta])
 
   //console.log(board)
 
@@ -98,7 +107,10 @@ export default function Penta(props: PentaProps) {
 
   const classes = ["grid", "gap-0"]
 
-  let columns = props.penta?.columns + (borderWidth * 2) || 12;
+  let columns = props.penta?.columns + (props.penta?.borderWidth * 2) || 12;
+  if (props.trimBorder) {
+    columns = props.penta?.columns
+    }
   if (columns > 12 || columns < 0) { columns = 5; }
   if (columns == 0) { classes.push("grid-cols-none") }
   if (columns == 1) { classes.push("grid-cols-1") }
