@@ -8,6 +8,7 @@ import { useKeyBindings} from "rooks";
 import { trpc } from "../../utils/trpc";
 import { type Prisma } from '@prisma/client';
 import _ from "lodash";
+import { useDebounceCallback } from '@react-hook/debounce'
 
 
 const PentaPage: NextPage = () => {
@@ -26,6 +27,7 @@ const PentaPage: NextPage = () => {
     setPenta(pentaRecord)
   }, [pentaRecord])
 
+  const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 2500, false)
 
   const set_rotation = trpc.block.set_rotation.useMutation({ });
 
@@ -81,8 +83,6 @@ const PentaPage: NextPage = () => {
 
     if (!penta) { return }
     const pentaCopy = _.cloneDeep(penta);
-    console.log("Copy: ", pentaCopy)
-    console.log(pentaCopy.blocks[activeBlock])
     pentaCopy.blocks[activeBlock]!.reflection = !pentaCopy?.blocks?.[activeBlock]?.reflection
     setPenta(pentaCopy)
 
@@ -90,6 +90,7 @@ const PentaPage: NextPage = () => {
       id: penta?.blocks[activeBlock]?.id || '',
       reflection: penta?.blocks[activeBlock]?.reflection ? false : true
     })
+    debouncedPentaRefetch()
   }
 
   function keyD() {
@@ -105,7 +106,6 @@ const PentaPage: NextPage = () => {
       
       if (!penta) { return }
       const pentaCopy = _.cloneDeep(penta);
-      console.log("Copy: ", pentaCopy)
       pentaCopy.blocks[activeBlock]!.rotation = {
         clockwise: (clockwise + 1) % 4
       }
@@ -116,6 +116,7 @@ const PentaPage: NextPage = () => {
         clockwise: (clockwise + 1) % 4
       })
     }
+    debouncedPentaRefetch()
   }
 
   function keyTab(event: KeyboardEvent) {
@@ -150,7 +151,6 @@ const PentaPage: NextPage = () => {
         
         if (!penta) { return }
         const pentaCopy = _.cloneDeep(penta);
-        console.log("Copy: ", pentaCopy)
         pentaCopy.blocks[activeBlock]!.translation = {
           up: up - 1,
           right: right,
@@ -169,7 +169,6 @@ const PentaPage: NextPage = () => {
 
         if (!penta) { return }
         const pentaCopy = _.cloneDeep(penta);
-        console.log("Copy: ", pentaCopy)
         pentaCopy.blocks[activeBlock]!.translation = {
           up: up + 1,
           right: right,
@@ -188,7 +187,6 @@ const PentaPage: NextPage = () => {
 
         if (!penta) { return }
         const pentaCopy = _.cloneDeep(penta);
-        console.log("Copy: ", pentaCopy)
         pentaCopy.blocks[activeBlock]!.translation = {
           up: up,
           right: right - 1,
@@ -207,7 +205,6 @@ const PentaPage: NextPage = () => {
 
         if (!penta) { return }
         const pentaCopy = _.cloneDeep(penta);
-        console.log("Copy: ", pentaCopy)
         pentaCopy.blocks[activeBlock]!.translation = {
           up: up,
           right: right + 1,
@@ -223,6 +220,7 @@ const PentaPage: NextPage = () => {
         })
       }
     }
+    debouncedPentaRefetch()
   }
 
   function keyA() {
@@ -231,7 +229,6 @@ const PentaPage: NextPage = () => {
 
     if (!penta) { return }
     const pentaCopy = _.cloneDeep(penta);
-    console.log("Copy: ", pentaCopy)
     pentaCopy.blocks[activeBlock]!.translation = { up: 0, right: 0, }
     pentaCopy.blocks[activeBlock]!.rotation = { clockwise: 0 }
     pentaCopy.blocks[activeBlock]!.reflection = false
@@ -247,13 +244,13 @@ const PentaPage: NextPage = () => {
     })
     set_rotation.mutate({ id: penta?.blocks[activeBlock]?.id || '', clockwise: 0 })
     set_reflection.mutate({ id: penta?.blocks[activeBlock]?.id || '', reflection: false })
+    debouncedPentaRefetch()
   }
 
   function keyS() {
     if (!activeBlock && activeBlock !== 0) { return }
     if (!penta) { return }
     const pentaCopy = _.cloneDeep(penta);
-    console.log("Copy: ", pentaCopy)
     pentaCopy.blocks[activeBlock]!.visible = !pentaCopy.blocks[activeBlock]!.visible
     setPenta(pentaCopy)
 
@@ -261,6 +258,7 @@ const PentaPage: NextPage = () => {
       id: penta?.blocks[activeBlock]?.id || '',
       visible: penta?.blocks[activeBlock]?.visible ? false : true
     })
+    debouncedPentaRefetch()
   }
 
   let columnClass = null
