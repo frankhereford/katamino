@@ -38,7 +38,8 @@ export default function Square(props: {color: string, size?: number}) {
 
   const classes = [roundedClass, 'border-[1px]']
 
-  if      (props.size == 10) { classes.push('w-[10px] h-[10px]') }
+  if      (props.size == 8) { classes.push('w-[8px] h-[8px]') }
+  else if (props.size == 10) { classes.push('w-[10px] h-[10px]') }
   else if (props.size == 15) { classes.push('w-[15px] h-[15px]') }
   else if (props.size == 20) { classes.push('w-[20px] h-[20px]') }
   else if (props.size == 40) { classes.push('w-[40px] h-[40px]') }

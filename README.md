@@ -6,12 +6,15 @@
 * [ ] detect success and show a gold star or confetti burst or something
 * [ ] add a reset all button
 * [ ] show keys to hint the controls
-* [ ] fix small board bugs
+* [x] fix small board bugs
+  * look at when you have overlaps on a tiny penta preview
 * [ ] make a block clickable
 * [ ] use an icon not a broken image when not logged in
 * [ ] add github login option if in production
 * [ ] if hidden, don't allow moves on a block
-* organize penta game, put that stuff in files
+* [ ]organize penta game, put that stuff in files
+* [ ] look for places where things wrap and use the modulo operator
+* [ ] hook up navbar login/logout
 
 Stuff I want to demo:
 * TailwindCSS - bootstrap but 🍄, like very-🍄

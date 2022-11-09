@@ -3,6 +3,7 @@ import Head from "next/head";
 import type { CSSProperties } from "react";
 import RingLoader from "react-spinners/RingLoader";
 import Penta from "../components/Penta";
+import Block from "../components/Block";
 
 import { trpc } from "../../utils/trpc";
 
@@ -36,7 +37,7 @@ const Pentas: NextPage = () => {
                 <thead>
                   <tr>
                     <th>️Play</th>
-                    <th>ID</th>
+                    <th>Pieces</th>
                     <th>Columns</th>
                     <th>Penta</th>
                   </tr>
@@ -47,7 +48,18 @@ const Pentas: NextPage = () => {
                       <td>
                         <a href={'pentas/' + penta.id} role="button" className="btn btn-primary btn-circle">🕹️</a>
                       </td>
-                      <td>{penta.id}</td>
+                      <td>
+                        {penta?.blocks.map((block, index) => {
+                          const classes = ["w-fit", "mx-auto"]
+                          return (
+                            <div key={block.id} className="inline-block outline outline-1 m-1">
+                              <div className={classes.join(" ")}>
+                                <Block block={block} size={8} hideVisibility={true}></Block>
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </td>
                       <td>{penta.columns}</td>
                       <td>
                         <Penta penta={penta} size={15} trimBorder={true}></Penta>

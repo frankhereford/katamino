@@ -5,11 +5,8 @@ export function transformBlockShape(
   block: any,
   borderWidth: number,
   doTranslation: boolean,
-  columns: number,
   ) {
   let shape = block.piece.shape
-
-  if (columns == 3) { console.log(columns) }
 
   // order of transformations matters
   if (block.reflection) {
@@ -20,10 +17,7 @@ export function transformBlockShape(
     shape = Array2D.rotate(shape, Array2D.DIRECTIONS.RIGHT)
   }
 
-
-
   if (doTranslation) { 
-    if (columns == 3) { console.log(shape) }
 
     for (let i = 0; i < borderWidth; i++) {
       shape = Array2D.pad(shape, Array2D.EDGES.TOP, 1, 0)
@@ -51,18 +45,6 @@ export function transformBlockShape(
       }
     }
   }
-
-  //if (!doTranslation) {
-    //shape = Array2D.crop(shape, borderWidth, borderWidth, 5, 5)
-  //}
-  //for (let i = 0; i < borderWidth; i++) {
-    //shape = Array2D.pad(shape, Array2D.EDGES.TOP, 1, 0)
-    //shape = Array2D.pad(shape, Array2D.EDGES.LEFT, 1, 0)
-    //shape = Array2D.pad(shape, Array2D.EDGES.BOTTOM, 1, 0)
-    //shape = Array2D.pad(shape, Array2D.EDGES.RIGHT, 1, 0)
-  //}
-
-
 
   return shape
 }
