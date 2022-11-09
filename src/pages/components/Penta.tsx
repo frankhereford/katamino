@@ -51,13 +51,11 @@ export default function Penta(props: PentaProps) {
     const blocks = _.cloneDeep(props.penta?.blocks);
     // im letting my lazy typing come in here with this old code
     const sortedBlocks = blocks.sort((a: any, b: any) => a.last_update - b.last_update)
-    //console.log(sortedBlocks)
     sortedBlocks.forEach((block: any) => {
       if (!block.visible) { 
         return
       }
       const shape = transformBlockShape(block, props.penta?.borderWidth, true, props.penta?.columns)
-      console.log("Transformed Shape: ", shape)
       for (let row = 0; row < shape.length; row++) {
         for (let col = 0; col < (shape[row] || []).length; col++) {
           if (shape?.[row]?.[col] && board?.[row]?.[col]) {
@@ -90,8 +88,6 @@ export default function Penta(props: PentaProps) {
     setBoard(board)
   }, [props.penta?.borderWidth, props.penta])
 
-  //console.log(board)
-
   const squares = []
   for (let row = 0; row < board?.length|| 0; row++) {
     for (let col = 0; col < board?.[row].length || 0; col++) {
@@ -100,8 +96,6 @@ export default function Penta(props: PentaProps) {
       squares.push(<Square key={key} color={color} size={props.size}></Square>)
     }
   }
-
-  //console.log(squares)
 
   if (!props.penta) { return <div></div> }
 

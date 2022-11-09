@@ -20,8 +20,6 @@ export function transformBlockShape(
     shape = Array2D.rotate(shape, Array2D.DIRECTIONS.RIGHT)
   }
 
-
-
   if (doTranslation) { 
     if (columns == 3) { console.log(shape) }
 
@@ -51,18 +49,6 @@ export function transformBlockShape(
       }
     }
   }
-
-  //if (!doTranslation) {
-    //shape = Array2D.crop(shape, borderWidth, borderWidth, 5, 5)
-  //}
-  //for (let i = 0; i < borderWidth; i++) {
-    //shape = Array2D.pad(shape, Array2D.EDGES.TOP, 1, 0)
-    //shape = Array2D.pad(shape, Array2D.EDGES.LEFT, 1, 0)
-    //shape = Array2D.pad(shape, Array2D.EDGES.BOTTOM, 1, 0)
-    //shape = Array2D.pad(shape, Array2D.EDGES.RIGHT, 1, 0)
-  //}
-
-
 
   return shape
 }
