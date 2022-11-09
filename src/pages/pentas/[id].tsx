@@ -82,7 +82,8 @@ const PentaPage: NextPage = () => {
     if (!penta) { return }
     const pentaCopy = _.cloneDeep(penta);
     console.log("Copy: ", pentaCopy)
-    pentaCopy.blocks[activeBlock].reflection = !pentaCopy.blocks[activeBlock].reflection
+    console.log(pentaCopy.blocks[activeBlock])
+    pentaCopy.blocks[activeBlock]!.reflection = !pentaCopy?.blocks?.[activeBlock]?.reflection
     setPenta(pentaCopy)
 
     set_reflection.mutate({
@@ -105,8 +106,8 @@ const PentaPage: NextPage = () => {
       if (!penta) { return }
       const pentaCopy = _.cloneDeep(penta);
       console.log("Copy: ", pentaCopy)
-      pentaCopy.blocks[activeBlock].rotation = {
-        clockwise: (pentaCopy.blocks[activeBlock].rotation.clockwise + 1) % 4
+      pentaCopy.blocks[activeBlock]!.rotation = {
+        clockwise: (clockwise + 1) % 4
       }
       setPenta(pentaCopy)
 
@@ -150,7 +151,7 @@ const PentaPage: NextPage = () => {
         if (!penta) { return }
         const pentaCopy = _.cloneDeep(penta);
         console.log("Copy: ", pentaCopy)
-        pentaCopy.blocks[activeBlock].translation = {
+        pentaCopy.blocks[activeBlock]!.translation = {
           up: up - 1,
           right: right,
         }
@@ -169,7 +170,7 @@ const PentaPage: NextPage = () => {
         if (!penta) { return }
         const pentaCopy = _.cloneDeep(penta);
         console.log("Copy: ", pentaCopy)
-        pentaCopy.blocks[activeBlock].translation = {
+        pentaCopy.blocks[activeBlock]!.translation = {
           up: up + 1,
           right: right,
         }
@@ -188,7 +189,7 @@ const PentaPage: NextPage = () => {
         if (!penta) { return }
         const pentaCopy = _.cloneDeep(penta);
         console.log("Copy: ", pentaCopy)
-        pentaCopy.blocks[activeBlock].translation = {
+        pentaCopy.blocks[activeBlock]!.translation = {
           up: up,
           right: right - 1,
         }
@@ -207,7 +208,7 @@ const PentaPage: NextPage = () => {
         if (!penta) { return }
         const pentaCopy = _.cloneDeep(penta);
         console.log("Copy: ", pentaCopy)
-        pentaCopy.blocks[activeBlock].translation = {
+        pentaCopy.blocks[activeBlock]!.translation = {
           up: up,
           right: right + 1,
         }
@@ -231,9 +232,9 @@ const PentaPage: NextPage = () => {
     if (!penta) { return }
     const pentaCopy = _.cloneDeep(penta);
     console.log("Copy: ", pentaCopy)
-    pentaCopy.blocks[activeBlock].translation = { up: 0, right: 0, }
-    pentaCopy.blocks[activeBlock].rotation = { clockwise: 0 }
-    pentaCopy.blocks[activeBlock].reflection = false
+    pentaCopy.blocks[activeBlock]!.translation = { up: 0, right: 0, }
+    pentaCopy.blocks[activeBlock]!.rotation = { clockwise: 0 }
+    pentaCopy.blocks[activeBlock]!.reflection = false
     //pentaCopy.blocks[activeBlock].visible = false
     setPenta(pentaCopy)
 
@@ -253,7 +254,7 @@ const PentaPage: NextPage = () => {
     if (!penta) { return }
     const pentaCopy = _.cloneDeep(penta);
     console.log("Copy: ", pentaCopy)
-    pentaCopy.blocks[activeBlock].visible = !pentaCopy.blocks[activeBlock].visible
+    pentaCopy.blocks[activeBlock]!.visible = !pentaCopy.blocks[activeBlock]!.visible
     setPenta(pentaCopy)
 
     set_visibility.mutate({
