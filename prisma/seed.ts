@@ -156,8 +156,6 @@ async function main() {
       }
     })
 
-    //console.log(pieces)
-
     const pentaRecord = await prisma.penta.create({
       data: {
         columns: penta.columns,
@@ -179,8 +177,6 @@ async function main() {
         }
       }
     })
-
-    //console.log(pentaRecord)
   }))
 
 }
