@@ -9,6 +9,8 @@
 * [ ] fix small board bugs
 * [ ] make a block clickable
 * [ ] use an icon not a broken image when not logged in
+* [ ] add github login option if in production
+* [ ] if hidden, don't allow moves on a block
 
 Stuff I want to demo:
 * TailwindCSS - bootstrap but 🍄, like very-🍄
