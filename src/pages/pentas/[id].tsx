@@ -152,7 +152,6 @@ const PentaPage: NextPage = () => {
   }
 
   function keyTab(event: KeyboardEvent) {
-    console.log(event)
     event.preventDefault();
     if (!penta?.blocks) { return }
     else if (!activeBlock && activeBlock !== 0 && event.shiftKey) {
