@@ -339,7 +339,6 @@ const PentaPage: NextPage = () => {
     pentaCopy.blocks[activeBlock]!.translation = { up: 0, right: 0, }
     pentaCopy.blocks[activeBlock]!.rotation = { clockwise: 0 }
     pentaCopy.blocks[activeBlock]!.reflection = false
-    //pentaCopy.blocks[activeBlock].visible = false
     setPenta(pentaCopy)
 
     set_translation.mutate({
