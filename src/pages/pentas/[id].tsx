@@ -175,7 +175,7 @@ const PentaPage: NextPage = () => {
     else {setActiveBlock(activeBlock + 1)}
   }
 
-  function keyUp(event: KeyboardEvent | SyntheticEvent) {
+  function keyUp() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
     if (!penta?.blocks[activeBlock]!.visible) { return }
@@ -209,7 +209,7 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
-  function keyDown(event: KeyboardEvent | SyntheticEvent) {
+  function keyDown() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
     if (!penta?.blocks[activeBlock]!.visible) { return }
@@ -243,7 +243,7 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
-  function keyLeft(event: KeyboardEvent | SyntheticEvent) {
+  function keyLeft() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
     if (!penta?.blocks[activeBlock]!.visible) { return }
@@ -277,7 +277,7 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
-  function keyRight(event: KeyboardEvent | SyntheticEvent) {
+  function keyRight() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
     if (!penta?.blocks[activeBlock]!.visible) { return }
