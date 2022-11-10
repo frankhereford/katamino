@@ -35,7 +35,7 @@ export default function AvailablePentas(props: any) {
           </h1>
         </div>
         {pentas ?
-          <table className="table table-zebra w-full">
+          <table className="table table-zebra w-full outline rounded-md outline-1 outline-secondary">
             <thead>
               <tr>
                 <th>️Start</th>
