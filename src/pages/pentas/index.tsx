@@ -3,8 +3,8 @@ import Head from "next/head";
 import type { CSSProperties } from "react";
 import RingLoader from "react-spinners/RingLoader";
 import Penta from "../components/Penta";
+import AvailablePentas from "../components/AvailablePentas";
 import Block from "../components/Block";
-
 import { trpc } from "../../utils/trpc";
 
 const override: CSSProperties = {
@@ -80,6 +80,11 @@ const Pentas: NextPage = () => {
                   />
                 </div>
             }
+          </div>
+        </div>
+        <div className="grid grid-cols-10 mt-10">
+          <div className="col-start-2 col-end-10">
+            <AvailablePentas></AvailablePentas>
           </div>
         </div>
       </main>

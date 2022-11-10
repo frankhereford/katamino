@@ -3,9 +3,11 @@ import { authRouter } from "./auth";
 import { colorRouter } from "./color";
 import { pieceRouter } from "./piece";
 import { pentaRouter } from "./penta";
+import { availablePentaRouter } from "./availablePenta";
 import { blockRouter } from "./block";
 
 export const appRouter = router({
+  availablePenta: availablePentaRouter,
   penta: pentaRouter,
   block: blockRouter,
   piece: pieceRouter,
