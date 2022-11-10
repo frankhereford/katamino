@@ -144,6 +144,7 @@ async function main() {
 
 
   const deletePentas = await prisma.penta.deleteMany()
+  const deleteAvailablePentas = await prisma.availablePenta.deleteMany()
   
   await Promise.all(pentas.map(async (penta) => {
 
@@ -157,11 +158,10 @@ async function main() {
       }
     })
 
-    const pentaRecord = await prisma.penta.create({
+    const availablePentaRecord = await prisma.availablePenta.create({
       data: {
         columns: penta.columns,
-        user: { connect: { id: user?.id }, },
-        blocks: {
+        availableBlocks: {
           create: pieces.map((piece) => {
             return {
               piece: { connect: { id: piece.id }, },

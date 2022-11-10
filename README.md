@@ -17,6 +17,7 @@
 * [ ] look for places where things wrap and use the modulo operator
 * [ ] hook up navbar login/logout
 * [ ] make the <buttons> into a component
+* [ ] track lineage of user pentas and show a star for completion on availablePentas
 
 Stuff I want to demo:
 * TailwindCSS - bootstrap but 🍄, like very-🍄

@@ -36,7 +36,7 @@ export default function PiecePage(props: BlockProps) {
 
 
   const outerClasses = ["grid", "items-center","justify-center"]
-  if (!props.block?.visible) {
+  if (!props.block?.visible && !props.hideVisibility) {
     outerClasses.push("opacity-50")
   }
   const innerClasses = ["grid", "gap-0", "grid-cols-5"]

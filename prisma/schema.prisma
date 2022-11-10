@@ -22,11 +22,12 @@ model Color {
 
 // a piece is a particular tangible block from the game box, they are used in a penta
 model Piece {
-  id      String  @id @default(cuid())
-  colorId String  @unique
-  shape   Json
-  color   Color   @relation(fields: [colorId], references: [id], onDelete: Cascade)
-  blocks  Block[]
+  id             String           @id @default(cuid())
+  colorId        String           @unique
+  shape          Json
+  color          Color            @relation(fields: [colorId], references: [id], onDelete: Cascade)
+  blocks         Block[]
+  AvailableBlock AvailableBlock[]
 
   @@map(name: "pieces")
 }
@@ -49,14 +50,38 @@ model Block {
 
 // a penta is a particular puzzle board configuration
 model Penta {
-  id      String  @id @default(cuid())
-  userId  String
-  columns Int
-  borderWidth Int @default(2)
-  blocks  Block[]
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String  @id @default(cuid())
+  userId      String
+  columns     Int
+  borderWidth Int     @default(2)
+  blocks      Block[]
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map(name: "pentas")
+}
+
+model AvailableBlock {
+  id               String         @id @default(cuid())
+  last_update      DateTime       @default(now()) @updatedAt
+  pieceId          String
+  availablePentaId String
+  visible          Boolean        @default(false)
+  translation      Json
+  rotation         Json
+  reflection       Boolean
+  piece            Piece          @relation(fields: [pieceId], references: [id], onDelete: Cascade)
+  availablePenta   AvailablePenta @relation(fields: [availablePentaId], references: [id], onDelete: Cascade)
+
+  @@map(name: "available_blocks")
+}
+
+model AvailablePenta {
+  id              String           @id @default(cuid())
+  columns         Int
+  borderWidth     Int              @default(2)
+  availableBlocks AvailableBlock[]
+
+  @@map(name: "available_pentas")
 }
 
 // 👇🏻 Auth from here out
