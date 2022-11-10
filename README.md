@@ -18,6 +18,7 @@
 * [ ] hook up navbar login/logout
 * [ ] make the <buttons> into a component
 * [ ] track lineage of user pentas and show a star for completion on availablePentas
+* [ ] add version in footer
 
 Stuff I want to demo:
 * TailwindCSS - bootstrap but 🍄, like very-🍄
