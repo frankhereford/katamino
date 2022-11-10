@@ -7,7 +7,11 @@ import RingLoader from "react-spinners/RingLoader";
 
 export default function AvailablePentas(props: any) {
   const { data: pentas } = trpc.availablePenta.getAll.useQuery();
-  const startPenta = trpc.availablePenta.start.useMutation({});
+  const startPenta = trpc.availablePenta.start.useMutation({
+    onSuccess: () => {
+      props.setRefresh(true);
+    }
+  });
 
   const override: CSSProperties = {
     display: "block",
@@ -16,10 +20,10 @@ export default function AvailablePentas(props: any) {
   };
 
   function startPentaClick(event: any) {
+    props.setShowSpinner(true)
     const update = startPenta.mutate({
       id: event.target?.dataset.id || '',
     })
-    props.setRefresh(true);
   }
 
   return (

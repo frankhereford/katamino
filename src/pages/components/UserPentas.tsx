@@ -7,7 +7,14 @@ import RingLoader from "react-spinners/RingLoader";
 
 export default function UserPentas(props: any) {
 
-  const { data: pentas } = trpc.penta.getAll.useQuery();
+  const { data: pentas, refetch: refetchUserPentas } = trpc.penta.getAll.useQuery();
+
+  useEffect(() => {
+    if (props.refresh) {
+      props.setRefresh(false)
+      refetchUserPentas()
+    }
+  }, [props, refetchUserPentas])
 
   const override: CSSProperties = {
     display: "block",
