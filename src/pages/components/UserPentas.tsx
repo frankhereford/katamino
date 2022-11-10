@@ -15,7 +15,6 @@ export default function UserPentas() {
     borderColor: "red",
   };
 
-  console.log(pentas)
   return (
     <div className="grid grid-cols-10 mt-10">
       <div className="col-start-2 col-end-10">
