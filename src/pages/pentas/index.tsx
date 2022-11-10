@@ -3,11 +3,25 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import AvailablePentas from "../components/AvailablePentas";
 import UserPentas from "../components/UserPentas";
+import RingLoader from "react-spinners/RingLoader";
+import type { CSSProperties } from "react";
 
 
 const Pentas: NextPage = () => {
   
   const [refreshUserPentas, setRefreshUserPentas] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(false);
+  useEffect(() => {
+    if (!refreshUserPentas) {
+      setShowSpinner(false)
+    }
+  }, [refreshUserPentas])
+  
+  const override: CSSProperties = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "red",
+  };
   
   return (
     <>
@@ -17,14 +31,25 @@ const Pentas: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        {showSpinner &&
+          <div className="absolute right-[30px]">
+            <RingLoader
+              color={"hsl(var(--pf))"}
+              cssOverride={override}
+              size={50}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </div>
+        }
         <div className="grid grid-cols-10 mt-10">
           <div className="col-start-2 col-end-10">
-            <UserPentas refresh={refreshUserPentas}></UserPentas>
+            <UserPentas setRefresh={setRefreshUserPentas} refresh={refreshUserPentas}></UserPentas>
           </div>
         </div>
         <div className="grid grid-cols-10 mt-10">
           <div className="col-start-2 col-end-10">
-            <AvailablePentas setRefresh={setRefreshUserPentas}></AvailablePentas>
+            <AvailablePentas setShowSpinner={setShowSpinner} setRefresh={setRefreshUserPentas}></AvailablePentas>
           </div>
         </div>
       </main>
