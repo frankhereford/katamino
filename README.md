@@ -18,6 +18,8 @@
 * [ ] hook up navbar login/logout
 * [ ] make the <buttons> into a component
 * [ ] track lineage of user pentas and show a star for completion on availablePentas
+* [ ] Do the CI to break production off into a thing
+  * [ ] Integrate DB allocation for PR branches
 
 Stuff I want to demo:
 * TailwindCSS - bootstrap but 🍄, like very-🍄
