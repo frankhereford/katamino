@@ -31,7 +31,7 @@ export default function AvailablePentas(props: any) {
       <div className="col-start-2 col-end-10 mt-10">
         <div className="col-start-2 col-end-10">
           <h1 className="text-center text-xl font-extrabold leading-normal text-gray-700 md:text-[2rem]">
-            <span className="text-purple-300">A</span>vailable Pentas
+            <span className="text-secondary">A</span>vailable Pentas
           </h1>
         </div>
         {pentas ?

@@ -32,7 +32,7 @@ export default function UserPentas(props: any) {
     <div className="grid grid-cols-10 mt-3">
       <div className="col-start-2 col-end-10">
         <h1 className="text-center text-2xl font-extrabold leading-normal text-gray-700 md:text-[3rem]">
-          Pick a <span className="text-purple-300">P</span>enta to Play
+          Pick a <span className="text-primary">P</span>enta to Play
         </h1>
       </div>
       <div className="col-start-2 col-end-10">
