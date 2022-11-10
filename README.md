@@ -23,4 +23,7 @@
 
 Stuff I want to demo:
 * TailwindCSS - bootstrap but 🍄, like very-🍄
+  * daisyUI
 * prisma - schema and migrations
+* typescrpit
+* vercel + railway
