@@ -26,7 +26,7 @@ const override: CSSProperties = {
 
 const PentaPage: NextPage = () => {
   const { query, isReady: routerReady} = useRouter()
-  const { data: pentaRecord, refetch: pentaRefetch, isFetching: pentaLoading } = trpc.penta.get.useQuery({
+  const { data: pentaRecord, refetch: pentaRefetch } = trpc.penta.get.useQuery({
     id: String(query.id)
   }, {
     enabled: routerReady
