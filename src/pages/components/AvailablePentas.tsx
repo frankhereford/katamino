@@ -5,7 +5,7 @@ import Penta from "../components/Penta";
 import type { CSSProperties } from "react";
 import RingLoader from "react-spinners/RingLoader";
 
-export default function AvailablePentas() {
+export default function AvailablePentas(props: any) {
   const { data: pentas } = trpc.availablePenta.getAll.useQuery();
   const startPenta = trpc.availablePenta.start.useMutation({});
 
@@ -16,9 +16,10 @@ export default function AvailablePentas() {
   };
 
   function startPentaClick(event: any) {
-    startPenta.mutate({
+    const update = startPenta.mutate({
       id: event.target?.dataset.id || '',
     })
+    props.setRefresh(true);
   }
 
   return (

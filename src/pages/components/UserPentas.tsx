@@ -5,7 +5,7 @@ import Penta from "../components/Penta";
 import type { CSSProperties } from "react";
 import RingLoader from "react-spinners/RingLoader";
 
-export default function UserPentas() {
+export default function UserPentas(props: any) {
 
   const { data: pentas } = trpc.penta.getAll.useQuery();
 
@@ -14,6 +14,12 @@ export default function UserPentas() {
     margin: "0 auto",
     borderColor: "red",
   };
+
+  if (pentas?.length == 0) {
+    return (
+      <>
+      </>
+  ) }
 
   return (
     <div className="grid grid-cols-10 mt-10">

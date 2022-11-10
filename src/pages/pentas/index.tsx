@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react'
 import { type NextPage } from "next";
 import Head from "next/head";
 import AvailablePentas from "../components/AvailablePentas";
@@ -5,6 +6,8 @@ import UserPentas from "../components/UserPentas";
 
 
 const Pentas: NextPage = () => {
+  
+  const [refreshUserPentas, setRefreshUserPentas] = useState(false);
   
   return (
     <>
@@ -16,12 +19,12 @@ const Pentas: NextPage = () => {
       <main>
         <div className="grid grid-cols-10 mt-10">
           <div className="col-start-2 col-end-10">
-            <UserPentas></UserPentas>
+            <UserPentas refresh={refreshUserPentas}></UserPentas>
           </div>
         </div>
         <div className="grid grid-cols-10 mt-10">
           <div className="col-start-2 col-end-10">
-            <AvailablePentas></AvailablePentas>
+            <AvailablePentas setRefresh={setRefreshUserPentas}></AvailablePentas>
           </div>
         </div>
       </main>
