@@ -49,16 +49,18 @@ const Pentas: NextPage = () => {
                         <a href={'pentas/' + penta.id} role="button" className="btn btn-primary btn-circle">🕹️</a>
                       </td>
                       <td>
-                        {penta?.blocks.map((block, index) => {
-                          const classes = ["w-fit", "mx-auto"]
-                          return (
-                            <div key={block.id} className="inline-block outline outline-1 m-1">
-                              <div className={classes.join(" ")}>
-                                <Block block={block} size={8} hideVisibility={true}></Block>
+                        <div className="grid grid-cols-6">
+                          {penta?.blocks.map((block) => {
+                            const classes = ["w-fit", "mx-auto"]
+                            return (
+                              <div key={block.id} className="inline-block outline outline-1 m-1 w-fit">
+                                <div className={classes.join(" ")}>
+                                  <Block block={block} size={8} hideVisibility={true}></Block>
+                                </div>
                               </div>
-                            </div>
-                          )
-                        })}
+                            )
+                          })}
+                        </div>
                       </td>
                       <td>{penta.columns}</td>
                       <td>
