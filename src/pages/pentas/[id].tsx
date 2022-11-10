@@ -367,8 +367,8 @@ const PentaPage: NextPage = () => {
           <Penta penta={penta} confetti={true}></Penta>
         </div>
         <div className="w-screen">
-          <div className="m-auto relative w-[200px] h-[100px]">
-            <div className="absolute left-[100px] top-[0px]">
+          <div className="m-auto relative w-fit h-[100px]">
+            <div className="absolute right-[150px] top-[0px]">
               <button
                 className="btn gap-2 m-2"
                 onClick={keyQ}>
@@ -376,7 +376,7 @@ const PentaPage: NextPage = () => {
                 Q
               </button>
             </div>
-            <div className="absolute left-[0px] top-[0px]">
+            <div className="absolute right-[90px] top-[0px]">
               <button
                 className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                 onClick={keyW}>
@@ -384,7 +384,7 @@ const PentaPage: NextPage = () => {
                 W
               </button>
             </div>
-            <div className="absolute left-[0px] top-[0px]">
+            <div className="absolute right-[30px] top-[0px]">
               <button
                 className="btn gap-2 m-2"
                 onClick={keyE}>
@@ -392,7 +392,7 @@ const PentaPage: NextPage = () => {
                 E
               </button>
             </div>
-            <div className="absolute left-[0px] top-[0px]">
+            <div className="absolute right-[135px] top-[55px]">
               <button
                 className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                 onClick={keyA}>
@@ -400,7 +400,7 @@ const PentaPage: NextPage = () => {
                 A
               </button>
             </div>
-            <div className="absolute left-[0px] top-[0px]">
+            <div className="absolute right-[75px] top-[55px]">
               <button
                 className={"btn gap-2 m-2" + (activeBlock !== undefined ? "" : " btn-disabled")}
                 onClick={keyS}>
@@ -408,7 +408,7 @@ const PentaPage: NextPage = () => {
                 S
               </button>
             </div>
-            <div className="absolute left-[0px] top-[0px]">
+            <div className="absolute right-[15px] top-[55px]">
               <button
                 className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                 onClick={keyD}>
@@ -416,7 +416,7 @@ const PentaPage: NextPage = () => {
                 D
               </button>
             </div>
-            <div className="absolute left-[0px] top-[0px]">
+            <div className="absolute left-[80px] top-[0px]">
               <button
                 className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                 onClick={keyUp}
@@ -424,7 +424,7 @@ const PentaPage: NextPage = () => {
                 <BsArrowBarUp size={20} style={{ color: "#ffffff" }} />
               </button>
             </div>
-            <div className="absolute left-[0px] top-[0px]">
+            <div className="absolute left-[20px] top-[55px]">
               <button
                 className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                 onClick={keyLeft}
@@ -432,7 +432,7 @@ const PentaPage: NextPage = () => {
                 <BsArrowBarLeft size={20} style={{ color: "#ffffff" }} />
               </button>
             </div>
-            <div className="absolute left-[0px] top-[0px]">
+            <div className="absolute left-[80px] top-[55px]">
               <button
                 className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                 onClick={keyDown}
@@ -440,7 +440,7 @@ const PentaPage: NextPage = () => {
                 <BsArrowBarDown size={20} style={{ color: "#ffffff" }} />
               </button>
             </div>
-            <div className="absolute left-[0px] top-[0px]">
+            <div className="absolute left-[140px] top-[55px]">
               <button
                 className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                 onClick={keyRight}
