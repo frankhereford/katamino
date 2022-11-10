@@ -20,6 +20,8 @@
 * [ ] track lineage of user pentas and show a star for completion on availablePentas
 * [ ] Do the CI to break production off into a thing
   * [ ] Integrate DB allocation for PR branches
+* [ ] add version in footer
+* [ ] let users hide pentas in their list of their pentas
 
 Stuff I want to demo:
 * TailwindCSS - bootstrap but 🍄, like very-🍄
