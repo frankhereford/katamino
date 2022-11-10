@@ -26,7 +26,7 @@ const override: CSSProperties = {
 
 const PentaPage: NextPage = () => {
   const { query, isReady: routerReady} = useRouter()
-  const { data: pentaRecord, refetch: pentaRefetch, isFetching: pentaLoading } = trpc.penta.get.useQuery({
+  const { data: pentaRecord, refetch: pentaRefetch } = trpc.penta.get.useQuery({
     id: String(query.id)
   }, {
     enabled: routerReady
@@ -339,7 +339,6 @@ const PentaPage: NextPage = () => {
     pentaCopy.blocks[activeBlock]!.translation = { up: 0, right: 0, }
     pentaCopy.blocks[activeBlock]!.rotation = { clockwise: 0 }
     pentaCopy.blocks[activeBlock]!.reflection = false
-    //pentaCopy.blocks[activeBlock].visible = false
     setPenta(pentaCopy)
 
     set_translation.mutate({
@@ -382,6 +381,11 @@ const PentaPage: NextPage = () => {
 
   const classes = ["mt-10", "grid", "items-center", "justify-center", columnClass]
 
+  function blockClickHandler(block: string) {
+    const index = penta?.blocks.findIndex((b) => b.id === block)
+    setActiveBlock(index)
+  }
+
   return (
     <>
       <Head>
@@ -401,7 +405,7 @@ const PentaPage: NextPage = () => {
             <div className="m-auto relative w-fit h-[100px]">
               <div className="absolute right-[150px] top-[0px]">
                 <button
-                  className="btn gap-2 m-2 btn-primary"
+                  className="btn gap-2 m-2 btn-primary text-white"
                   onClick={keyQ}>
                   <BsArrowLeft size={20} style={{ color: "#ffffff" }} />
                   Q
@@ -409,7 +413,7 @@ const PentaPage: NextPage = () => {
               </div>
               <div className="absolute right-[90px] top-[0px]">
                 <button
-                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                   onClick={keyW}>
                   {flipIcon}
                   W
@@ -417,7 +421,7 @@ const PentaPage: NextPage = () => {
               </div>
               <div className="absolute right-[30px] top-[0px]">
                 <button
-                  className="btn gap-2 m-2 btn-primary"
+                  className="btn gap-2 m-2 btn-primary text-white"
                   onClick={keyE}>
                   <BsArrowRight size={20} style={{ color: "#ffffff" }} />
                   E
@@ -425,7 +429,7 @@ const PentaPage: NextPage = () => {
               </div>
               <div className="absolute right-[135px] top-[55px]">
                 <button
-                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                   onClick={keyA}>
                   <RiFilePaperLine size={20} style={{ color: "#ffffff" }} />
                   A
@@ -433,7 +437,7 @@ const PentaPage: NextPage = () => {
               </div>
               <div className="absolute right-[75px] top-[55px]">
                 <button
-                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined ? "" : " btn-disabled")}
+                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined ? "" : " btn-disabled")}
                   onClick={keyS}>
                   {visibilityIcon}
                   S
@@ -441,7 +445,7 @@ const PentaPage: NextPage = () => {
               </div>
               <div className="absolute right-[15px] top-[55px]">
                 <button
-                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                   onClick={keyD}>
                   <AiOutlineRotateRight size={20} style={{ color: "#ffffff" }} />
                   D
@@ -449,7 +453,7 @@ const PentaPage: NextPage = () => {
               </div>
               <div className="absolute left-[80px] top-[0px]">
                 <button
-                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                   onClick={keyUp}
                 >
                   <BsArrowBarUp size={20} style={{ color: "#ffffff" }} />
@@ -457,7 +461,7 @@ const PentaPage: NextPage = () => {
               </div>
               <div className="absolute left-[20px] top-[55px]">
                 <button
-                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                   onClick={keyLeft}
                 >
                   <BsArrowBarLeft size={20} style={{ color: "#ffffff" }} />
@@ -465,7 +469,7 @@ const PentaPage: NextPage = () => {
               </div>
               <div className="absolute left-[80px] top-[55px]">
                 <button
-                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                   onClick={keyDown}
                 >
                   <BsArrowBarDown size={20} style={{ color: "#ffffff" }} />
@@ -473,7 +477,7 @@ const PentaPage: NextPage = () => {
               </div>
               <div className="absolute left-[140px] top-[55px]">
                 <button
-                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                   onClick={keyRight}
                 >
                   <BsArrowBarRight size={20} style={{ color: "#ffffff" }} />
@@ -504,7 +508,7 @@ const PentaPage: NextPage = () => {
             return (
               <div key={block.id}>
                 <div className={classes.join(" ")}>
-                  <Block block={block}></Block>
+                  <Block blockClickHandler={blockClickHandler}  block={block}></Block>
                 </div>
               </div>
             )

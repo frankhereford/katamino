@@ -5,14 +5,15 @@
 * [x] show mini penta boards on listing page
 * [x] detect success and show a gold star or confetti burst or something
   * [ ] update the favicon with a react-use hook
-  * [ ] fix this so it's exactly the screen dimensions
+  * [x] fix this so it's exactly the screen dimensions
 * [ ] add a reset all button
 * [x] show keys to hint the controls
 * [x] fix small board bugs
   * look at when you have overlaps on a tiny penta preview
 * [ ] make a block clickable
 * [x] use an icon not a broken image when not logged in
-* [ ] add github login option if in production
+* [x] add github login option if in production
+  * [ ] bonus points for /only/ in production?
 * [x] if hidden, don't allow moves on a block
 * [ ] look for places where things wrap and use the modulo operator
 * [ ] hook up navbar login/logout
@@ -22,10 +23,11 @@
   * [ ] Integrate DB allocation for PR branches
 * [ ] add version in footer
 * [ ] let users hide pentas in their list of their pentas
+* [ ] lingering bug: you can still get the ghost-extra-columns on 3 & 4 width boards..
 
 Stuff I want to demo:
 * TailwindCSS - bootstrap but 🍄, like very-🍄
   * daisyUI
 * prisma - schema and migrations
-* typescrpit
-* vercel + railway
+* typescript
+* vercel + railway (analytics!)

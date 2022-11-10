@@ -9,6 +9,7 @@ interface BlockProps {
   block: any;
   size?: number;
   hideVisibility?: boolean;
+  blockClickHandler?: any;
 }
 
 export default function PiecePage(props: BlockProps) {
@@ -35,6 +36,11 @@ export default function PiecePage(props: BlockProps) {
   }, [props.block, props.size])
 
 
+  function blockClickHandler() {
+    if (!props.blockClickHandler) { return }
+    props.blockClickHandler(props.block.id)
+  }
+
   const outerClasses = ["grid", "items-center","justify-center"]
   if (!props.block?.visible && !props.hideVisibility) {
     outerClasses.push("opacity-50")
@@ -51,7 +57,7 @@ export default function PiecePage(props: BlockProps) {
             }
           </div>
         }
-        <div className={outerClasses.join(' ')}>
+        <div className={outerClasses.join(' ')} onClick={blockClickHandler}>
           <div className={innerClasses.join(' ')}>
             {squares}
           </div>
