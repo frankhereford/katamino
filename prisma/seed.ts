@@ -133,6 +133,7 @@ async function main() {
 
 
   const pentas = [
+    // so much repeated stuff here, it should define the long one and make the rest from that
     { columns: 3, pieces: [ 'orange', 'brown', 'darkGreen', ] },
     { columns: 4, pieces: [ 'orange', 'brown', 'darkGreen', 'pink' ] },
     { columns: 5, pieces: [ 'orange', 'brown', 'darkGreen', 'pink', 'green' ] },

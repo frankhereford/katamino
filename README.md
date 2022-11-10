@@ -3,7 +3,7 @@
 * [x] add visibility indicator
 * [x] make blocks transform, but not translate
 * [x] show mini penta boards on listing page
-* [ ] detect success and show a gold star or confetti burst or something
+* [x] detect success and show a gold star or confetti burst or something
   * [ ] update the favicon with a react-use hook
 * [ ] add a reset all button
 * [ ] show keys to hint the controls
