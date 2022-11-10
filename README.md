@@ -23,6 +23,7 @@
   * [ ] Integrate DB allocation for PR branches
 * [ ] add version in footer
 * [ ] let users hide pentas in their list of their pentas
+* [ ] lingering bug: you can still get the ghost-extra-columns on 3 & 4 width boards..
 
 Stuff I want to demo:
 * TailwindCSS - bootstrap but 🍄, like very-🍄
