@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { type SyntheticEvent } from 'react'
 import { useRouter } from 'next/router'
 import { type NextPage } from "next";
 import Head from "next/head";
@@ -10,6 +11,12 @@ import { type Prisma } from '@prisma/client';
 import _ from "lodash";
 import { useDebounceCallback } from '@react-hook/debounce'
 
+import { BsArrowLeft, BsArrowRight, BsArrowBarDown, BsArrowBarUp, BsArrowBarLeft, BsArrowBarRight } from 'react-icons/bs';
+import { TbFlipHorizontal, TbFlipVertical } from 'react-icons/tb';
+import { RiFilePaperLine, } from 'react-icons/ri';
+import { BiHide, BiShow } from 'react-icons/bi';
+import { AiOutlineRotateRight } from 'react-icons/ai';
+
 
 const PentaPage: NextPage = () => {
   const { query, isReady: routerReady} = useRouter()
@@ -19,7 +26,7 @@ const PentaPage: NextPage = () => {
     enabled: routerReady
   },);
 
-  const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 2500, false)
+  const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 4000, false)
 
   const set_rotation = trpc.block.set_rotation.useMutation({ });
   const set_reflection = trpc.block.set_reflection.useMutation({ });
@@ -34,6 +41,36 @@ const PentaPage: NextPage = () => {
     setPenta(pentaRecord)
   }, [pentaRecord])
 
+  const [flipIcon, setFlipIcon] = useState(<TbFlipHorizontal size={20} style={{ color: "#ffffff" }} />)
+  const [visibilityIcon, setVisibilityIcon] = useState(<BiShow size={20} style={{ color: "#ffffff" }} />)
+
+  useEffect(() => {
+    if (!activeBlock && activeBlock !== 0) { return }
+    if (
+      penta?.blocks[activeBlock]?.rotation &&
+      typeof penta?.blocks[activeBlock]?.rotation == 'object' &&
+      !Array.isArray(penta?.blocks[activeBlock]?.rotation)
+    ) {
+      const rotation = penta?.blocks[activeBlock]?.rotation as Prisma.JsonObject
+      const clockwise: number = Number(rotation.clockwise) || 0    
+      if (clockwise % 2 == 0) {
+        setFlipIcon(<TbFlipHorizontal size={20} style={{ color: "#ffffff" }} />)
+      }
+      else {
+        setFlipIcon(<TbFlipVertical size={20} style={{ color: "#ffffff" }} />)
+      }
+    }
+
+    if (penta?.blocks[activeBlock]?.visible) {
+      setVisibilityIcon(<BiHide size={20} style={{ color: "#ffffff" }} />)
+    }
+    else {
+      setVisibilityIcon(<BiShow size={20} style={{ color: "#ffffff" }} />)
+    }
+
+  }, [penta, activeBlock])
+
+  //<RiFilePaperLine size={20} style={{ color: "#ffffff" }} />
 
   useKeyBindings({
     q: keyQ,
@@ -43,10 +80,10 @@ const PentaPage: NextPage = () => {
     s: keyS,
     d: keyD,
     Tab: keyTab,
-    ArrowUp: arrowKey,
-    ArrowDown: arrowKey,
-    ArrowLeft: arrowKey,
-    ArrowRight: arrowKey,
+    ArrowUp: keyUp,
+    ArrowDown: keyDown,
+    ArrowLeft: keyLeft,
+    ArrowRight: keyRight,
   })
 
   function keyQ() {
@@ -128,12 +165,11 @@ const PentaPage: NextPage = () => {
     else {setActiveBlock(activeBlock + 1)}
   }
 
-  function arrowKey(event: KeyboardEvent) {
-  
+  function keyUp(event: KeyboardEvent | SyntheticEvent) {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
     if (!penta?.blocks[activeBlock]!.visible) { return }
-    if (!penta?.blocks[activeBlock]?.id) { return } 
+    if (!penta?.blocks[activeBlock]?.id) { return }
 
     if (
       penta?.blocks[activeBlock]?.translation &&
@@ -143,79 +179,124 @@ const PentaPage: NextPage = () => {
       const translation = penta?.blocks[activeBlock]?.translation as Prisma.JsonObject
       const up: number = Number(translation.up) || 0
       const right: number = Number(translation.right) || 0
-  
-      if (event.key === 'ArrowDown') {
-        
-        if (!penta) { return }
-        const pentaCopy = _.cloneDeep(penta);
-        pentaCopy.blocks[activeBlock]!.translation = {
-          up: up - 1,
-          right: right,
-        }
-        setPenta(pentaCopy)
 
-        set_translation.mutate({
-          id: penta?.blocks[activeBlock]?.id || '',
-          translation: {
-            up: up - 1,
-            right: right,
-          }
-        })
+      if (!penta) { return }
+      const pentaCopy = _.cloneDeep(penta);
+      pentaCopy.blocks[activeBlock]!.translation = {
+        up: up + 1,
+        right: right,
       }
-      else if (event.key === 'ArrowUp') {
+      setPenta(pentaCopy)
 
-        if (!penta) { return }
-        const pentaCopy = _.cloneDeep(penta);
-        pentaCopy.blocks[activeBlock]!.translation = {
+      set_translation.mutate({
+        id: penta?.blocks[activeBlock]?.id || '',
+        translation: {
           up: up + 1,
           right: right,
         }
-        setPenta(pentaCopy)
+      })
+    }
+    debouncedPentaRefetch()
+  }
 
-        set_translation.mutate({
-          id: penta?.blocks[activeBlock]?.id || '',
-          translation: {
-            up: up + 1,
-            right: right
-          }
-        })
+  function keyDown(event: KeyboardEvent | SyntheticEvent) {
+    if (!penta) { return }
+    if (!activeBlock && activeBlock !== 0) { return }
+    if (!penta?.blocks[activeBlock]!.visible) { return }
+    if (!penta?.blocks[activeBlock]?.id) { return }
+
+    if (
+      penta?.blocks[activeBlock]?.translation &&
+      typeof penta?.blocks[activeBlock]?.translation == 'object' &&
+      !Array.isArray(penta?.blocks[activeBlock]?.translation)
+    ) {
+      const translation = penta?.blocks[activeBlock]?.translation as Prisma.JsonObject
+      const up: number = Number(translation.up) || 0
+      const right: number = Number(translation.right) || 0
+
+      if (!penta) { return }
+      const pentaCopy = _.cloneDeep(penta);
+      pentaCopy.blocks[activeBlock]!.translation = {
+        up: up - 1,
+        right: right,
       }
-      else if (event.key === 'ArrowLeft') {
+      setPenta(pentaCopy)
 
-        if (!penta) { return }
-        const pentaCopy = _.cloneDeep(penta);
-        pentaCopy.blocks[activeBlock]!.translation = {
+      set_translation.mutate({
+        id: penta?.blocks[activeBlock]?.id || '',
+        translation: {
+          up: up - 1,
+          right: right,
+        }
+      })
+    }
+    debouncedPentaRefetch()
+  }
+
+  function keyLeft(event: KeyboardEvent | SyntheticEvent) {
+    if (!penta) { return }
+    if (!activeBlock && activeBlock !== 0) { return }
+    if (!penta?.blocks[activeBlock]!.visible) { return }
+    if (!penta?.blocks[activeBlock]?.id) { return }
+
+    if (
+      penta?.blocks[activeBlock]?.translation &&
+      typeof penta?.blocks[activeBlock]?.translation == 'object' &&
+      !Array.isArray(penta?.blocks[activeBlock]?.translation)
+    ) {
+      const translation = penta?.blocks[activeBlock]?.translation as Prisma.JsonObject
+      const up: number = Number(translation.up) || 0
+      const right: number = Number(translation.right) || 0
+
+      if (!penta) { return }
+      const pentaCopy = _.cloneDeep(penta);
+      pentaCopy.blocks[activeBlock]!.translation = {
+        up: up,
+        right: right - 1,
+      }
+      setPenta(pentaCopy)
+
+      set_translation.mutate({
+        id: penta?.blocks[activeBlock]?.id || '',
+        translation: {
           up: up,
           right: right - 1,
         }
-        setPenta(pentaCopy)
+      })
+    }
+    debouncedPentaRefetch()
+  }
 
-        set_translation.mutate({
-          id: penta?.blocks[activeBlock]?.id || '',
-          translation: {
-            up: up,
-            right: right - 1
-          }
-        })
+  function keyRight(event: KeyboardEvent | SyntheticEvent) {
+    if (!penta) { return }
+    if (!activeBlock && activeBlock !== 0) { return }
+    if (!penta?.blocks[activeBlock]!.visible) { return }
+    if (!penta?.blocks[activeBlock]?.id) { return }
+
+    if (
+      penta?.blocks[activeBlock]?.translation &&
+      typeof penta?.blocks[activeBlock]?.translation == 'object' &&
+      !Array.isArray(penta?.blocks[activeBlock]?.translation)
+    ) {
+      const translation = penta?.blocks[activeBlock]?.translation as Prisma.JsonObject
+      const up: number = Number(translation.up) || 0
+      const right: number = Number(translation.right) || 0
+
+      if (!penta) { return }
+      const pentaCopy = _.cloneDeep(penta);
+      pentaCopy.blocks[activeBlock]!.translation = {
+        up: up,
+        right: right + 1,
       }
-      else if (event.key === 'ArrowRight') {
+      setPenta(pentaCopy)
 
-        if (!penta) { return }
-        const pentaCopy = _.cloneDeep(penta);
-        pentaCopy.blocks[activeBlock]!.translation = {
+      set_translation.mutate({
+        id: penta?.blocks[activeBlock]?.id || '',
+        translation: {
           up: up,
           right: right + 1,
         }
-        setPenta(pentaCopy)
-
-        set_translation.mutate({
-          id: penta?.blocks[activeBlock]?.id || '',
-          translation: {
-            up: up,
-            right: right + 1
-          }
-        })
-      }
+      })
     }
     debouncedPentaRefetch()
   }
@@ -284,6 +365,70 @@ const PentaPage: NextPage = () => {
         </div>
         <div>
           <Penta penta={penta} confetti={true}></Penta>
+        </div>
+        <div>
+          <button
+            className="btn gap-2 m-2"
+            onClick={keyQ}>
+            <BsArrowLeft size={20} style={{ color: "#ffffff" }} />
+            Q
+          </button>
+          <button
+            className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+            onClick={keyW}>
+            { flipIcon }
+            W
+          </button>
+          <button
+            className="btn gap-2 m-2"
+            onClick={keyE}>
+            <BsArrowRight size={20} style={{ color: "#ffffff" }} />
+            E
+          </button>
+          <button
+            className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+            onClick={keyA}>
+            <RiFilePaperLine size={20} style={{ color: "#ffffff" }} />
+            A
+          </button>
+          <button
+            className={"btn gap-2 m-2" + (activeBlock !== undefined ? "" : " btn-disabled")}
+            onClick={keyS}>
+            { visibilityIcon }
+            S
+          </button>
+          <button
+            className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+            onClick={keyD}>
+            <AiOutlineRotateRight size={20} style={{ color: "#ffffff" }} />
+            D
+          </button>
+
+          <button
+            className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+            onClick={keyUp}
+          >
+            <BsArrowBarUp size={20} style={{ color: "#ffffff" }} />
+          </button>
+          <button
+            className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+            onClick={keyLeft}
+          >
+            <BsArrowBarLeft size={20} style={{ color: "#ffffff" }} />
+          </button>
+          <button
+            className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+            onClick={keyDown}
+          >
+            <BsArrowBarDown size={20} style={{ color: "#ffffff" }} />
+          </button>
+          <button
+            className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+            onClick={keyRight}
+          >
+            <BsArrowBarRight size={20} style={{ color: "#ffffff" }} />
+          </button>
+
         </div>
         <div className={classes.join(" ")}>
           {penta?.blocks.map((block, index) => {
