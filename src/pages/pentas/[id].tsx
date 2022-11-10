@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { type SyntheticEvent } from 'react'
 import { useRouter } from 'next/router'
 import { type NextPage } from "next";
 import Head from "next/head";
@@ -10,6 +9,8 @@ import { trpc } from "../../utils/trpc";
 import { type Prisma } from '@prisma/client';
 import _ from "lodash";
 import { useDebounceCallback } from '@react-hook/debounce'
+import RingLoader from "react-spinners/RingLoader";
+import type { CSSProperties } from "react";
 
 import { BsArrowLeft, BsArrowRight, BsArrowBarDown, BsArrowBarUp, BsArrowBarLeft, BsArrowBarRight } from 'react-icons/bs';
 import { TbFlipHorizontal, TbFlipVertical } from 'react-icons/tb';
@@ -17,6 +18,11 @@ import { RiFilePaperLine, } from 'react-icons/ri';
 import { BiHide, BiShow } from 'react-icons/bi';
 import { AiOutlineRotateRight } from 'react-icons/ai';
 
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+};
 
 const PentaPage: NextPage = () => {
   const { query, isReady: routerReady} = useRouter()
@@ -389,90 +395,103 @@ const PentaPage: NextPage = () => {
         <div>
           <Penta penta={penta} confetti={true}></Penta>
         </div>
-        <div className="w-screen">
-          <div className="m-auto relative w-fit h-[100px]">
-            <div className="absolute right-[150px] top-[0px]">
-              <button
-                className="btn gap-2 m-2 btn-primary"
-                onClick={keyQ}>
-                <BsArrowLeft size={20} style={{ color: "#ffffff" }} />
-                Q
-              </button>
-            </div>
-            <div className="absolute right-[90px] top-[0px]">
-              <button
-                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
-                onClick={keyW}>
-                { flipIcon }
-                W
-              </button>
-            </div>
-            <div className="absolute right-[30px] top-[0px]">
-              <button
-                className="btn gap-2 m-2 btn-primary"
-                onClick={keyE}>
-                <BsArrowRight size={20} style={{ color: "#ffffff" }} />
-                E
-              </button>
-            </div>
-            <div className="absolute right-[135px] top-[55px]">
-              <button
-                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
-                onClick={keyA}>
-                <RiFilePaperLine size={20} style={{ color: "#ffffff" }} />
-                A
-              </button>
-            </div>
-            <div className="absolute right-[75px] top-[55px]">
-              <button
-                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined ? "" : " btn-disabled")}
-                onClick={keyS}>
-                { visibilityIcon }
-                S
-              </button>
-            </div>
-            <div className="absolute right-[15px] top-[55px]">
-              <button
-                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
-                onClick={keyD}>
-                <AiOutlineRotateRight size={20} style={{ color: "#ffffff" }} />
-                D
-              </button>
-            </div>
-            <div className="absolute left-[80px] top-[0px]">
-              <button
-                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
-                onClick={keyUp}
-              >
-                <BsArrowBarUp size={20} style={{ color: "#ffffff" }} />
-              </button>
-            </div>
-            <div className="absolute left-[20px] top-[55px]">
-              <button
-                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
-                onClick={keyLeft}
-              >
-                <BsArrowBarLeft size={20} style={{ color: "#ffffff" }} />
-              </button>
-            </div>
-            <div className="absolute left-[80px] top-[55px]">
-              <button
-                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
-                onClick={keyDown}
-              >
-                <BsArrowBarDown size={20} style={{ color: "#ffffff" }} />
-              </button>
-            </div>
-            <div className="absolute left-[140px] top-[55px]">
-              <button
-                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
-                onClick={keyRight}
-              >
-                <BsArrowBarRight size={20} style={{ color: "#ffffff" }} />
-              </button>
+        
+        {penta &&
+          <div className="w-screen">
+            <div className="m-auto relative w-fit h-[100px]">
+              <div className="absolute right-[150px] top-[0px]">
+                <button
+                  className="btn gap-2 m-2 btn-primary"
+                  onClick={keyQ}>
+                  <BsArrowLeft size={20} style={{ color: "#ffffff" }} />
+                  Q
+                </button>
+              </div>
+              <div className="absolute right-[90px] top-[0px]">
+                <button
+                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                  onClick={keyW}>
+                  {flipIcon}
+                  W
+                </button>
+              </div>
+              <div className="absolute right-[30px] top-[0px]">
+                <button
+                  className="btn gap-2 m-2 btn-primary"
+                  onClick={keyE}>
+                  <BsArrowRight size={20} style={{ color: "#ffffff" }} />
+                  E
+                </button>
+              </div>
+              <div className="absolute right-[135px] top-[55px]">
+                <button
+                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                  onClick={keyA}>
+                  <RiFilePaperLine size={20} style={{ color: "#ffffff" }} />
+                  A
+                </button>
+              </div>
+              <div className="absolute right-[75px] top-[55px]">
+                <button
+                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined ? "" : " btn-disabled")}
+                  onClick={keyS}>
+                  {visibilityIcon}
+                  S
+                </button>
+              </div>
+              <div className="absolute right-[15px] top-[55px]">
+                <button
+                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                  onClick={keyD}>
+                  <AiOutlineRotateRight size={20} style={{ color: "#ffffff" }} />
+                  D
+                </button>
+              </div>
+              <div className="absolute left-[80px] top-[0px]">
+                <button
+                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                  onClick={keyUp}
+                >
+                  <BsArrowBarUp size={20} style={{ color: "#ffffff" }} />
+                </button>
+              </div>
+              <div className="absolute left-[20px] top-[55px]">
+                <button
+                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                  onClick={keyLeft}
+                >
+                  <BsArrowBarLeft size={20} style={{ color: "#ffffff" }} />
+                </button>
+              </div>
+              <div className="absolute left-[80px] top-[55px]">
+                <button
+                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                  onClick={keyDown}
+                >
+                  <BsArrowBarDown size={20} style={{ color: "#ffffff" }} />
+                </button>
+              </div>
+              <div className="absolute left-[140px] top-[55px]">
+                <button
+                  className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                  onClick={keyRight}
+                >
+                  <BsArrowBarRight size={20} style={{ color: "#ffffff" }} />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        }
+        {!penta && 
+          <RingLoader
+            color={"hsl(var(--pf))"}
+            cssOverride={override}
+            size={75}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        }
+
         <div className={classes.join(" ")}>
           {penta?.blocks.map((block, index) => {
             let classes: string[] = []
