@@ -20,7 +20,7 @@ export default function Square(props: {color: string, size?: number}) {
     }
   }, [props.color, colorLookup])
 
-  function handleClick(){
+  function handleClick(){ // leaving this here for now, could be a good easter egg
     // set a meaningful default to fix typing
     setColor(randomColor?.hexCode ?? "#ffffff")
     // get a color for the next click
@@ -47,7 +47,7 @@ export default function Square(props: {color: string, size?: number}) {
 
   return (
     <>
-      <div onClick={handleClick} className={classes.join(" ")} style={inlineStyle}>
+      <div className={classes.join(" ")} style={inlineStyle}>
       </div>
     </>
   );

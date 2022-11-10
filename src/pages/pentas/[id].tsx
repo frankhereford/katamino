@@ -381,6 +381,11 @@ const PentaPage: NextPage = () => {
 
   const classes = ["mt-10", "grid", "items-center", "justify-center", columnClass]
 
+  function blockClickHandler(block: string) {
+    const index = penta?.blocks.findIndex((b) => b.id === block)
+    setActiveBlock(index)
+  }
+
   return (
     <>
       <Head>
@@ -503,7 +508,7 @@ const PentaPage: NextPage = () => {
             return (
               <div key={block.id}>
                 <div className={classes.join(" ")}>
-                  <Block block={block}></Block>
+                  <Block blockClickHandler={blockClickHandler}  block={block}></Block>
                 </div>
               </div>
             )
