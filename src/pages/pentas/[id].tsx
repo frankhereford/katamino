@@ -76,11 +76,11 @@ const PentaPage: NextPage = () => {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
     const visibleCount = penta.blocks.filter(block => block.visible).length
-    console.log(visibleCount)
     if (visibleCount == 0 && activeBlock == 0 && !initialShow) {
       setInitialShow(true)
       keyS()
     }
+    setInitialShow(true)
   }, [penta, activeBlock])
 
   useKeyBindings({
