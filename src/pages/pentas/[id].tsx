@@ -152,14 +152,27 @@ const PentaPage: NextPage = () => {
   }
 
   function keyTab(event: KeyboardEvent) {
+    console.log(event)
     event.preventDefault();
     if (!penta?.blocks) { return }
+    else if (!activeBlock && activeBlock !== 0 && event.shiftKey) {
+      setActiveBlock(penta?.blocks.length - 1)
+    }
     else if (!activeBlock && activeBlock !== 0) {
       setActiveBlock(0)
     }
+    else if (activeBlock == penta?.blocks.length - 1 && event.shiftKey) {
+      setActiveBlock(activeBlock - 1)
+     }
     else if (activeBlock == penta?.blocks.length - 1) {
       setActiveBlock(0)
      }
+    else if (event.shiftKey && activeBlock === 0) {
+      setActiveBlock(penta?.blocks.length - 1)
+    }
+    else if (event.shiftKey) {
+      setActiveBlock(activeBlock - 1)
+    }
     else {setActiveBlock(activeBlock + 1)}
   }
 
