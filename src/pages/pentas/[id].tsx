@@ -70,7 +70,18 @@ const PentaPage: NextPage = () => {
 
   }, [penta, activeBlock])
 
-  //<RiFilePaperLine size={20} style={{ color: "#ffffff" }} />
+  const [initialShow, setInitialShow] = useState(false)
+
+  useEffect(() => {
+    if (!penta) { return }
+    if (!activeBlock && activeBlock !== 0) { return }
+    const visibleCount = penta.blocks.filter(block => block.visible).length
+    if (visibleCount == 0 && activeBlock == 0 && !initialShow) {
+      setInitialShow(true)
+      keyS()
+    }
+    setInitialShow(true)
+  }, [penta, activeBlock])
 
   useKeyBindings({
     q: keyQ,
@@ -156,16 +167,28 @@ const PentaPage: NextPage = () => {
   function keyTab(event: KeyboardEvent) {
     event.preventDefault();
     if (!penta?.blocks) { return }
+    else if (!activeBlock && activeBlock !== 0 && event.shiftKey) {
+      setActiveBlock(penta?.blocks.length - 1)
+    }
     else if (!activeBlock && activeBlock !== 0) {
       setActiveBlock(0)
     }
+    else if (activeBlock == penta?.blocks.length - 1 && event.shiftKey) {
+      setActiveBlock(activeBlock - 1)
+     }
     else if (activeBlock == penta?.blocks.length - 1) {
       setActiveBlock(0)
      }
+    else if (event.shiftKey && activeBlock === 0) {
+      setActiveBlock(penta?.blocks.length - 1)
+    }
+    else if (event.shiftKey) {
+      setActiveBlock(activeBlock - 1)
+    }
     else {setActiveBlock(activeBlock + 1)}
   }
 
-  function keyUp(event: KeyboardEvent | SyntheticEvent) {
+  function keyUp() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
     if (!penta?.blocks[activeBlock]!.visible) { return }
@@ -199,7 +222,7 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
-  function keyDown(event: KeyboardEvent | SyntheticEvent) {
+  function keyDown() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
     if (!penta?.blocks[activeBlock]!.visible) { return }
@@ -233,7 +256,7 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
-  function keyLeft(event: KeyboardEvent | SyntheticEvent) {
+  function keyLeft() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
     if (!penta?.blocks[activeBlock]!.visible) { return }
@@ -267,7 +290,7 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
-  function keyRight(event: KeyboardEvent | SyntheticEvent) {
+  function keyRight() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
     if (!penta?.blocks[activeBlock]!.visible) { return }
@@ -370,7 +393,7 @@ const PentaPage: NextPage = () => {
           <div className="m-auto relative w-fit h-[100px]">
             <div className="absolute right-[150px] top-[0px]">
               <button
-                className="btn gap-2 m-2"
+                className="btn gap-2 m-2 btn-primary"
                 onClick={keyQ}>
                 <BsArrowLeft size={20} style={{ color: "#ffffff" }} />
                 Q
@@ -378,7 +401,7 @@ const PentaPage: NextPage = () => {
             </div>
             <div className="absolute right-[90px] top-[0px]">
               <button
-                className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                 onClick={keyW}>
                 { flipIcon }
                 W
@@ -386,7 +409,7 @@ const PentaPage: NextPage = () => {
             </div>
             <div className="absolute right-[30px] top-[0px]">
               <button
-                className="btn gap-2 m-2"
+                className="btn gap-2 m-2 btn-primary"
                 onClick={keyE}>
                 <BsArrowRight size={20} style={{ color: "#ffffff" }} />
                 E
@@ -394,7 +417,7 @@ const PentaPage: NextPage = () => {
             </div>
             <div className="absolute right-[135px] top-[55px]">
               <button
-                className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                 onClick={keyA}>
                 <RiFilePaperLine size={20} style={{ color: "#ffffff" }} />
                 A
@@ -402,7 +425,7 @@ const PentaPage: NextPage = () => {
             </div>
             <div className="absolute right-[75px] top-[55px]">
               <button
-                className={"btn gap-2 m-2" + (activeBlock !== undefined ? "" : " btn-disabled")}
+                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined ? "" : " btn-disabled")}
                 onClick={keyS}>
                 { visibilityIcon }
                 S
@@ -410,7 +433,7 @@ const PentaPage: NextPage = () => {
             </div>
             <div className="absolute right-[15px] top-[55px]">
               <button
-                className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                 onClick={keyD}>
                 <AiOutlineRotateRight size={20} style={{ color: "#ffffff" }} />
                 D
@@ -418,7 +441,7 @@ const PentaPage: NextPage = () => {
             </div>
             <div className="absolute left-[80px] top-[0px]">
               <button
-                className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                 onClick={keyUp}
               >
                 <BsArrowBarUp size={20} style={{ color: "#ffffff" }} />
@@ -426,7 +449,7 @@ const PentaPage: NextPage = () => {
             </div>
             <div className="absolute left-[20px] top-[55px]">
               <button
-                className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                 onClick={keyLeft}
               >
                 <BsArrowBarLeft size={20} style={{ color: "#ffffff" }} />
@@ -434,7 +457,7 @@ const PentaPage: NextPage = () => {
             </div>
             <div className="absolute left-[80px] top-[55px]">
               <button
-                className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                 onClick={keyDown}
               >
                 <BsArrowBarDown size={20} style={{ color: "#ffffff" }} />
@@ -442,7 +465,7 @@ const PentaPage: NextPage = () => {
             </div>
             <div className="absolute left-[140px] top-[55px]">
               <button
-                className={"btn gap-2 m-2" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                className={"btn gap-2 m-2 btn-primary" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
                 onClick={keyRight}
               >
                 <BsArrowBarRight size={20} style={{ color: "#ffffff" }} />

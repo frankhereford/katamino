@@ -164,7 +164,7 @@ export default function Penta(props: PentaProps) {
       {solved &&
         <Confetti
           width={windowWidth}
-          height={windowWidth}
+          height={windowHeight}
           opacity={.5}
         />
       }
