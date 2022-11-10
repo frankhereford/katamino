@@ -24,11 +24,16 @@ export default function AvailablePentas() {
   return (
     <>
       <div className="col-start-2 col-end-10 mt-10">
+        <div className="col-start-2 col-end-10">
+          <h1 className="text-center text-xl font-extrabold leading-normal text-gray-700 md:text-[2rem]">
+            <span className="text-purple-300">A</span>vailable Pentas
+          </h1>
+        </div>
         {pentas ?
           <table className="table table-zebra w-full">
             <thead>
               <tr>
-                <th>️Play</th>
+                <th>️Start</th>
                 <th>Columns</th>
                 <th>Pieces</th>
               </tr>
