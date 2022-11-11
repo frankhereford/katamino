@@ -10,9 +10,12 @@ buildCommand = "npm run seed"
 [environments.production.deploy]
 startCommand = "true"
 restartPolicyType = "NEVER"
+ 
+
+#figure out how to set VERCEL_TOKEN in here
 
 [environments.pr.deploy]
 #startCommand = "vercel help"
-startCommand = "vercel -e DATABASE_URL=$DATABASE_URL --token=WzaBNsdy9MSN6fgJz8S93f0K"
+startCommand = "vercel -e DATABASE_URL=$DATABASE_URL --token=$VERCEL_TOKEN"
 #startCommand = "export"
 restartPolicyType = "NEVER"
