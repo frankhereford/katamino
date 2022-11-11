@@ -7,9 +7,11 @@
     "datasource",
     "penta",
     "pentas",
+    "Pkgs",
     "superjson",
     "tailwindcss",
     "tanstack",
-    "trpc"
+    "trpc",
+    "vercel"
   ]
 }
