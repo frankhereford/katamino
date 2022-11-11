@@ -1,8 +1,7 @@
-[build]
+[environments.pr.build]
 builder = "NIXPACKS"
 buildCommand = "npm run seed"
 
 [deploy]
 startCommand = "true"
-restartPolicyType = "ON_FAILURE"
-restartPolicyMaxRetries = 9
+restartPolicyType = "NEVER"
