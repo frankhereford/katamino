@@ -7,6 +7,10 @@ buildCommand = "true"
 builder = "NIXPACKS"
 buildCommand = "npm run seed"
 
-[deploy]
+[environments.production.deploy]
 startCommand = "true"
+restartPolicyType = "NEVER"
+
+[environments.pr.deploy]
+startCommand = "vercel env ls"
 restartPolicyType = "NEVER"
