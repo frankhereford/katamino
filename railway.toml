@@ -1,0 +1,8 @@
+[build]
+builder = "NIXPACKS"
+buildCommand = "npx prisma db seed"
+
+[deploy]
+startCommand = "sleep infinity"
+restartPolicyType = "NEVER"
+restartPolicyMaxRetries = 2
