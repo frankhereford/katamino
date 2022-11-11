@@ -1,6 +1,6 @@
 [build]
 builder = "NIXPACKS"
-buildCommand = "echo \"This is happening!\""
+buildCommand = "echo \"This is happening!!\""
 
 [deploy]
 startCommand = "sleep infinity"
