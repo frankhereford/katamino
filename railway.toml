@@ -12,5 +12,5 @@ startCommand = "true"
 restartPolicyType = "NEVER"
 
 [environments.pr.deploy]
-startCommand = "true"
+startCommand = "vercel help"
 restartPolicyType = "NEVER"
