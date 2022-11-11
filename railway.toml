@@ -1,6 +1,6 @@
 [build]
 builder = "NIXPACKS"
-buildCommand = "npx prisma db seed""
+buildCommand = "npx prisma db seed"
 
 [deploy]
 startCommand = "sleep infinity"
