@@ -1,0 +1,2 @@
+[phase.preview]
+  nixPkgs = ['nodePackages_latest.vercel']
