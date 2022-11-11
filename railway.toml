@@ -2,6 +2,7 @@
 builder = "NIXPACKS"
 buildCommand = "true"
 
+# this needs to reset the database and then seed it? is that just a seed?
 [environments.pr.build]
 builder = "NIXPACKS"
 buildCommand = "npm run seed"
