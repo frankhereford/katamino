@@ -17,6 +17,9 @@ const Home: NextPage = () => {
         <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
           Play <span className="text-primary">K</span>atamino
         </h1>
+        <div>
+          Test message 1
+        </div>
 
         <h3 className="mt-2">A square</h3>
         <div className="grid grid-cols-1 gap-0">
