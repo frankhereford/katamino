@@ -1,0 +1,8 @@
+[build]
+builder = "NIXPACKS"
+buildCommand = "echo \"This is happening!\""
+
+[deploy]
+startCommand = "sleep infinity"
+restartPolicyType = "NEVER"
+restartPolicyMaxRetries = 2
