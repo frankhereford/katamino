@@ -1,3 +1,6 @@
 # these are the packages which get installed on your railway github integration / service, make sure they can get to npm <whatever>
 [phases.setup]
   nixPkgs = ['nodePackages.vercel', 'nodePackages.npm', 'nodejs']
+
+[phases.start]
+  cmd = 'vercel env ls'
