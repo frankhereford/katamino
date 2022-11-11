@@ -18,9 +18,7 @@ const Home: NextPage = () => {
           Play <span className="text-primary">K</span>atamino
         </h1>
         <div>
-
-          Test message 5
-
+          Test message 8
         </div>
 
         <h3 className="mt-2">A square</h3>

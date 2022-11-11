@@ -1,0 +1,11 @@
+[environments.production.build]
+builder = "NIXPACKS"
+buildCommand = "true"
+
+[environments.pr.build]
+builder = "NIXPACKS"
+buildCommand = "npm run seed"
+
+[deploy]
+startCommand = "true"
+restartPolicyType = "NEVER"

@@ -3,9 +3,13 @@
     "atamino",
     "autoincrement",
     "colord",
+    "daisyui",
     "datasource",
     "penta",
     "pentas",
+    "superjson",
+    "tailwindcss",
+    "tanstack",
     "trpc"
   ]
 }
