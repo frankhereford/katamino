@@ -1,2 +1,2 @@
 [phases.setup]
-  nixPkgs = ['nodePackages_latest.vercel']
+  nixPkgs = ['nodePackages.vercel']
