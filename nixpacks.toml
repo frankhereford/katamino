@@ -1,2 +1,2 @@
 [phases.setup]
-  nixPkgs = ['nodePackages.vercel', 'nodePackages.npm', 'nodePackages.ts-node']
+  nixPkgs = ['nodePackages.vercel', 'nodePackages.npm', 'nodejs']
