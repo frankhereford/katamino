@@ -16,6 +16,6 @@ restartPolicyType = "NEVER"
 
 [environments.pr.deploy]
 #startCommand = "vercel help"
-startCommand = "vercel -e DATABASE_URL=$DATABASE_URL --token=$VERCEL_TOKEN"
-#startCommand = "export"
+#startCommand = "vercel -e DATABASE_URL=$DATABASE_URL --token=$VERCEL_TOKEN"
+startCommand = "export"
 restartPolicyType = "NEVER"
