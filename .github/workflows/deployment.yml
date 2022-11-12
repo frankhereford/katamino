@@ -44,6 +44,8 @@ jobs:
          PR_NUMBER=$(echo $GITHUB_REF | grep -o "[0-9]*")
          RAILWAY_ENVIRONMENT="katamino-pr-$PR_NUMBER"
          echo $RAILWAY_ENVIRONMENT
+         railway environment $RAILWAY_ENVIRONMENT
+         railway status
          #npm install
          #npx railway whoami
          #vercel --token=${{ secrets.VERCEL_TOKEN }}
