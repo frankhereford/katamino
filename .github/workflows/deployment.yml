@@ -47,6 +47,7 @@ jobs:
          #railway vars
          npm install
          npx prisma db push
+         npx prisma db seed
          vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL --build-env DATABASE_URL=$DATABASE_URL
       #- uses: amondnet/vercel-action@v20 #deploy
         #with:
