@@ -44,9 +44,10 @@ jobs:
          railway status
          RAILWAY_VARIABLES=$(railway vars)
          echo $RAILWAY_VARIABLES
+         DATABASE_URL=$(echo $RAILWAY_VARS | grep -o "postgresql.*/railway")
          #railway vars
          #npm install
-         #vercel --token=${{ secrets.VERCEL_TOKEN }}
+         vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL
       #- uses: amondnet/vercel-action@v20 #deploy
         #with:
           #vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
