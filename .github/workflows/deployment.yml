@@ -19,7 +19,7 @@ jobs:
       #  your build commands
       - run: |
          npm install
-         vercel
+         vercel --token=${{ secrets.VERCEL_TOKEN }}
          #npx next build --prod
       #- uses: amondnet/vercel-action@v20 #deploy
         #with:
