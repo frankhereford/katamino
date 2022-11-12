@@ -36,6 +36,8 @@ jobs:
          cd $GITHUB_WORKSPACE
          echo "👀 ~/.railway/config.json"
          cat ~/.railway/config.json
+         which railway
+         railway whoami
          #npm install
          #npx railway whoami
          #vercel --token=${{ secrets.VERCEL_TOKEN }}
