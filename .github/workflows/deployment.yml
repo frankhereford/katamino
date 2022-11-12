@@ -26,6 +26,9 @@ jobs:
           dir: '.vercel/'
       - run: |
          npm install
+         pwd
+         export
+         mkdir ~/.railway
          npx railway
          vercel --token=${{ secrets.VERCEL_TOKEN }}
       #- uses: amondnet/vercel-action@v20 #deploy
