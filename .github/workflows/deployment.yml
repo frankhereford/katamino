@@ -41,16 +41,12 @@ jobs:
          railway status
          RAILWAY_VARIABLES=$(railway vars)
          DATABASE_URL=$(echo $RAILWAY_VARIABLES | grep -o "postgresql.*/railway")
-         echo $DATABASE_URL
          export DATABASE_URL=$DATABASE_URL
+         echo "🛠️ npm install"
          npm install
+         echo "👾 DB Push"
          npx prisma db push
+         echo "🌱 DB Seed"
          npx prisma db seed > /dev/null
+         echo "🚀 Vercel build"
          vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL --build-env DATABASE_URL=$DATABASE_URL
-      #- uses: amondnet/vercel-action@v20 #deploy
-        #with:
-          #vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
-          #github-token: ${{ secrets.GH_PAT }} #Optional 
-          ## vercel-args: '--prod' #Optional
-          #vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}  #Required
-          #vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} #Required 
