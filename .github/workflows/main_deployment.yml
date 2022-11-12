@@ -1,0 +1,53 @@
+name: Build PR Preview Deployment
+
+env:
+  AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID}}
+  AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_ID}}
+  AUTH0_ISSUER: ${{ secrets.AUTH0_ISSUER}}
+  GITHUB_ID: ${{ secrets.GH_ID}}
+  GITHUB_SECRET: ${{ secrets.GH_SECRET}}
+  #NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL}}
+  NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+  RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+         mkdir .vercel
+      - name: create-json
+        uses: jsdaniell/create-json@v1.2.1
+        with:
+          name: 'project.json'
+          json: ${{ secrets.VERCEL_CONFIG }}
+          dir: '.vercel/'
+      - run: |
+         npm i -g @railway/cli
+         cd $HOME
+         mkdir .railway
+         cd .railway
+         echo "$RAILWAY_CONFIG" > config.json
+         cd $GITHUB_WORKSPACE
+         #echo "👀 Check railway auth"
+         #railway whoami
+         RAILWAY_ENVIRONMENT="production"
+         echo "🚉 Railway Environment: $RAILWAY_ENVIRONMENT"
+         railway environment $RAILWAY_ENVIRONMENT
+         echo "👀 Check railway status?"
+         railway status
+         RAILWAY_VARIABLES=$(railway vars)
+         DATABASE_URL=$(echo $RAILWAY_VARIABLES | grep -o "postgresql.*/railway")
+         export DATABASE_URL=$DATABASE_URL
+         echo "🛠️ npm install"
+         npm install
+         echo "👾 DB Push"
+         npx prisma db push
+         echo "🚀 Vercel build"
+         vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL --build-env DATABASE_URL=$DATABASE_URL
