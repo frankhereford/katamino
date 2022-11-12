@@ -34,6 +34,9 @@ jobs:
           dir: '.railway/'
       - run: |
          npm install
+         cd
+         ls
+         export
          npx railway whoami
          vercel --token=${{ secrets.VERCEL_TOKEN }}
       #- uses: amondnet/vercel-action@v20 #deploy
