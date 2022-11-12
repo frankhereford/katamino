@@ -42,7 +42,9 @@ jobs:
          railway environment $RAILWAY_ENVIRONMENT
          echo "👀 Check railway status?"
          railway status
-         railway vars
+         RAILWAY_VARIABLES=$(railway vars)
+         echo $RAILWAY_VARIABLES
+         #railway vars
          #npm install
          #vercel --token=${{ secrets.VERCEL_TOKEN }}
       #- uses: amondnet/vercel-action@v20 #deploy
