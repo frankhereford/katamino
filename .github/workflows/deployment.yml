@@ -20,10 +20,7 @@ jobs:
       - uses: actions/checkout@v3
       - run: |
          mkdir .vercel
-         cd
-         mkdir .railway
-         cd .railway
-         echo "$RAILWAY_CONFIG" >> config.json
+
       - name: create-json
         uses: jsdaniell/create-json@v1.2.1
         with:
@@ -37,7 +34,13 @@ jobs:
           #json: ${{ secrets.RAILWAY_CONFIG }}
           #dir: '~/.railway/'
       - run: |
+         cd $HOME
+         mkdir .railway
+         cd .railway
+         echo "$RAILWAY_CONFIG" >> config.json
          cd $GITHUB_WORKSPACE
+         echo "👀 ~/.railway/config.json"
+         cat ~/.railway/config.json
          npm install
          npx railway whoami
          vercel --token=${{ secrets.VERCEL_TOKEN }}
