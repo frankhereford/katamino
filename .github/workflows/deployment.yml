@@ -1,4 +1,4 @@
-name: deploy website
+name: Build PR Preview Deployment
 
 env:
   AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID}}
@@ -26,8 +26,8 @@ jobs:
           dir: '.vercel/'
       - run: |
          npm install
+         railway
          vercel --token=${{ secrets.VERCEL_TOKEN }}
-         #npx next build 
       #- uses: amondnet/vercel-action@v20 #deploy
         #with:
           #vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
