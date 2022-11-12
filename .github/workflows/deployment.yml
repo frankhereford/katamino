@@ -39,6 +39,7 @@ jobs:
          cat ~/.railway/config.json
          which railway
          railway whoami
+         export
          railway link $RAILWAY_PROJECT_ID
          railway environment production
          railway status
