@@ -41,7 +41,7 @@ jobs:
          railway status
          railway vars
          export
-         [[ $GITHUB_REF_NAME =~ refs/pull/([0-9]+)/merge]] && echo ${BASH_REMATCH[1]}
+         [[ $GITHUB_REF =~ refs/pull/([0-9]+)/merge]] && echo ${BASH_REMATCH[1]}
          echo "katamino-pr-"
          #npm install
          #npx railway whoami
