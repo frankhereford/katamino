@@ -4,7 +4,7 @@ buildCommand = "true"
 
 [environments.pr.build]
 builder = "NIXPACKS"
-buildCommand = "npm run seed"
+buildCommand = "true"
 
 [deploy]
 startCommand = "true"

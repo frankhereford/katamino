@@ -14,12 +14,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
+
         <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
           Play <span className="text-primary">K</span>atamino
         </h1>
-        <div>
-          Test message 8
-        </div>
 
         <h3 className="mt-2">A square</h3>
         <div className="grid grid-cols-1 gap-0">
