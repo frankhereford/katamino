@@ -18,14 +18,13 @@ jobs:
       - uses: actions/checkout@v3
       #  your build commands
       - run: |
-        mkdir .vercel
+         mkdir .vercel
       - name: create-json
         uses: jsdaniell/create-json@v1.2.1
         with:
           name: 'project.json'
           json: ${{ secrets.VERCEL_CONFIG }}
           dir: '.vercel/'
-
       - run: |
          npm install
          vercel --token=${{ secrets.VERCEL_TOKEN }}
