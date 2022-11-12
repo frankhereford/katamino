@@ -4,14 +4,11 @@ env:
   AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID}}
   AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_ID}}
   AUTH0_ISSUER: ${{ secrets.AUTH0_ISSUER}}
-  #DATABASE_URL: ${{ secrets.DATABASE_URL}}
   GITHUB_ID: ${{ secrets.GH_ID}}
   GITHUB_SECRET: ${{ secrets.GH_SECRET}}
   #NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL}}
   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-  #RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
   RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
-  RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
 
 on: [pull_request]
 jobs:
@@ -48,7 +45,7 @@ jobs:
          echo $DATABASE_URL
          #railway vars
          #npm install
-         vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL
+         vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL --build-env DATABASE_URL=$DATABASE_URL
       #- uses: amondnet/vercel-action@v20 #deploy
         #with:
           #vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
