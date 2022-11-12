@@ -27,13 +27,8 @@ jobs:
           name: 'project.json'
           json: ${{ secrets.VERCEL_CONFIG }}
           dir: '.vercel/'
-      #- name: create-json
-        #uses: jsdaniell/create-json@v1.2.1
-        #with:
-          #name: 'config.json'
-          #json: ${{ secrets.RAILWAY_CONFIG }}
-          #dir: '~/.railway/'
       - run: |
+         npm i -g @railway/cli
          cd $HOME
          mkdir .railway
          cd .railway
