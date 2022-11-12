@@ -41,9 +41,9 @@ jobs:
          cd $GITHUB_WORKSPACE
          echo "👀 ~/.railway/config.json"
          cat ~/.railway/config.json
-         npm install
-         npx railway whoami
-         vercel --token=${{ secrets.VERCEL_TOKEN }}
+         #npm install
+         #npx railway whoami
+         #vercel --token=${{ secrets.VERCEL_TOKEN }}
       #- uses: amondnet/vercel-action@v20 #deploy
         #with:
           #vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
