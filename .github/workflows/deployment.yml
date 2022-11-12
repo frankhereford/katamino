@@ -43,8 +43,9 @@ jobs:
          echo "👀 Check railway status?"
          railway status
          RAILWAY_VARIABLES=$(railway vars)
-         echo $RAILWAY_VARIABLES
+         #echo $RAILWAY_VARIABLES
          DATABASE_URL=$(echo $RAILWAY_VARS | grep -o "postgresql.*/railway")
+         echo $DATABASE_URL
          #railway vars
          #npm install
          vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL
