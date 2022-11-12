@@ -8,8 +8,9 @@ env:
   GITHUB_ID: ${{ secrets.GH_ID}}
   GITHUB_SECRET: ${{ secrets.GH_SECRET}}
   #NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL}}
-  NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET}}
-  RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+  NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+  #RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+  RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
 
 on: [pull_request]
 jobs:
@@ -20,7 +21,9 @@ jobs:
       - run: |
          mkdir .vercel
          cd
-         mkdir test_dir
+         mkdir .railway
+         cd .railway
+         echo "$RAILWAY_CONFIG" >> config.json
       - name: create-json
         uses: jsdaniell/create-json@v1.2.1
         with:
