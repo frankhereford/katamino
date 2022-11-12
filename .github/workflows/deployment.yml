@@ -44,7 +44,8 @@ jobs:
          DATABASE_URL=$(echo $RAILWAY_VARIABLES | grep -o "postgresql.*/railway")
          echo $DATABASE_URL
          #railway vars
-         #npm install
+         npm install
+         npx prisma db push
          vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL --build-env DATABASE_URL=$DATABASE_URL
       #- uses: amondnet/vercel-action@v20 #deploy
         #with:
