@@ -41,8 +41,8 @@ jobs:
          railway status
          #railway vars
          #export
-         export PR_NUMBER = $GITHUB_REF | grep -o "[0-9]*"
-         export RAILWAY_ENVIRONMENT="katamino-pr-$PR_NUMBER"
+         PR_NUMBER=$($GITHUB_REF | grep -o "[0-9]*")
+         RAILWAY_ENVIRONMENT="katamino-pr-$PR_NUMBER"
          echo $RAILWAY_ENVIRONMENT
          #npm install
          #npx railway whoami
