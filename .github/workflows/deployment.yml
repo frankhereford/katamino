@@ -40,6 +40,7 @@ jobs:
          echo "👀 Check railway status?"
          railway status
          railway vars
+         export
          #npm install
          #npx railway whoami
          #vercel --token=${{ secrets.VERCEL_TOKEN }}
