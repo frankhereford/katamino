@@ -39,9 +39,9 @@ jobs:
          railway whoami
          echo "👀 Check railway status?"
          railway status
-         railway vars
-         export
-         [[ $GITHUB_REF =~ refs/pull/([0-9]+)/merge]] && echo ${BASH_REMATCH[1]}
+         #railway vars
+         #export
+         echo $GITHUB_REF | grep -o "[0-9]*"
          echo "katamino-pr-"
          #npm install
          #npx railway whoami
