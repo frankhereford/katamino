@@ -44,7 +44,7 @@ jobs:
          railway status
          RAILWAY_VARIABLES=$(railway vars)
          #echo $RAILWAY_VARIABLES
-         DATABASE_URL=$(echo $RAILWAY_VARS | grep -o "postgresql.*/railway")
+         DATABASE_URL=$(echo $RAILWAY_VARIABLES | grep -o "postgresql.*/railway")
          echo $DATABASE_URL
          #railway vars
          #npm install
