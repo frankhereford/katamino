@@ -40,6 +40,7 @@ jobs:
          which railway
          railway whoami
          railway link $RAILWAY_PROJECT_ID
+         railway environment production
          railway status
          #npm install
          #npx railway whoami
