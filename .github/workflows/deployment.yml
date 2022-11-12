@@ -43,6 +43,7 @@ jobs:
          #echo $RAILWAY_VARIABLES
          DATABASE_URL=$(echo $RAILWAY_VARIABLES | grep -o "postgresql.*/railway")
          echo $DATABASE_URL
+         export DATABASE_URL=$DATABASE_URL
          #railway vars
          npm install
          npx prisma db push
