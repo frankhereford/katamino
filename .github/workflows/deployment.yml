@@ -35,13 +35,15 @@ jobs:
          cd .railway
          echo "$RAILWAY_CONFIG" >> config.json
          cd $GITHUB_WORKSPACE
-         echo "👀 ~/.railway/config.json"
-         cat ~/.railway/config.json
-         which railway
+         #echo "👀 ~/.railway/config.json"
+         #cat ~/.railway/config.json
+         #which railway
          railway whoami
          export
-         railway link $RAILWAY_PROJECT_ID
-         railway environment production
+         #echo "🔗 Link to Railway project"
+         #railway link $RAILWAY_PROJECT_ID
+         #railway environment production
+         echo "👀 Check railway status?"
          railway status
          #npm install
          #npx railway whoami
