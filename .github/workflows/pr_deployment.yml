@@ -28,7 +28,6 @@ jobs:
         with:
           message: |
             Release ${{ github.sha }} to <https://pr-${{ github.event.number }}.example.com>
-    Release ${{ github.sha }} to <https://pr-${{ github.event.number }}.example.com>
       - run: |
          npm i -g @railway/cli
          cd $HOME
