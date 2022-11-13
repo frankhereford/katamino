@@ -49,6 +49,7 @@ jobs:
          npx prisma db seed > /dev/null
          echo "🚀 Vercel build"
          VERCEL_OUTPUT=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL --build-env DATABASE_URL=$DATABASE_URL)
+         export VERCEL_OUTPUT=$VERCEL_OUTPUT
          echo $VERCEL_OUTPUT
          echo "🏁 Finished"
       - name: make-comment
@@ -56,4 +57,4 @@ jobs:
         with:
           message: |
             Release ${{ github.sha }} to <https://pr-${{ github.event.number }}.example.com>
-            Another line? ${{VERCEL_OUTPUT}} ?
+            Another line? ${{env.VERCEL_OUTPUT}} ?
