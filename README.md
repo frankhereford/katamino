@@ -8,6 +8,7 @@
 * 🌈 Prisma
   * migrations
   * prototyping `prisma db push`
+  * TypeScript Safe Apollo but with [useQuery](https://tanstack.com/query/v4/docs/reference/useQuery)
 * 🌱 Database Seeding
   * Idempotent seeding operation
 * 🚀 CI
