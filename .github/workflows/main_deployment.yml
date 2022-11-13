@@ -50,4 +50,5 @@ jobs:
          npx prisma db push
          echo "🚀 Vercel build"
          vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL --build-env DATABASE_URL=$DATABASE_URL --prod
+         echo ""
          echo "🏁 Finished"
