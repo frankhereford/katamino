@@ -19,7 +19,7 @@
   * GitHub PR comments from actions
     * Includes link to deploy & DB connection credentials
   * 1-2 minute deploys
-  * All the check marks, build tests & now environments
+  * All the check marks, build-tests & environments ✨
 * 🧩 Migrations
 * 🏂 Lambdas
   * https://vercel.com/docs/concepts/functions/serverless-functions
