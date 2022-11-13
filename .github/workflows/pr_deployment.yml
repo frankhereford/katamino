@@ -61,7 +61,10 @@ jobs:
          echo "🏁 Finished"
          echo VERCEL_OUTPUT=$VERCEL_OUTPUT >> $GITHUB_OUTPUT
          FORTUNE=$(wget -O - https://fortuneapi.herokuapp.com/)
-         FORTUNE_LINEFEED=$(echo $FORTUNE | sed 's/\\n/\'$'\n''/g')
+         #FORTUNE_LINEFEED=$(echo $FORTUNE | sed 's/\\n/\'$'\n''/g')
+         FORTUNE="${FORTUNE//'%'/'%25'}"
+         FORTUNE="${FORTUNE//$'\n'/'%0A'}"
+         FORTUNE="${FORTUNE//$'\r'/'%0D'}"
          
          echo FORTUNE=$FORTUNE_LINEFEED >> $GITHUB_OUTPUT
       - name: make-comment
@@ -71,4 +74,4 @@ jobs:
             ## ✅ PR Deployment Ready 
             Release ${{ github.sha }} to ${{ steps.prepare-and-deploy.outputs.VERCEL_OUTPUT }}
 
-            Fortune ${{steps.prepare-and-deploy.outputs.FORTUNE}}
+            ${{steps.prepare-and-deploy.outputs.FORTUNE}}
