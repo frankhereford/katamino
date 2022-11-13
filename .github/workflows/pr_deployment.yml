@@ -32,6 +32,8 @@ jobs:
           dir: '.vercel/'
       - name: Prepare and deploy
         id: prepare-and-deploy
+        permissions:
+          deployments: write
         run: |
          npm i -g @railway/cli
          cd $HOME
