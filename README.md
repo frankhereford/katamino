@@ -4,10 +4,17 @@
   * [Extendable](https://github.com/frankhereford/katamino/blob/main/tailwind.config.cjs#L5-L10)
 * 💨 Tailwind CSS
   * Bootstrap but mega-🍄
+* 🌈 Prisma
+  * migrations
+  * prototyping `prisma db push`
+* 🌱 Database Seeding
+  * Idempotent seeding operation
 * 🚀 CI
   * CI new deploy preview per PR
     * Railway DB per PR
       * With cleanup
+  * GitHub PR comments from actions
+  * 1-2 minute deploys
 * 🧩 Migrations
 * 🏂 Lambdas
 * 🤖 Vercel (optimization, cdn, etc)
@@ -20,6 +27,6 @@
 * 🚄 Railway DBs
   * Dev DB per Developer, not local
     * back to just running `npx next dev` or `npm start dev`
-    * db operations are `npx prisma db seed` or `npx prisma db push`
+    * just need a `.env` file with your `DATABASE_URL` configured it in
 * 🤑 Cheap!  
 * 🐛 VSCode debugging
