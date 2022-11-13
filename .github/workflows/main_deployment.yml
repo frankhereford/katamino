@@ -17,6 +17,9 @@ on:
 jobs:
   deployment:
     runs-on: ubuntu-latest
+    environment:
+      name: Production
+      url: https://katamino.sheep.army
     steps:
       - uses: actions/checkout@v3
       - run: |

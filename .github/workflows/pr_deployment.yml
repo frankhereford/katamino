@@ -14,13 +14,14 @@ on: [pull_request]
 jobs:
   deployment:
     runs-on: ubuntu-latest
+    environment: Preview
     steps:
       - uses: actions/checkout@v3
       - name: make-comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
-            ## 🧙 Building PR Deploy Preview
+            # 🧙 Building PR Deploy Preview
             Release ${{ github.sha }} ...
       - run: |
          mkdir .vercel
