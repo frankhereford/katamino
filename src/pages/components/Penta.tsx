@@ -143,7 +143,7 @@ export default function Penta(props: PentaProps) {
   if (props.trimBorder) {
     columns = props.penta?.columns
     }
-  if (columns > 12 || columns < 0) { columns = 5; }
+
   if (columns == 0) { classes.push("grid-cols-none") }
   if (columns == 1) { classes.push("grid-cols-1") }
   if (columns == 2) { classes.push("grid-cols-2") }
@@ -157,7 +157,10 @@ export default function Penta(props: PentaProps) {
   if (columns == 10) { classes.push("grid-cols-10") }
   if (columns == 11) { classes.push("grid-cols-11") }
   if (columns == 12) { classes.push("grid-cols-12") }
-  if (columns > 12 ) { classes.push("grid-cols-[" + String(columns) + "]") }
+  if (columns == 13) { classes.push("grid-cols-13") }
+  if (columns == 14) { classes.push("grid-cols-14") }
+  if (columns == 15) { classes.push("grid-cols-15") }
+  if (columns == 16) { classes.push("grid-cols-16") }
 
   return (
     <>
@@ -169,7 +172,7 @@ export default function Penta(props: PentaProps) {
         />
       }
       <div className="grid items-center justify-center">
-        <div className={classes.join(' ')} >
+        <div className={classes.join(' ')}>
           {squares}
         </div>
       </div>
