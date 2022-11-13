@@ -12,9 +12,12 @@
   * Migrations
     * If a change can't be applied (such as adding a non-null constraint on a column with null values, for example), it will walk you through your options
     * Migrations are a file of SQL which explicitly control the change, like usual
-    * No down.sql migrations, non-breaking changes require zero SQL authorship
-      * Complex or breaking changes (like the not-null example above), give you the SQL to decide how to handle it
+    * No down.sql migrations (unless you want them)
+    * Non-breaking changes require zero SQL authorship
+      * Complex or breaking changes (like the not-null example above), give you SQL and let you decide how to handle it
+      * Squash multiple migrations in a feature-branch into one for the merge
   * Prisma schema language
+    * 😔 Views are [not supported](https://github.com/prisma/prisma/issues/678) out of the box, yet
   * Prototyping `prisma db push`
 * 🌱 Database Seeding
   * ♻️ Idempotent seeding operation
