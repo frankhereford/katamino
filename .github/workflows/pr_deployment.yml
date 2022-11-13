@@ -53,7 +53,7 @@ jobs:
          echo "🛠️ npm install"
          npm install
          echo "👾 DB Push"
-         npx prisma db push
+         npx prisma db push --force-reset
          echo "🌱 DB Seed"
          npx prisma db seed > /dev/null
          echo "🚀 Vercel build"
