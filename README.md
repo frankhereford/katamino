@@ -27,6 +27,7 @@
     * No graphql, no SQL in app for front-end dev
 * 🤖 Vercel (optimization, CDN, etc)
 * 🔑 Auth0
+  * via [NextAuth](https://next-auth.js.org/)
   * auth0 wildcard domain login, works on every step, same pool of users (or not!, just as easy)
 * ⌨️ TypeScript
 * 🔺 NextJS
