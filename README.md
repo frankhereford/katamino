@@ -7,3 +7,15 @@
   * Railway DB per PR
     * With cleanup
 * Debugging with VSCode
+
+
+* CI
+* Migrations
+* Lambdas
+* Vercel (optimization, cdn, etc)
+* Auth0
+* TypeScript
+* NextJS
+* tRPC
+* Railway DBs
+* 
