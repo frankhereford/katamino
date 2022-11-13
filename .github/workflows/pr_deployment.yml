@@ -61,7 +61,7 @@ jobs:
          echo "🏁 Finished"
          echo VERCEL_OUTPUT=$VERCEL_OUTPUT >> $GITHUB_OUTPUT
          FORTUNE=$(wget -O - https://fortuneapi.herokuapp.com/)
-         FORTUNE_LINEFEED=$(echo $FORTUNE | sed 's/\\n/\'$'[enter]''/g')
+         FORTUNE=$(echo $FORTUNE | sed 's/\\n/\'$'[enter]''/g')
          #FORTUNE="${FORTUNE//'%'/'%25'}"
          #FORTUNE="${FORTUNE//$'\n'/'%0A'}"
          #FORTUNE="${FORTUNE//$'\r'/'%0D'}"
