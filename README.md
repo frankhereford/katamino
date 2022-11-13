@@ -17,6 +17,7 @@
       * With cleanup
   * GitHub PR comments from actions
   * 1-2 minute deploys
+  * All the check marks, build tests & now environments
 * 🧩 Migrations
 * 🏂 Lambdas
   * https://vercel.com/docs/concepts/functions/serverless-functions
