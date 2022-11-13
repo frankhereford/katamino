@@ -42,7 +42,6 @@ export default function UserPentas(props: any) {
               <tr>
                 <th className="text-center">️Play</th>
                 <th>Pieces</th>
-                <th className="text-center">Columns</th>
                 <th className="text-center">Penta</th>
               </tr>
             </thead>
@@ -66,7 +65,6 @@ export default function UserPentas(props: any) {
                       })}
                     </div>
                   </td>
-                  <td className="text-center">{penta.columns}</td>
                   <td>
                     <Penta penta={penta} size={15} trimBorder={true}></Penta>
                   </td>
