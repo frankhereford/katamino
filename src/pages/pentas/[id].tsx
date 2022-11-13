@@ -4,6 +4,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Penta from "../components/Penta";
 import Block from "../components/Block";
+import ControlButton from "../components/ControlButton";
 import { useKeyBindings} from "rooks";
 import { trpc } from "../../utils/trpc";
 import { type Prisma } from '@prisma/client';
@@ -403,14 +404,13 @@ const PentaPage: NextPage = () => {
         {penta &&
           <div className="w-screen">
             <div className="m-auto relative w-fit h-[100px]">
-              <div className="absolute right-[150px] top-[0px]">
-                <button
-                  className="btn gap-2 m-2 btn-primary text-white"
-                  onClick={keyQ}>
-                  <BsArrowLeft size={20} style={{ color: "#ffffff" }} />
-                  Q
-                </button>
-              </div>
+              <ControlButton
+                position="absolute right-[150px] top-[0px]"
+                classes="btn gap-2 m-2 btn-primary text-white"
+                clickHandler={keyQ}
+                icon={<BsArrowLeft size={20} style={{ color: "#ffffff" }} />}
+                letter="Q"
+                ></ControlButton>
               <div className="absolute right-[90px] top-[0px]">
                 <button
                   className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
