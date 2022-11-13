@@ -60,10 +60,12 @@ jobs:
          echo $VERCEL_OUTPUT
          echo "🏁 Finished"
          echo VERCEL_OUTPUT=$VERCEL_OUTPUT >> $GITHUB_OUTPUT
-         wget -O - https://fortuneapi.herokuapp.com/
+         FORTUNE=$(wget -O - https://fortuneapi.herokuapp.com/)
+         echo FORTUNE=$FORTUNE >> $GITHUB_OUTPUT
       - name: make-comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
             ## ✅ PR Deployment Ready 
             Release ${{ github.sha }} to ${{ steps.prepare-and-deploy.outputs.VERCEL_OUTPUT }}
+            Fortune ${{steps.prepare-and-deploy.outputs.FORTUNE}}
