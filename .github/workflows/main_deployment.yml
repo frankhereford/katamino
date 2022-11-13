@@ -6,7 +6,6 @@ env:
   AUTH0_ISSUER: ${{ secrets.AUTH0_ISSUER}}
   GITHUB_ID: ${{ secrets.GH_ID}}
   GITHUB_SECRET: ${{ secrets.GH_SECRET}}
-  #NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL}}
   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
   RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
 
