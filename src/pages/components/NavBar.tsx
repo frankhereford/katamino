@@ -2,7 +2,6 @@ import React from 'react'
 import Link from 'next/link'
 //import Image from 'next/image'
 import { signIn, signOut, useSession } from "next-auth/react";
-import { BsQuestionSquare } from 'react-icons/bs';
 
 export default function NavBar() {
   const { data: sessionData } = useSession();
@@ -27,7 +26,8 @@ export default function NavBar() {
                 </div>
               </label>
               <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-                <li><a>Logout</a></li>
+                <li>👋 {sessionData?.user?.name}</li>
+                <li><button onClick={() => signOut()}>Sign Out</button></li>
               </ul>
             </div>
           }
@@ -39,7 +39,7 @@ export default function NavBar() {
                 </div>
               </label>
               <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-                <li><a>Sign In</a></li>
+                <li><button onClick={() => signIn()}>Sign In</button></li>
               </ul>
             </div>
           }
