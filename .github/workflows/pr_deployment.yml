@@ -14,6 +14,7 @@ on: [pull_request]
 jobs:
   deployment:
     runs-on: ubuntu-latest
+    environment: Preview
     steps:
       - uses: actions/checkout@v3
       - name: make-comment
