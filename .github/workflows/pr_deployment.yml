@@ -22,7 +22,7 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
-            ## 🧙 Building PR Deploy Preview
+            # 🧙 Building PR Deploy Preview
             Release ${{ github.sha }} ...
       - run: |
          mkdir .vercel
