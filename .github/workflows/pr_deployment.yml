@@ -6,9 +6,9 @@ env:
   AUTH0_ISSUER: ${{ secrets.AUTH0_ISSUER}}
   GITHUB_ID: ${{ secrets.GH_ID}}
   GITHUB_SECRET: ${{ secrets.GH_SECRET}}
-  #NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL}}
   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
   RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
+  PR_NUMBER: ${{ github.event.number }}
 
 on: [pull_request]
 jobs:
@@ -16,6 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: make-comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            ## 🧙 Building PR Deploy Preview
+            Release ${{ github.sha }} ...
       - run: |
          mkdir .vercel
       - name: create-json
@@ -24,7 +30,9 @@ jobs:
           name: 'project.json'
           json: ${{ secrets.VERCEL_CONFIG }}
           dir: '.vercel/'
-      - run: |
+      - name: Prepare and deploy
+        id: prepare-and-deploy
+        run: |
          npm i -g @railway/cli
          cd $HOME
          mkdir .railway
@@ -33,7 +41,6 @@ jobs:
          cd $GITHUB_WORKSPACE
          #echo "👀 Check railway auth"
          #railway whoami
-         PR_NUMBER=$(echo $GITHUB_REF | grep -o "[0-9]*")
          RAILWAY_ENVIRONMENT="katamino-pr-$PR_NUMBER"
          echo "🚉 Railway Environment: $RAILWAY_ENVIRONMENT"
          railway environment $RAILWAY_ENVIRONMENT
@@ -49,4 +56,13 @@ jobs:
          echo "🌱 DB Seed"
          npx prisma db seed > /dev/null
          echo "🚀 Vercel build"
-         vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL --build-env DATABASE_URL=$DATABASE_URL
+         VERCEL_OUTPUT=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL --build-env DATABASE_URL=$DATABASE_URL)
+         echo $VERCEL_OUTPUT
+         echo "🏁 Finished"
+         echo VERCEL_OUTPUT=$VERCEL_OUTPUT >> $GITHUB_OUTPUT
+      - name: make-comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            ## ✅ PR Deployment Ready 
+            Release ${{ github.sha }} to ${{ steps.prepare-and-deploy.outputs.VERCEL_OUTPUT }}

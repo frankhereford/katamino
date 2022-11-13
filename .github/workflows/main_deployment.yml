@@ -1,4 +1,4 @@
-name: Build PR Preview Deployment
+name: Build Production Deployment
 
 env:
   AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID}}
@@ -6,7 +6,6 @@ env:
   AUTH0_ISSUER: ${{ secrets.AUTH0_ISSUER}}
   GITHUB_ID: ${{ secrets.GH_ID}}
   GITHUB_SECRET: ${{ secrets.GH_SECRET}}
-  #NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL}}
   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
   RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
 
@@ -51,3 +50,5 @@ jobs:
          npx prisma db push
          echo "🚀 Vercel build"
          vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL --build-env DATABASE_URL=$DATABASE_URL --prod
+         echo ""
+         echo "🏁 Finished"

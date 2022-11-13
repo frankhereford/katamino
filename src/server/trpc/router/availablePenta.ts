@@ -66,7 +66,7 @@ export const availablePentaRouter = router({
         }
       },
       orderBy: {
-        id: "asc"
+        columns: "asc"
       }
     });
   }),
