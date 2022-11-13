@@ -1,5 +1,9 @@
 # Topics
 
+* 🌼 Daisy UI
+  * [Extendable](https://github.com/frankhereford/katamino/blob/main/tailwind.config.cjs#L5-L10)
+* 💨 Tailwind CSS
+  * Bootstrap but mega-🍄
 * 🚀 CI
   * CI new deploy preview per PR
     * Railway DB per PR
