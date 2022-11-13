@@ -8,6 +8,7 @@ env:
   GITHUB_SECRET: ${{ secrets.GH_SECRET}}
   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
   RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
+  PR_NUMBER: ${{ github.event.number }}
 
 on: [pull_request]
 jobs:
@@ -32,7 +33,6 @@ jobs:
          cd $GITHUB_WORKSPACE
          #echo "👀 Check railway auth"
          #railway whoami
-         PR_NUMBER=$(echo $GITHUB_REF | grep -o "[0-9]*")
          RAILWAY_ENVIRONMENT="katamino-pr-$PR_NUMBER"
          echo "🚉 Railway Environment: $RAILWAY_ENVIRONMENT"
          railway environment $RAILWAY_ENVIRONMENT
