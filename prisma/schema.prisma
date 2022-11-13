@@ -77,6 +77,8 @@ model AvailableBlock {
 
 model AvailablePenta {
   id              String           @id @default(cuid())
+  slamName        String
+  rowName         String
   columns         Int
   borderWidth     Int              @default(2)
   availableBlocks AvailableBlock[]

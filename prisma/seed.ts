@@ -131,55 +131,51 @@ async function main() {
     //console.log(createdPiece)
   }))
 
-
-  const pentas = [
-    // so much repeated stuff here, it should define the long one and make the rest from that
-    { columns: 3, pieces: [ 'orange', 'brown', 'darkGreen', ] },
-    { columns: 4, pieces: [ 'orange', 'brown', 'darkGreen', 'pink' ] },
-    { columns: 5, pieces: [ 'orange', 'brown', 'darkGreen', 'pink', 'green' ] },
-    { columns: 6, pieces: [ 'orange', 'brown', 'darkGreen', 'pink', 'green', 'teal' ] },
-    { columns: 7, pieces: [ 'orange', 'brown', 'darkGreen', 'pink', 'green', 'teal', 'blue' ] },
-    { columns: 8, pieces: [ 'orange', 'brown', 'darkGreen', 'pink', 'green', 'teal', 'blue', 'purple' ] },
-  ]
-
-
   const deletePentas = await prisma.penta.deleteMany()
   const deleteAvailablePentas = await prisma.availablePenta.deleteMany()
-  
-  await Promise.all(pentas.map(async (penta) => {
 
-    const pieces = await prisma.piece.findMany({
-      where: {
-        color: {
-          name: {
-            in: penta.pieces,
+  const pentas = [
+    { slamName: "Small Slam", rowName: "A", minColumns: 3, pieces: [ 'orange', 'brown', 'darkGreen', 'pink', 'green', 'teal', 'blue', 'purple' ] },
+    { slamName: "Small Slam", rowName: "B", minColumns: 3, pieces: [ 'purple', 'pink', 'yellow', 'orange', 'teal', 'brown', 'darkGreen', 'green' ] },
+  ]
+
+  await Promise.all(pentas.map(async (penta) => {
+    let colors = ['']
+    for (let i = penta.minColumns; i <= penta.pieces.length; i++) {
+      colors = penta.pieces.slice(0, i)
+      const pieces = await prisma.piece.findMany({
+        where: {
+          color: {
+            name: {
+              in: colors,
+            }
           }
         }
-      }
-    })
-
-    const availablePentaRecord = await prisma.availablePenta.create({
-      data: {
-        columns: penta.columns,
-        availableBlocks: {
-          create: pieces.map((piece) => {
-            return {
-              piece: { connect: { id: piece.id }, },
-              translation: {
-                up: 0,
-                right: 0
-              },
-              rotation: {
-                clockwise: 0
-              },
-              reflection: false,
-            }
-          })
+      })
+      const availablePentaRecord = await prisma.availablePenta.create({
+        data: {
+          columns: i,
+          slamName: penta.slamName,
+          rowName: penta.rowName,
+          availableBlocks: {
+            create: pieces.map((piece) => {
+              return {
+                piece: { connect: { id: piece.id }, },
+                translation: {
+                  up: 0,
+                  right: 0
+                },
+                rotation: {
+                  clockwise: 0
+                },
+                reflection: false,
+              }
+            })
+          }
         }
-      }
-    })
+      })
+    }
   }))
-
 }
 
 main()
