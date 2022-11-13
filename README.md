@@ -13,7 +13,7 @@
 * 🌱 Database Seeding
   * ♻️ Idempotent seeding operation
 * 🚀 CI
-  * CI new deploy preview per PR
+  * New deploy preview per PR
     * Railway DB per PR
       * With cleanup
   * GitHub PR comments from actions
@@ -40,7 +40,9 @@
 * 🚄 Railway DBs
   * Dev DB per Developer, not local
     * Back to just running `npx next dev` or `npm start dev`
-    * Just need a `.env` file with your `DATABASE_URL` configured it in
-* 🤑 Cheap!  
+    * Just need a `.env` file with your personal `DATABASE_URL` configured it in
+* 💀 Dependabot
+  * Has [config](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file)
+* 🤑 Cheap! 
   * Free tiers are generous (Vercel & Railway), pay-per-compute after that
 * 🐛 VSCode debugging
