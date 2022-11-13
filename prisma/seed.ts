@@ -137,6 +137,7 @@ async function main() {
   const pentas = [
     { slamName: "Small Slam", rowName: "A", minColumns: 3, pieces: [ 'orange', 'brown', 'darkGreen', 'pink', 'green', 'teal', 'blue', 'purple' ] },
     { slamName: "Small Slam", rowName: "B", minColumns: 3, pieces: [ 'purple', 'pink', 'yellow', 'orange', 'teal', 'brown', 'darkGreen', 'green' ] },
+    { slamName: "Small Slam", rowName: "C", minColumns: 3, pieces: [ 'orange', 'blue', 'pink', 'brown', 'purple', 'yellow', 'teal', 'darkGrey' ] },
   ]
 
   await Promise.all(pentas.map(async (penta) => {
