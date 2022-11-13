@@ -61,10 +61,10 @@ jobs:
          echo "🏁 Finished"
          echo VERCEL_OUTPUT=$VERCEL_OUTPUT >> $GITHUB_OUTPUT
          FORTUNE=$(wget -O - https://fortuneapi.herokuapp.com/)
-         FORTUNE=$(echo $FORTUNE | sed 's/\\n/\'$'[enter]''/g')
-         #FORTUNE="${FORTUNE//'%'/'%25'}"
-         #FORTUNE="${FORTUNE//$'\n'/'%0A'}"
-         #FORTUNE="${FORTUNE//$'\r'/'%0D'}"
+         #FORTUNE=$(echo $FORTUNE | sed 's/\\n/\'$'[enter]''/g')
+         FORTUNE="${FORTUNE//'%'/'%25'}"
+         FORTUNE="${FORTUNE//$'\n'/'%0A'}"
+         FORTUNE="${FORTUNE//$'\r'/'%0D'}"
          
          echo FORTUNE=$FORTUNE >> $GITHUB_OUTPUT
       - name: make-comment
