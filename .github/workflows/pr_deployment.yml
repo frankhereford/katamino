@@ -24,7 +24,11 @@ jobs:
           name: 'project.json'
           json: ${{ secrets.VERCEL_CONFIG }}
           dir: '.vercel/'
-      - run: |
+      - output:
+        vercel_output: ${}
+      - name: Prepare and deploy
+        id: prepare-and-deploy
+        run: |
          npm i -g @railway/cli
          cd $HOME
          mkdir .railway
@@ -49,12 +53,12 @@ jobs:
          npx prisma db seed > /dev/null
          echo "🚀 Vercel build"
          VERCEL_OUTPUT=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL --build-env DATABASE_URL=$DATABASE_URL)
-         export VERCEL_OUTPUT=$VERCEL_OUTPUT
          echo $VERCEL_OUTPUT
          echo "🏁 Finished"
+         echo VERCEL_OUTPUT=$VERCEL_OUTPUT >> $GITHUB_OUTPUT
       - name: make-comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
             Release ${{ github.sha }} to <https://pr-${{ github.event.number }}.example.com>
-            Another line? ${{env.VERCEL_OUTPUT}} ?
+            Another line? ${{steps.prepare-and-deploy.outputs.VERCEL_OUTPUT}} ?
