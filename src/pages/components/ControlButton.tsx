@@ -4,7 +4,7 @@ export default function ControlButton(props: {
   classes: string,
   clickHandler: any,
   icon: any,
-  letter: string,
+  letter?: string,
   position: string,
 }) {
 
