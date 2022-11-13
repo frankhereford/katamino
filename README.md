@@ -1,5 +1,4 @@
 # Stuff I learned
-### ... (and I'm super stoked about)
 
 * 🌼 Daisy UI
   * [Extendable](https://github.com/frankhereford/katamino/blob/main/tailwind.config.cjs#L5-L10)
