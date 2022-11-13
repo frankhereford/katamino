@@ -16,6 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: make-comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            ## 🧙 Building PR Deploy Preview
+            Release ${{ github.sha }} ...
       - run: |
          mkdir .vercel
       - name: create-json
@@ -58,5 +64,5 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
-            Release ${{ github.sha }} to <https://pr-${{ github.event.number }}.example.com>
-            Another line? ${{steps.prepare-and-deploy.outputs.VERCEL_OUTPUT}} ?
+            ## ✅ PR Deployment Ready 
+            Release ${{ github.sha }} to ${{ steps.prepare-and-deploy.outputs.VERCEL_OUTPUT }}
