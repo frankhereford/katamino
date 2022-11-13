@@ -10,6 +10,7 @@
   * Prisma schema language
   * Prototyping `prisma db push`
   * Migrations
+    * No down.sql migrations and no writing migrations period! Changes happen via `prisma.schema`
 * 🌱 Database Seeding
   * ♻️ Idempotent seeding operation
 * 🚀 CI
