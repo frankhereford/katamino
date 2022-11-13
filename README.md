@@ -6,11 +6,12 @@
   * Bootstrap but mega-🍄
   * Closely watch the animation on https://tailwindcss.com/, it's not an exaggeration
 * 🌈 Prisma
-  * migrations
-  * prototyping `prisma db push`
   * TypeScript Safe Apollo but with [useQuery](https://tanstack.com/query/v4/docs/reference/useQuery)
+  * prisma schema language
+  * prototyping `prisma db push`
+  * migrations
 * 🌱 Database Seeding
-  * Idempotent seeding operation
+  * ♻️ Idempotent seeding operation
 * 🚀 CI
   * CI new deploy preview per PR
     * Railway DB per PR
@@ -24,7 +25,7 @@
   * https://vercel.com/docs/concepts/functions/serverless-functions
     * ♾️ Infinitely scalable, z-e-r-o work
   * No middleware, no `graphql-engine`
-    * No graphql, no SQL in app for front-end dev
+    * No query languages (graphql, SQL)
 * 🤖 Vercel (optimization, CDN, etc)
   * 📈 Meaningful analytics
 * 🔑 Auth0
