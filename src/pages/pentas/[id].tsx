@@ -369,16 +369,16 @@ const PentaPage: NextPage = () => {
   }
 
   let columnClass = null
-  if      (penta?.blocks.length === 3)  { columnClass = 'grid-cols-3'  }
-  else if (penta?.blocks.length === 4)  { columnClass = 'grid-cols-4'  }
-  else if (penta?.blocks.length === 5)  { columnClass = 'grid-cols-5'  }
-  else if (penta?.blocks.length === 6)  { columnClass = 'grid-cols-6'  }
-  else if (penta?.blocks.length === 7)  { columnClass = 'grid-cols-6'  }
-  else if (penta?.blocks.length === 8)  { columnClass = 'grid-cols-6'  }
-  else if (penta?.blocks.length === 9)  { columnClass = 'grid-cols-6'  }
-  else if (penta?.blocks.length === 10) { columnClass = 'grid-cols-6'  }
-  else if (penta?.blocks.length === 11) { columnClass = 'grid-cols-6'  }
-  else if (penta?.blocks.length === 12) { columnClass = 'grid-cols-6'  }
+  if      (penta?.blocks.length === 3)  { columnClass = 'grid-cols-3' }
+  else if (penta?.blocks.length === 4)  { columnClass = 'grid-cols-4' }
+  else if (penta?.blocks.length === 5)  { columnClass = 'grid-cols-5' }
+  else if (penta?.blocks.length === 6)  { columnClass = 'grid-cols-6' }
+  else if (penta?.blocks.length === 7)  { columnClass = 'grid-cols-6' }
+  else if (penta?.blocks.length === 8)  { columnClass = 'grid-cols-6' }
+  else if (penta?.blocks.length === 9)  { columnClass = 'grid-cols-6' }
+  else if (penta?.blocks.length === 10) { columnClass = 'grid-cols-6' }
+  else if (penta?.blocks.length === 11) { columnClass = 'grid-cols-6' }
+  else if (penta?.blocks.length === 12) { columnClass = 'grid-cols-6' }
 
   const classes = ["mt-10", "grid", "items-center", "justify-center", columnClass]
 
