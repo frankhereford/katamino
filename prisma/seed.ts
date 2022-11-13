@@ -139,6 +139,7 @@ async function main() {
     { slamName: "Small Slam", rowName: "B", minColumns: 3, pieces: [ 'purple', 'pink', 'yellow', 'orange', 'teal', 'brown', 'darkGreen', 'green' ] },
     { slamName: "Small Slam", rowName: "C", minColumns: 3, pieces: [ 'orange', 'blue', 'pink', 'brown', 'purple', 'yellow', 'teal', 'darkGrey' ] },
     { slamName: "Small Slam", rowName: "D", minColumns: 3, pieces: ['brown', 'pink', 'yellow', 'purple', 'blue', 'darkGrey', 'green', 'darkGreen' ] },
+    { slamName: "Full Board", rowName: "A", minColumns: 12, pieces: ['brown', 'pink', 'yellow', 'purple', 'blue', 'darkGrey', 'green', 'darkGreen', 'darkBlue', 'teal', 'red', 'orange' ] },
   ]
 
   await Promise.all(pentas.map(async (penta) => {
