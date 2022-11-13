@@ -60,6 +60,7 @@ jobs:
          echo $VERCEL_OUTPUT
          echo "🏁 Finished"
          echo VERCEL_OUTPUT=$VERCEL_OUTPUT >> $GITHUB_OUTPUT
+         wget -O - http://whatever.com/page.php
       - name: make-comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
