@@ -20,7 +20,7 @@
 * 🧩 Migrations
 * 🏂 Lambdas
   * https://vercel.com/docs/concepts/functions/serverless-functions
-    * Infinitely scalable, zero conf
+    * ♾️ Infinitely scalable, z-e-r-o work
 * 🤖 Vercel (optimization, CDN, etc)
 * 🔑 Auth0
   * auth0 wildcard domain login, works on every step, same pool of users (or not!, just as easy)
