@@ -7,13 +7,15 @@
   * Closely watch the animation on https://tailwindcss.com/, it's not an exaggeration
 * 🌈 Prisma
   * TypeScript Safe Apollo but with [useQuery](https://tanstack.com/query/v4/docs/reference/useQuery)
-  * Prisma schema language
-  * Prototyping `prisma db push`
-    * If a change can't be applied (such as adding a non-null constraint on a column with null values, for example), it will walk you through your options
+  * Generated library specific to your schema with all the typing information in it, so your IDE goes brrr. 💪
+* 🧩 Migrations
   * Migrations
-    * Migrations are a file of SQL which explicitly control the change
+    * If a change can't be applied (such as adding a non-null constraint on a column with null values, for example), it will walk you through your options
+    * Migrations are a file of SQL which explicitly control the change, like usual
     * No down.sql migrations, non-breaking changes require zero SQL authorship
       * Complex or breaking changes (like the not-null example above), give you the SQL to decide how to handle it
+  * Prisma schema language
+  * Prototyping `prisma db push`
 * 🌱 Database Seeding
   * ♻️ Idempotent seeding operation
 * 🚀 CI
@@ -24,7 +26,6 @@
     * Includes link to deploy & DB connection credentials
   * 1-2 minute deploys
   * All the check marks, build-tests & environments ✨
-* 🧩 Migrations
 * 🏂 Lambdas
   * https://vercel.com/docs/concepts/functions/serverless-functions
     * ♾️ Infinitely scalable, z-e-r-o work
