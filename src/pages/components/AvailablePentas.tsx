@@ -26,6 +26,12 @@ export default function AvailablePentas(props: any) {
     })
   }
 
+  function showSlamEmoji(slam: string) {
+         if (slam === 'Small Slam') { return '🦎' }
+    else if (slam === 'Full Board') { return '🦕' }
+    return slam
+  }
+
   return (
     <>
       <div className="col-start-2 col-end-10 mt-10">
@@ -38,18 +44,22 @@ export default function AvailablePentas(props: any) {
           <table className="table table-zebra w-full outline rounded-md outline-1 outline-secondary">
             <thead>
               <tr>
-                <th>️Start</th>
-                <th>Columns</th>
+                <th className="text-center">️Start</th>
+                <th className="text-center">Slam</th>
+                <th className="text-center">Row</th>
+                <th className="text-center">Columns</th>
                 <th>Pieces</th>
               </tr>
             </thead>
             <tbody>
               {pentas && pentas.map((penta) => (
                 <tr key={penta.id} className="hover">
-                  <td>
+                  <td className="text-center">
                     <button onClick={startPentaClick} data-id={penta.id} className="btn btn-secondary btn-circle">️🎮</button>
                   </td>
-                  <td>{penta.columns}</td>
+                  <td className="text-center text-4xl">{showSlamEmoji(penta.slamName)}</td>
+                  <td className="text-center">{penta.rowName}</td>
+                  <td className="text-center">{penta.columns}</td>
                   <td>
                     <div className="grid grid-cols-8">
                       {penta?.availableBlocks.map((block) => {
