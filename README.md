@@ -10,7 +10,9 @@
   * Prisma schema language
   * Prototyping `prisma db push`
   * Migrations
-    * No down.sql migrations and no writing migrations period! Changes happen via `prisma.schema`
+    * Migrations are a file of SQL which explicitly control the change
+    * No down.sql migrations, non-breaking changes require zero SQL authorship
+      * Complex or breaking changes (such as adding a non-null constraint on a column with null values, for example), give you the SQL to decide how to handle it
 * 🌱 Database Seeding
   * ♻️ Idempotent seeding operation
 * 🚀 CI
