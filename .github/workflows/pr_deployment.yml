@@ -48,7 +48,7 @@ jobs:
          echo "🌱 DB Seed"
          npx prisma db seed > /dev/null
          echo "🚀 Vercel build"
-         VERCEL_OUTPUT = $(vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL --build-env DATABASE_URL=$DATABASE_URL)
+         VERCEL_OUTPUT=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL --build-env DATABASE_URL=$DATABASE_URL)
          echo $VERCEL_OUTPUT
          echo ""
          echo "🏁 Finished"
