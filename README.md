@@ -29,7 +29,7 @@
 * 🤖 Vercel (optimization, CDN, etc)
   * 📈 Meaningful analytics
 * 🔑 Auth0
-  * Wildcard domain login, works on every step, same pool of users (or not!, just as easy)
+  * Wildcard domain login, works on every deployment (prod → local), same pool of users (or not!, just as easy)
 * ⌨️ TypeScript
 * 🔺 NextJS
 * 🔭 tRPC
