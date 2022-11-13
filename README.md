@@ -16,6 +16,7 @@
     * Non-breaking changes require zero SQL authorship
       * Complex or breaking changes (like the not-null example above), give you SQL and let you decide how to handle it
       * Squash multiple migrations in a feature-branch into one for the merge
+    * This is still an unforgiving, complex problem, but it's so helpful to have tooling for it
   * Prisma schema language
     * 😔 Views are [not supported](https://github.com/prisma/prisma/issues/678) out of the box, yet
   * Prototyping `prisma db push`
@@ -49,6 +50,7 @@
   * Dev DB per Developer, not local
     * Back to just running `npx next dev` or `npm start dev`
     * Just need a `.env` file with your personal `DATABASE_URL` configured it in
+  * ☁️ Not a requirement; totally fine to keep production DB on AWS with strong protections
 * 💀 Dependabot
   * Has [config](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file)
 * 🤑 Cheap! 
