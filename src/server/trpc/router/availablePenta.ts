@@ -65,7 +65,7 @@ export const availablePentaRouter = router({
           },
         }
       },
-         // gonna need an order-by column in here as more slams come in
+      // gonna need an order-by column in here as more slams come in
       orderBy: [{ slamName: 'desc' }, { rowName: "asc" }, { columns: "asc" } ]
     });
   }),
