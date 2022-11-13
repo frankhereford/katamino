@@ -5,7 +5,7 @@
     * Railway DB per PR
       * With cleanup
 * 🧩 Migrations
-* ƛ Lambdas
+* 🏂 Lambdas
 * 🤖 Vercel (optimization, cdn, etc)
 * 🔑 Auth0
   * auth0 wildcard domain login, works on every step, same pool of users
