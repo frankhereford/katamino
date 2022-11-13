@@ -23,6 +23,12 @@ jobs:
           name: 'project.json'
           json: ${{ secrets.VERCEL_CONFIG }}
           dir: '.vercel/'
+      - name: make-comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            Release ${{ github.sha }} to <https://pr-${{ github.event.number }}.example.com>
+    Release ${{ github.sha }} to <https://pr-${{ github.event.number }}.example.com>
       - run: |
          npm i -g @railway/cli
          cd $HOME
