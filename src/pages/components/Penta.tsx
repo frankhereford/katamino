@@ -144,6 +144,7 @@ export default function Penta(props: PentaProps) {
     columns = props.penta?.columns
     }
 
+  if (columns > 16 || columns < 0) { columns = 5; }
   if (columns == 0) { classes.push("grid-cols-none") }
   if (columns == 1) { classes.push("grid-cols-1") }
   if (columns == 2) { classes.push("grid-cols-2") }
