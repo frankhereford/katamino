@@ -50,10 +50,10 @@ jobs:
          echo "🚀 Vercel build"
          VERCEL_OUTPUT=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL=$DATABASE_URL --build-env DATABASE_URL=$DATABASE_URL)
          echo $VERCEL_OUTPUT
-         echo ""
          echo "🏁 Finished"
       - name: make-comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
             Release ${{ github.sha }} to <https://pr-${{ github.event.number }}.example.com>
+            Another line? ${{VERCEL_OUTPUT}} ?
