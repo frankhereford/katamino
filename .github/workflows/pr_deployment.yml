@@ -61,11 +61,14 @@ jobs:
          echo "🏁 Finished"
          echo VERCEL_OUTPUT=$VERCEL_OUTPUT >> $GITHUB_OUTPUT
          FORTUNE=$(wget -O - https://fortuneapi.herokuapp.com/)
-         echo FORTUNE=$FORTUNE >> $GITHUB_OUTPUT
+         FORTUNE_LINEFEED=$(echo $FORTUNE | sed 's/\\n/\'$'\n''/g')
+         
+         echo FORTUNE=$FORTUNE_LINEFEED >> $GITHUB_OUTPUT
       - name: make-comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
             ## ✅ PR Deployment Ready 
             Release ${{ github.sha }} to ${{ steps.prepare-and-deploy.outputs.VERCEL_OUTPUT }}
+
             Fortune ${{steps.prepare-and-deploy.outputs.FORTUNE}}
