@@ -74,4 +74,6 @@ jobs:
             ## ✅ PR Deployment Ready 
             Release ${{ github.sha }} to ${{ steps.prepare-and-deploy.outputs.VERCEL_OUTPUT }}
 
+            ```
             ${{steps.prepare-and-deploy.outputs.FORTUNE}}
+            ```
