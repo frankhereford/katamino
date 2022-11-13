@@ -17,7 +17,9 @@
   * 1-2 minute deploys
 * 🧩 Migrations
 * 🏂 Lambdas
-* 🤖 Vercel (optimization, cdn, etc)
+  * https://vercel.com/docs/concepts/functions/serverless-functions
+    * Infinitely scalable, zero conf
+* 🤖 Vercel (optimization, CDN, etc)
 * 🔑 Auth0
   * auth0 wildcard domain login, works on every step, same pool of users
 * ⌨️ TypeScript
