@@ -7,9 +7,9 @@
   * Closely watch the animation on https://tailwindcss.com/, it's not an exaggeration
 * 🌈 Prisma
   * TypeScript Safe Apollo but with [useQuery](https://tanstack.com/query/v4/docs/reference/useQuery)
-  * prisma schema language
-  * prototyping `prisma db push`
-  * migrations
+  * Prisma schema language
+  * Prototyping `prisma db push`
+  * Migrations
 * 🌱 Database Seeding
   * ♻️ Idempotent seeding operation
 * 🚀 CI
@@ -29,18 +29,18 @@
 * 🤖 Vercel (optimization, CDN, etc)
   * 📈 Meaningful analytics
 * 🔑 Auth0
-  * auth0 wildcard domain login, works on every step, same pool of users (or not!, just as easy)
+  * Wildcard domain login, works on every step, same pool of users (or not!, just as easy)
 * ⌨️ TypeScript
 * 🔺 NextJS
 * 🔭 tRPC
-  * The backend is functions you write in javascript
+  * The backend is a set of functions you write in javascript
     * They take arguments and return something, just like normal
     * The type of the arguments and the return value are type inferred
-      * The /function/ defines the api, no extra work
+      * 🪄 The /functions/ define the API, no extra work
 * 🚄 Railway DBs
   * Dev DB per Developer, not local
-    * back to just running `npx next dev` or `npm start dev`
-    * just need a `.env` file with your `DATABASE_URL` configured it in
+    * Back to just running `npx next dev` or `npm start dev`
+    * Just need a `.env` file with your `DATABASE_URL` configured it in
 * 🤑 Cheap!  
-  * Free tier is generous, pay-per-compute after that
+  * Free tiers are generous (Vercel & Railway), pay-per-compute after that
 * 🐛 VSCode debugging
