@@ -14,8 +14,6 @@ on: [pull_request]
 jobs:
   deployment:
     runs-on: ubuntu-latest
-    permissions:
-      deployments: write
     steps:
       - uses: actions/checkout@v3
       - name: make-comment
