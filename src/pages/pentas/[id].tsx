@@ -4,6 +4,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Penta from "../components/Penta";
 import Block from "../components/Block";
+import ControlButton from "../components/ControlButton";
 import { useKeyBindings} from "rooks";
 import { trpc } from "../../utils/trpc";
 import { type Prisma } from '@prisma/client';
@@ -403,86 +404,83 @@ const PentaPage: NextPage = () => {
         {penta &&
           <div className="w-screen">
             <div className="m-auto relative w-fit h-[100px]">
-              <div className="absolute right-[150px] top-[0px]">
-                <button
-                  className="btn gap-2 m-2 btn-primary text-white"
-                  onClick={keyQ}>
-                  <BsArrowLeft size={20} style={{ color: "#ffffff" }} />
-                  Q
-                </button>
-              </div>
-              <div className="absolute right-[90px] top-[0px]">
-                <button
-                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
-                  onClick={keyW}>
-                  {flipIcon}
-                  W
-                </button>
-              </div>
-              <div className="absolute right-[30px] top-[0px]">
-                <button
-                  className="btn gap-2 m-2 btn-primary text-white"
-                  onClick={keyE}>
-                  <BsArrowRight size={20} style={{ color: "#ffffff" }} />
-                  E
-                </button>
-              </div>
-              <div className="absolute right-[135px] top-[55px]">
-                <button
-                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
-                  onClick={keyA}>
-                  <RiFilePaperLine size={20} style={{ color: "#ffffff" }} />
-                  A
-                </button>
-              </div>
-              <div className="absolute right-[75px] top-[55px]">
-                <button
-                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined ? "" : " btn-disabled")}
-                  onClick={keyS}>
-                  {visibilityIcon}
-                  S
-                </button>
-              </div>
-              <div className="absolute right-[15px] top-[55px]">
-                <button
-                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
-                  onClick={keyD}>
-                  <AiOutlineRotateRight size={20} style={{ color: "#ffffff" }} />
-                  D
-                </button>
-              </div>
-              <div className="absolute left-[80px] top-[0px]">
-                <button
-                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
-                  onClick={keyUp}
-                >
-                  <BsArrowBarUp size={20} style={{ color: "#ffffff" }} />
-                </button>
-              </div>
-              <div className="absolute left-[20px] top-[55px]">
-                <button
-                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
-                  onClick={keyLeft}
-                >
-                  <BsArrowBarLeft size={20} style={{ color: "#ffffff" }} />
-                </button>
-              </div>
-              <div className="absolute left-[80px] top-[55px]">
-                <button
-                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
-                  onClick={keyDown}
-                >
-                  <BsArrowBarDown size={20} style={{ color: "#ffffff" }} />
-                </button>
-              </div>
-              <div className="absolute left-[140px] top-[55px]">
-                <button
-                  className={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
-                  onClick={keyRight}
-                >
-                  <BsArrowBarRight size={20} style={{ color: "#ffffff" }} />
-                </button>
-              </div>
+
+              <ControlButton
+                position="absolute right-[150px] top-[0px]"
+                classes="btn gap-2 m-2 btn-primary text-white"
+                clickHandler={keyQ}
+                icon={<BsArrowLeft size={20} style={{ color: "#ffffff" }} />}
+                letter="Q"
+                ></ControlButton>
+
+              <ControlButton
+                position="absolute right-[90px] top-[0px]"
+                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                clickHandler={keyW}
+                icon={flipIcon}
+                letter="W"
+              ></ControlButton>
+
+              <ControlButton
+                position="absolute right-[30px] top-[0px]"
+                classes="btn gap-2 m-2 btn-primary text-white"
+                clickHandler={keyE}
+                icon={<BsArrowRight size={20} style={{ color: "#ffffff" }} />}
+                letter="E"
+              ></ControlButton>
+
+              <ControlButton
+                position="absolute right-[135px] top-[55px]"
+                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                clickHandler={keyA}
+                icon={<RiFilePaperLine size={20} style={{ color: "#ffffff" }} />}
+                letter="A"
+              ></ControlButton>
+
+              <ControlButton
+                position="absolute right-[75px] top-[55px]"
+                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined ? "" : " btn-disabled")}
+                clickHandler={keyS}
+                icon={visibilityIcon}
+                letter="S"
+              ></ControlButton>
+
+              <ControlButton
+                position="absolute right-[15px] top-[55px]"
+                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                clickHandler={keyD}
+                icon={<AiOutlineRotateRight size={20} style={{ color: "#ffffff" }} />}
+                letter="D"
+              ></ControlButton>
+
+              <ControlButton
+                position="absolute left-[80px] top-[0px]"
+                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                clickHandler={keyUp}
+                icon={<BsArrowBarUp size={20} style={{ color: "#ffffff" }} />}
+              ></ControlButton>
+
+              <ControlButton
+                position="absolute left-[20px] top-[55px]"
+                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                clickHandler={keyLeft}
+                icon={<BsArrowBarLeft size={20} style={{ color: "#ffffff" }} />}
+              ></ControlButton>
+
+              <ControlButton
+                position="absolute left-[80px] top-[55px]"
+                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                clickHandler={keyDown}
+                icon={<BsArrowBarDown size={20} style={{ color: "#ffffff" }} />}
+              ></ControlButton>
+
+              <ControlButton
+                position="absolute left-[140px] top-[55px]"
+                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                clickHandler={keyRight}
+                icon={<BsArrowBarRight size={20} style={{ color: "#ffffff" }} />}
+              ></ControlButton>
+
             </div>
           </div>
         }
