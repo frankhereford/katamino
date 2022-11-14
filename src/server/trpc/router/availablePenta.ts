@@ -26,7 +26,7 @@ export const availablePentaRouter = router({
     
       if (!availablePentaObject) { return false }
     
-      const penta = await ctx.prisma.penta.create({
+      return await ctx.prisma.penta.create({
         data: {
           userId: ctx.session.user.id,
           columns: availablePentaObject.columns,
@@ -48,8 +48,6 @@ export const availablePentaRouter = router({
         }
       })
 
-      return penta
-
     }),
 
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -63,10 +61,10 @@ export const availablePentaRouter = router({
               }
             }
           },
-        }
+        },
+        slam: true ,
       },
-      // gonna need an order-by column in here as more slams come in
-      orderBy: [{ slamName: 'desc' }, { rowName: "asc" }, { columns: "asc" } ]
+      orderBy: [{ slam: { slamOrder: "asc" } }, { rowName: "asc" }, { columns: "asc" } ]
     });
   }),
 
