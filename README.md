@@ -26,7 +26,7 @@
   * New deploy preview per PR
     * Railway DB per PR
       * With cleanup
-    * Easy to hook up local instance to a PR's database
+    * Easy to hook up local instance to a PR's database (or staging)
   * GitHub PR comments from actions
     * Includes link to deploy & DB connection credentials
   * 1-2 minute deploys
