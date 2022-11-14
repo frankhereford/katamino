@@ -1,7 +1,7 @@
 {
   "name": "katamino",
-  "version": "1.0.0",
-  "private": false,
+  "version": "0.1.0",
+  "private": true,
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
