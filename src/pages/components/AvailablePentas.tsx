@@ -1,7 +1,6 @@
 import React, { useEffect, useState, type SyntheticEvent } from 'react'
 import { trpc } from "../../utils/trpc";
 import Block from "../components/Block";
-import Penta from "../components/Penta";
 import type { CSSProperties } from "react";
 import RingLoader from "react-spinners/RingLoader";
 
@@ -17,10 +16,6 @@ export default function AvailablePentas(props: any) {
     }
   });
 
-
-  //useEffect(() => {
-
-
   const override: CSSProperties = {
     display: "block",
     margin: "0 auto",
@@ -35,8 +30,10 @@ export default function AvailablePentas(props: any) {
   }
 
   function showSlamEmoji(slam: string) {
-         if (slam === 'Small Slam') { return '🦎' }
-    else if (slam === 'Full Board') { return '🦕' }
+         if (slam === 'Small Slam')        { return '🦎' }
+    else if (slam === 'The Slam')          { return '🐊' }
+    else if (slam === 'The Ultimate Slam') { return '🐉' }
+    else if (slam === 'Full Board')        { return '🦕' }
     return slam
   }
 
@@ -45,7 +42,7 @@ export default function AvailablePentas(props: any) {
     for (let i = 0; i < Math.ceil(availablePentaCount / availablePentasPerPage); i++) {
       const classes = ["btn", "btn-sm"]
       if (i === availablePentaPage) {
-        classes.push("btn-primary")
+        classes.push("btn-secondary")
       }
 
       pagination = (
