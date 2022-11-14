@@ -52,8 +52,8 @@ jobs:
          export DATABASE_URL=$DATABASE_URL
          echo "🛠️ npm install"
          npm install
-         echo "👾 DB migrate dev"
-         npx prisma migrate dev
+         echo "🌈 prisma migrate deploy"
+         npx prisma migrate deploy
          echo "🌱 DB Seed"
          npx prisma db seed > /dev/null
          echo "🚀 Vercel build"
