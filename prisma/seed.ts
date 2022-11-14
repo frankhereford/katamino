@@ -131,6 +131,37 @@ async function main() {
     //console.log(createdPiece)
   }))
 
+
+  await prisma.slam.create({
+    data: {
+      name: "Small Slam",
+      slamOrder: 1,
+    }
+  })
+
+  await prisma.slam.create({
+    data: {
+      name: "The Slam",
+      slamOrder: 2,
+    }
+  })
+
+  await prisma.slam.create({
+    data: {
+      name: "The Ultimate Slam",
+      slamOrder: 3,
+    }
+  })
+
+  await prisma.slam.create({
+    data: {
+      name: "Full Board",
+      slamOrder: 4,
+    }
+  })
+
+
+
   const deletePentas = await prisma.penta.deleteMany()
   const deleteAvailablePentas = await prisma.availablePenta.deleteMany()
 
@@ -155,10 +186,15 @@ async function main() {
           }
         }
       })
+      const slam = await prisma.slam.findFirst({
+        where: {
+          name: penta.slamName
+        }
+      })
       const availablePentaRecord = await prisma.availablePenta.create({
         data: {
           columns: i,
-          slamName: penta.slamName,
+          slam: { connect: { id: slam?.id }, },
           rowName: penta.rowName,
           availableBlocks: {
             create: pieces.map((piece) => {
