@@ -50,8 +50,18 @@ export const availablePentaRouter = router({
 
     }),
 
-  getAll: publicProcedure.query(async ({ ctx }) => {
+  count: publicProcedure.query(async ({ ctx }) => {
+    const pentas = await ctx.prisma.availablePenta.findMany();
+    return pentas.length
+  }),
+
+
+  getAll: publicProcedure
+    .input(z.object({ page: z.number(), perPage: z.number() }))
+    .query(async ({ ctx, input }) => {
     return await ctx.prisma.availablePenta.findMany({
+      skip: (input.page) * input.perPage,
+      take: input.perPage,
       include: {
         availableBlocks: {
           include: {

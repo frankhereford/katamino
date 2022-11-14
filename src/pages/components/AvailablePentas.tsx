@@ -6,12 +6,20 @@ import type { CSSProperties } from "react";
 import RingLoader from "react-spinners/RingLoader";
 
 export default function AvailablePentas(props: any) {
-  const { data: pentas } = trpc.availablePenta.getAll.useQuery();
+  const [availablePentaPage, setAvailablePentaPage] = useState(0);
+  const [availablePentasPerPage, setAvailablePentasPerPage] = useState(10);
+
+  const { data: pentas, refetch: availablePentaRefetch } = trpc.availablePenta.getAll.useQuery({page: availablePentaPage, perPage: availablePentasPerPage});
+  const { data: availablePentaCount } = trpc.availablePenta.count.useQuery();
   const startPenta = trpc.availablePenta.start.useMutation({
     onSuccess: () => {
       props.setRefresh(true);
     }
   });
+
+
+  //useEffect(() => {
+
 
   const override: CSSProperties = {
     display: "block",
@@ -32,6 +40,25 @@ export default function AvailablePentas(props: any) {
     return slam
   }
 
+  let pagination = (<></>)
+  if (availablePentaCount) { 
+    for (let i = 0; i < Math.ceil(availablePentaCount / availablePentasPerPage); i++) {
+      const classes = ["btn", "btn-sm"]
+      if (i === availablePentaPage) {
+        classes.push("btn-primary")
+      }
+
+      pagination = (
+        <>
+          {pagination}
+          <button className={classes.join(" ")} onClick={() => setAvailablePentaPage(i)}>{i + 1}</button>
+        </>
+      )
+    }
+    
+
+  }
+
   return (
     <>
       <div className="col-start-2 col-end-10 mt-10">
@@ -40,8 +67,15 @@ export default function AvailablePentas(props: any) {
             <span className="text-secondary">A</span>vailable Pentas
           </h1>
         </div>
+
+        <div className="text-right">
+          <div className="btn-group">
+            { pagination }
+          </div>
+        </div>
+
         {pentas ?
-          <table className="table table-zebra w-full outline rounded-md outline-1 outline-secondary">
+          <table className="table table-zebra w-full outline rounded-md outline-1 mb-4 outline-secondary">
             <thead>
               <tr>
                 <th className="text-center">️Start</th>
