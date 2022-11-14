@@ -77,13 +77,23 @@ model AvailableBlock {
 
 model AvailablePenta {
   id              String           @id @default(cuid())
-  slamName        String
+  slamId          String
   rowName         String
   columns         Int
   borderWidth     Int              @default(2)
   availableBlocks AvailableBlock[]
+  slam            Slam             @relation(fields: [slamId], references: [id], onDelete: Cascade)
 
   @@map(name: "available_pentas")
+}
+
+model Slam {
+  id              String           @id @default(cuid())
+  name            String
+  slamOrder       Int              @default(0)
+  availablePentas AvailablePenta[]
+
+  @@map(name: "slams")
 }
 
 // 👇🏻 Auth from here out

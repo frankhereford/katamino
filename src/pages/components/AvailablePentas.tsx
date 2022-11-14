@@ -46,8 +46,7 @@ export default function AvailablePentas(props: any) {
               <tr>
                 <th className="text-center">️Start</th>
                 <th className="text-center">Slam</th>
-                <th className="text-center">Row</th>
-                <th className="text-center">Columns</th>
+                <th className="text-center">Group</th>
                 <th>Pieces</th>
               </tr>
             </thead>
@@ -57,9 +56,8 @@ export default function AvailablePentas(props: any) {
                   <td className="text-center">
                     <button onClick={startPentaClick} data-id={penta.id} className="btn btn-secondary btn-circle">️🎮</button>
                   </td>
-                  <td className="text-center text-4xl">{showSlamEmoji(penta.slamName)}</td>
+                  <td className="text-center text-4xl">{showSlamEmoji(penta.slam.name)}</td>
                   <td className="text-center">{penta.rowName}</td>
-                  <td className="text-center">{penta.columns}</td>
                   <td>
                     <div className="grid grid-cols-8">
                       {penta?.availableBlocks.map((block) => {
