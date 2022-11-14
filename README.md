@@ -47,6 +47,7 @@
     * They take arguments and return something, just like normal
     * The type of the arguments and the return value are type inferred
       * 🪄 The /functions/ define the API, no extra work
+    * 🧙‍♀️ Automagic swagger compliant REST API with [trpc-openapi](https://github.com/jlalmes/trpc-openapi)
 * 🚄 Railway DBs
   * Dev DB per Developer, not local
     * Back to just running `npx next dev` or `npm start dev`
