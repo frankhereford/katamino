@@ -52,6 +52,7 @@ jobs:
          export DATABASE_URL=$DATABASE_URL
          echo "🛠️ npm install"
          npm install
+         #👇 reset DB, migrate & seed
          echo "🌈 prisma migrate reset --force"
          npx prisma migrate reset --force > /dev/null
          #echo "🌱 DB Seed"
