@@ -65,7 +65,7 @@ export default function AvailablePentas(props: any) {
           </h1>
         </div>
 
-        <div className="text-right">
+        <div className="text-right mb-1">
           <div className="btn-group">
             { pagination }
           </div>
