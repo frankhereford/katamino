@@ -169,7 +169,47 @@ async function main() {
     { slamName: "Small Slam", rowName: "A", minColumns: 3, pieces: [ 'orange', 'brown', 'darkGreen', 'pink', 'green', 'teal', 'blue', 'purple' ] },
     { slamName: "Small Slam", rowName: "B", minColumns: 3, pieces: [ 'purple', 'pink', 'yellow', 'orange', 'teal', 'brown', 'darkGreen', 'green' ] },
     { slamName: "Small Slam", rowName: "C", minColumns: 3, pieces: [ 'orange', 'blue', 'pink', 'brown', 'purple', 'yellow', 'teal', 'darkGrey' ] },
-    { slamName: "Small Slam", rowName: "D", minColumns: 3, pieces: ['brown', 'pink', 'yellow', 'purple', 'blue', 'darkGrey', 'green', 'darkGreen' ] },
+    { slamName: "Small Slam", rowName: "D", minColumns: 3, pieces: [ 'brown', 'pink', 'yellow', 'purple', 'blue', 'darkGrey', 'green', 'darkGreen' ] },
+    { slamName: "Small Slam", rowName: "E", minColumns: 3, pieces: ['orange', 'purple', 'blue', 'teal', 'yellow', 'darkGreen', 'brown', 'green' ] },
+    { slamName: "Small Slam", rowName: "F", minColumns: 3, pieces: ['pink', 'yellow', 'darkGrey', 'brown', 'green', 'purple', 'orange', 'green' ] },
+    { slamName: "Small Slam", rowName: "G", minColumns: 3, pieces: ['orange', 'blue', 'pink', 'teal', 'brown', 'green', 'purple', 'darkGrey' ] },
+
+
+    { slamName: "The Slam", rowName: "A", minColumns: 5, pieces: ['orange', 'pink', 'yellow', 'darkGrey', 'green', 'brown', 'teal', 'purple', 'blue'] },
+    /*
+    { slamName: "The Slam", rowName: "B", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "C", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "D", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "E", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "F", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "G", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "H", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "I", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "J", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "K", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "L", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "M", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "N", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "O", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "P", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "Q", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "R", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "S", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "T", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "U", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "V", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "W", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "X", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "Y", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "Z", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "️♤", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "️♡", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "♢️", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    { slamName: "The Slam", rowName: "️♧", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
+    */
+
+
+
     { slamName: "Full Board", rowName: "A", minColumns: 12, pieces: ['brown', 'pink', 'yellow', 'purple', 'blue', 'darkGrey', 'green', 'darkGreen', 'darkBlue', 'teal', 'red', 'orange' ] },
   ]
 
