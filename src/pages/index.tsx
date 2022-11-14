@@ -15,7 +15,7 @@ const Home: NextPage = () => {
       </Head>
       <main className="container mx-auto flex flex-col items-center justify-center p-4">
 
-        <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem] mt-[80px]">
+        <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
           Play <span className="text-primary">K</span>atamino
         </h1>
 
