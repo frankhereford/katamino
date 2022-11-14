@@ -26,7 +26,7 @@ const Home: NextPage = () => {
 
         <h3 className="mt-5">A piece</h3>
         <div className="grid grid-cols-1 gap-0">
-          <Piece></Piece>
+          <Piece size={50}></Piece>
         </div>
 
       </main>
