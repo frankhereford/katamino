@@ -102,7 +102,7 @@ const PentaPage: NextPage = () => {
       keyS()
     }
     setInitialShow(true)
-  }, [penta, activeBlock])
+  }, [penta, activeBlock, initialShow, keyS])
 
   useKeyBindings({
     q: keyQ,
@@ -368,6 +368,7 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function keyS() {
     if (!activeBlock && activeBlock !== 0) { return }
     if (!penta) { return }
