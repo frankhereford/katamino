@@ -47,11 +47,11 @@ const Home: NextPage = (props: any) => {
           </button>
         </div>
 
-        <h1 className="ml-[175px] text-[5rem] leading-normal text-gray-600">
-          <span className="text-primary font-extrabold">L</span>ogin
+        <h1 className="ml-[175px] text-[5rem] leading-normal text-gray-400">
+          <span className="text-primary font-extrabold drop-shadow-lg">L</span>ogin
         </h1>
 
-        <div className="relative top-[-140px] left-[30px] text-primary text-[250px] rotate-90">
+        <div className="relative top-[-140px] left-[30px] text-primary text-[250px] rotate-90 drop-shadow-lg">
           )
         </div>
 
