@@ -19,7 +19,7 @@ import { TbFlipHorizontal, TbFlipVertical } from 'react-icons/tb';
 import { RiFilePaperLine, } from 'react-icons/ri';
 import { BiHide, BiShow } from 'react-icons/bi';
 import { AiOutlineRotateRight } from 'react-icons/ai';
-import { ImExit } from 'react-icons/Im';
+import { ImExit } from 'react-icons/im';
 
 import { useSession} from 'next-auth/react'
 
