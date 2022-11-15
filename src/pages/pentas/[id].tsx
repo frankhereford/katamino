@@ -404,6 +404,11 @@ const PentaPage: NextPage = () => {
         {penta &&
           <div className="w-screen">
             <div className="m-auto relative w-fit h-[100px]">
+              <div className="absolute left-[-270px] top-[8px] drop-shadow-lg">
+                <Link href='/pentas' className="btn btn-circle btn-md btn-primary ">
+                    <ImExit size={20} style={{ color: "#ffffff" }} />
+                </Link>
+              </div>
 
               <ControlButton
                 position="absolute right-[150px] top-[0px] drop-shadow-lg"
