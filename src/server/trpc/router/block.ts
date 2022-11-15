@@ -3,6 +3,28 @@ import { z } from "zod";
 
 import { isBlockOwner } from "../../../utils/database";
 
+async function saveMove(ctx: any, block: any) {
+  const move = await ctx.prisma.move.create({
+    data: {
+      block: {
+        connect: {
+          id: block.id
+        }
+      },
+      penta: {
+        connect: {
+          id: block.pentaId
+        }
+      },
+      visible: block.visible,
+      translation: block.translation || {},
+      rotation: block.rotation || {},
+      reflection: block.reflection
+    }
+  })
+  return move
+}
+
 export const blockRouter = router({
 
   set_rotation: protectedProcedure
@@ -30,6 +52,9 @@ export const blockRouter = router({
           }
         }
       });
+
+      await saveMove(ctx, block)
+
       return block;
     }),
 
@@ -56,6 +81,7 @@ export const blockRouter = router({
           reflection: input.reflection
         }
       });
+      await saveMove(ctx, block)
       return block;
     }),
 
@@ -82,6 +108,7 @@ export const blockRouter = router({
           translation: input.translation
         }
       });
+      await saveMove(ctx, block)
       return block;
     }),
 
@@ -108,6 +135,7 @@ export const blockRouter = router({
           visible: input.visible ? input.visible : false
         }
       });
+      await saveMove(ctx, block)
       return block;
     }),
 
