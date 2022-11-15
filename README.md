@@ -8,6 +8,7 @@
 * 🌈 Prisma
   * TypeScript Safe Apollo but with [useQuery](https://tanstack.com/query/v4/docs/reference/useQuery)
   * Generated library specific to your schema with all the typing information in it, so your IDE goes brrr. 💪
+  * 🔬 `prisma studio` 
 * 🧩 Migrations
   * Migrations
     * If a change can't be applied (such as adding a non-null constraint on a column with null values, for example), it will walk you through your options
