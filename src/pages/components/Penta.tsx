@@ -22,12 +22,12 @@ interface PentaProps {
   size?: number;
   trimBorder?: boolean;
   confetti?: boolean;
+  solvedCallback: () => void;
 }
 
 export default function Penta(props: PentaProps) {
 
   const { width: windowWidth, height: windowHeight } = useWindowSize()
-  const [showConfetti, setShowConfetti] = useState(false)
 
   const { data: colorLookup } = trpc.color.getColorLookup.useQuery();
   const boardHeight = 5
@@ -37,7 +37,16 @@ export default function Penta(props: PentaProps) {
 
   const [board, setBoard] = useState(genericBoard);
   const [solved, setSolved] = useState(false);
+  //set the solved state (the confetti state) false after 5 seconds
   useTimeoutWhen(() => setSolved(false), 5000, solved);
+
+
+  useEffect(() => {
+    if (solved) {
+      props.solvedCallback()
+    }
+  }, [solved])
+  // 👆 what on earth is wrong with this...
 
   const boardColor = "lightGrey"
 
