@@ -1,13 +1,15 @@
 import { type NextPage } from "next";
 import { useRouter } from 'next/router'
+import { type InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import { signIn, getProviders, useSession } from 'next-auth/react'
 import { useEffect } from "react";
-import { AiOutlineArrowDown } from 'react-icons/ai';
+import { router } from "../../server/trpc/trpc";
 
-const Home: NextPage = (props: any) => {
+const Login: NextPage = (props: any) => {
 
   const { data: sessionData } = useSession();
+  
   const nextRouter = useRouter();
   useEffect(() => {
     if (sessionData) {
@@ -28,15 +30,6 @@ const Home: NextPage = (props: any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container mx-auto flex flex-col items-center p-4">
-
-        <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem] ">
-          <span className="text-primary">K</span>atamino
-        </h1>
-
-        <div className="mb-[40px] animate-bounce mt-[40px]">
-          <AiOutlineArrowDown size={170} style={{ color: "#dddddd" }} />
-        </div>
-
 
         <div className="grid grid-cols-2 gap-10 mb-2">
           <button onClick={() => signIn(auth0.id)} className="btn btn-primary btn-lg drop-shadow-lg">
@@ -60,7 +53,7 @@ const Home: NextPage = (props: any) => {
   );
 };
 
-export default Home;
+export default Login;
 
 export async function getServerSideProps() {
   const providers = await getProviders()

@@ -12,18 +12,23 @@ import _ from "lodash";
 import { useDebounceCallback } from '@react-hook/debounce'
 import RingLoader from "react-spinners/RingLoader";
 import type { CSSProperties } from "react";
+import Link from "next/link";
 
 import { BsArrowLeft, BsArrowRight, BsArrowBarDown, BsArrowBarUp, BsArrowBarLeft, BsArrowBarRight } from 'react-icons/bs';
 import { TbFlipHorizontal, TbFlipVertical } from 'react-icons/tb';
 import { RiFilePaperLine, } from 'react-icons/ri';
 import { BiHide, BiShow } from 'react-icons/bi';
 import { AiOutlineRotateRight } from 'react-icons/ai';
+import { ImExit } from 'react-icons/im';
+
+import { useSession} from 'next-auth/react'
 
 const override: CSSProperties = {
   display: "block",
   margin: "0 auto",
   borderColor: "red",
 };
+
 
 const PentaPage: NextPage = () => {
   const { query, isReady: routerReady} = useRouter()
@@ -32,6 +37,15 @@ const PentaPage: NextPage = () => {
   }, {
     enabled: routerReady
   },);
+
+  const { status:sessionStatus } = useSession();
+  const nextRouter = useRouter();
+  useEffect(() => {
+    if (sessionStatus === 'unauthenticated') {
+      nextRouter.push('/')
+    }
+  }, [nextRouter, sessionStatus])
+
 
   const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 4000, false)
 
@@ -404,6 +418,11 @@ const PentaPage: NextPage = () => {
         {penta &&
           <div className="w-screen">
             <div className="m-auto relative w-fit h-[100px]">
+              <div className="absolute left-[-270px] top-[8px] drop-shadow-lg">
+                <Link href='/pentas' className="btn btn-circle btn-md btn-primary ">
+                    <ImExit size={20} style={{ color: "#ffffff" }} />
+                </Link>
+              </div>
 
               <ControlButton
                 position="absolute right-[150px] top-[0px] drop-shadow-lg"
