@@ -84,7 +84,7 @@ export default function AvailablePentas(props: any) {
             <tbody>
               {pentas && pentas.map((penta) => (
                 <tr key={penta.id} className="hover">
-                  <td className="text-2xl">{completedPentas!.includes(penta.id) ? '🔥' : ''}</td>
+                  <td className="text-2xl text-center">{completedPentas!.includes(penta.id) ? '🔥' : ''}</td>
                   <td className="text-center">
                     <button onClick={startPentaClick} data-id={penta.id} className="btn btn-secondary btn-circle">️🎮</button>
                   </td>
