@@ -4,7 +4,6 @@ import { router, publicProcedure } from "../trpc";
 export const pieceRouter = router({
 
   randomPiece: publicProcedure
-    //.input(z.object({ text: z.string().nullish() }).nullish())
     .query(async ({ ctx }) => {
       const pieces = await ctx.prisma.piece.findMany({ include: { color: true } })
       // select a random piece from pieces array

@@ -52,6 +52,7 @@ export const availablePentaRouter = router({
 
     }),
 
+
   count: publicProcedure.query(async ({ ctx }) => {
     const pentas = await ctx.prisma.availablePenta.findMany();
     return pentas.length
