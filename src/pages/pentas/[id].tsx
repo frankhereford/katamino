@@ -1,19 +1,28 @@
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+// next
 import { type NextPage } from "next";
 import Head from "next/head";
+import { useRouter } from 'next/router'
+import Link from "next/link";
+
+// react
+import { useState, useEffect } from 'react'
+import type { CSSProperties } from "react";
+
+// libs
+import _ from "lodash";
+import { useSession} from 'next-auth/react'
+import { type Prisma } from '@prisma/client';
+import { trpc } from "../../utils/trpc";
+import { useDebounceCallback } from '@react-hook/debounce'
+import RingLoader from "react-spinners/RingLoader";
+import { useKeyBindings} from "rooks";
+
+// components
 import Penta from "../components/Penta";
 import Block from "../components/Block";
 import ControlButton from "../components/ControlButton";
-import { useKeyBindings} from "rooks";
-import { trpc } from "../../utils/trpc";
-import { type Prisma } from '@prisma/client';
-import _ from "lodash";
-import { useDebounceCallback } from '@react-hook/debounce'
-import RingLoader from "react-spinners/RingLoader";
-import type { CSSProperties } from "react";
-import Link from "next/link";
 
+// icons
 import { BsArrowLeft, BsArrowRight, BsArrowBarDown, BsArrowBarUp, BsArrowBarLeft, BsArrowBarRight } from 'react-icons/bs';
 import { TbFlipHorizontal, TbFlipVertical } from 'react-icons/tb';
 import { RiFilePaperLine, } from 'react-icons/ri';
@@ -21,7 +30,6 @@ import { BiHide, BiShow } from 'react-icons/bi';
 import { AiOutlineRotateRight } from 'react-icons/ai';
 import { ImExit } from 'react-icons/im';
 
-import { useSession} from 'next-auth/react'
 
 const override: CSSProperties = {
   display: "block",
