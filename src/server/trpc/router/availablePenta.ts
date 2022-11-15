@@ -29,6 +29,8 @@ export const availablePentaRouter = router({
       return await ctx.prisma.penta.create({
         data: {
           userId: ctx.session.user.id,
+          // ! This should use connect below 👇
+          availablePentaId: availablePentaObject.id,
           columns: availablePentaObject.columns,
           blocks: {
             create: availablePentaObject.availableBlocks.map((availableBlock) => {
