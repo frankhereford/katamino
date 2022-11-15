@@ -470,7 +470,6 @@ const PentaPage: NextPage = () => {
   }
 
   function solvedCallback() {
-    console.log('hi')
     if (!penta) { return }
     setCompletion.mutate({
       id: penta?.id || '',
