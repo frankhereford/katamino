@@ -55,8 +55,6 @@ export default function AvailablePentas(props: any) {
     }
   }
 
-  console.log(completedPentas)
-
   return (
     <>
       <div className="col-start-2 col-end-10 mt-10">
