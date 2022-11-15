@@ -12,18 +12,23 @@ import _ from "lodash";
 import { useDebounceCallback } from '@react-hook/debounce'
 import RingLoader from "react-spinners/RingLoader";
 import type { CSSProperties } from "react";
+import Link from "next/link";
 
 import { BsArrowLeft, BsArrowRight, BsArrowBarDown, BsArrowBarUp, BsArrowBarLeft, BsArrowBarRight } from 'react-icons/bs';
 import { TbFlipHorizontal, TbFlipVertical } from 'react-icons/tb';
 import { RiFilePaperLine, } from 'react-icons/ri';
 import { BiHide, BiShow } from 'react-icons/bi';
 import { AiOutlineRotateRight } from 'react-icons/ai';
+import { ImExit } from 'react-icons/Im';
+
+import { useSession} from 'next-auth/react'
 
 const override: CSSProperties = {
   display: "block",
   margin: "0 auto",
   borderColor: "red",
 };
+
 
 const PentaPage: NextPage = () => {
   const { query, isReady: routerReady} = useRouter()
@@ -32,6 +37,15 @@ const PentaPage: NextPage = () => {
   }, {
     enabled: routerReady
   },);
+
+  const { status:sessionStatus } = useSession();
+  const nextRouter = useRouter();
+  useEffect(() => {
+    if (sessionStatus === 'unauthenticated') {
+      nextRouter.push('/')
+    }
+  }, [nextRouter, sessionStatus])
+
 
   const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 4000, false)
 
