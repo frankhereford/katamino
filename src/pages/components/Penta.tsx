@@ -28,7 +28,6 @@ interface PentaProps {
 export default function Penta(props: PentaProps) {
 
   const { width: windowWidth, height: windowHeight } = useWindowSize()
-  const [showConfetti, setShowConfetti] = useState(false)
 
   const { data: colorLookup } = trpc.color.getColorLookup.useQuery();
   const boardHeight = 5
