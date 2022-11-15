@@ -71,10 +71,12 @@ const PentaPage: NextPage = () => {
   const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 4000, false)
 
   // setup some mutations we'll use as the user interacts with the activePiece
+  // ! FIXME snake case??
   const set_rotation = trpc.block.set_rotation.useMutation({ });
   const set_reflection = trpc.block.set_reflection.useMutation({ });
   const set_translation = trpc.block.set_translation.useMutation({ });
   const set_visibility = trpc.block.set_visibility.useMutation({ });
+  const setCompletion = trpc.penta.setComplete.useMutation({})
 
   // setup state to hold the game state and a pointer to the activePiece
   const [penta, setPenta] = useState(pentaRecord)
