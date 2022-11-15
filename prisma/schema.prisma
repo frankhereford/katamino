@@ -54,6 +54,7 @@ model Penta {
   userId           String
   availablePentaId String
   completed        Boolean        @default(false)
+  moves            Int            @default(0)
   columns          Int
   borderWidth      Int            @default(2)
   blocks           Block[]
