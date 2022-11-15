@@ -1,14 +1,24 @@
 import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
+import { isPentaOwner } from "../../../utils/database";
 
 export const pentaRouter = router({
 
   setComplete: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const penta = await ctx.prisma.penta.update({
+      
+      const pentaOriginal = await ctx.prisma.penta.findUnique({
         where: {
           id: input.id
+        },
+      })
+
+      if (!isPentaOwner(pentaOriginal, ctx.session.user.id)) { return false }
+
+      const penta = await ctx.prisma.penta.update({
+        where: {
+          id: input.id,
         },
         data: {
           completed: true
@@ -25,7 +35,8 @@ export const pentaRouter = router({
           availablePenta: true
         },
         where: {
-          completed: true
+          completed: true,
+          userId: ctx.session.user.id
         }
       });
       return pentas.map((penta) => penta.availablePenta.id) || []
