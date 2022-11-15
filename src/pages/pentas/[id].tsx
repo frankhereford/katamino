@@ -31,23 +31,32 @@ import { AiOutlineRotateRight } from 'react-icons/ai';
 import { ImExit } from 'react-icons/im';
 
 
+// style used for the Ring Loader component
 const override: CSSProperties = {
   display: "block",
   margin: "0 auto",
   borderColor: "red",
 };
 
-
 const PentaPage: NextPage = () => {
+
+  // access to the router to get the ID out of the URL
   const { query, isReady: routerReady} = useRouter()
+
+  // query the penta in question and grab a function to trigger a refetch
   const { data: pentaRecord, refetch: pentaRefetch } = trpc.penta.get.useQuery({
     id: String(query.id)
   }, {
     enabled: routerReady
   },);
 
+  // user session, but only interested in the state of auth
   const { status:sessionStatus } = useSession();
+
+  // get a method to "redirect" the user 👋
   const nextRouter = useRouter();
+  
+  // when we find the user to be unauthenticated (there is a loading state, btw), send them to the login screen
   useEffect(() => {
     if (sessionStatus === 'unauthenticated') {
       nextRouter.push('/')
@@ -55,13 +64,19 @@ const PentaPage: NextPage = () => {
   }, [nextRouter, sessionStatus])
 
 
+  // In an ideal world, you'd check to see that the DB state and the app state match after every mutation.
+  // Instead, we call on this debouncedPentaRefetch every time we make a mutation, but then debounce it.
+  // This will cause our state to get checked against the DB 4 seconds after the last move and reset that
+  // timer if the user moves again.
   const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 4000, false)
 
+  // setup some mutations we'll use as the user interacts with the activePiece
   const set_rotation = trpc.block.set_rotation.useMutation({ });
   const set_reflection = trpc.block.set_reflection.useMutation({ });
   const set_translation = trpc.block.set_translation.useMutation({ });
   const set_visibility = trpc.block.set_visibility.useMutation({ });
 
+  // setup state to hold the game state and a pointer to the activePiece
   const [penta, setPenta] = useState(pentaRecord)
   const [activeBlock, setActiveBlock] = useState<number>()
 
