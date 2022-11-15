@@ -80,23 +80,34 @@ const PentaPage: NextPage = () => {
   const [penta, setPenta] = useState(pentaRecord)
   const [activeBlock, setActiveBlock] = useState<number>()
 
+  // when the pentaRecord changes after we get an update, overwrite the state.
+  // the database's state is the authority
   useEffect(() => {
     if (!pentaRecord) { return }
     setPenta(pentaRecord)
   }, [pentaRecord])
 
+  // a pair of the controls need dynamic icons based on the state of the activePiece.
+  // store them here.
   const [flipIcon, setFlipIcon] = useState(<TbFlipHorizontal size={20} style={{ color: "#ffffff" }} />)
   const [visibilityIcon, setVisibilityIcon] = useState(<BiShow size={20} style={{ color: "#ffffff" }} />)
 
+  // monitor the penta and the active block and update the icons based on the state of the activePiece
   useEffect(() => {
+    // This check ensures we have meaningful data loaded from the backend
     if (!activeBlock && activeBlock !== 0) { return }
+
+    // This looks to make sure the specific block has the attributes we're going to monitor and act on
     if (
       penta?.blocks[activeBlock]?.rotation &&
       typeof penta?.blocks[activeBlock]?.rotation == 'object' &&
       !Array.isArray(penta?.blocks[activeBlock]?.rotation)
     ) {
+
       const rotation = penta?.blocks[activeBlock]?.rotation as Prisma.JsonObject
       const clockwise: number = Number(rotation.clockwise) || 0    
+
+      // set rotation control icon
       if (clockwise % 2 == 0) {
         setFlipIcon(<TbFlipHorizontal size={20} style={{ color: "#ffffff" }} />)
       }
@@ -105,17 +116,17 @@ const PentaPage: NextPage = () => {
       }
     }
 
+    // set visibility control icon
     if (penta?.blocks[activeBlock]?.visible) {
       setVisibilityIcon(<BiHide size={20} style={{ color: "#ffffff" }} />)
     }
     else {
       setVisibilityIcon(<BiShow size={20} style={{ color: "#ffffff" }} />)
     }
-
   }, [penta, activeBlock])
 
+  // we handle the first activeBlock with a special case: to show the block if not visible
   const [initialShow, setInitialShow] = useState(false)
-
   useEffect(() => {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
@@ -127,6 +138,8 @@ const PentaPage: NextPage = () => {
     setInitialShow(true)
   }, [penta, activeBlock, initialShow, keyS])
 
+
+  // keyboard controls
   useKeyBindings({
     q: keyQ,
     w: keyW,
@@ -141,6 +154,7 @@ const PentaPage: NextPage = () => {
     ArrowRight: keyRight,
   })
 
+  // move activePiece to the left
   function keyQ() {
     if (!penta?.blocks) { return }
     else if (!activeBlock && activeBlock !== 0) {
@@ -152,6 +166,7 @@ const PentaPage: NextPage = () => {
     else { setActiveBlock(activeBlock - 1)}
   }
 
+  // move activePiece to the right. 
   function keyE() {
     if (!penta?.blocks) { return }
     else if (!activeBlock && activeBlock !== 0) {
@@ -163,6 +178,7 @@ const PentaPage: NextPage = () => {
     else { setActiveBlock(activeBlock + 1) }
   }
 
+  // reflect the activeBlock
   function keyW() {
     if (!penta?.blocks) { return }
     if (!activeBlock && activeBlock !== 0) { return }
@@ -181,6 +197,7 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
+  // rotate the activeBlock clockwise
   function keyD() {
     if (!penta?.blocks) { return }
     if (!activeBlock && activeBlock !== 0) { return }
@@ -208,6 +225,7 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
+  // handle the tab key, including with the shift modifier to move activeBlock left or right
   function keyTab(event: KeyboardEvent) {
     event.preventDefault();
     if (!penta?.blocks) { return }
@@ -232,6 +250,9 @@ const PentaPage: NextPage = () => {
     else {setActiveBlock(activeBlock + 1)}
   }
 
+  // ? I wonder if these very similar movement key handlers could be DRY'd up somehow
+
+  // move the block up
   function keyUp() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
@@ -266,6 +287,7 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
+  // move the block down
   function keyDown() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
@@ -300,6 +322,7 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
+  // move the block left
   function keyLeft() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
@@ -334,6 +357,7 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
+  // move the block right
   function keyRight() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
@@ -368,6 +392,7 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
+  // reset the block's position
   function keyA() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
@@ -391,6 +416,7 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
+  // ? this linting exception is based on this sort of needing to be inside the useEffect that also uses it?
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function keyS() {
     if (!activeBlock && activeBlock !== 0) { return }
@@ -406,6 +432,8 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
+  // This excessively explicit case statement is to use the class names without interpolation
+  // so the build process knows to include the CSS rules
   let columnClass = null
   if      (penta?.blocks.length === 3)  { columnClass = 'grid-cols-3' }
   else if (penta?.blocks.length === 4)  { columnClass = 'grid-cols-4' }
@@ -420,6 +448,7 @@ const PentaPage: NextPage = () => {
 
   const classes = ["mt-10", "grid", "items-center", "justify-center", columnClass]
 
+  // a handler to allow for clicking a block to make it the activeBlock
   function blockClickHandler(block: string) {
     const index = penta?.blocks.findIndex((b) => b.id === block)
     setActiveBlock(index)
