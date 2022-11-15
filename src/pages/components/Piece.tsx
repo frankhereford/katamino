@@ -6,6 +6,7 @@ import Square from "./Square";
 
 interface PieceProps {
   id?: string;
+  size?: number;
 }
 
 export default function PiecePage(props: PieceProps) {
@@ -24,6 +25,8 @@ export default function PiecePage(props: PieceProps) {
     }
   }, [piece, props.id, propsPiece, randomPiece])
   
+  const size = props.size || 10;
+  
   const [grid, setGrid] = useState<Array<JSX.Element>>([])
   useEffect(() => {
     if (!piece?.shape) { return }
@@ -34,7 +37,7 @@ export default function PiecePage(props: PieceProps) {
       for (let col = 0; col < (shape[row] || []).length; col++) { 
         const key = `${row}-${col}`
         const color = shape?.[row]?.[col] == 1 ? piece.color.name : 'lightGrey'
-        grid.push(<Square key={key} color={color}></Square>)
+        grid.push(<Square size={size} key={key} color={color}></Square>)
       } 
     }
     setGrid(grid)
