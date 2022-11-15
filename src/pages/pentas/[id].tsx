@@ -456,6 +456,15 @@ const PentaPage: NextPage = () => {
     setActiveBlock(index)
   }
 
+  function solvedCallback() {
+    console.log('hi')
+    if (!penta) { return }
+    setCompletion.mutate({
+      id: penta?.id || '',
+    })
+
+  }
+
   return (
     <>
       <Head>
@@ -467,7 +476,7 @@ const PentaPage: NextPage = () => {
         <div>
         </div>
         <div>
-          <Penta penta={penta} confetti={true}></Penta>
+          <Penta solvedCallback={solvedCallback} penta={penta} confetti={true}></Penta>
         </div>
         
         {penta &&
