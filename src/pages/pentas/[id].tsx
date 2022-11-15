@@ -462,7 +462,6 @@ const PentaPage: NextPage = () => {
     setCompletion.mutate({
       id: penta?.id || '',
     })
-
   }
 
   return (
