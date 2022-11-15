@@ -72,10 +72,10 @@ const PentaPage: NextPage = () => {
 
   // setup some mutations we'll use as the user interacts with the activePiece
   // ! FIXME snake case??
-  const set_rotation = trpc.block.set_rotation.useMutation({ });
-  const set_reflection = trpc.block.set_reflection.useMutation({ });
-  const set_translation = trpc.block.set_translation.useMutation({ });
-  const set_visibility = trpc.block.set_visibility.useMutation({ });
+  const setRotation = trpc.block.set_rotation.useMutation({ });
+  const setReflection = trpc.block.set_reflection.useMutation({ });
+  const setTranslation = trpc.block.set_translation.useMutation({ });
+  const setVisibility = trpc.block.set_visibility.useMutation({ });
   const setCompletion = trpc.penta.setComplete.useMutation({})
 
   // setup state to hold the game state and a pointer to the activePiece
@@ -192,7 +192,7 @@ const PentaPage: NextPage = () => {
     pentaCopy.blocks[activeBlock]!.reflection = !pentaCopy?.blocks?.[activeBlock]?.reflection
     setPenta(pentaCopy)
 
-    set_reflection.mutate({
+    setReflection.mutate({
       id: penta?.blocks[activeBlock]?.id || '',
       reflection: penta?.blocks[activeBlock]?.reflection ? false : true
     })
@@ -219,7 +219,7 @@ const PentaPage: NextPage = () => {
       }
       setPenta(pentaCopy)
 
-      set_rotation.mutate({
+      setRotation.mutate({
         id: penta?.blocks[activeBlock]?.id || '',
         clockwise: (clockwise + 1) % 4
       })
@@ -278,7 +278,7 @@ const PentaPage: NextPage = () => {
       }
       setPenta(pentaCopy)
 
-      set_translation.mutate({
+      setTranslation.mutate({
         id: penta?.blocks[activeBlock]?.id || '',
         translation: {
           up: up + 1,
@@ -313,7 +313,7 @@ const PentaPage: NextPage = () => {
       }
       setPenta(pentaCopy)
 
-      set_translation.mutate({
+      setTranslation.mutate({
         id: penta?.blocks[activeBlock]?.id || '',
         translation: {
           up: up - 1,
@@ -348,7 +348,7 @@ const PentaPage: NextPage = () => {
       }
       setPenta(pentaCopy)
 
-      set_translation.mutate({
+      setTranslation.mutate({
         id: penta?.blocks[activeBlock]?.id || '',
         translation: {
           up: up,
@@ -383,7 +383,7 @@ const PentaPage: NextPage = () => {
       }
       setPenta(pentaCopy)
 
-      set_translation.mutate({
+      setTranslation.mutate({
         id: penta?.blocks[activeBlock]?.id || '',
         translation: {
           up: up,
@@ -406,15 +406,15 @@ const PentaPage: NextPage = () => {
     pentaCopy.blocks[activeBlock]!.reflection = false
     setPenta(pentaCopy)
 
-    set_translation.mutate({
+    setTranslation.mutate({
       id: penta?.blocks[activeBlock]?.id || '',
       translation: {
         up: 0,
         right: 0
       }
     })
-    set_rotation.mutate({ id: penta?.blocks[activeBlock]?.id || '', clockwise: 0 })
-    set_reflection.mutate({ id: penta?.blocks[activeBlock]?.id || '', reflection: false })
+    setRotation.mutate({ id: penta?.blocks[activeBlock]?.id || '', clockwise: 0 })
+    setReflection.mutate({ id: penta?.blocks[activeBlock]?.id || '', reflection: false })
     debouncedPentaRefetch()
   }
 
@@ -427,7 +427,7 @@ const PentaPage: NextPage = () => {
     pentaCopy.blocks[activeBlock]!.visible = !pentaCopy.blocks[activeBlock]!.visible
     setPenta(pentaCopy)
 
-    set_visibility.mutate({
+    setVisibility.mutate({
       id: penta?.blocks[activeBlock]?.id || '',
       visible: penta?.blocks[activeBlock]?.visible ? false : true
     })
