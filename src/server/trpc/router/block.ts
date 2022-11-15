@@ -1,9 +1,7 @@
 import { router, protectedProcedure } from "../trpc";
 import { z } from "zod";
 
-function isBlockOwner(block: any, userId: string) {
-  return block.penta.userId === userId;
-}
+import { isBlockOwner } from "../../../utils/database";
 
 export const blockRouter = router({
 
