@@ -1,7 +1,34 @@
 import { z } from "zod";
-import { router, publicProcedure, protectedProcedure } from "../trpc";
+import { router, protectedProcedure } from "../trpc";
 
 export const pentaRouter = router({
+
+  setComplete: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const penta = await ctx.prisma.penta.update({
+        where: {
+          id: input.id
+        },
+        data: {
+          completed: true
+        }
+      });
+      return penta;
+    }),
+
+  getCompleted: protectedProcedure
+    .query(async ({ ctx }) => {
+      const pentas = await ctx.prisma.penta.findMany({
+        select: {
+          id: true,
+        },
+        where: {
+          completed: true
+        }
+      });
+      return pentas;
+    }),
 
   get: protectedProcedure
     .input(z.object({ id: z.string() }))
@@ -28,7 +55,7 @@ export const pentaRouter = router({
       orderBy: {
         id: "asc"
       }
-    });
+    })
   }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
