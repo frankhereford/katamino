@@ -17,17 +17,18 @@ export const pentaRouter = router({
       return penta;
     }),
 
+  // 🔥 This is a powerful pattern
   getCompleted: protectedProcedure
     .query(async ({ ctx }) => {
       const pentas = await ctx.prisma.penta.findMany({
-        select: {
-          id: true,
+        include: {
+          availablePenta: true
         },
         where: {
           completed: true
         }
       });
-      return pentas;
+      return pentas.map((penta) => penta.availablePenta.id) || []
     }),
 
   get: protectedProcedure
