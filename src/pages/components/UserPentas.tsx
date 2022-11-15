@@ -40,6 +40,7 @@ export default function UserPentas(props: any) {
           <table className="table table-zebra w-full outline rounded-md outline-1 outline-primary">
             <thead>
               <tr>
+                <th className="text-center">️🔥</th>
                 <th className="text-center">️Play</th>
                 <th>Pieces</th>
                 <th className="text-center">Penta</th>
@@ -48,6 +49,9 @@ export default function UserPentas(props: any) {
             <tbody>
               {pentas && pentas.map((penta) => (
                 <tr key={penta.id} className="hover">
+                  <td className="text-center">
+                    { penta.completed && <span className="text-primary text-2xl">️🔥</span> }
+                  </td>
                   <td className="text-center">
                     <a href={'pentas/' + penta.id} role="button" className="btn btn-primary btn-circle">🕹️</a>
                   </td>
@@ -66,7 +70,7 @@ export default function UserPentas(props: any) {
                     </div>
                   </td>
                   <td>
-                    <Penta penta={penta} size={15} trimBorder={true}></Penta>
+                    <Penta solvedCallback={() => void 0} penta={penta} size={15} trimBorder={true}></Penta>
                   </td>
                 </tr>
               ))}

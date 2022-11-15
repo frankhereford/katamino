@@ -8,6 +8,7 @@ export default function AvailablePentas(props: any) {
   const [availablePentaPage, setAvailablePentaPage] = useState(0);
   const [availablePentasPerPage, setAvailablePentasPerPage] = useState(10);
 
+  const { data: completedPentas } = trpc.penta.getCompleted.useQuery();
   const { data: pentas, refetch: availablePentaRefetch } = trpc.availablePenta.getAll.useQuery({page: availablePentaPage, perPage: availablePentasPerPage});
   const { data: availablePentaCount } = trpc.availablePenta.count.useQuery();
   const startPenta = trpc.availablePenta.start.useMutation({
@@ -52,9 +53,9 @@ export default function AvailablePentas(props: any) {
         </>
       )
     }
-    
-
   }
+
+  console.log(completedPentas)
 
   return (
     <>
@@ -75,6 +76,7 @@ export default function AvailablePentas(props: any) {
           <table className="table table-zebra w-full outline rounded-md outline-1 mb-4 outline-secondary">
             <thead>
               <tr>
+                <th className="text-center">️🔥</th>
                 <th className="text-center">️Start</th>
                 <th className="text-center">Slam</th>
                 <th className="text-center">Group</th>
@@ -84,6 +86,7 @@ export default function AvailablePentas(props: any) {
             <tbody>
               {pentas && pentas.map((penta) => (
                 <tr key={penta.id} className="hover">
+                  <td className="text-2xl">{completedPentas!.includes(penta.id) ? '🔥' : ''}</td>
                   <td className="text-center">
                     <button onClick={startPentaClick} data-id={penta.id} className="btn btn-secondary btn-circle">️🎮</button>
                   </td>
