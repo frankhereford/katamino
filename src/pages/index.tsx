@@ -2,7 +2,6 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Square from "./components/Square";
 import Piece from "./components/Piece";
-import { signIn, signOut, useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
 
