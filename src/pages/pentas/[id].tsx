@@ -15,8 +15,8 @@ import { type Prisma } from '@prisma/client';
 import { trpc } from "../../utils/trpc";
 import { useDebounceCallback } from '@react-hook/debounce'
 import RingLoader from "react-spinners/RingLoader";
-import { useKeyBindings} from "rooks";
-
+import { useKeyBindings} from "rooks"
+//import { useFavicon } from "react-usefavicon"
 // components
 import Penta from "../components/Penta";
 import Block from "../components/Block";
@@ -40,6 +40,18 @@ const override: CSSProperties = {
 
 const PentaPage: NextPage = () => {
 
+    // ! why is this not resolvable?!?
+    //const [
+      //faviconHref,
+      //{
+        //restoreFavicon,
+        //drawOnFavicon,
+        //setEmojiFavicon,
+        //setFaviconHref,
+        //jsxToFavicon,
+      //},
+    //] = useFavicon();
+
   // access to the router to get the ID out of the URL
   const { query, isReady: routerReady} = useRouter()
 
@@ -49,6 +61,7 @@ const PentaPage: NextPage = () => {
   }, {
     enabled: routerReady
   },);
+
 
   // user session, but only interested in the state of auth
   const { status:sessionStatus } = useSession();
@@ -457,6 +470,7 @@ const PentaPage: NextPage = () => {
   }
 
   function solvedCallback() {
+    setStar()
     console.log('hi')
     if (!penta) { return }
     setCompletion.mutate({
