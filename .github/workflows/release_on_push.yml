@@ -9,7 +9,24 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GH_PAT }}
     steps:
-      - uses: rymndhng/release-on-push-action@v0.27.0
+      - uses: rymndhng/release-on-push-action@master
         with:
           bump_version_scheme: minor
           use_github_release_notes: true
+      - name: Check Output Parameters
+        run: |
+          echo "Got tag name ${{ steps.release.outputs.tag_name }}"
+          echo "Got release version ${{ steps.release.outputs.version }}"
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set version
+        id: package_version
+        uses: KageKirin/set-node-package-version@v0
+        with:
+          version: ${{ steps.release.outputs.version }}
+
+      - name: Commit new version
+        run: |
+          git commit -am "CI: update version from PR release"
+          git push https://${{ github.token }}@github.com/OWNER/REPO
