@@ -153,7 +153,6 @@ const PentaPage: NextPage = () => {
     setInitialShow(true)
   }, [penta, activeBlock, initialShow, keyS])
 
-
   // keyboard controls
   useKeyBindings({
     q: keyQ,
@@ -469,12 +468,16 @@ const PentaPage: NextPage = () => {
     setActiveBlock(index)
   }
 
+
   function solvedCallback() {
     if (!penta) { return }
     setCompletion.mutate({
       id: penta?.id || '',
     })
   }
+
+
+  const returnClasses = ["btn", "btn-circle", "btn-md", penta?.completed ? "btn-secondary" : "btn-primary"]
 
   return (
     <>
@@ -489,7 +492,7 @@ const PentaPage: NextPage = () => {
           <div className="w-screen">
             <div className="m-auto relative w-fit h-[100px]">
               <div className="absolute left-[-270px] top-[8px] drop-shadow-lg">
-                <Link href='/pentas' className="btn btn-circle btn-md btn-primary ">
+                <Link href='/pentas' className={returnClasses.join(" ")}>
                     <ImExit size={20} style={{ color: "#ffffff" }} />
                 </Link>
               </div>
