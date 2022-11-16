@@ -21,16 +21,72 @@ jobs:
     environment:
       name: Production
       url: https://katamino.sheep.army
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_FINEGRAIN_TOKEN }}
     steps:
-      - uses: actions/checkout@v3
+      - id: release
+        uses: rymndhng/release-on-push-action@v0.27.0
+        with:
+          release_name: <RELEASE_TAG>
+          bump_version_scheme: minor
+          use_github_release_notes: true
+      - name: Check Output Parameters
+        run: |
+          echo "Got tag name ${{ steps.release.outputs.tag_name }}"
+          echo "Got release version ${{ steps.release.outputs.version }}"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Bump version
+        run: npm version --no-git-tag-version ${{ steps.release.outputs.version }}
+
+      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+        with:
+          # The arguments for the `git add` command (see the paragraph below for more info)
+          # Default: '.'
+          add: 'package.json'
+
+          # The name of the user that will be displayed as the author of the commit.
+          # Default: depends on the default_author input
+          author_name: Frank Hereford
+
+          # The email of the user that will be displayed as the author of the commit.
+          # Default: depends on the default_author input
+          author_email: frank@frankhereford.com
+
+          # Additional arguments for the git commit command. The --message argument is already set by the message input.
+          # Default: ''
+          commit: --signoff
+
+          # The message for the commit.
+          # Default: 'Commit from GitHub Actions (name of the workflow)'
+          message: '🤖 Set version: ${{ steps.release.outputs.version }}'
+
+          # Whether to push the commit and, if any, its tags to the repo. It can also be used to set the git push arguments (see the paragraph below for more info)
+          # Default: true
+          #push: --force
+          push: false
+
+      - name: Push to protected branch
+        uses: CasperWA/push-protected@v2
+        with:
+          token: ${{ secrets.GH_FINEGRAIN_TOKEN }}
+          branch: main
+          # used if there is a review branch protection
+          #unprotect_reviews: true
+
       - run: |
+         git pull
          mkdir .vercel
+
       - name: create-json
         uses: jsdaniell/create-json@v1.2.1
         with:
           name: 'project.json'
           json: ${{ secrets.VERCEL_CONFIG }}
           dir: '.vercel/'
+
       - run: |
          npm i -g @railway/cli
          cd $HOME
