@@ -20,6 +20,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Bump version
+        run: npm version ${{ steps.release.outputs.version }}
+
       - name: Set version
         id: package_version
         uses: KageKirin/set-node-package-version@v0
