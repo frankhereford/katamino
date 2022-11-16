@@ -11,7 +11,7 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="footer items-center p-1 pr-5 pl-5 bg-slate-100 ">
+      <footer className="footer rounded-t-md items-center p-1 pr-5 pl-5 bg-slate-100 ">
         <div className="items-center grid-flow-col">
           <div className="grid grid-cols-1 gap-0">
             <Piece></Piece>
