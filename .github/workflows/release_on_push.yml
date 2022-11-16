@@ -31,4 +31,4 @@ jobs:
           files: |
             package.json
           commit-message: 🪄 Updating version
-          ref: refs/heads/main
+          ref: main
