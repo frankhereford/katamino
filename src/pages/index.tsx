@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import { useRouter } from 'next/router'
-//import Head from "next/head";
 import { signIn, getProviders, useSession } from 'next-auth/react'
 import { useEffect } from "react";
 import { AiOutlineArrowDown } from 'react-icons/ai';
