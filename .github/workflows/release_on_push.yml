@@ -23,12 +23,6 @@ jobs:
       - name: Bump version
         run: npm version ${{ steps.release.outputs.version }}
 
-      - name: Set version
-        id: package_version
-        uses: KageKirin/set-node-package-version@v0
-        with:
-          version: ${{ steps.release.outputs.version }}
-
       - name: Commit new version
         run: |
           git commit -am "CI: update version from PR release"
