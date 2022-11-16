@@ -64,7 +64,7 @@ jobs:
 
           # The message for the commit.
           # Default: 'Commit from GitHub Actions (name of the workflow)'
-          message: '🪄 version: (${{ steps.release.outputs.version }})'
+          message: '🤖 Set version: ${{ steps.release.outputs.version }}'
 
           # If this input is set, the action will push the commit to a new branch with this name.
           # Default: ''
