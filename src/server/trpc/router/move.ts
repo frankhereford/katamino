@@ -9,9 +9,6 @@ export const moveRouter = router({
     .query(async ({ ctx, input }) => {
 
       const moves = await ctx.prisma.move.findMany({
-        where: {
-          id: input.id
-        },
       })
 
       return moves;
