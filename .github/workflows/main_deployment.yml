@@ -68,16 +68,26 @@ jobs:
           #push: --force
           push: false
 
-      - name: Push to protected branch
-        uses: CasperWA/push-protected@v2
+      - run: |
+         git pull
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
         with:
-          token: ${{ secrets.GH_FINEGRAIN_TOKEN }}
-          branch: main
+          github_token: ${{ secrets.GH_FINEGRAIN_TOKEN }}
+
+      #- name: Push to protected branch
+        #uses: CasperWA/push-protected@v2
+        #with:
+          #token: ${{ secrets.GH_FINEGRAIN_TOKEN }}
+          #branch: main
           # used if there is a review branch protection
           #unprotect_reviews: true
 
       - run: |
          git pull
+
+      - run: |
          mkdir .vercel
 
       - name: create-json
