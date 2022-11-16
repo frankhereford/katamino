@@ -62,6 +62,7 @@ const PentaPage: NextPage = () => {
     enabled: routerReady
   },);
 
+  const { data: pentaMoves } = trpc.move.get.useQuery({})
 
   // user session, but only interested in the state of auth
   const { status:sessionStatus } = useSession();
