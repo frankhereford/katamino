@@ -23,7 +23,12 @@ jobs:
       - name: Bump version
         run: npm version ${{ steps.release.outputs.version }}
 
-      - name: Commit new version
-        run: |
-          git commit -am "CI: update version from PR release"
-          git push https://${{ github.token }}@github.com/OWNER/REPO
+      - name: Verified commit
+        uses: swinton/commit@v2.0.0
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        with:
+          files: |
+            package.json
+          commit-message: 🪄 Updating version
+          ref: refs/heads/main
