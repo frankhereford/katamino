@@ -74,6 +74,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
+          branch: ${{ github.ref }}
           github_token: ${{ secrets.GH_FINEGRAIN_TOKEN }}
 
       #- name: Push to protected branch
