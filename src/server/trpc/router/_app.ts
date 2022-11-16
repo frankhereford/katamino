@@ -5,6 +5,7 @@ import { pieceRouter } from "./piece";
 import { pentaRouter } from "./penta";
 import { availablePentaRouter } from "./availablePenta";
 import { blockRouter } from "./block";
+import { moveRouter } from "./move";
 
 export const appRouter = router({
   availablePenta: availablePentaRouter,
@@ -13,6 +14,7 @@ export const appRouter = router({
   piece: pieceRouter,
   color: colorRouter,
   auth: authRouter,
+  move: moveRouter,
 });
 
 // export type definition of API
