@@ -10,9 +10,10 @@ env:
   RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types:
+      - closed
+
 
 jobs:
   deployment:
