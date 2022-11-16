@@ -1,5 +1,12 @@
 # Stuff I learned
 
+* 🤖 GitHub actions
+  * Build prod/pr with respect to migrations
+  * dependabot config
+  * codeQL analysis
+  * default labels on PR
+  * label driven automatic versioning 🔥
+    * automatic releases
 * 🏷️ GitHub release tags; we should bump versions on every PR via PR labels
   * Via: https://github.com/marketplace/actions/tag-release-on-push-action
 * 🌼 Daisy UI
