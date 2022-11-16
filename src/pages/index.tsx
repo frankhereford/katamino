@@ -1,9 +1,10 @@
 import { type NextPage } from "next";
 import { useRouter } from 'next/router'
-import Head from "next/head";
+//import Head from "next/head";
 import { signIn, getProviders, useSession } from 'next-auth/react'
 import { useEffect } from "react";
 import { AiOutlineArrowDown } from 'react-icons/ai';
+import HeaderContent from "./components/HeaderContent";
 
 const Home: NextPage = (props: any) => {
 
@@ -22,11 +23,7 @@ const Home: NextPage = (props: any) => {
 
   return (
     <>
-      <Head>
-        <title>Katamino</title>
-        <meta name="description" content="A T3 Stack Experiment" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <HeaderContent />
       <main className="container mx-auto flex flex-col items-center p-4">
 
         <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem] ">
