@@ -32,10 +32,23 @@ model Piece {
   @@map(name: "pieces")
 }
 
+model Move {
+  id          String   @id @default(cuid())
+  pentaId     String
+  blockId     String
+  moveDate    DateTime @default(now())
+  visible     Boolean  @default(false)
+  translation Json
+  rotation    Json
+  reflection  Boolean
+  penta       Penta    @relation(fields: [pentaId], references: [id], onDelete: Cascade)
+  block       Block    @relation(fields: [blockId], references: [id], onDelete: Cascade)
+}
+
 // a block belongs to a penta
 model Block {
   id          String   @id @default(cuid())
-  last_update DateTime @default(now()) @updatedAt
+  lastUpdate  DateTime @default(now()) @updatedAt
   pieceId     String
   pentaId     String
   visible     Boolean  @default(false)
@@ -44,6 +57,7 @@ model Block {
   reflection  Boolean
   piece       Piece    @relation(fields: [pieceId], references: [id], onDelete: Cascade)
   penta       Penta    @relation(fields: [pentaId], references: [id], onDelete: Cascade)
+  moves       Move[]
 
   @@map(name: "blocks")
 }
@@ -54,12 +68,13 @@ model Penta {
   userId           String
   availablePentaId String
   completed        Boolean        @default(false)
-  moves            Int            @default(0)
+  moveCount        Int            @default(0)
   columns          Int
   borderWidth      Int            @default(2)
   blocks           Block[]
   user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   availablePenta   AvailablePenta @relation(fields: [availablePentaId], references: [id])
+  moves            Move[]
 
   @@map(name: "pentas")
 }

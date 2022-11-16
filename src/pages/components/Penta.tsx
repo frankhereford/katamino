@@ -63,7 +63,7 @@ export default function Penta(props: PentaProps) {
       const completionBoard = Array2D.build((props.penta?.columns || 12), boardHeight, false)
       const completionBlocks = _.cloneDeep(props.penta?.blocks); // do i really need this slow op?
       // im letting my lazy typing come in here with this old code
-      const sortedCompletionBlocks = completionBlocks.sort((a: any, b: any) => a.last_update - b.last_update)
+      const sortedCompletionBlocks = completionBlocks.sort((a: any, b: any) => a.lastUpdate - b.lastUpdate)
       sortedCompletionBlocks.forEach((block: any) => {
         if (!block.visible) { return }
         const shape = transformBlockShape(block, 0, true, 5)
@@ -99,7 +99,7 @@ export default function Penta(props: PentaProps) {
 
     const blocks = _.cloneDeep(props.penta?.blocks);
     // im letting my lazy typing come in here with this old code
-    const sortedBlocks = blocks.sort((a: any, b: any) => a.last_update - b.last_update)
+    const sortedBlocks = blocks.sort((a: any, b: any) => a.lastUpdate - b.lastUpdate)
     sortedBlocks.forEach((block: any) => {
       if (!block.visible) { return }
       const shape = transformBlockShape(block, props.penta?.borderWidth, true, props.penta?.columns)
