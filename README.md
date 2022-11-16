@@ -1,5 +1,7 @@
 # Stuff I learned
 
+* 🏷️ GitHub release tags; we should bump versions on every PR via PR labels
+  * Via: https://github.com/marketplace/actions/tag-release-on-push-action
 * 🌼 Daisy UI
   * [Extendable](https://github.com/frankhereford/katamino/blob/main/tailwind.config.cjs#L5-L10)
 * 💨 Tailwind CSS
