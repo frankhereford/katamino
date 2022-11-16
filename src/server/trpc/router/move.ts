@@ -5,8 +5,8 @@ import { z } from "zod";
 export const moveRouter = router({
 
   get: protectedProcedure
-    .input(z.object({ id: z.string(), clockwise: z.number() }))
-    .mutation(async ({ ctx, input }) => {
+    .input(z.object({  }))
+    .query(async ({ ctx, input }) => {
 
       const moves = await ctx.prisma.move.findMany({
         where: {
