@@ -490,7 +490,7 @@ const PentaPage: NextPage = () => {
         </div>
         
         {penta &&
-          <div className="w-screen">
+          <div className="w-screen mt-7">
             <div className="m-auto relative w-fit h-[100px]">
               <div className="absolute left-[-270px] top-[8px] drop-shadow-lg">
                 <Link href='/pentas' className={returnClasses.join(" ")}>

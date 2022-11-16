@@ -3,8 +3,10 @@ import { trpc } from "../../utils/trpc";
 import Block from "../components/Block";
 import type { CSSProperties } from "react";
 import RingLoader from "react-spinners/RingLoader";
+import { useRouter } from 'next/router'
 
 export default function AvailablePentas(props: any) {
+  const nextRouter = useRouter();
   const [availablePentaPage, setAvailablePentaPage] = useState(0);
   const [availablePentasPerPage, setAvailablePentasPerPage] = useState(10);
 
@@ -17,11 +19,20 @@ export default function AvailablePentas(props: any) {
     }
   });
 
+
+  useEffect(() => {
+    if (startPenta.data) {
+      const destination = '/pentas/' + startPenta.data.id;
+      nextRouter.push( destination )
+      }
+  }, [nextRouter, startPenta])
+
   const override: CSSProperties = {
     display: "block",
     margin: "0 auto",
     borderColor: "red",
   };
+
 
   function startPentaClick(event: any) {
     props.setShowSpinner(true)
