@@ -1,4 +1,6 @@
 name: Build PR Preview Deployment
+env:
+  RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
 on: [pull_request]
 jobs:
   deployment:
@@ -27,9 +29,9 @@ jobs:
          cd $HOME
          mkdir .railway
          cd .railway
-         echo "${{ secrets.RAILWAY_CONFIG }}" > config.json
-         #echo "👀 Check railway auth"
-         #railway whoami
+         echo "$RAILWAY_CONFIG" > config.json
+         echo "👀 Check railway auth"
+         railway whoami
          RAILWAY_ENVIRONMENT="katamino-pr-${{ github.event.number }}"
          echo "🚉 Railway Environment: $RAILWAY_ENVIRONMENT"
          railway environment $RAILWAY_ENVIRONMENT
