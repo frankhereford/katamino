@@ -1,4 +1,6 @@
 name: Build PR Preview Deployment
+env:
+  RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
 on: [pull_request]
 jobs:
   deployment:
@@ -31,7 +33,7 @@ jobs:
          cd $HOME
          mkdir .railway
          cd .railway
-         echo "${{ secrets.RAILWAY_CONFIG }}" > config.json
+         echo "$RAILWAY_CONFIG" > config.json
          cd $GITHUB_WORKSPACE
          echo "👀 Check railway auth"
          railway whoami
@@ -55,7 +57,7 @@ jobs:
          echo $VERCEL_OUTPUT
          echo "🏁 Finished"
          echo VERCEL_OUTPUT=$VERCEL_OUTPUT >> $GITHUB_OUTPUT
-      
+
       - name: make-comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
