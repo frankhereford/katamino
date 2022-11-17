@@ -1,6 +1,7 @@
 name: Build PR Preview Deployment
 env:
   RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
+  PR_NUMBER: ${{ github.event.number }}
 on: [pull_request]
 jobs:
   deployment:
@@ -13,7 +14,7 @@ jobs:
         with:
           message: |
             # 🧙 Building PR Deploy Preview for ${{ github.triggering_actor }}
-            Release ${{ github.sha }} ...
+            Changes: ${{ github.sha }} ...
       - run: |
          mkdir .vercel
       - name: create-json
@@ -32,7 +33,7 @@ jobs:
          echo "$RAILWAY_CONFIG" > config.json
          echo "👀 Check railway auth"
          railway whoami
-         RAILWAY_ENVIRONMENT="katamino-pr-${{ github.event.number }}"
+         RAILWAY_ENVIRONMENT="katamino-pr-$PR_NUMBER"
          echo "🚉 Railway Environment: $RAILWAY_ENVIRONMENT"
          railway environment $RAILWAY_ENVIRONMENT
          echo "👀 Check railway status?"
