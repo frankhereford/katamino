@@ -1,5 +1,8 @@
 name: Build Production Deployment
 
+env:
+  RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
+
 on:
   pull_request:
     branches:
