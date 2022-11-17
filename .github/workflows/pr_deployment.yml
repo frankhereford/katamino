@@ -1,37 +1,34 @@
 name: Build PR Preview Deployment
-
 env:
-  AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID}}
-  AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_ID}}
-  AUTH0_ISSUER: ${{ secrets.AUTH0_ISSUER}}
-  GITHUB_ID: ${{ secrets.GH_ID}}
-  GITHUB_SECRET: ${{ secrets.GH_SECRET}}
-  NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
   RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
-  PR_NUMBER: ${{ github.event.number }}
-
 on: [pull_request]
 jobs:
   deployment:
     runs-on: ubuntu-latest
     environment: Preview
     steps:
-      - uses: actions/checkout@v3
-      - name: make-comment
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make / update deployment comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
-            # 🧙 Building PR Deploy Preview
-            Release ${{ github.sha }} ...
-      - run: |
+            ### 🧙 Building PR Deploy Preview for ${{ github.triggering_actor }}
+            Changes: ${{ github.sha }} ...
+
+      - name: "Make vercel configuration directory"
+        run: |
          mkdir .vercel
-      - name: create-json
+
+      - name: Create vercel configuration file
         uses: jsdaniell/create-json@v1.2.1
         with:
           name: 'project.json'
           json: ${{ secrets.VERCEL_CONFIG }}
           dir: '.vercel/'
-      - name: Prepare and deploy
+
+      - name: Prepare and deploy feature branch
         id: prepare-and-deploy
         run: |
          npm i -g @railway/cli
@@ -40,9 +37,9 @@ jobs:
          cd .railway
          echo "$RAILWAY_CONFIG" > config.json
          cd $GITHUB_WORKSPACE
-         #echo "👀 Check railway auth"
-         #railway whoami
-         RAILWAY_ENVIRONMENT="katamino-pr-$PR_NUMBER"
+         echo "👀 Check railway auth"
+         railway whoami
+         RAILWAY_ENVIRONMENT="katamino-pr-${{ github.event.number }}"
          echo "🚉 Railway Environment: $RAILWAY_ENVIRONMENT"
          railway environment $RAILWAY_ENVIRONMENT
          echo "👀 Check railway status?"
@@ -62,9 +59,10 @@ jobs:
          echo $VERCEL_OUTPUT
          echo "🏁 Finished"
          echo VERCEL_OUTPUT=$VERCEL_OUTPUT >> $GITHUB_OUTPUT
-      - name: make-comment
+
+      - name: Update deployment comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
-            ### ✅ PR Deployment Ready 
-            Release ${{ github.sha }} to ${{ steps.prepare-and-deploy.outputs.VERCEL_OUTPUT }}
+            ### ✅ PR Deployment Ready for ${{ github.triggering_actor }}
+            Deployed ${{ github.sha }} to ${{ steps.prepare-and-deploy.outputs.VERCEL_OUTPUT }}
