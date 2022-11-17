@@ -27,11 +27,10 @@ jobs:
          cd $HOME
          mkdir .railway
          cd .railway
-         echo "$RAILWAY_CONFIG" > config.json
-         cd $GITHUB_WORKSPACE
+         echo "${{ secrets.RAILWAY_CONFIG }}" > config.json
          #echo "👀 Check railway auth"
          #railway whoami
-         RAILWAY_ENVIRONMENT="katamino-pr-$PR_NUMBER"
+         RAILWAY_ENVIRONMENT="katamino-pr-${{ github.event.number }}"
          echo "🚉 Railway Environment: $RAILWAY_ENVIRONMENT"
          railway environment $RAILWAY_ENVIRONMENT
          echo "👀 Check railway status?"
