@@ -6,20 +6,24 @@ jobs:
     environment: Preview
     steps:
       - uses: actions/checkout@v3
+
       - name: make-comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
             # 🧙 Building PR Deploy Preview for ${{ github.triggering_actor }}
             Changes: ${{ github.sha }} ...
+
       - run: |
          mkdir .vercel
+
       - name: create-json
         uses: jsdaniell/create-json@v1.2.1
         with:
           name: 'project.json'
           json: ${{ secrets.VERCEL_CONFIG }}
           dir: '.vercel/'
+
       - name: Prepare and deploy
         id: prepare-and-deploy
         run: |
@@ -51,6 +55,7 @@ jobs:
          echo $VERCEL_OUTPUT
          echo "🏁 Finished"
          echo VERCEL_OUTPUT=$VERCEL_OUTPUT >> $GITHUB_OUTPUT
+      
       - name: make-comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
