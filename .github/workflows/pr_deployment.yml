@@ -31,6 +31,7 @@ jobs:
          mkdir .railway
          cd .railway
          echo "$RAILWAY_CONFIG" > config.json
+         cd $GITHUB_WORKSPACE
          echo "👀 Check railway auth"
          railway whoami
          RAILWAY_ENVIRONMENT="katamino-pr-$PR_NUMBER"
