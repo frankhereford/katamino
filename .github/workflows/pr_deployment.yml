@@ -7,26 +7,28 @@ jobs:
     runs-on: ubuntu-latest
     environment: Preview
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: make-comment
+      - name: Make / update deployment comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
             # 🧙 Building PR Deploy Preview for ${{ github.triggering_actor }}
             Changes: ${{ github.sha }} ...
 
-      - run: |
+      - name: "Make vercel configuration directory"
+        run: |
          mkdir .vercel
 
-      - name: create-json
+      - name: Create vercel configuration file
         uses: jsdaniell/create-json@v1.2.1
         with:
           name: 'project.json'
           json: ${{ secrets.VERCEL_CONFIG }}
           dir: '.vercel/'
 
-      - name: Prepare and deploy
+      - name: Prepare and deploy feature branch
         id: prepare-and-deploy
         run: |
          npm i -g @railway/cli
@@ -58,9 +60,9 @@ jobs:
          echo "🏁 Finished"
          echo VERCEL_OUTPUT=$VERCEL_OUTPUT >> $GITHUB_OUTPUT
 
-      - name: make-comment
+      - name: Update deployment comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
             ### ✅ PR Deployment Ready for ${{ github.triggering_actor }}
-            Release ${{ github.sha }} to ${{ steps.prepare-and-deploy.outputs.VERCEL_OUTPUT }}
+            Deployed ${{ github.sha }} to ${{ steps.prepare-and-deploy.outputs.VERCEL_OUTPUT }}

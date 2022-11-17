@@ -19,12 +19,14 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GH_FINEGRAIN_TOKEN }}
     steps:
-      - id: release
+      - name: Make release if requested
+        id: release
         uses: rymndhng/release-on-push-action@v0.27.0
         with:
           release_name: <RELEASE_TAG>
           bump_version_scheme: norelease
           use_github_release_notes: true
+
       - name: Check Output Parameters
         run: |
           echo "Got tag name ${{ steps.release.outputs.tag_name }}"
@@ -36,7 +38,8 @@ jobs:
       - name: Bump version
         run: npm version --no-git-tag-version ${{ steps.release.outputs.version }}
 
-      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+      - name: Commit updated version in package.json
+        uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         with:
           add: 'package.json'
           author_name: Frank Hereford
@@ -51,17 +54,19 @@ jobs:
           branch: ${{ github.ref }}
           github_token: ${{ secrets.GH_FINEGRAIN_TOKEN }}
 
-      - run: |
+      - name: Make vercel configuration directory
+        run: |
          mkdir .vercel
 
-      - name: create-json
+      - name: Create vercel config
         uses: jsdaniell/create-json@v1.2.1
         with:
           name: 'project.json'
           json: ${{ secrets.VERCEL_CONFIG }}
           dir: '.vercel/'
 
-      - run: |
+      - name: "Deploy production site"
+        run: |
          npm i -g @railway/cli
          cd $HOME
          mkdir .railway
