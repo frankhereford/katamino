@@ -10,8 +10,8 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
-            # 🧙 Building PR Deploy Preview
-            Release ${{ github.ref }} ...
+            # 🧙 Building PR Deploy Preview for ${{ github.triggering_actor }}
+            Release ${{ github.sha }} ...
       - run: |
          mkdir .vercel
       - name: create-json
@@ -55,5 +55,5 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
-            ### ✅ PR Deployment Ready 
-            Release ${{ github.ref }} to ${{ steps.prepare-and-deploy.outputs.VERCEL_OUTPUT }}
+            ### ✅ PR Deployment Ready for ${{ github.triggering_actor }}
+            Release ${{ github.sha }} to ${{ steps.prepare-and-deploy.outputs.VERCEL_OUTPUT }}
