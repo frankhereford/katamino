@@ -25,7 +25,7 @@
     "@trpc/server": "10.0.0-rc.8",
     "array2d": "^0.0.5",
     "colord": "^2.9.3",
-    "daisyui": "^2.40.1",
+    "daisyui": "^2.41.0",
     "lodash": "^4.17.21",
     "next": "13.0.3",
     "next-auth": "^4.16.4",
