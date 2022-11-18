@@ -1,4 +1,6 @@
-name: 'Combine PRs'
+---
+
+name: 'Combine PRs (dependabot)'
 
 # Controls when the action will run - in this case triggered manually
 on:
@@ -21,14 +23,16 @@ on:
         required: true
         default: 'nocombine'
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# A workflow run is made up of one or more jobs that 
+# can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "combine-prs"
   combine-prs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    # Steps represent a sequence of tasks that will be 
+    # executed as part of the job
     steps:
       - uses: actions/github-script@v6
         id: create-combined-pr
@@ -36,7 +40,8 @@ jobs:
         with:
           github-token: ${{secrets.GH_FINEGRAIN_TOKEN}}
           script: |
-            const pulls = await github.paginate('GET /repos/:owner/:repo/pulls', {
+            const pulls = await github.paginate('GET /repos/:owner/:repo/pulls',
+              {
               owner: context.repo.owner,
               repo: context.repo.repo
             });
@@ -46,12 +51,14 @@ jobs:
             for (const pull of pulls) {
               const branch = pull['head']['ref'];
               console.log('Pull for branch: ' + branch);
-              if (branch.startsWith('${{ github.event.inputs.branchPrefix }}')) {
+              if (branch.startsWith('${{ github.event.inputs.branchPrefix }}'))
+                {
                 console.log('Branch matched prefix: ' + branch);
                 let statusOK = true;
                 if(${{ github.event.inputs.mustBeGreen }}) {
                   console.log('Checking green status: ' + branch);
-                  const stateQuery = `query($owner: String!, $repo: String!, $pull_number: Int!) {
+                  const stateQuery = `query($owner: String!, $repo: String!,
+                    $pull_number: Int!) {
                     repository(owner: $owner, name: $repo) {
                       pullRequest(number:$pull_number) {
                         commits(last: 1) {
@@ -72,11 +79,13 @@ jobs:
                     pull_number: pull['number']
                   };
                   const result = await github.graphql(stateQuery, vars);
-                  const [{ commit }] = result.repository.pullRequest.commits.nodes;
+                  const [{ commit }] = 
+                    result.repository.pullRequest.commits.nodes;
                   const state = commit.statusCheckRollup.state
                   console.log('Validating status: ' + state);
                   if(state != 'SUCCESS') {
-                    console.log('Discarding ' + branch + ' with status ' + state);
+                    console.log('Discarding ' + branch + 
+                      ' with status ' + state);
                     statusOK = false;
                   }
                 }
@@ -86,7 +95,8 @@ jobs:
                   const labelName = label['name'];
                   console.log('Checking label: ' + labelName);
                   if(labelName == '${{ github.event.inputs.ignoreLabel }}') {
-                    console.log('Discarding ' + branch + ' with label ' + labelName);
+                    console.log('Discarding ' + branch + ' with label '
+                    + labelName);
                     statusOK = false;
                   }
                 }
@@ -107,12 +117,14 @@ jobs:
               await github.rest.git.createRef({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                ref: 'refs/heads/' + '${{ github.event.inputs.combineBranchName }}',
+                ref: 'refs/heads/' +
+                  '${{ github.event.inputs.combineBranchName }}',
                 sha: baseBranchSHA
               });
             } catch (error) {
               console.log(error);
-              core.setFailed('Failed to create combined branch - maybe a branch by that name already exists?');
+              core.setFailed('Failed to create combined branch - maybe a ' +
+                'branch by that name already exists?');
               return;
             }
             
@@ -136,10 +148,12 @@ jobs:
             
             console.log('Creating combined PR');
             const combinedPRsString = combinedPRs.join('\n');
-            let body = '✅ This PR was created by the Combine PRs action by combining the following PRs:\n' + combinedPRsString;
+            let body = '✅ This PR was created by the Combine PRs action by ' + 
+              'combining the following PRs:\n' + combinedPRsString;
             if(mergeFailedPRs.length > 0) {
               const mergeFailedPRsString = mergeFailedPRs.join('\n');
-              body += '\n\n⚠️ The following PRs were left out due to merge conflicts:\n' + mergeFailedPRsString
+              body += '\n\n⚠️ The following PRs were left out due to merge ' + 
+              'conflicts:\n' + mergeFailedPRsString
             }
             await github.rest.pulls.create({
               owner: context.repo.owner,
