@@ -75,16 +75,16 @@ jobs:
       - name: "Deploy production site"
         run: |
          npm i -g @railway/cli
-         cd $HOME
+         cd "$HOME"
          mkdir .railway
          cd .railway
          echo "$RAILWAY_CONFIG" > config.json
-         cd $GITHUB_WORKSPACE
+         cd "$GITHUB_WORKSPACE"
          #echo "👀 Check railway auth"
          #railway whoami
          RAILWAY_ENVIRONMENT="production"
          echo "🚉 Railway Environment: $RAILWAY_ENVIRONMENT"
-         railway environment $RAILWAY_ENVIRONMENT
+         railway environment "$RAILWAY_ENVIRONMENT"
          echo "👀 Check railway status?"
          railway status
          RAILWAY_VARIABLES=$(railway vars)
@@ -97,7 +97,7 @@ jobs:
          npx prisma migrate deploy 
          echo "🚀 Vercel build"
          vercel --token=${{ secrets.VERCEL_TOKEN }} \
-           --env DATABASE_URL=$DATABASE_URL --build-env \
-           DATABASE_URL=$DATABASE_URL --prod
+           --env DATABASE_URL="$DATABASE_URL" --build-env \
+           DATABASE_URL="$DATABASE_URL" --prod
          echo ""
          echo "🏁 Finished"
