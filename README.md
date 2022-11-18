@@ -1,6 +1,7 @@
 # Stuff I learned
 
 * 🤖 GitHub actions
+  * dependabot combiner
   * Build prod/pr with respect to migrations
   * dependabot config
   * codeQL analysis
