@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
+import { type Prisma } from '@prisma/client';
 import { trpc } from "../../utils/trpc";
 import Square from "./Square";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -22,11 +23,18 @@ interface PentaProps {
 }
 
 export default function Replay(props: PentaProps) {
-  const { data: pentaMoves } = trpc.move.get.useQuery({
-    where: {
-      pentaId: props.penta?.id,
+  
+  const [ localPenta, setLocalPenta ] = useState(props.penta);
+  useEffect(() => {
+    if (props.penta && !localPenta) {
+      console.log("setting local penta", props.penta);
+      setLocalPenta(props.penta);
     }
-  })
+  }, [props.penta]);
+
+  const { data: pentaMoves } = trpc.move.get.useQuery({
+    pentaId: localPenta?.id,
+  }, { enabled: !!localPenta?.id })
   const { width: windowWidth, height: windowHeight } = useWindowSize()
   const { data: colorLookup } = trpc.color.getColorLookup.useQuery();
   const boardHeight = 5
@@ -37,27 +45,30 @@ export default function Replay(props: PentaProps) {
 
   useEffect(() => {
     const boardHeight = 5
-    let board = Array2D.build((props.penta?.columns || 12) + (props.penta?.borderWidth * 2), boardHeight + (props.penta?.borderWidth * 2), boardColor)
+    let board = Array2D.build((localPenta?.columns || 12) + (localPenta?.borderWidth * 2), boardHeight + (localPenta?.borderWidth * 2), boardColor)
 
-    if (!props.penta?.blocks) {
+    if (!localPenta?.blocks) {
       setBoard(board)
       return
     }
 
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
-        if (row < props.penta?.borderWidth || row >= (board.length - props.penta?.borderWidth) || col < props.penta?.borderWidth || col >= (board[row].length - props.penta?.borderWidth)) {
+        if (row < localPenta?.borderWidth || row >= (board.length - localPenta?.borderWidth) || col < localPenta?.borderWidth || col >= (board[row].length - localPenta?.borderWidth)) {
           board[row][col] = "#bbbbbb" // this should be a color in the database
         }
       }
     }
 
-    const blocks = _.cloneDeep(props.penta?.blocks);
+    console.log("localPenta", localPenta)
+    const blocks = _.cloneDeep(localPenta?.blocks)
+    if (!blocks) { return }
+    console.log("copied blocks:", blocks)
     // im letting my lazy typing come in here with this old code
     const sortedBlocks = blocks.sort((a: any, b: any) => a.lastUpdate - b.lastUpdate)
     sortedBlocks.forEach((block: any) => {
       if (!block.visible) { return }
-      const shape = transformBlockShape(block, props.penta?.borderWidth, true, props.penta?.columns)
+      const shape = transformBlockShape(block, localPenta?.borderWidth, true, localPenta?.columns)
       for (let row = 0; row < shape.length; row++) {
         for (let col = 0; col < (shape[row] || []).length; col++) {
           if (shape?.[row]?.[col] && board?.[row]?.[col]) {
@@ -80,18 +91,19 @@ export default function Replay(props: PentaProps) {
     if (props.trimBorder) {
       board = Array2D.crop(
         board,
-        props.penta?.borderWidth,
-        props.penta?.borderWidth,
-        board[0].length - (props.penta?.borderWidth * 2),
-        board.length - (props.penta?.borderWidth * 2),
+        localPenta?.borderWidth,
+        localPenta?.borderWidth,
+        board[0].length - (localPenta?.borderWidth * 2),
+        board.length - (localPenta?.borderWidth * 2),
       )
     }
 
     setBoard(board)
-  }, [props.penta?.borderWidth, props.penta, props.trimBorder, colorLookup])
+  }, [ props.trimBorder, colorLookup, localPenta])
 
   const [currentMove, setCurrentMove] = useState(0)
   const [replayIndex, setReplayIndex ] = useState(0)
+  const [previousReplayIndex, setPreviousReplayIndex ] = useState(0)
 
   const eventHandler = (event: any) => {
     if (!pentaMoves) { return }
@@ -102,6 +114,7 @@ export default function Replay(props: PentaProps) {
       setCurrentMove(currentMove - 1)
     }
     const index = pentaMoves.length - currentMove - 1
+    setPreviousReplayIndex(replayIndex)
     setReplayIndex(index)
     //setBoardState(pentaMoves[index])
   }
@@ -111,9 +124,47 @@ export default function Replay(props: PentaProps) {
     , [currentMove, eventHandler]);
 
   useEffect(() => {
-    console.log(replayIndex)
+    console.log("previousReplayIndex", previousReplayIndex)
+    console.log("replayIndex", replayIndex)
+    //if (!previousReplayIndex && !replayIndex) { return }
+    if (!localPenta) { return }
     if (!pentaMoves) { return }
     const move = pentaMoves[replayIndex]
+    if (!move) { return }
+    console.log("localPenta", localPenta)
+    console.log(move.blockId)
+    const blockIndex = localPenta?.blocks.findIndex((b: any) => b.id === move.blockId)
+    console.log("Block Index: ", blockIndex)
+    
+    if (
+      move?.incomingState &&
+      typeof move?.incomingState === 'object' &&
+      !Array.isArray(move?.incomingState) && 
+      move?.outgoingState &&
+      typeof move?.outgoingState === 'object' &&
+      !Array.isArray(move?.outgoingState)
+    ) {
+      const incomingState = move?.incomingState as Prisma.JsonObject
+      const outgoingState = move?.outgoingState as Prisma.JsonObject
+      //console.log("🚀 ~ file: Replay.tsx ~ line 141 ~ useEffect ~ incomingState", incomingState)
+      //console.log("🚀 ~ file: Replay.tsx ~ line 142 ~ useEffect ~ outgoingState", outgoingState)
+      const penta = _.cloneDeep(localPenta)
+      if (previousReplayIndex > replayIndex) {
+        penta.blocks[blockIndex].visible = incomingState?.visible
+        penta.blocks[blockIndex].rotation = incomingState?.rotation
+        penta.blocks[blockIndex].reflection = incomingState?.reflection
+        penta.blocks[blockIndex].translation = incomingState?.translation
+      } else {
+        penta.blocks[blockIndex].visible = outgoingState?.visible
+        penta.blocks[blockIndex].rotation = outgoingState?.rotation
+        penta.blocks[blockIndex].reflection = outgoingState?.reflection
+        penta.blocks[blockIndex].translation = outgoingState?.translation
+      }
+
+      setLocalPenta(penta)
+    }
+    console.log("")
+
   }, [pentaMoves, replayIndex])
 
   const squares = []
