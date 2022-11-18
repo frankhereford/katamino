@@ -57,7 +57,9 @@ jobs:
          echo "🌈 prisma migrate reset --force"
          npx prisma migrate reset --force > /dev/null
          echo "🚀 Vercel build"
-         VERCEL_OUTPUT=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL="$DATABASE_URL" --build-env )
+         VERCEL_OUTPUT="$(vercel --token=${{ secrets.VERCEL_TOKEN }} \
+           --env DATABASE_URL="$DATABASE_URL" \
+           --build-env DATABASE_URL="$DATABASE_URL" )"
          echo "$VERCEL_OUTPUT"
          echo "🏁 Finished"
          echo VERCEL_OUTPUT="$VERCEL_OUTPUT" >> "$GITHUB_OUTPUT"
