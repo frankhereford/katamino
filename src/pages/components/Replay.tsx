@@ -27,7 +27,6 @@ export default function Replay(props: PentaProps) {
   const [ localPenta, setLocalPenta ] = useState(props.penta);
   useEffect(() => {
     if (props.penta && !localPenta) {
-      //console.log("setting local penta", props.penta);
       setLocalPenta(props.penta);
     }
   }, [props.penta]);
@@ -60,11 +59,8 @@ export default function Replay(props: PentaProps) {
       }
     }
 
-    //console.log("localPenta", localPenta)
     const blocks = _.cloneDeep(localPenta?.blocks)
     if (!blocks) { return }
-    //console.log("copied blocks:", blocks)
-    // im letting my lazy typing come in here with this old code
     const sortedBlocks = blocks.sort((a: any, b: any) => a.lastUpdate - b.lastUpdate)
     sortedBlocks.forEach((block: any) => {
       if (!block.visible) { return }
@@ -116,28 +112,31 @@ export default function Replay(props: PentaProps) {
     const index = pentaMoves.length - currentMove - 1
     setPreviousReplayIndex(replayIndex)
     setReplayIndex(index)
-    //setBoardState(pentaMoves[index])
   }
 
   const debouncedWheelHandler = useMemo(
-    () => _.throttle(eventHandler, 150)
+    () => _.throttle(eventHandler, 250)
     , [currentMove, eventHandler]);
 
   useEffect(() => {
     if (!localPenta) { return }
     if (!pentaMoves) { return }
+    const penta = _.cloneDeep(localPenta)
     if (!previousReplayIndex && !replayIndex) {
-      setReplayIndex(pentaMoves.length - 1)
-      setPreviousReplayIndex(pentaMoves.length)
+      setReplayIndex(0)
+      setPreviousReplayIndex(1)
+      setCurrentMove(0)
+      //for (let i = 0; i < penta.blocks.length; i++) {
+        //penta.blocks[i].visible = false
+      //}
+      //setLocalPenta(penta)
+      return
     }
     const move = pentaMoves[replayIndex]
     if (!move) { return }
     console.log("previousReplayIndex", previousReplayIndex)
     console.log("replayIndex", replayIndex)
-    //console.log("localPenta", localPenta)
-    //console.log(move.blockId)
     const blockIndex = localPenta?.blocks.findIndex((b: any) => b.id === move.blockId)
-    //console.log("Block Index: ", blockIndex)
     
     if (
       move?.incomingState &&
@@ -149,9 +148,6 @@ export default function Replay(props: PentaProps) {
     ) {
       const incomingState = move?.incomingState as Prisma.JsonObject
       const outgoingState = move?.outgoingState as Prisma.JsonObject
-      //console.log("🚀 ~ file: Replay.tsx ~ line 141 ~ useEffect ~ incomingState", incomingState)
-      //console.log("🚀 ~ file: Replay.tsx ~ line 142 ~ useEffect ~ outgoingState", outgoingState)
-      const penta = _.cloneDeep(localPenta)
       if (previousReplayIndex > replayIndex) {
         penta.blocks[blockIndex].visible = incomingState?.visible
         penta.blocks[blockIndex].rotation = incomingState?.rotation
