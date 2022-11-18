@@ -9,6 +9,8 @@
     "build": "next build",
     "dev": "next dev",
     "seed": "prisma db seed",
+    "reset": "prisma migrate reset --force",
+    "studio": "prisma studio",
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start"
