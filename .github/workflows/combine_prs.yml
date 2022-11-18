@@ -11,7 +11,7 @@ on:
       mustBeGreen:
         description: 'Only combine PRs that are green (status is success)'
         required: true
-        default: false
+        default: 'false'
       combineBranchName:
         description: 'Name of the branch to combine PRs into'
         required: true
@@ -34,7 +34,7 @@ jobs:
         id: create-combined-pr
         name: Create Combined PR
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
+          github-token: ${{secrets.GH_FINEGRAIN_TOKEN}}
           script: |
             const pulls = await github.paginate('GET /repos/:owner/:repo/pulls', {
               owner: context.repo.owner,

@@ -31,7 +31,6 @@ import { BiHide, BiShow } from 'react-icons/bi';
 import { AiOutlineRotateRight } from 'react-icons/ai';
 import { ImExit } from 'react-icons/im';
 import { MdReplay } from 'react-icons/md';
-//import { BsPlay } from 'react-icons/bs';
 
 
 // style used for the Ring Loader component
