@@ -88,8 +88,8 @@ jobs:
          echo "👀 Check railway status?"
          railway status
          RAILWAY_VARIABLES=$(railway vars)
-         DATABASE_URL=$(echo $RAILWAY_VARIABLES | \
-           grep -o "postgresql.*/railway")
+         DATABASE_URL="$(echo $RAILWAY_VARIABLES | \
+           grep -o "postgresql.*/railway")"
          export DATABASE_URL=$DATABASE_URL
          echo "🛠️ npm install"
          npm install
