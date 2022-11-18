@@ -21,33 +21,22 @@ interface PentaProps {
   penta: any;
   size?: number;
   trimBorder?: boolean;
-  confetti?: boolean;
   solvedCallback: () => void;
 }
 
 export default function Replay(props: PentaProps) {
-
+  const { data: pentaMoves } = trpc.move.get.useQuery({
+    where: {
+      pentaId: props.penta?.id,
+    }
+  })
   const { width: windowWidth, height: windowHeight } = useWindowSize()
-
   const { data: colorLookup } = trpc.color.getColorLookup.useQuery();
   const boardHeight = 5
-
   // easier than typing an old library
   const genericBoard = Array2D.build(12 + (props.penta?.borderWidth * 2), boardHeight + (props.penta?.borderWidth * 2))
-
+  const initialPenta = _.cloneDeep(props.penta)
   const [board, setBoard] = useState(genericBoard);
-  const [solved, setSolved] = useState(false);
-  //set the solved state (the confetti state) false after 5 seconds
-  useTimeoutWhen(() => setSolved(false), 5000, solved);
-
-
-  useEffect(() => {
-    if (solved) {
-      props.solvedCallback()
-    }
-  }, [solved])
-  // 👆 what on earth is wrong with this...
-
   const boardColor = "lightGrey"
 
   useEffect(() => {
@@ -58,36 +47,6 @@ export default function Replay(props: PentaProps) {
       setBoard(board)
       return
     }
-
-    if (props.confetti) {
-      const completionBoard = Array2D.build((props.penta?.columns || 12), boardHeight, false)
-      const completionBlocks = _.cloneDeep(props.penta?.blocks); // do i really need this slow op?
-      // im letting my lazy typing come in here with this old code
-      const sortedCompletionBlocks = completionBlocks.sort((a: any, b: any) => a.lastUpdate - b.lastUpdate)
-      sortedCompletionBlocks.forEach((block: any) => {
-        if (!block.visible) { return }
-        const shape = transformBlockShape(block, 0, true, 5)
-        for (let row = 0; row < shape.length; row++) {
-          for (let col = 0; col < (shape[row] || []).length; col++) {
-            if (shape?.[row]?.[col] && board?.[row]?.[col]) {
-              if (!completionBoard[row][col]) { // first piece to apply a color to this square
-                completionBoard[row][col] = true
-              }
-            }
-          }
-        }
-      })
-      let isSolved = true
-      for (let row = 0; row < completionBoard.length; row++) {
-        for (let col = 0; col < (completionBoard[row] || []).length; col++) {
-          if (!completionBoard[row][col]) {
-            isSolved = false
-          }
-        }
-      }
-      setSolved(isSolved)
-    }
-
 
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
@@ -133,7 +92,29 @@ export default function Replay(props: PentaProps) {
     }
 
     setBoard(board)
-  }, [props.penta?.borderWidth, props.penta, props.confetti, props.trimBorder, colorLookup])
+  }, [props.penta?.borderWidth, props.penta, props.trimBorder, colorLookup])
+
+
+    let timer
+    const [count, setCount] = useState(0)
+
+    const updateCount = () => {
+      timer = !timer && setInterval(() => {
+        setCount(prevCount => prevCount + 1)
+        console.log(count)
+      }, 200)
+
+      if (count === 20) clearInterval(timer)
+    }
+
+    useEffect(() => {
+      updateCount()
+
+      return () => clearInterval(timer)
+    }, [count])
+
+
+
 
   const squares = []
   for (let row = 0; row < board?.length || 0; row++) {
@@ -174,13 +155,6 @@ export default function Replay(props: PentaProps) {
 
   return (
     <>
-      {solved &&
-        <Confetti
-          width={windowWidth}
-          height={windowHeight}
-          opacity={.5}
-        />
-      }
       <div className="grid items-center justify-center">
         <div className={classes.join(' ')}>
           {squares}
