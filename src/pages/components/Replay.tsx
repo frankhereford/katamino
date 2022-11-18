@@ -203,7 +203,6 @@ export default function Replay(props: PentaProps) {
 
   return (
     <>
-      replay
       <div onWheel={debouncedWheelHandler} className="grid items-center justify-center">
         <div className={classes.join(' ')}>
           {squares}
