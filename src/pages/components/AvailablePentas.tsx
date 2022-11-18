@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 export default function AvailablePentas(props: any) {
   const nextRouter = useRouter();
   const [availablePentaPage, setAvailablePentaPage] = useState(0);
-  const [availablePentasPerPage, setAvailablePentasPerPage] = useState(10);
+  const [availablePentasPerPage, setAvailablePentasPerPage] = useState(5);
 
   const { data: completedPentas } = trpc.penta.getCompleted.useQuery();
   const { data: pentas, refetch: availablePentaRefetch, isLoading: pentaQueryLoading } = trpc.availablePenta.getAll.useQuery({page: availablePentaPage, perPage: availablePentasPerPage});
