@@ -1,5 +1,7 @@
 ---
-name: Build PR Preview Deployment
+
+name: "Build PR Preview Deployment"
+
 env:
   RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
 on: [pull_request]
