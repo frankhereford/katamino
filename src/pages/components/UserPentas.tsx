@@ -7,7 +7,15 @@ import RingLoader from "react-spinners/RingLoader";
 
 export default function UserPentas(props: any) {
 
-  const { data: pentas, refetch: refetchUserPentas } = trpc.penta.getAll.useQuery();
+  const [pentaPage, setPentaPage] = useState(0);
+  const [pentasPerPage, setPentasPerPage] = useState(5);
+
+  const { data: pentas, refetch: refetchUserPentas } = trpc.penta.getAll.useQuery({
+    page: pentaPage,
+    perPage: pentasPerPage,
+  });
+
+  const { data: pentaCount } = trpc.penta.count.useQuery();
 
   useEffect(() => {
     if (props.refresh) {
@@ -22,11 +30,23 @@ export default function UserPentas(props: any) {
     borderColor: "red",
   };
 
-  if (pentas?.length == 0) {
-    return (
-      <>
-      </>
-  ) }
+  let pagination = (<></>)
+  if (pentaCount) {
+    for (let i = 0; i < Math.ceil(pentaCount / pentasPerPage); i++) {
+      const classes = ["btn", "btn-sm"]
+      if (i === pentaPage) {
+        classes.push("btn-primary")
+      }
+
+      pagination = (
+        <>
+          {pagination}
+          <button className={classes.join(" ")} onClick={() => setPentaPage(i)}>{i + 1}</button>
+        </>
+      )
+    }
+  }
+
 
   if (!pentas) {
     return (<>  </>)
@@ -40,6 +60,11 @@ export default function UserPentas(props: any) {
             <h1 className="text-center text-2xl font-extrabold leading-normal text-gray-700 md:text-[3rem]">
               Pick a <span className="text-primary">P</span>enta to Play
             </h1>
+          </div>
+          <div className="text-right mb-1">
+            <div className="btn-group">
+              {pagination}
+            </div>
           </div>
           <div className="col-start-2 col-end-10">
             {pentas ?
