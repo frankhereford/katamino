@@ -12,6 +12,7 @@ on:
 
 jobs:
   deployment:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment:
       name: Production
@@ -19,6 +20,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GH_FINEGRAIN_TOKEN }}
     steps:
+
       - name: Make release if requested
         id: release
         uses: rymndhng/release-on-push-action@v0.27.0
