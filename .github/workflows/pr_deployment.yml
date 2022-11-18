@@ -1,3 +1,4 @@
+---
 name: Build PR Preview Deployment
 env:
   RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
