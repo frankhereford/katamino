@@ -49,16 +49,8 @@ const Pentas: NextPage = () => {
             />
           </div>
         }
-        <div className="grid grid-cols-10 mt-10">
-          <div className="col-start-2 col-end-10">
-            <UserPentas setRefresh={setRefreshUserPentas} refresh={refreshUserPentas}></UserPentas>
-          </div>
-        </div>
-        <div className="grid grid-cols-10 mt-10">
-          <div className="col-start-2 col-end-10">
-            <AvailablePentas setShowSpinner={setShowSpinner} setRefresh={setRefreshUserPentas}></AvailablePentas>
-          </div>
-        </div>
+        <UserPentas setRefresh={setRefreshUserPentas} refresh={refreshUserPentas}></UserPentas>
+        <AvailablePentas setShowSpinner={setShowSpinner} setRefresh={setRefreshUserPentas}></AvailablePentas>
       </main>
     </>
   )
