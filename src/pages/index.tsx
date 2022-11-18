@@ -29,7 +29,7 @@ const Home: NextPage = (props: any) => {
           <span className="text-primary">K</span>atamino
         </h1>
 
-        <div className="mb-[40px] animate-bounce mt-[40px]">
+        <div className="relative left-[75px] bottom-[-10px] animate-bounce mt-[40px]">
           <AiOutlineArrowDown size={170} style={{ color: "#dddddd" }} />
         </div>
 
