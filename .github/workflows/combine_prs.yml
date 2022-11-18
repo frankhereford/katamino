@@ -1,4 +1,5 @@
 ---
+
 name: 'Combine PRs (dependabot)'
 
 # Controls when the action will run - in this case triggered manually
