@@ -18,17 +18,20 @@ import { useKeyBindings} from "rooks"
 //import { useFavicon } from "react-usefavicon"
 // components
 import Penta from "../components/Penta";
+import Replay from "../components/Replay";
 import Block from "../components/Block";
 import ControlButton from "../components/ControlButton";
 import HeaderContent from "../components/HeaderContent";
 
 // icons
-import { BsArrowLeft, BsArrowRight, BsArrowBarDown, BsArrowBarUp, BsArrowBarLeft, BsArrowBarRight } from 'react-icons/bs';
+import { BsArrowLeft, BsArrowRight, BsArrowBarDown, BsArrowBarUp, BsArrowBarLeft, BsArrowBarRight, BsPlay } from 'react-icons/bs';
 import { TbFlipHorizontal, TbFlipVertical } from 'react-icons/tb';
 import { RiFilePaperLine, } from 'react-icons/ri';
 import { BiHide, BiShow } from 'react-icons/bi';
 import { AiOutlineRotateRight } from 'react-icons/ai';
 import { ImExit } from 'react-icons/im';
+import { MdReplay } from 'react-icons/md';
+//import { BsPlay } from 'react-icons/bs';
 
 
 // style used for the Ring Loader component
@@ -62,7 +65,7 @@ const PentaPage: NextPage = () => {
     enabled: routerReady
   },);
 
-  const { data: pentaMoves } = trpc.move.get.useQuery({})
+  const [ isReplay, setIsReplay ] = useState(false)
 
   // user session, but only interested in the state of auth
   const { status:sessionStatus } = useSession();
@@ -107,6 +110,7 @@ const PentaPage: NextPage = () => {
   // store them here.
   const [flipIcon, setFlipIcon] = useState(<TbFlipHorizontal size={20} style={{ color: "#ffffff" }} />)
   const [visibilityIcon, setVisibilityIcon] = useState(<BiShow size={20} style={{ color: "#ffffff" }} />)
+  const [replayIcon, setReplayIcon] = useState(<BsPlay size={20} style={{ color: "#ffffff" }} />)
 
   // monitor the penta and the active block and update the icons based on the state of the activePiece
   useEffect(() => {
@@ -139,7 +143,18 @@ const PentaPage: NextPage = () => {
     else {
       setVisibilityIcon(<BiShow size={20} style={{ color: "#ffffff" }} />)
     }
+
   }, [penta, activeBlock])
+
+  useEffect(() => {
+    if (isReplay) {
+      setReplayIcon(<BsPlay size={20} style={{ color: "#ffffff" }} />)
+    }
+    else {
+      setReplayIcon(<MdReplay size={20} style={{ color: "#ffffff" }} />)
+    }
+  }, [isReplay])
+
 
   // we handle the first activeBlock with a special case: to show the block if not visible
   const [initialShow, setInitialShow] = useState(false)
@@ -162,12 +177,18 @@ const PentaPage: NextPage = () => {
     a: keyA,
     s: keyS,
     d: keyD,
+    r: keyR,
     Tab: keyTab,
     ArrowUp: keyUp,
     ArrowDown: keyDown,
     ArrowLeft: keyLeft,
     ArrowRight: keyRight,
   })
+
+  function keyR() {
+    console.log("isReplay", isReplay)
+    setIsReplay(!isReplay)
+  }
 
   // move activePiece to the left
   function keyQ() {
@@ -486,7 +507,12 @@ const PentaPage: NextPage = () => {
       <main>
         <HeaderContent />
         <div>
-          <Penta solvedCallback={solvedCallback} penta={penta} confetti={true}></Penta>
+          {!isReplay &&
+            <Penta solvedCallback={solvedCallback} penta={penta} confetti={true}></Penta>
+          }
+          {isReplay &&
+            <Replay penta={penta}></Replay>
+          }
         </div>
         
         {penta &&
@@ -520,6 +546,14 @@ const PentaPage: NextPage = () => {
                 clickHandler={keyE}
                 icon={<BsArrowRight size={20} style={{ color: "#ffffff" }} />}
                 letter="E"
+              ></ControlButton>
+
+              <ControlButton
+                position="absolute right-[-30px] top-[0px] drop-shadow-lg"
+                classes="btn gap-2 m-2 btn-primary text-white"
+                clickHandler={keyR}
+                icon={replayIcon}
+                letter="R"
               ></ControlButton>
 
               <ControlButton

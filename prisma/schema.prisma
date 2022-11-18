@@ -37,12 +37,12 @@ model Move {
   pentaId     String
   blockId     String
   moveDate    DateTime @default(now())
-  visible     Boolean  @default(false)
-  translation Json
-  rotation    Json
-  reflection  Boolean
+  incomingState Json @default("{}")
+  outgoingState Json @default("{}")
   penta       Penta    @relation(fields: [pentaId], references: [id], onDelete: Cascade)
   block       Block    @relation(fields: [blockId], references: [id], onDelete: Cascade)
+
+  @@map(name: "moves")
 }
 
 // a block belongs to a penta
