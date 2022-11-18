@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { trpc } from "../../utils/trpc";
 import Square from "./Square";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -12,8 +12,6 @@ extend([mixPlugin]);
 import { transformBlockShape } from "../../utils/transformations";
 
 import useWindowSize from 'react-use/lib/useWindowSize'
-import Confetti from 'react-confetti'
-import { useTimeoutWhen } from "rooks";
 
 // A given puzzle with blocks made out of pieces
 
@@ -21,7 +19,6 @@ interface PentaProps {
   penta: any;
   size?: number;
   trimBorder?: boolean;
-  solvedCallback: () => void;
 }
 
 export default function Replay(props: PentaProps) {
@@ -35,7 +32,6 @@ export default function Replay(props: PentaProps) {
   const boardHeight = 5
   // easier than typing an old library
   const genericBoard = Array2D.build(12 + (props.penta?.borderWidth * 2), boardHeight + (props.penta?.borderWidth * 2))
-  const initialPenta = _.cloneDeep(props.penta)
   const [board, setBoard] = useState(genericBoard);
   const boardColor = "lightGrey"
 
@@ -94,27 +90,31 @@ export default function Replay(props: PentaProps) {
     setBoard(board)
   }, [props.penta?.borderWidth, props.penta, props.trimBorder, colorLookup])
 
+  const [currentMove, setCurrentMove] = useState(0)
+  const [replayIndex, setReplayIndex ] = useState(0)
 
-    let timer = 0
-    const [count, setCount] = useState(0)
-
-    const updateCount = () => {
-      timer = !timer && window.setInterval(() => {
-        setCount(prevCount => prevCount + 1)
-        console.log(count)
-      }, 200)
-
-      if (count === 20) clearInterval(timer)
+  const eventHandler = (event: any) => {
+    if (!pentaMoves) { return }
+    if (event.deltaY > 0 && currentMove < pentaMoves.length - 1) {
+      setCurrentMove(currentMove + 1)
     }
+    else if (event.deltaY < 0 && currentMove > 0) {
+      setCurrentMove(currentMove - 1)
+    }
+    const index = pentaMoves.length - currentMove - 1
+    setReplayIndex(index)
+    //setBoardState(pentaMoves[index])
+  }
 
-    useEffect(() => {
-      updateCount()
+  const debouncedWheelHandler = useMemo(
+    () => _.throttle(eventHandler, 150)
+    , [currentMove, eventHandler]);
 
-      return () => clearInterval(timer)
-    }, [count])
-
-
-
+  useEffect(() => {
+    console.log(replayIndex)
+    if (!pentaMoves) { return }
+    const move = pentaMoves[replayIndex]
+  }, [pentaMoves, replayIndex])
 
   const squares = []
   for (let row = 0; row < board?.length || 0; row++) {
@@ -155,7 +155,7 @@ export default function Replay(props: PentaProps) {
 
   return (
     <>
-      <div className="grid items-center justify-center">
+      <div onWheel={debouncedWheelHandler} className="grid items-center justify-center">
         <div className={classes.join(' ')}>
           {squares}
         </div>
