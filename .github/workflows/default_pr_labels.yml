@@ -1,5 +1,6 @@
 --
-name: Add Default Labels
+
+name: "Add Default Labels"
 
 on:
   pull_request:
