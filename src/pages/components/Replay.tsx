@@ -27,7 +27,7 @@ export default function Replay(props: PentaProps) {
   const [ localPenta, setLocalPenta ] = useState(props.penta);
   useEffect(() => {
     if (props.penta && !localPenta) {
-      console.log("setting local penta", props.penta);
+      //console.log("setting local penta", props.penta);
       setLocalPenta(props.penta);
     }
   }, [props.penta]);
@@ -60,10 +60,10 @@ export default function Replay(props: PentaProps) {
       }
     }
 
-    console.log("localPenta", localPenta)
+    //console.log("localPenta", localPenta)
     const blocks = _.cloneDeep(localPenta?.blocks)
     if (!blocks) { return }
-    console.log("copied blocks:", blocks)
+    //console.log("copied blocks:", blocks)
     // im letting my lazy typing come in here with this old code
     const sortedBlocks = blocks.sort((a: any, b: any) => a.lastUpdate - b.lastUpdate)
     sortedBlocks.forEach((block: any) => {
@@ -124,17 +124,20 @@ export default function Replay(props: PentaProps) {
     , [currentMove, eventHandler]);
 
   useEffect(() => {
-    console.log("previousReplayIndex", previousReplayIndex)
-    console.log("replayIndex", replayIndex)
-    //if (!previousReplayIndex && !replayIndex) { return }
     if (!localPenta) { return }
     if (!pentaMoves) { return }
+    if (!previousReplayIndex && !replayIndex) {
+      setReplayIndex(pentaMoves.length - 1)
+      setPreviousReplayIndex(pentaMoves.length)
+    }
     const move = pentaMoves[replayIndex]
     if (!move) { return }
-    console.log("localPenta", localPenta)
-    console.log(move.blockId)
+    console.log("previousReplayIndex", previousReplayIndex)
+    console.log("replayIndex", replayIndex)
+    //console.log("localPenta", localPenta)
+    //console.log(move.blockId)
     const blockIndex = localPenta?.blocks.findIndex((b: any) => b.id === move.blockId)
-    console.log("Block Index: ", blockIndex)
+    //console.log("Block Index: ", blockIndex)
     
     if (
       move?.incomingState &&
@@ -160,10 +163,8 @@ export default function Replay(props: PentaProps) {
         penta.blocks[blockIndex].reflection = outgoingState?.reflection
         penta.blocks[blockIndex].translation = outgoingState?.translation
       }
-
       setLocalPenta(penta)
     }
-    console.log("")
 
   }, [pentaMoves, replayIndex])
 
@@ -206,6 +207,7 @@ export default function Replay(props: PentaProps) {
 
   return (
     <>
+      replay
       <div onWheel={debouncedWheelHandler} className="grid items-center justify-center">
         <div className={classes.join(' ')}>
           {squares}
