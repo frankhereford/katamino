@@ -11,6 +11,9 @@ export const moveRouter = router({
       const moves = await ctx.prisma.move.findMany({
         where: {
           pentaId: input.pentaId,
+        },
+        orderBy: {
+          moveDate: "asc",
         }
       })
 
