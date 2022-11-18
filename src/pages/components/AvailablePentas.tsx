@@ -8,10 +8,10 @@ import { useRouter } from 'next/router'
 export default function AvailablePentas(props: any) {
   const nextRouter = useRouter();
   const [availablePentaPage, setAvailablePentaPage] = useState(0);
-  const [availablePentasPerPage, setAvailablePentasPerPage] = useState(10);
+  const [availablePentasPerPage, setAvailablePentasPerPage] = useState(5);
 
   const { data: completedPentas } = trpc.penta.getCompleted.useQuery();
-  const { data: pentas, refetch: availablePentaRefetch } = trpc.availablePenta.getAll.useQuery({page: availablePentaPage, perPage: availablePentasPerPage});
+  const { data: pentas, refetch: availablePentaRefetch, isLoading: pentaQueryLoading } = trpc.availablePenta.getAll.useQuery({page: availablePentaPage, perPage: availablePentasPerPage});
   const { data: availablePentaCount } = trpc.availablePenta.count.useQuery();
   const startPenta = trpc.availablePenta.start.useMutation({
     onSuccess: () => {
@@ -66,70 +66,78 @@ export default function AvailablePentas(props: any) {
     }
   }
 
+  if (!pentas) {
+    return (<>  </>)
+  }
+
   return (
-    <>
-      <div className="col-start-2 col-end-10 mt-10">
-        <div className="col-start-2 col-end-10">
-          <h1 className="text-center text-xl font-extrabold leading-normal text-gray-700 md:text-[2rem]">
-            <span className="text-secondary">A</span>vailable Pentas
-          </h1>
-        </div>
-
-        <div className="text-right mb-1">
-          <div className="btn-group">
-            { pagination }
+    <div className="grid grid-cols-10 mt-10">
+      <div className="col-start-2 col-end-10">
+        <div className="col-start-2 col-end-10 mt-10">
+          <div className="col-start-2 col-end-10">
+            <h1 className="text-center text-xl font-extrabold leading-normal text-gray-700 md:text-[2rem]">
+              <span className="text-secondary">A</span>vailable Pentas
+            </h1>
           </div>
-        </div>
 
-        {pentas ?
-          <table className="table table-zebra w-full outline rounded-md outline-1 mb-4 outline-secondary">
-            <thead>
-              <tr>
-                <th className="text-center">️🔥</th>
-                <th className="text-center">️Start</th>
-                <th className="text-center">Slam</th>
-                <th className="text-center">Group</th>
-                <th>Pieces</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pentas && pentas.map((penta) => (
-                <tr key={penta.id} className="hover">
-                  <td className="text-2xl text-center">{completedPentas!.includes(penta.id) ? '🔥' : ''}</td>
-                  <td className="text-center">
-                    <button onClick={startPentaClick} data-id={penta.id} className="btn btn-secondary btn-circle">️🎮</button>
-                  </td>
-                  <td className="text-center text-4xl">{showSlamEmoji(penta.slam.name)}</td>
-                  <td className="text-center">{penta.rowName}</td>
-                  <td>
-                    <div className="grid grid-cols-8">
-                      {penta?.availableBlocks.map((block) => {
-                        const classes = ["w-fit", "mx-auto"]
-                        return (
-                          <div key={block.id} className="inline-block outline outline-1 m-1 w-fit">
-                            <div className={classes.join(" ")}>
-                              <Block block={block} size={8} hideVisibility={true}></Block>
-                            </div>
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </td>
+          {!pentaQueryLoading &&
+            <div className="text-right mb-1">
+              <div className="btn-group">
+                {pagination}
+              </div>
+            </div>
+          }
+
+          {pentas ?
+            <table className="table table-zebra w-full outline rounded-md outline-1 mb-4 outline-secondary">
+              <thead>
+                <tr>
+                  <th className="text-center">️🔥</th>
+                  <th className="text-center">️Start</th>
+                  <th className="text-center">Slam</th>
+                  <th className="text-center">Group</th>
+                  <th>Pieces</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          : <div className="mt-20">
-            <RingLoader
-              color={"hsl(var(--pf))"}
-              cssOverride={override}
-              size={75}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-          </div>
-        }
+              </thead>
+              <tbody>
+                {pentas && pentas.map((penta) => (
+                  <tr key={penta.id} className="hover">
+                    <td className="text-2xl text-center">{completedPentas!.includes(penta.id) ? '🔥' : ''}</td>
+                    <td className="text-center">
+                      <button onClick={startPentaClick} data-id={penta.id} className="btn btn-secondary btn-circle">️🎮</button>
+                    </td>
+                    <td className="text-center text-4xl">{showSlamEmoji(penta.slam.name)}</td>
+                    <td className="text-center">{penta.rowName}</td>
+                    <td>
+                      <div className="grid grid-cols-8">
+                        {penta?.availableBlocks.map((block) => {
+                          const classes = ["w-fit", "mx-auto"]
+                          return (
+                            <div key={block.id} className="inline-block outline outline-1 m-1 w-fit">
+                              <div className={classes.join(" ")}>
+                                <Block block={block} size={8} hideVisibility={true}></Block>
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            : <div className="mt-20">
+              <RingLoader
+                color={"hsl(var(--pf))"}
+                cssOverride={override}
+                size={75}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            </div>
+          }
+        </div>
       </div>
-    </>
-  );
+    </div>
+  )
 }

@@ -70,8 +70,22 @@ export const pentaRouter = router({
     })
   }),
 
-  getAll: protectedProcedure.query(async ({ ctx }) => {
+  count: protectedProcedure.query(async ({ ctx }) => {
+    const pentas = await ctx.prisma.penta.findMany({
+      where: {
+        user: ctx.session.user
+      }
+    });
+    return pentas.length
+  }),
+
+
+  getAll: protectedProcedure
+    .input(z.object({ page: z.number(), perPage: z.number() }))
+    .query(async ({ ctx, input }) => {
     return await ctx.prisma.penta.findMany({
+      skip: (input.page) * input.perPage,
+      take: input.perPage,
       where: {
         user: ctx.session.user
       },
