@@ -95,11 +95,11 @@ export default function Replay(props: PentaProps) {
   }, [props.penta?.borderWidth, props.penta, props.trimBorder, colorLookup])
 
 
-    let timer
+    let timer = 0
     const [count, setCount] = useState(0)
 
     const updateCount = () => {
-      timer = !timer && setInterval(() => {
+      timer = !timer && window.setInterval(() => {
         setCount(prevCount => prevCount + 1)
         console.log(count)
       }, 200)
