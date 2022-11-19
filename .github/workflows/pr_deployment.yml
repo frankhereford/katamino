@@ -34,6 +34,7 @@ jobs:
       - name: Prepare and deploy feature branch
         id: prepare-and-deploy
         run: |
+         export
          npm i -g @railway/cli
          cd "$HOME"
          mkdir .railway
