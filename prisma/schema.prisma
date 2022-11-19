@@ -39,7 +39,6 @@ model Move {
   moveDate                 DateTime       @default(now())
   incomingTransformationId String
   outgoingTransformationId String
-  outgoingState            Json           @default("{}")
   penta                    Penta          @relation(fields: [pentaId], references: [id], onDelete: Cascade)
   block                    Block          @relation(fields: [blockId], references: [id], onDelete: Cascade)
   incomingTransformation   Transformation @relation(name: "incoming move state", fields: [incomingTransformationId], references: [id], onDelete: Cascade)
@@ -128,8 +127,8 @@ model AvailableTransformation {
 model AvailablePenta {
   id              String           @id @default(cuid())
   slamId          String
-  rowName         String
-  columns         Int
+  rowName         String           @default("A")
+  columns         Int              @default(5)
   borderWidth     Int              @default(2)
   availableBlocks AvailableBlock[]
   slam            Slam             @relation(fields: [slamId], references: [id], onDelete: Cascade)
@@ -140,7 +139,7 @@ model AvailablePenta {
 
 model Slam {
   id              String           @id @default(cuid())
-  name            String
+  name            String           @default("Slam")
   slamOrder       Int              @default(0)
   availablePentas AvailablePenta[]
 
