@@ -46,7 +46,7 @@
   * <https://vercel.com/docs/concepts/functions/serverless-functions>
     * ♾️ Infinitely scalable, z-e-r-o work
   * No middleware, no `graphql-engine`
-    * No query languages (graphql, SQL)
+    * No query languages (GraphQL, SQL)
 * 🤖 Vercel (optimization, CDN, etc)
   * 📈 Meaningful analytics
 * 🔑 Auth0
@@ -54,7 +54,7 @@
 * ⌨️ TypeScript
 * 🔺 NextJS
 * 🔭 tRPC
-  * The backend is a set of functions you write in javascript
+  * The backend is a set of functions you write in JavaScript 
     * They take arguments and return something, just like normal
     * The type of the arguments and the return value are type inferred
       * 🪄 The /functions/ define the API, no extra work
@@ -66,7 +66,7 @@
   * ☁️ Not a requirement; totally fine to keep production DB on AWS with strong protections
 * 💀 Dependabot
   * Has [config](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file)
-* 🤑 Cheap! 
+* 🤑 Cheap!
   * Free tiers are generous (Vercel & Railway), pay-per-compute after that
 * 🐛 VSCode debugging
 
