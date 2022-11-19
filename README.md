@@ -69,3 +69,47 @@
 * 🤑 Cheap! 
   * Free tiers are generous (Vercel & Railway), pay-per-compute after that
 * 🐛 VSCode debugging
+
+
+### Secrets
+
+The repository has the following secrets defined for its actions and 
+integrations. Notable are the auth related ones (GitHub & Auth0 below) which are 
+dependent on which OAuth provider you choose to use with NextAuth. I'm not 100% 
+sure they are all required anymore. The app isn't built on the GitHub action 
+image, it's on Vercel. Railway generates the secrets, and does not have any 
+input secrets for itself.
+
+#### GitHub Action Secrets
+
+```
+AUTH0_CLIENT_ID
+AUTH0_CLIENT_SECRET
+AUTH0_ISSUER
+DATABASE_URL
+GH_FINEGRAIN_TOKEN
+GH_ID
+GH_PAT
+GH_SECRET
+NEXTAUTH_SECRET
+NEXTAUTH_URL
+RAILWAY_CONFIG
+RAILWAY_PROJECT_ID
+RAILWAY_TOKEN
+VERCEL_CONFIG
+VERCEL_ORG_ID
+VERCEL_PROJECT_ID
+VERCEL_TOKEN
+```
+
+### Vercel Deployment Secrets
+
+```
+DATABASE_URL
+GITHUB_SECRET
+GITHUB_ID
+AUTH0_CLIENT_SECRET
+AUTH0_ISSUER
+AUTH0_CLIENT_ID
+NEXTAUTH_SECRET
+```
