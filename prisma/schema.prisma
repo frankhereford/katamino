@@ -15,7 +15,7 @@ datasource db {
 model Color {
   id      String  @id @default(cuid())
   name    String  @unique
-  hexCode String  @default("#ffffff")
+  hexCode String  @default("#ff00ff")
   pieces  Piece[]
 
   @@map(name: "colors")
@@ -134,7 +134,7 @@ model AvailableTransformation {
 model AvailablePenta {
   id              String           @id @default(cuid())
   slamId          String
-  rowName         String           @default("A")
+  rowName         String           @default("🤷🏻‍♂️")
   columns         Int              @default(5)
   borderWidth     Int              @default(2)
   availableBlocks AvailableBlock[]
@@ -146,7 +146,7 @@ model AvailablePenta {
 
 model Slam {
   id              String           @id @default(cuid())
-  name            String           @default("Slam")
+  name            String           @unique @default("🤷🏼")
   slamOrder       Int              @default(0)
   availablePentas AvailablePenta[]
 
