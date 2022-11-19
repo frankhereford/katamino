@@ -2,9 +2,15 @@
   "name": "katamino",
   "version": "0.1.0",
   "private": true,
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "seed": "prisma db seed",
+    "reset": "prisma migrate reset --force",
+    "studio": "prisma studio",
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start"
