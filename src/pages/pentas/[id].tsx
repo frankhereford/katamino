@@ -240,32 +240,36 @@ const PentaPage: NextPage = () => {
     debouncedPentaRefetch()
   }
 
+  function typeCheckPentaBlock(penta: any, activeBlock: any) {
+    console.log('hi')
+    if (
+      penta?.blocks[activeBlock]?.rotation &&
+      typeof penta?.blocks[activeBlock]?.rotation == 'object' &&
+      !Array.isArray(penta?.blocks[activeBlock]?.rotation)
+    ) { return true }
+  }
+
   // rotate the activeBlock clockwise
   function keyD() {
     if (!penta?.blocks) { return }
     if (!activeBlock && activeBlock !== 0) { return }
     if (!penta?.blocks[activeBlock]?.visible) { return }
-    if (
-      penta?.blocks[activeBlock]?.rotation &&
-      typeof penta?.blocks[activeBlock]?.rotation == 'object' &&
-      !Array.isArray(penta?.blocks[activeBlock]?.rotation)
-    ) {
-      const rotation = penta?.blocks[activeBlock]?.rotation as Prisma.JsonObject
-      const clockwise: number = Number(rotation.clockwise) || 0
+    if (!typeCheckPentaBlock(penta, activeBlock)) { return }
+    const rotation = penta?.blocks[activeBlock]?.rotation as Prisma.JsonObject
+    const clockwise: number = Number(rotation.clockwise) || 0
 
-      if (!penta) { return }
-      const pentaCopy = _.cloneDeep(penta);
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      pentaCopy.blocks[activeBlock]!.rotation = {
-        clockwise: (clockwise + 1) % 4
-      }
-      setPenta(pentaCopy)
-
-      setRotation.mutate({
-        id: penta?.blocks[activeBlock]?.id || '',
-        clockwise: (clockwise + 1) % 4
-      })
+    if (!penta) { return }
+    const pentaCopy = _.cloneDeep(penta);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    pentaCopy.blocks[activeBlock]!.rotation = {
+      clockwise: (clockwise + 1) % 4
     }
+    setPenta(pentaCopy)
+
+    setRotation.mutate({
+      id: penta?.blocks[activeBlock]?.id || '',
+      clockwise: (clockwise + 1) % 4
+    })
     debouncedPentaRefetch()
   }
 
