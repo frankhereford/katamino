@@ -459,7 +459,6 @@ const PentaPage: NextPage = () => {
   }
 
   //  }, [penta, activeBlock, initialShow, keyS])
-
   // ? this linting exception is based on this sort of needing to be inside the useEffect that also uses it?
   // Local rule is using this, but not super linter .. react-hooks/exhaustive-deps
   // eslint-disable-next-line
