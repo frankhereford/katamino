@@ -24,12 +24,14 @@ model Color {
 // a piece is a particular tangible block from the game box, they are used in a penta
 model Piece {
   id             String           @id @default(cuid())
-  colorId        String           @unique
+  colorId        String
+  slug           String           @unique
   shape          Json             @default("[[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]")
   color          Color            @relation(fields: [colorId], references: [id], onDelete: Cascade)
   blocks         Block[]
   AvailableBlock AvailableBlock[]
 
+  @@unique([colorId, shape])
   @@map(name: "pieces")
 }
 
