@@ -1,3 +1,11 @@
+// this file is fully out of control. 🌊
+
+// It's not easy to keep breaking it down, I've found.
+// This is the controller for a person playing a game of Katamino, and most
+// control of the DOM itself is handled by subcomponents. There are a lot of
+// ways to interact with this page, and that leads to complexity in this file.
+
+
 // next
 import { type NextPage } from "next";
 import { useRouter } from 'next/router'
