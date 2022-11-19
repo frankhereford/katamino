@@ -1,0 +1,103 @@
+---
+
+name: Build Production Deployment
+
+env:
+  RAILWAY_CONFIG: ${{ secrets.RAILWAY_CONFIG }}
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+
+jobs:
+  deployment:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    environment:
+      name: Production
+      url: https://katamino.sheep.army
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_FINEGRAIN_TOKEN }}
+    steps:
+
+      - name: Make release if requested
+        id: release
+        uses: rymndhng/release-on-push-action@v0.27.0
+        with:
+          release_name: <RELEASE_TAG>
+          bump_version_scheme: norelease
+          use_github_release_notes: true
+
+      - name: Check Output Parameters
+        run: |
+          echo "Got tag name ${{ steps.release.outputs.tag_name }}"
+          echo "Got release version ${{ steps.release.outputs.version }}"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Bump version
+        run: >
+          npm version
+          --no-git-tag-version
+          ${{ steps.release.outputs.version }}
+
+      - name: Commit updated version in package.json
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'package.json'
+          author_name: Frank Hereford
+          author_email: frank@frankhereford.com
+          commit: --signoff
+          message: '🤖 Set version: ${{ steps.release.outputs.version }}'
+          push: false
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          branch: ${{ github.ref }}
+          github_token: ${{ secrets.GH_FINEGRAIN_TOKEN }}
+
+      - name: Make vercel configuration directory
+        run: |
+         mkdir .vercel
+
+      - name: Create vercel config
+        uses: jsdaniell/create-json@v1.2.1
+        with:
+          name: 'project.json'
+          json: ${{ secrets.VERCEL_CONFIG }}
+          dir: '.vercel/'
+
+      - name: "Deploy production site"
+        run: |
+         npm i -g @railway/cli
+         cd "$HOME"
+         mkdir .railway
+         cd .railway
+         echo "$RAILWAY_CONFIG" > config.json
+         cd "$GITHUB_WORKSPACE"
+         #echo "👀 Check railway auth"
+         #railway whoami
+         RAILWAY_ENVIRONMENT="production"
+         echo "🚉 Railway Environment: $RAILWAY_ENVIRONMENT"
+         railway environment "$RAILWAY_ENVIRONMENT"
+         echo "👀 Check railway status?"
+         railway status
+         RAILWAY_VARIABLES=$(railway vars)
+         DATABASE_URL="$(echo "$RAILWAY_VARIABLES" | \
+           grep -o "postgresql.*/railway")"
+         export DATABASE_URL=$DATABASE_URL
+         echo "🛠️ npm install"
+         npm install
+         echo "🌈 prisma migrate deploy"
+         npx prisma migrate deploy 
+         echo "🚀 Vercel build"
+         vercel --token=${{ secrets.VERCEL_TOKEN }} \
+           --env DATABASE_URL="$DATABASE_URL" --build-env \
+           DATABASE_URL="$DATABASE_URL" --prod
+         echo ""
+         echo "🏁 Finished"
