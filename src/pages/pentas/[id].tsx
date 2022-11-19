@@ -193,7 +193,6 @@ const PentaPage: NextPage = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function typeCheckPentaBlock(penta: any, activeBlock: any) {
-    console.log('hi')
     if (
       penta?.blocks[activeBlock]?.rotation &&
       typeof penta?.blocks[activeBlock]?.rotation == 'object' &&
@@ -312,21 +311,37 @@ const PentaPage: NextPage = () => {
     else { setActiveBlock(activeBlock + 1) }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function getBlockTransformation(penta: any, activeBlock: any) {
+    if (!typeCheckPentaBlock(penta, activeBlock)) { return }
+    const rotation = penta?.blocks[activeBlock]?.rotation as Prisma.JsonObject
+    const clockwise: number = Number(rotation.clockwise) || 0
+    const translation = penta?.blocks[activeBlock]?.translation as Prisma.JsonObject
+    const up: number = Number(translation.up) || 0
+    const right: number = Number(translation.right) || 0
+    const reflection: boolean = penta?.blocks[activeBlock]?.reflection || false
+    return {
+      clockwise: clockwise,
+      reflection: reflection,
+      up: up,
+      right: right
+    }
+  }
+
   // move the block up
   function keyUp() {
     if (!typeCheckBlockVisibility(penta, activeBlock)) { return }
     if (!typeCheckPentaBlock(penta, activeBlock)) { return }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const translation = penta?.blocks[activeBlock!]?.translation as Prisma.JsonObject
-    const up: number = Number(translation.up) || 0
-    const right: number = Number(translation.right) || 0
+    const transformation = getBlockTransformation(penta, activeBlock)
 
     const pentaCopy = _.cloneDeep(penta);
+
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     pentaCopy!.blocks[activeBlock!]!.translation = {
-      up: up + 1,
-      right: right,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      up: transformation!.up + 1,
+      right: transformation?.right,
     }
     setPenta(pentaCopy)
 
@@ -334,8 +349,9 @@ const PentaPage: NextPage = () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       id: penta?.blocks[activeBlock!]?.id || '',
       translation: {
-        up: up + 1,
-        right: right,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        up: transformation!.up + 1,
+        right: transformation?.right,
       }
     })
     debouncedPentaRefetch()
@@ -351,10 +367,9 @@ const PentaPage: NextPage = () => {
     const up: number = Number(translation.up) || 0
     const right: number = Number(translation.right) || 0
 
-    if (!penta) { return }
     const pentaCopy = _.cloneDeep(penta);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    pentaCopy.blocks[activeBlock!]!.translation = {
+    pentaCopy!.blocks[activeBlock!]!.translation = {
       up: up - 1,
       right: right,
     }
