@@ -1,16 +1,17 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// this says to generate the JS client for the app
 generator client {
   provider = "prisma-client-js"
 }
 
+// configure what database to use. hint: this can be sqlite too
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-// reminder - this cuid() isn't the only option, i think there's an autoincrement as well
 model Color {
   id      String  @id @default(cuid())
   name    String  @unique
@@ -34,6 +35,7 @@ model Piece {
 
 model Move {
   id                       String         @id @default(cuid())
+  createdAt                DateTime       @default(now())
   pentaId                  String
   blockId                  String
   moveDate                 DateTime       @default(now())
@@ -55,8 +57,10 @@ model Block {
   pentaId          String
   transformationId String
   piece            Piece            @relation(fields: [pieceId], references: [id], onDelete: Cascade)
-  transformation   Transformation   @relation(name: "current transformation", fields: [transformationId], references: [id], onDelete: Cascade)
   penta            Penta            @relation(fields: [pentaId], references: [id], onDelete: Cascade)
+  // the current transformation
+  transformation   Transformation   @relation(name: "current transformation", fields: [transformationId], references: [id], onDelete: Cascade)
+  // all past transformations
   transformations  Transformation[]
   moves            Move[]
 
@@ -64,17 +68,18 @@ model Block {
 }
 
 model Transformation {
-  id               String  @id @default(cuid())
+  id               String   @id @default(cuid())
+  createdAt        DateTime @default(now())
   blockId          String
-  visible          Boolean @default(false)
-  reflection       Boolean @default(false)
-  rotation         Int     @default(0)
-  translationUp    Int     @default(0)
-  translationRight Int     @default(0)
-  block            Block   @relation(fields: [blockId], references: [id], onDelete: Cascade)
-  blocks           Block[] @relation(name: "current transformation")
-  incomingMoves    Move[]  @relation(name: "incoming move state")
-  outgoingMoves    Move[]  @relation(name: "outgoing move state")
+  visible          Boolean  @default(false)
+  reflection       Boolean  @default(false)
+  rotation         Int      @default(0)
+  translationUp    Int      @default(0)
+  translationRight Int      @default(0)
+  block            Block    @relation(fields: [blockId], references: [id], onDelete: Cascade)
+  blocks           Block[]  @relation(name: "current transformation")
+  incomingMoves    Move[]   @relation(name: "incoming move state")
+  outgoingMoves    Move[]   @relation(name: "outgoing move state")
 
   @@map(name: "transformations")
 }
