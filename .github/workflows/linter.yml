@@ -6,6 +6,8 @@
 #################################
 name: Lint Code Base
 
+env:
+  FILTER_REGEX_EXCLUDE: "./prisma/migrations/*"
 #############################
 # Start the job on all push #
 #############################
