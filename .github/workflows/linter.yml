@@ -12,8 +12,6 @@ env:
   #TYPESCRIPT_STANDARD_TSCONFIG_FILE: "{{ $github.workspace }}/tsconfig.json"
   #LINTER_RULES_PATH: "/"
 
-
-
 #############################
 # Start the job on all push #
 #############################
