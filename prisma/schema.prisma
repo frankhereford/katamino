@@ -165,6 +165,7 @@ model Account {
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@map("accounts")
 }
 
 model Session {
@@ -173,6 +174,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
 }
 
 model User {
@@ -184,6 +187,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   pentas        Penta[]
+
+  @@map("users")
 }
 
 model VerificationToken {
@@ -192,4 +197,5 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+  @@map("verification_tokens")
 }
