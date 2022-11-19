@@ -24,7 +24,7 @@ model Color {
 model Piece {
   id             String           @id @default(cuid())
   colorId        String           @unique
-  shape          Json
+  shape          Json             @default("[[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]")
   color          Color            @relation(fields: [colorId], references: [id], onDelete: Cascade)
   blocks         Block[]
   AvailableBlock AvailableBlock[]
