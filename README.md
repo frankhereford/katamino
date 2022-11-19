@@ -54,7 +54,7 @@
 * ⌨️ TypeScript
 * 🔺 NextJS
 * 🔭 tRPC
-  * The backend is a set of functions you write in JavaScript 
+  * The backend is a set of functions you write in JavaScript
     * They take arguments and return something, just like normal
     * The type of the arguments and the return value are type inferred
       * 🪄 The /functions/ define the API, no extra work
