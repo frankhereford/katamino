@@ -224,11 +224,12 @@ const PentaPage: NextPage = () => {
   function keyW() {
     if (!penta?.blocks) { return }
     if (!activeBlock && activeBlock !== 0) { return }
-    if (!penta?.blocks[activeBlock]!.visible) { return }
+    if (!penta?.blocks[activeBlock]?.visible) { return }
     if (!penta?.blocks[activeBlock]?.id) { return }
 
     if (!penta) { return }
     const pentaCopy = _.cloneDeep(penta);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     pentaCopy.blocks[activeBlock]!.reflection = !pentaCopy?.blocks?.[activeBlock]?.reflection
     setPenta(pentaCopy)
 
@@ -243,7 +244,7 @@ const PentaPage: NextPage = () => {
   function keyD() {
     if (!penta?.blocks) { return }
     if (!activeBlock && activeBlock !== 0) { return }
-    if (!penta?.blocks[activeBlock]!.visible) { return }
+    if (!penta?.blocks[activeBlock]?.visible) { return }
     if (
       penta?.blocks[activeBlock]?.rotation &&
       typeof penta?.blocks[activeBlock]?.rotation == 'object' &&
@@ -254,6 +255,7 @@ const PentaPage: NextPage = () => {
 
       if (!penta) { return }
       const pentaCopy = _.cloneDeep(penta);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       pentaCopy.blocks[activeBlock]!.rotation = {
         clockwise: (clockwise + 1) % 4
       }
@@ -298,7 +300,7 @@ const PentaPage: NextPage = () => {
   function keyUp() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
-    if (!penta?.blocks[activeBlock]!.visible) { return }
+    if (!penta?.blocks[activeBlock]?.visible) { return }
     if (!penta?.blocks[activeBlock]?.id) { return }
 
     if (
@@ -312,6 +314,7 @@ const PentaPage: NextPage = () => {
 
       if (!penta) { return }
       const pentaCopy = _.cloneDeep(penta);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       pentaCopy.blocks[activeBlock]!.translation = {
         up: up + 1,
         right: right,
@@ -333,7 +336,7 @@ const PentaPage: NextPage = () => {
   function keyDown() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
-    if (!penta?.blocks[activeBlock]!.visible) { return }
+    if (!penta?.blocks[activeBlock]?.visible) { return }
     if (!penta?.blocks[activeBlock]?.id) { return }
 
     if (
@@ -347,6 +350,7 @@ const PentaPage: NextPage = () => {
 
       if (!penta) { return }
       const pentaCopy = _.cloneDeep(penta);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       pentaCopy.blocks[activeBlock]!.translation = {
         up: up - 1,
         right: right,
@@ -368,7 +372,7 @@ const PentaPage: NextPage = () => {
   function keyLeft() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
-    if (!penta?.blocks[activeBlock]!.visible) { return }
+    if (!penta?.blocks[activeBlock]?.visible) { return }
     if (!penta?.blocks[activeBlock]?.id) { return }
 
     if (
@@ -382,6 +386,7 @@ const PentaPage: NextPage = () => {
 
       if (!penta) { return }
       const pentaCopy = _.cloneDeep(penta);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       pentaCopy.blocks[activeBlock]!.translation = {
         up: up,
         right: right - 1,
@@ -403,7 +408,7 @@ const PentaPage: NextPage = () => {
   function keyRight() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
-    if (!penta?.blocks[activeBlock]!.visible) { return }
+    if (!penta?.blocks[activeBlock]?.visible) { return }
     if (!penta?.blocks[activeBlock]?.id) { return }
 
     if (
@@ -417,6 +422,7 @@ const PentaPage: NextPage = () => {
 
       if (!penta) { return }
       const pentaCopy = _.cloneDeep(penta);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       pentaCopy.blocks[activeBlock]!.translation = {
         up: up,
         right: right + 1,
@@ -438,12 +444,14 @@ const PentaPage: NextPage = () => {
   function keyA() {
     if (!penta) { return }
     if (!activeBlock && activeBlock !== 0) { return }
-    if (!penta?.blocks[activeBlock]!.visible) { return }
+    if (!penta?.blocks[activeBlock]?.visible) { return }
 
     const pentaCopy = _.cloneDeep(penta);
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
     pentaCopy.blocks[activeBlock]!.translation = { up: 0, right: 0, }
     pentaCopy.blocks[activeBlock]!.rotation = { clockwise: 0 }
     pentaCopy.blocks[activeBlock]!.reflection = false
+    /* eslint-enable @typescript-eslint/no-non-null-assertion */
     setPenta(pentaCopy)
 
     setTranslation.mutate({
@@ -466,6 +474,7 @@ const PentaPage: NextPage = () => {
     if (!activeBlock && activeBlock !== 0) { return }
     if (!penta) { return }
     const pentaCopy = _.cloneDeep(penta);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     pentaCopy.blocks[activeBlock]!.visible = !pentaCopy.blocks[activeBlock]!.visible
     setPenta(pentaCopy)
 
@@ -542,7 +551,7 @@ const PentaPage: NextPage = () => {
 
               <ControlButton
                 position="absolute right-[90px] top-[0px] drop-shadow-lg"
-                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]?.visible ? "" : " btn-disabled")}
                 clickHandler={keyW}
                 icon={flipIcon}
                 letter="W"
@@ -566,7 +575,7 @@ const PentaPage: NextPage = () => {
 
               <ControlButton
                 position="absolute right-[135px] top-[55px] drop-shadow-lg"
-                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]?.visible ? "" : " btn-disabled")}
                 clickHandler={keyA}
                 icon={<RiFilePaperLine size={20} style={{ color: "#ffffff" }} />}
                 letter="A"
@@ -582,7 +591,7 @@ const PentaPage: NextPage = () => {
 
               <ControlButton
                 position="absolute right-[15px] top-[55px] drop-shadow-lg"
-                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]?.visible ? "" : " btn-disabled")}
                 clickHandler={keyD}
                 icon={<AiOutlineRotateRight size={20} style={{ color: "#ffffff" }} />}
                 letter="D"
@@ -590,21 +599,21 @@ const PentaPage: NextPage = () => {
 
               <ControlButton
                 position="absolute left-[80px] top-[0px] drop-shadow-lg"
-                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]?.visible ? "" : " btn-disabled")}
                 clickHandler={keyUp}
                 icon={<BsArrowBarUp size={20} style={{ color: "#ffffff" }} />}
               ></ControlButton>
 
               <ControlButton
                 position="absolute left-[20px] top-[55px] drop-shadow-lg"
-                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]?.visible ? "" : " btn-disabled")}
                 clickHandler={keyLeft}
                 icon={<BsArrowBarLeft size={20} style={{ color: "#ffffff" }} />}
               ></ControlButton>
 
               <ControlButton
                 position="absolute left-[80px] top-[55px] drop-shadow-lg"
-                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]?.visible ? "" : " btn-disabled")}
                 clickHandler={keyDown}
                 icon={<BsArrowBarDown size={20} style={{ color: "#ffffff" }} />}
               ></ControlButton>
