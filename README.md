@@ -9,16 +9,16 @@
   * label driven automatic versioning 🔥
     * automatic releases
 * 🏷️ GitHub release tags; we should bump versions on every PR via PR labels
-  * Via: https://github.com/marketplace/actions/tag-release-on-push-action
+  * Via: <https://github.com/marketplace/actions/tag-release-on-push-action>
 * 🌼 Daisy UI
   * [Extendable](https://github.com/frankhereford/katamino/blob/main/tailwind.config.cjs#L5-L10)
 * 💨 Tailwind CSS
   * Bootstrap but mega-🍄
-  * Closely watch the animation on https://tailwindcss.com/, it's not an exaggeration
+  * Closely watch the animation on <https://tailwindcss.com/>, it's not an exaggeration
 * 🌈 Prisma
   * TypeScript Safe Apollo but with [useQuery](https://tanstack.com/query/v4/docs/reference/useQuery)
   * Generated library specific to your schema with all the typing information in it, so your IDE goes brrr. 💪
-  * 🔬 `prisma studio` 
+  * 🔬 `prisma studio`
 * 🧩 Migrations
   * Migrations
     * If a change can't be applied (such as adding a non-null constraint on a column with null values, for example), it will walk you through your options
@@ -43,10 +43,10 @@
   * 1-2 minute deploys
   * All the check marks, build-tests & environments ✨
 * 🏂 Lambdas
-  * https://vercel.com/docs/concepts/functions/serverless-functions
+  * <https://vercel.com/docs/concepts/functions/serverless-functions>
     * ♾️ Infinitely scalable, z-e-r-o work
   * No middleware, no `graphql-engine`
-    * No query languages (graphql, SQL)
+    * No query languages (GraphQL, SQL)
 * 🤖 Vercel (optimization, CDN, etc)
   * 📈 Meaningful analytics
 * 🔑 Auth0
@@ -54,7 +54,7 @@
 * ⌨️ TypeScript
 * 🔺 NextJS
 * 🔭 tRPC
-  * The backend is a set of functions you write in javascript
+  * The backend is a set of functions you write in JavaScript
     * They take arguments and return something, just like normal
     * The type of the arguments and the return value are type inferred
       * 🪄 The /functions/ define the API, no extra work
@@ -66,6 +66,50 @@
   * ☁️ Not a requirement; totally fine to keep production DB on AWS with strong protections
 * 💀 Dependabot
   * Has [config](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file)
-* 🤑 Cheap! 
+* 🤑 Cheap!
   * Free tiers are generous (Vercel & Railway), pay-per-compute after that
 * 🐛 VSCode debugging
+
+
+## Secrets
+
+The repository has the following secrets defined for its actions and
+integrations. Notable are the auth related ones (GitHub & Auth0 below) which are
+dependent on which OAuth provider you choose to use with NextAuth. I'm not 100%
+sure they are all required anymore. The app isn't built on the GitHub action
+image, it's on Vercel. Railway generates the secrets, and does not have any
+input secrets for itself.
+
+### GitHub Action Secrets
+
+```bash
+AUTH0_CLIENT_ID
+AUTH0_CLIENT_SECRET
+AUTH0_ISSUER
+DATABASE_URL
+GH_FINEGRAIN_TOKEN
+GH_ID
+GH_PAT
+GH_SECRET
+NEXTAUTH_SECRET
+NEXTAUTH_URL
+RAILWAY_CONFIG
+RAILWAY_PROJECT_ID
+RAILWAY_TOKEN
+VERCEL_CONFIG
+VERCEL_ORG_ID
+VERCEL_PROJECT_ID
+VERCEL_TOKEN
+```
+
+### Vercel Deployment Secrets
+
+```bash
+DATABASE_URL
+GITHUB_SECRET
+GITHUB_ID
+AUTH0_CLIENT_SECRET
+AUTH0_ISSUER
+AUTH0_CLIENT_ID
+NEXTAUTH_SECRET
+```
