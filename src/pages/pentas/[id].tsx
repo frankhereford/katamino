@@ -191,6 +191,31 @@ const PentaPage: NextPage = () => {
     ArrowRight: keyRight,
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function typeCheckPentaBlock(penta: any, activeBlock: any) {
+    console.log('hi')
+    if (
+      penta?.blocks[activeBlock]?.rotation &&
+      typeof penta?.blocks[activeBlock]?.rotation == 'object' &&
+      !Array.isArray(penta?.blocks[activeBlock]?.rotation) &&
+      penta?.blocks[activeBlock]?.translation &&
+      typeof penta?.blocks[activeBlock]?.translation == 'object' &&
+      !Array.isArray(penta?.blocks[activeBlock]?.translation)
+    ) { return true }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function typeCheckBlockVisibility(penta: any, activeBlock: any) {
+    if (
+    (!penta)
+    || (!penta?.blocks)
+    || (!activeBlock && activeBlock !== 0)
+    || (!penta?.blocks[activeBlock]?.visible)
+    || (!penta?.blocks[activeBlock]?.id)
+    ) { return false }
+    return true
+  }
+
   function keyR() {
     console.log("isReplay", isReplay)
     setIsReplay(!isReplay)
@@ -222,31 +247,20 @@ const PentaPage: NextPage = () => {
 
   // reflect the activeBlock
   function keyW() {
-    if (!penta?.blocks) { return }
-    if (!activeBlock && activeBlock !== 0) { return }
-    if (!penta?.blocks[activeBlock]?.visible) { return }
-    if (!penta?.blocks[activeBlock]?.id) { return }
+    if (!typeCheckBlockVisibility(penta, activeBlock)) { return }
 
-    if (!penta) { return }
     const pentaCopy = _.cloneDeep(penta);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    pentaCopy.blocks[activeBlock]!.reflection = !pentaCopy?.blocks?.[activeBlock]?.reflection
+    pentaCopy!.blocks[activeBlock!]!.reflection = !pentaCopy?.blocks?.[activeBlock!]?.reflection
     setPenta(pentaCopy)
 
     setReflection.mutate({
-      id: penta?.blocks[activeBlock]?.id || '',
-      reflection: penta?.blocks[activeBlock]?.reflection ? false : true
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      id: penta?.blocks[activeBlock!]?.id || '',
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      reflection: penta?.blocks[activeBlock!]?.reflection ? false : true
     })
     debouncedPentaRefetch()
-  }
-
-  function typeCheckPentaBlock(penta: any, activeBlock: any) {
-    console.log('hi')
-    if (
-      penta?.blocks[activeBlock]?.rotation &&
-      typeof penta?.blocks[activeBlock]?.rotation == 'object' &&
-      !Array.isArray(penta?.blocks[activeBlock]?.rotation)
-    ) { return true }
   }
 
   // rotate the activeBlock clockwise
@@ -302,37 +316,30 @@ const PentaPage: NextPage = () => {
 
   // move the block up
   function keyUp() {
-    if (!penta) { return }
-    if (!activeBlock && activeBlock !== 0) { return }
-    if (!penta?.blocks[activeBlock]?.visible) { return }
-    if (!penta?.blocks[activeBlock]?.id) { return }
+    if (!typeCheckBlockVisibility(penta, activeBlock)) { return }
+    if (!typeCheckPentaBlock(penta, activeBlock)) { return }
 
-    if (
-      penta?.blocks[activeBlock]?.translation &&
-      typeof penta?.blocks[activeBlock]?.translation == 'object' &&
-      !Array.isArray(penta?.blocks[activeBlock]?.translation)
-    ) {
-      const translation = penta?.blocks[activeBlock]?.translation as Prisma.JsonObject
-      const up: number = Number(translation.up) || 0
-      const right: number = Number(translation.right) || 0
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const translation = penta?.blocks[activeBlock!]?.translation as Prisma.JsonObject
+    const up: number = Number(translation.up) || 0
+    const right: number = Number(translation.right) || 0
 
-      if (!penta) { return }
-      const pentaCopy = _.cloneDeep(penta);
+    const pentaCopy = _.cloneDeep(penta);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    pentaCopy!.blocks[activeBlock!]!.translation = {
+      up: up + 1,
+      right: right,
+    }
+    setPenta(pentaCopy)
+
+    setTranslation.mutate({
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      pentaCopy.blocks[activeBlock]!.translation = {
+      id: penta?.blocks[activeBlock!]?.id || '',
+      translation: {
         up: up + 1,
         right: right,
       }
-      setPenta(pentaCopy)
-
-      setTranslation.mutate({
-        id: penta?.blocks[activeBlock]?.id || '',
-        translation: {
-          up: up + 1,
-          right: right,
-        }
-      })
-    }
+    })
     debouncedPentaRefetch()
   }
 
