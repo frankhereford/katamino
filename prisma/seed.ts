@@ -32,7 +32,6 @@ async function main() {
     })
   }
 
-
   const pieces = [
     {
       name: 'darkBlue',
@@ -144,9 +143,7 @@ async function main() {
       throw new Error(`No color found for ${piece.name}`)
     }
 
-    console.log(piece)
-
-    await prisma.piece.upsert({
+    const newPiece = await prisma.piece.upsert({
       where: {
         slug: piece.name
       },
@@ -162,7 +159,9 @@ async function main() {
       },
     })
 
-
+    if (!newPiece) {
+      throw new Error(`No piece created for ${piece.name}`)
+    }
   }))
 }
 
