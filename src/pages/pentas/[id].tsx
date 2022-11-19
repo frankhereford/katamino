@@ -312,8 +312,6 @@ const PentaPage: NextPage = () => {
     else { setActiveBlock(activeBlock + 1) }
   }
 
-  // ? I wonder if these very similar movement key handlers could be DRY'd up somehow
-
   // move the block up
   function keyUp() {
     if (!typeCheckBlockVisibility(penta, activeBlock)) { return }
@@ -345,135 +343,117 @@ const PentaPage: NextPage = () => {
 
   // move the block down
   function keyDown() {
+    if (!typeCheckBlockVisibility(penta, activeBlock)) { return }
+    if (!typeCheckPentaBlock(penta, activeBlock)) { return }
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const translation = penta?.blocks[activeBlock!]?.translation as Prisma.JsonObject
+    const up: number = Number(translation.up) || 0
+    const right: number = Number(translation.right) || 0
+
     if (!penta) { return }
-    if (!activeBlock && activeBlock !== 0) { return }
-    if (!penta?.blocks[activeBlock]?.visible) { return }
-    if (!penta?.blocks[activeBlock]?.id) { return }
+    const pentaCopy = _.cloneDeep(penta);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    pentaCopy.blocks[activeBlock!]!.translation = {
+      up: up - 1,
+      right: right,
+    }
+    setPenta(pentaCopy)
 
-    if (
-      penta?.blocks[activeBlock]?.translation &&
-      typeof penta?.blocks[activeBlock]?.translation == 'object' &&
-      !Array.isArray(penta?.blocks[activeBlock]?.translation)
-    ) {
-      const translation = penta?.blocks[activeBlock]?.translation as Prisma.JsonObject
-      const up: number = Number(translation.up) || 0
-      const right: number = Number(translation.right) || 0
-
-      if (!penta) { return }
-      const pentaCopy = _.cloneDeep(penta);
+    setTranslation.mutate({
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      pentaCopy.blocks[activeBlock]!.translation = {
+      id: penta?.blocks[activeBlock!]?.id || '',
+      translation: {
         up: up - 1,
         right: right,
       }
-      setPenta(pentaCopy)
-
-      setTranslation.mutate({
-        id: penta?.blocks[activeBlock]?.id || '',
-        translation: {
-          up: up - 1,
-          right: right,
-        }
-      })
-    }
+    })
     debouncedPentaRefetch()
   }
 
   // move the block left
   function keyLeft() {
+    if (!typeCheckBlockVisibility(penta, activeBlock)) { return }
+    if (!typeCheckPentaBlock(penta, activeBlock)) { return }
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const translation = penta?.blocks[activeBlock!]?.translation as Prisma.JsonObject
+    const up: number = Number(translation.up) || 0
+    const right: number = Number(translation.right) || 0
+
     if (!penta) { return }
-    if (!activeBlock && activeBlock !== 0) { return }
-    if (!penta?.blocks[activeBlock]?.visible) { return }
-    if (!penta?.blocks[activeBlock]?.id) { return }
+    const pentaCopy = _.cloneDeep(penta);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    pentaCopy.blocks[activeBlock!]!.translation = {
+      up: up,
+      right: right - 1,
+    }
+    setPenta(pentaCopy)
 
-    if (
-      penta?.blocks[activeBlock]?.translation &&
-      typeof penta?.blocks[activeBlock]?.translation == 'object' &&
-      !Array.isArray(penta?.blocks[activeBlock]?.translation)
-    ) {
-      const translation = penta?.blocks[activeBlock]?.translation as Prisma.JsonObject
-      const up: number = Number(translation.up) || 0
-      const right: number = Number(translation.right) || 0
-
-      if (!penta) { return }
-      const pentaCopy = _.cloneDeep(penta);
+    setTranslation.mutate({
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      pentaCopy.blocks[activeBlock]!.translation = {
+      id: penta?.blocks[activeBlock!]?.id || '',
+      translation: {
         up: up,
         right: right - 1,
       }
-      setPenta(pentaCopy)
-
-      setTranslation.mutate({
-        id: penta?.blocks[activeBlock]?.id || '',
-        translation: {
-          up: up,
-          right: right - 1,
-        }
-      })
-    }
-    debouncedPentaRefetch()
+    })
+  debouncedPentaRefetch()
   }
 
   // move the block right
   function keyRight() {
+    if (!typeCheckBlockVisibility(penta, activeBlock)) { return }
+    if (!typeCheckPentaBlock(penta, activeBlock)) { return }
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const translation = penta?.blocks[activeBlock!]?.translation as Prisma.JsonObject
+    const up: number = Number(translation.up) || 0
+    const right: number = Number(translation.right) || 0
+
     if (!penta) { return }
-    if (!activeBlock && activeBlock !== 0) { return }
-    if (!penta?.blocks[activeBlock]?.visible) { return }
-    if (!penta?.blocks[activeBlock]?.id) { return }
+    const pentaCopy = _.cloneDeep(penta);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    pentaCopy.blocks[activeBlock!]!.translation = {
+      up: up,
+      right: right + 1,
+    }
+    setPenta(pentaCopy)
 
-    if (
-      penta?.blocks[activeBlock]?.translation &&
-      typeof penta?.blocks[activeBlock]?.translation == 'object' &&
-      !Array.isArray(penta?.blocks[activeBlock]?.translation)
-    ) {
-      const translation = penta?.blocks[activeBlock]?.translation as Prisma.JsonObject
-      const up: number = Number(translation.up) || 0
-      const right: number = Number(translation.right) || 0
-
-      if (!penta) { return }
-      const pentaCopy = _.cloneDeep(penta);
+    setTranslation.mutate({
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      pentaCopy.blocks[activeBlock]!.translation = {
+      id: penta?.blocks[activeBlock!]?.id || '',
+      translation: {
         up: up,
         right: right + 1,
       }
-      setPenta(pentaCopy)
-
-      setTranslation.mutate({
-        id: penta?.blocks[activeBlock]?.id || '',
-        translation: {
-          up: up,
-          right: right + 1,
-        }
-      })
-    }
+    })
     debouncedPentaRefetch()
   }
 
   // reset the block's position
   function keyA() {
-    if (!penta) { return }
-    if (!activeBlock && activeBlock !== 0) { return }
-    if (!penta?.blocks[activeBlock]?.visible) { return }
+    if (!typeCheckBlockVisibility(penta, activeBlock)) { return }
 
     const pentaCopy = _.cloneDeep(penta);
     /* eslint-disable @typescript-eslint/no-non-null-assertion */
-    pentaCopy.blocks[activeBlock]!.translation = { up: 0, right: 0, }
-    pentaCopy.blocks[activeBlock]!.rotation = { clockwise: 0 }
-    pentaCopy.blocks[activeBlock]!.reflection = false
+    pentaCopy!.blocks[activeBlock!]!.translation = { up: 0, right: 0, }
+    pentaCopy!.blocks[activeBlock!]!.rotation = { clockwise: 0 }
+    pentaCopy!.blocks[activeBlock!]!.reflection = false
     /* eslint-enable @typescript-eslint/no-non-null-assertion */
     setPenta(pentaCopy)
 
     setTranslation.mutate({
-      id: penta?.blocks[activeBlock]?.id || '',
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      id: penta?.blocks[activeBlock!]?.id || '',
       translation: {
         up: 0,
         right: 0
       }
     })
-    setRotation.mutate({ id: penta?.blocks[activeBlock]?.id || '', clockwise: 0 })
-    setReflection.mutate({ id: penta?.blocks[activeBlock]?.id || '', reflection: false })
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    setRotation.mutate({ id: penta?.blocks[activeBlock!]?.id || '', clockwise: 0 })
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    setReflection.mutate({ id: penta?.blocks[activeBlock!]?.id || '', reflection: false })
     debouncedPentaRefetch()
   }
 
