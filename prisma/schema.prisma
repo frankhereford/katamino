@@ -112,20 +112,17 @@ model AvailableBlock {
   availableTransformation   AvailableTransformation   @relation(name: "available current transformation", fields: [availableTransformationId], references: [id], onDelete: Cascade)
   piece                     Piece                     @relation(fields: [pieceId], references: [id], onDelete: Cascade)
   availablePenta            AvailablePenta            @relation(fields: [availablePentaId], references: [id], onDelete: Cascade)
-  availableTransformations  AvailableTransformation[] @relation()
 
   @@map(name: "available_blocks")
 }
 
 model AvailableTransformation {
   id               String           @id @default(cuid())
-  availableBlockId String
   visible          Boolean          @default(false)
   reflection       Boolean          @default(false)
   rotation         Int              @default(0)
   translationUp    Int              @default(0)
   translationRight Int              @default(0)
-  availableBlock   AvailableBlock   @relation(fields: [availableBlockId], references: [id], onDelete: Cascade)
   availableBlocks  AvailableBlock[] @relation(name: "available current transformation")
 
   @@map(name: "available_transformations")
@@ -141,6 +138,7 @@ model AvailablePenta {
   slam            Slam             @relation(fields: [slamId], references: [id], onDelete: Cascade)
   pentas          Penta[]
 
+  @@unique([slamId, rowName, columns])
   @@map(name: "available_pentas")
 }
 
