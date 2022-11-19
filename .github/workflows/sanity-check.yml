@@ -1,4 +1,7 @@
-name: Sanity check
+---
+
+name: Sanity check for WIP
+
 on:
   pull_request:
     types:
