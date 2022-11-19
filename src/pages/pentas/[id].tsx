@@ -620,7 +620,7 @@ const PentaPage: NextPage = () => {
 
               <ControlButton
                 position="absolute left-[140px] top-[55px] drop-shadow-lg"
-                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]!.visible ? "" : " btn-disabled")}
+                classes={"btn gap-2 m-2 btn-primary text-white" + (activeBlock !== undefined && penta?.blocks[activeBlock]?.visible ? "" : " btn-disabled")}
                 clickHandler={keyRight}
                 icon={<BsArrowBarRight size={20} style={{ color: "#ffffff" }} />}
               ></ControlButton>
