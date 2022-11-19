@@ -18,7 +18,7 @@
 * 🌈 Prisma
   * TypeScript Safe Apollo but with [useQuery](https://tanstack.com/query/v4/docs/reference/useQuery)
   * Generated library specific to your schema with all the typing information in it, so your IDE goes brrr. 💪
-  * 🔬 `prisma studio` 
+  * 🔬 `prisma studio`
 * 🧩 Migrations
   * Migrations
     * If a change can't be applied (such as adding a non-null constraint on a column with null values, for example), it will walk you through your options
@@ -71,18 +71,18 @@
 * 🐛 VSCode debugging
 
 
-### Secrets
+## Secrets
 
-The repository has the following secrets defined for its actions and 
-integrations. Notable are the auth related ones (GitHub & Auth0 below) which are 
-dependent on which OAuth provider you choose to use with NextAuth. I'm not 100% 
-sure they are all required anymore. The app isn't built on the GitHub action 
-image, it's on Vercel. Railway generates the secrets, and does not have any 
+The repository has the following secrets defined for its actions and
+integrations. Notable are the auth related ones (GitHub & Auth0 below) which are
+dependent on which OAuth provider you choose to use with NextAuth. I'm not 100%
+sure they are all required anymore. The app isn't built on the GitHub action
+image, it's on Vercel. Railway generates the secrets, and does not have any
 input secrets for itself.
 
-#### GitHub Action Secrets
+### GitHub Action Secrets
 
-```
+```bash
 AUTH0_CLIENT_ID
 AUTH0_CLIENT_SECRET
 AUTH0_ISSUER
@@ -104,7 +104,7 @@ VERCEL_TOKEN
 
 ### Vercel Deployment Secrets
 
-```
+```bash
 DATABASE_URL
 GITHUB_SECRET
 GITHUB_ID
