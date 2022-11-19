@@ -32,7 +32,6 @@ import { AiOutlineRotateRight } from 'react-icons/ai';
 import { ImExit } from 'react-icons/im';
 import { MdReplay } from 'react-icons/md';
 
-
 // style used for the Ring Loader component
 const override: CSSProperties = {
   display: "block",

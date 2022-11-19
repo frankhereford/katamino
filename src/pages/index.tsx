@@ -20,7 +20,6 @@ const Home: NextPage = (props: any) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
   const auth0 = props.providers?.auth0!
 
-
   return (
     <>
       <HeaderContent />
