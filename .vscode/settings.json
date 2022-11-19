@@ -1,0 +1,33 @@
+{
+  "cSpell.words": [
+    "atamino",
+    "autoincrement",
+    "colord",
+    "daisyui",
+    "datasource",
+    "FINEGRAIN",
+    "jsdaniell",
+    "marocchino",
+    "NEXTAUTH",
+    "norelease",
+    "penta",
+    "pentas",
+    "pjson",
+    "rymndhng",
+    "signoff",
+    "subcomponents",
+    "superjson",
+    "tailwindcss",
+    "tanstack",
+    "testid",
+    "trpc",
+    "usefavicon",
+    "VERCEL"
+  ],
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  "editor.formatOnPaste": false, // required
+  "editor.formatOnType": false, // required
+  "editor.formatOnSave": false, // optional
+  "editor.formatOnSaveMode": "file", // required to format on save
+  "files.autoSave": "onFocusChange" // optional but recommended
+}
