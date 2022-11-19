@@ -41,7 +41,7 @@ jobs:
          cd .railway
          echo "$RAILWAY_CONFIG" > config.json
          cd "$GITHUB_WORKSPACE"
-         echo "👀 Check railway auth"
+         echo "👀 Check railway authentication"
          railway whoami
          RAILWAY_ENVIRONMENT="katamino-pr-${{ github.event.number }}"
          echo "🚉 Railway Environment: $RAILWAY_ENVIRONMENT"
