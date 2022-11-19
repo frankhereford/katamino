@@ -17,12 +17,12 @@ import type { CSSProperties } from "react";
 
 // libs
 import _ from "lodash";
-import { useSession} from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { type Prisma } from '@prisma/client';
 import { trpc } from "../../utils/trpc";
 import { useDebounceCallback } from '@react-hook/debounce'
 import RingLoader from "react-spinners/RingLoader";
-import { useKeyBindings} from "rooks"
+import { useKeyBindings } from "rooks"
 //import { useFavicon } from "react-usefavicon"
 // components
 import Penta from "../components/Penta";
@@ -49,20 +49,20 @@ const override: CSSProperties = {
 
 const PentaPage: NextPage = () => {
 
-    // ! why is this not resolvable?!?
-    //const [
-      //faviconHref,
-      //{
-        //restoreFavicon,
-        //drawOnFavicon,
-        //setEmojiFavicon,
-        //setFaviconHref,
-        //jsxToFavicon,
-      //},
-    //] = useFavicon();
+  // ! why is this not resolvable?!?
+  //const [
+  //faviconHref,
+  //{
+  //restoreFavicon,
+  //drawOnFavicon,
+  //setEmojiFavicon,
+  //setFaviconHref,
+  //jsxToFavicon,
+  //},
+  //] = useFavicon();
 
   // access to the router to get the ID out of the URL
-  const { query, isReady: routerReady} = useRouter()
+  const { query, isReady: routerReady } = useRouter()
 
   // query the penta in question and grab a function to trigger a refetch
   const { data: pentaRecord, refetch: pentaRefetch } = trpc.penta.get.useQuery({
@@ -71,14 +71,14 @@ const PentaPage: NextPage = () => {
     enabled: routerReady
   },);
 
-  const [ isReplay, setIsReplay ] = useState(false)
+  const [isReplay, setIsReplay] = useState(false)
 
   // user session, but only interested in the state of auth
-  const { status:sessionStatus } = useSession();
+  const { status: sessionStatus } = useSession();
 
   // get a method to "redirect" the user 👋
   const nextRouter = useRouter();
-  
+
   // when we find the user to be unauthenticated (there is a loading state, btw), send them to the login screen
   useEffect(() => {
     if (sessionStatus === 'unauthenticated') {
@@ -94,11 +94,11 @@ const PentaPage: NextPage = () => {
   const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 4000, false)
 
   // setup some mutations we'll use as the user interacts with the activePiece
-  const setRotation = trpc.block.set_rotation.useMutation({ })
-  const setReflection = trpc.block.set_reflection.useMutation({ })
-  const setTranslation = trpc.block.set_translation.useMutation({ })
-  const setVisibility = trpc.block.set_visibility.useMutation({ })
-  const setCompletion = trpc.penta.setComplete.useMutation({ })
+  const setRotation = trpc.block.set_rotation.useMutation({})
+  const setReflection = trpc.block.set_reflection.useMutation({})
+  const setTranslation = trpc.block.set_translation.useMutation({})
+  const setVisibility = trpc.block.set_visibility.useMutation({})
+  const setCompletion = trpc.penta.setComplete.useMutation({})
 
 
   // setup state to hold the game state and a pointer to the activePiece
@@ -131,7 +131,7 @@ const PentaPage: NextPage = () => {
     ) {
 
       const rotation = penta?.blocks[activeBlock]?.rotation as Prisma.JsonObject
-      const clockwise: number = Number(rotation.clockwise) || 0    
+      const clockwise: number = Number(rotation.clockwise) || 0
 
       // set rotation control icon
       if (clockwise % 2 == 0) {
@@ -205,7 +205,7 @@ const PentaPage: NextPage = () => {
     else if (activeBlock === 0) {
       setActiveBlock(penta?.blocks.length - 1)
     }
-    else { setActiveBlock(activeBlock - 1)}
+    else { setActiveBlock(activeBlock - 1) }
   }
 
   // move activePiece to the right. 
@@ -251,7 +251,7 @@ const PentaPage: NextPage = () => {
     ) {
       const rotation = penta?.blocks[activeBlock]?.rotation as Prisma.JsonObject
       const clockwise: number = Number(rotation.clockwise) || 0
-      
+
       if (!penta) { return }
       const pentaCopy = _.cloneDeep(penta);
       pentaCopy.blocks[activeBlock]!.rotation = {
@@ -279,17 +279,17 @@ const PentaPage: NextPage = () => {
     }
     else if (activeBlock == penta?.blocks.length - 1 && event.shiftKey) {
       setActiveBlock(activeBlock - 1)
-     }
+    }
     else if (activeBlock == penta?.blocks.length - 1) {
       setActiveBlock(0)
-     }
+    }
     else if (event.shiftKey && activeBlock === 0) {
       setActiveBlock(penta?.blocks.length - 1)
     }
     else if (event.shiftKey) {
       setActiveBlock(activeBlock - 1)
     }
-    else {setActiveBlock(activeBlock + 1)}
+    else { setActiveBlock(activeBlock + 1) }
   }
 
   // ? I wonder if these very similar movement key handlers could be DRY'd up somehow
@@ -479,13 +479,13 @@ const PentaPage: NextPage = () => {
   // This excessively explicit case statement is to use the class names without interpolation
   // so the build process knows to include the CSS rules
   let columnClass = null
-  if      (penta?.blocks.length === 3)  { columnClass = 'grid-cols-3' }
-  else if (penta?.blocks.length === 4)  { columnClass = 'grid-cols-4' }
-  else if (penta?.blocks.length === 5)  { columnClass = 'grid-cols-5' }
-  else if (penta?.blocks.length === 6)  { columnClass = 'grid-cols-6' }
-  else if (penta?.blocks.length === 7)  { columnClass = 'grid-cols-6' }
-  else if (penta?.blocks.length === 8)  { columnClass = 'grid-cols-6' }
-  else if (penta?.blocks.length === 9)  { columnClass = 'grid-cols-6' }
+  if (penta?.blocks.length === 3) { columnClass = 'grid-cols-3' }
+  else if (penta?.blocks.length === 4) { columnClass = 'grid-cols-4' }
+  else if (penta?.blocks.length === 5) { columnClass = 'grid-cols-5' }
+  else if (penta?.blocks.length === 6) { columnClass = 'grid-cols-6' }
+  else if (penta?.blocks.length === 7) { columnClass = 'grid-cols-6' }
+  else if (penta?.blocks.length === 8) { columnClass = 'grid-cols-6' }
+  else if (penta?.blocks.length === 9) { columnClass = 'grid-cols-6' }
   else if (penta?.blocks.length === 10) { columnClass = 'grid-cols-6' }
   else if (penta?.blocks.length === 11) { columnClass = 'grid-cols-6' }
   else if (penta?.blocks.length === 12) { columnClass = 'grid-cols-6' }
@@ -522,13 +522,13 @@ const PentaPage: NextPage = () => {
             <Replay penta={penta}></Replay>
           }
         </div>
-        
+
         {penta &&
           <div className="w-screen mt-7">
             <div className="m-auto relative w-fit h-[100px]">
               <div className="absolute left-[-270px] top-[8px] drop-shadow-lg">
                 <Link href='/pentas' className={returnClasses.join(" ")}>
-                    <ImExit size={20} style={{ color: "#ffffff" }} />
+                  <ImExit size={20} style={{ color: "#ffffff" }} />
                 </Link>
               </div>
 
@@ -538,7 +538,7 @@ const PentaPage: NextPage = () => {
                 clickHandler={keyQ}
                 icon={<BsArrowLeft size={20} style={{ color: "#ffffff" }} />}
                 letter="Q"
-                ></ControlButton>
+              ></ControlButton>
 
               <ControlButton
                 position="absolute right-[90px] top-[0px] drop-shadow-lg"
@@ -619,7 +619,7 @@ const PentaPage: NextPage = () => {
             </div>
           </div>
         }
-        {!penta && 
+        {!penta &&
           <RingLoader
             color={"hsl(var(--pf))"}
             cssOverride={override}
@@ -641,7 +641,7 @@ const PentaPage: NextPage = () => {
             return (
               <div key={block.id}>
                 <div className={classes.join(" ")}>
-                  <Block blockClickHandler={blockClickHandler}  block={block}></Block>
+                  <Block blockClickHandler={blockClickHandler} block={block}></Block>
                 </div>
               </div>
             )
