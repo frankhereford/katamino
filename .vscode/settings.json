@@ -25,7 +25,8 @@
     "usefavicon",
     "VERCEL"
   ],
-  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  // these feel a little prescriptive, they can be changed if needed
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint", 
   "editor.formatOnPaste": true, // required
   "editor.formatOnType": true, // required
   "editor.formatOnSave": false, // optional
