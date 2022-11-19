@@ -9,12 +9,12 @@
   * label driven automatic versioning 🔥
     * automatic releases
 * 🏷️ GitHub release tags; we should bump versions on every PR via PR labels
-  * Via: https://github.com/marketplace/actions/tag-release-on-push-action
+  * Via: <https://github.com/marketplace/actions/tag-release-on-push-action>
 * 🌼 Daisy UI
   * [Extendable](https://github.com/frankhereford/katamino/blob/main/tailwind.config.cjs#L5-L10)
 * 💨 Tailwind CSS
   * Bootstrap but mega-🍄
-  * Closely watch the animation on https://tailwindcss.com/, it's not an exaggeration
+  * Closely watch the animation on <https://tailwindcss.com/>, it's not an exaggeration
 * 🌈 Prisma
   * TypeScript Safe Apollo but with [useQuery](https://tanstack.com/query/v4/docs/reference/useQuery)
   * Generated library specific to your schema with all the typing information in it, so your IDE goes brrr. 💪
@@ -43,7 +43,7 @@
   * 1-2 minute deploys
   * All the check marks, build-tests & environments ✨
 * 🏂 Lambdas
-  * https://vercel.com/docs/concepts/functions/serverless-functions
+  * <https://vercel.com/docs/concepts/functions/serverless-functions>
     * ♾️ Infinitely scalable, z-e-r-o work
   * No middleware, no `graphql-engine`
     * No query languages (graphql, SQL)
