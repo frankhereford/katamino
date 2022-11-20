@@ -63,7 +63,6 @@ model Block {
   // the current transformation
   transformation   Transformation   @relation(name: "current transformation", fields: [transformationId], references: [id], onDelete: Cascade)
   // all past transformations
-  transformations  Transformation[]
   moves            Move[]
 
   @@map(name: "blocks")
@@ -72,13 +71,11 @@ model Block {
 model Transformation {
   id               String   @id @default(cuid())
   createdAt        DateTime @default(now())
-  blockId          String
   visible          Boolean  @default(false)
   reflection       Boolean  @default(false)
   rotation         Int      @default(0)
   translationUp    Int      @default(0)
   translationRight Int      @default(0)
-  block            Block    @relation(fields: [blockId], references: [id], onDelete: Cascade)
   blocks           Block[]  @relation(name: "current transformation")
   incomingMoves    Move[]   @relation(name: "incoming move state")
   outgoingMoves    Move[]   @relation(name: "outgoing move state")
