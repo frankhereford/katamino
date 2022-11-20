@@ -1,5 +1,5 @@
 import { type Color } from '@prisma/client'
-import { router, publicProcedure } from "../trpc";
+import { router, publicProcedure } from '../trpc'
 
 export const colorRouter = router({
 
@@ -13,13 +13,12 @@ export const colorRouter = router({
     .query(async ({ ctx }) => {
       const colors = await ctx.prisma.color.findMany()
 
-      const colorLookup = colors.reduce((acc, color) => {
+      const colorLookup = colors.reduce<Record<string, Color>>((acc, color) => {
         acc[color.name] = color
         return acc
-      }, {} as Record<string, Color>)
+      }, {})
 
       return colorLookup
-    }),
+    })
 
-
-});
+})
