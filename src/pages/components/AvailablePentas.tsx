@@ -17,7 +17,6 @@ export default function AvailablePentas () {
   const { data: completedPentas } = trpc.penta.getCompleted.useQuery()
   const {
     data: pentas,
-    refetch: availablePentaRefetch,
     isLoading: pentaQueryLoading
   } =
     trpc.availablePenta.getAll.useQuery({
@@ -28,7 +27,7 @@ export default function AvailablePentas () {
   return (
     <>
       {!pentaQueryLoading &&
-        <table className="table table-zebra w-full">
+        <table className="table table-zebra">
           <thead>
             <tr>
               <th className="text-center">️🔥</th>
@@ -47,6 +46,16 @@ export default function AvailablePentas () {
                 </td>
                 <td className="text-center text-4xl">{showSlamEmoji(penta.slam.name)}</td>
                 <td className="text-center text-2xl">{penta.rowName}</td>
+                <td>
+                  <div className="flex flex-wrap">
+                    { penta.availableBlocks.map((block) => {
+                      return (
+                        <div key={block.id} className="m-1 w-10 h-10 bg-red-500">
+                        </div>
+                      )
+                    })}
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
