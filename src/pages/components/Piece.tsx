@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { trpc } from '../../utils/trpc'
 import Square from './Square'
-
-// One of the pieces in the game
+import { type Prisma } from '@prisma/client'
 
 interface PieceProps {
   id?: string
@@ -10,36 +9,54 @@ interface PieceProps {
 }
 
 export default function PiecePage (props: PieceProps) {
-  // may not need this randomPiece call..., if i had an ID passed to me and could get the typing figured out
+  // query the data we may need
   const { data: randomPiece } = trpc.piece.randomPiece.useQuery(undefined, { enabled: true })
   const { data: propsPiece } = trpc.piece.getPiece.useQuery({ id: props.id }, { enabled: (props.id != null) })
 
-  const [piece, setPiece] = useState<typeof randomPiece | null | undefined>()
+  // the grid is a list of <Square> components
+  const [grid, setGrid] = useState<JSX.Element[]>([])
+
+  // the record of the piece we're displaying
+  const [piece, setPiece] = useState<Prisma.PieceGetPayload<{
+    include: {
+      color: true
+    }
+  }>>()
+
+  // monitor the inputs of the component and set the piece accordingly
   useEffect(() => {
-    if (!piece?.id && props.id) {
+    if ((props.id != null) && propsPiece != null) {
       setPiece(propsPiece)
-    } else if (!piece?.id && !props.id) {
+    } else if (randomPiece != null) {
       setPiece(randomPiece)
     }
-  }, [piece, props.id, propsPiece, randomPiece])
+  }, [props, randomPiece, propsPiece])
 
-  const size = props.size || 10
-
-  const [grid, setGrid] = useState<JSX.Element[]>([])
+  // given a piece, set the grid to display it
   useEffect(() => {
-    if (!piece?.shape) { return }
+    if (piece === null) { return }
 
-    const grid = []
-    const shape = piece?.shape as number[][]
-    for (let row = 0; row < shape.length; row++) {
-      for (let col = 0; col < ((shape[row] != null) || []).length; col++) {
-        const key = `${row}-${col}`
-        const color = shape?.[row]?.[col] == 1 ? piece.color.name : 'lightGrey'
-        grid.push(<Square size={size} key={key} color={color}></Square>)
-      }
+    // special typing checks for a JSON field, as it could contain anything
+    if (
+      piece?.shape != null &&
+      typeof piece?.shape === 'object' &&
+      Array.isArray(piece?.shape)
+    ) {
+      const shape = piece.shape as number[][]
+
+      setGrid(shape.map((row, rowIndex) => {
+        return row.map((square, squareIndex) => {
+          const key = `${rowIndex}-${squareIndex}`
+          const color = shape?.[rowIndex]?.[squareIndex] === 1 ? piece.color.name : 'lightGrey'
+          return (<Square size={props.size ?? 10} key={key} color={color}></Square>)
+        })
+      }).flat(1))
     }
-    setGrid(grid)
-  }, [piece])
+  }, [piece, props.size])
+
+  // const size = props.size ?? 10
+  // const color = 'red'
+  // const key = '0-0'
 
   return (
     <div className="grid grid-cols-5 gap-0 m-2">
