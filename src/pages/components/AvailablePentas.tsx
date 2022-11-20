@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { trpc } from '../../utils/trpc'
 
+// show the difficulty bracket as a reptile
 /* eslint-disable no-multi-spaces, @typescript-eslint/brace-style, space-in-parens */
 function showSlamEmoji (slam: string) {
   if      (slam === 'Small Slam'       ) { return '🦎' }
@@ -15,7 +16,7 @@ export default function AvailablePentas () {
   const [availablePentaPage, setAvailablePentaPage] = useState(0)
   const [availablePentasPerPage] = useState(5)
   const { data: completedPentas } = trpc.penta.getCompleted.useQuery()
-  const { data: availablePentaCount } = trpc.availablePenta.count.useQuery();
+  const { data: availablePentaCount } = trpc.availablePenta.count.useQuery()
   const {
     data: pentas,
     isLoading: pentaQueryLoading
@@ -25,6 +26,7 @@ export default function AvailablePentas () {
       perPage: availablePentasPerPage
     })
 
+  // build up the pagination controls
   let pagination = (<></>)
   if (availablePentaCount != null) {
     for (let i = 0; i < Math.ceil(availablePentaCount / availablePentasPerPage); i++) {
