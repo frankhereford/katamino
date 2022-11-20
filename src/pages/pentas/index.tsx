@@ -20,7 +20,8 @@ const Pentas: NextPage = () => {
     }
   }, [nextRouter, sessionStatus])
 
-  const [refreshUserPentas, setRefreshUserPentas] = useState(false)
+  // const [refreshUserPentas, setRefreshUserPentas] = useState(false)
+  const [refreshUserPentas] = useState(false)
   const [showSpinner, setShowSpinner] = useState(false)
   useEffect(() => {
     if (!refreshUserPentas) {
@@ -50,7 +51,7 @@ const Pentas: NextPage = () => {
             />
           </div>
         }
-        <AvailablePentas setShowSpinner={setShowSpinner} setRefresh={setRefreshUserPentas}></AvailablePentas>
+        <AvailablePentas></AvailablePentas>
       </main>
     </>
   )
