@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { trpc } from '../../utils/trpc'
+import Block from './Block'
 
 // show the difficulty bracket as a reptile
 /* eslint-disable no-multi-spaces, @typescript-eslint/brace-style, space-in-parens */
@@ -70,8 +71,7 @@ export default function AvailablePentas () {
                     <div className="flex flex-wrap">
                       { penta.availableBlocks.map((block) => {
                         return (
-                          <div key={block.id} className="m-1 w-10 h-10 bg-red-500">
-                          </div>
+                          <Block key={block.id} size={10} block={block}></Block>
                         )
                       })}
                     </div>
