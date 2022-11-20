@@ -1,6 +1,8 @@
 import { type NextPage } from 'next'
 import { signIn, signOut, useSession } from 'next-auth/react'
 
+import { AiOutlineArrowDown } from 'react-icons/ai';
+
 import HeaderContent from "./components/HeaderContent";
 
 import { trpc } from '../utils/trpc'
