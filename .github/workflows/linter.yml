@@ -8,9 +8,11 @@ name: Lint Code Base
 
 env:
   FILTER_REGEX_EXCLUDE: "./prisma/migrations/*"
+  VALIDATE_TYPESCRIPT_STANDARD: false
   #TYPESCRIPT_ES_CONFIG_FILE: "{{ $github.workspace }}/.eslintrc.json"
   #TYPESCRIPT_STANDARD_TSCONFIG_FILE: "{{ $github.workspace }}/tsconfig.json"
   #LINTER_RULES_PATH: "/"
+
 
 #############################
 # Start the job on all push #
