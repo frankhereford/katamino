@@ -13,8 +13,9 @@ function showSlamEmoji (slam: string) {
 
 export default function AvailablePentas () {
   const [availablePentaPage, setAvailablePentaPage] = useState(0)
-  const [availablePentasPerPage] = useState(50)
+  const [availablePentasPerPage] = useState(5)
   const { data: completedPentas } = trpc.penta.getCompleted.useQuery()
+  const { data: availablePentaCount } = trpc.availablePenta.count.useQuery();
   const {
     data: pentas,
     isLoading: pentaQueryLoading
@@ -24,42 +25,65 @@ export default function AvailablePentas () {
       perPage: availablePentasPerPage
     })
 
+  let pagination = (<></>)
+  if (availablePentaCount != null) {
+    for (let i = 0; i < Math.ceil(availablePentaCount / availablePentasPerPage); i++) {
+      const classes = ['btn', 'btn-sm']
+      if (i === availablePentaPage) {
+        classes.push('btn-secondary')
+      }
+      pagination = (
+        <>
+          {pagination}
+          <button className={classes.join(' ')} onClick={() => setAvailablePentaPage(i)}>{i + 1}</button>
+        </>
+      )
+    }
+  }
+
   return (
     <>
       {!pentaQueryLoading &&
-        <table className="table table-zebra">
-          <thead>
-            <tr>
-              <th className="text-center">️🔥</th>
-              <th className="text-center">️Start</th>
-              <th className="text-center">Slam</th>
-              <th className="text-center">Group</th>
-              <th>Pieces</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pentas?.map((penta) => (
-              <tr key={penta?.id} className="hover">
-                <td className="text-2xl text-center">{completedPentas?.includes(penta.id) ?? false ? '🔥' : ''}</td>
-                <td className="text-center">
-                  <button data-id={penta.id} className="btn btn-secondary btn-circle">️🎮</button>
-                </td>
-                <td className="text-center text-4xl">{showSlamEmoji(penta.slam.name)}</td>
-                <td className="text-center text-2xl">{penta.rowName}</td>
-                <td>
-                  <div className="flex flex-wrap">
-                    { penta.availableBlocks.map((block) => {
-                      return (
-                        <div key={block.id} className="m-1 w-10 h-10 bg-red-500">
-                        </div>
-                      )
-                    })}
-                  </div>
-                </td>
+        <>
+          <table className="table table-zebra">
+            <thead>
+              <tr>
+                <th className="text-center">️🔥</th>
+                <th className="text-center">️Start</th>
+                <th className="text-center">Slam</th>
+                <th className="text-center">Group</th>
+                <th>Pieces</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {pentas?.map((penta) => (
+                <tr key={penta?.id} className="hover">
+                  <td className="text-2xl text-center">{completedPentas?.includes(penta.id) ?? false ? '🔥' : ''}</td>
+                  <td className="text-center">
+                    <button data-id={penta.id} className="btn btn-secondary btn-circle">️🎮</button>
+                  </td>
+                  <td className="text-center text-4xl">{showSlamEmoji(penta.slam.name)}</td>
+                  <td className="text-center text-2xl">{penta.rowName}</td>
+                  <td>
+                    <div className="flex flex-wrap">
+                      { penta.availableBlocks.map((block) => {
+                        return (
+                          <div key={block.id} className="m-1 w-10 h-10 bg-red-500">
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="text-left mb-1">
+            <div className="btn-group">
+              {pagination}
+            </div>
+          </div>
+        </>
       }
     </>
   )
