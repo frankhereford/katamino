@@ -24,7 +24,7 @@ export default function Square (props: { color: string, size?: number }) {
   // think of the 60 as the default value of the size prop
   if ((props.size ?? 60) <= 20) { roundedClass = 'rounded-sm' }
 
-  const classes = [roundedClass, 'border-[1px]']
+  const classes = [roundedClass, 'm-[.5px]']
 
   /* eslint-disable no-multi-spaces, @typescript-eslint/brace-style */
   if      (props.size === 8)  { classes.push('w-[8px]  h-[8px] ') }
