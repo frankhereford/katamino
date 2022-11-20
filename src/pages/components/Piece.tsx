@@ -44,6 +44,8 @@ export default function PiecePage (props: PieceProps) {
     ) {
       const shape = piece.shape as number[][]
 
+      // map down two layers (array of arrays) to compose the square component
+      // invocation, and then flatten it all out to dump into the page
       setGrid(shape.map((row, rowIndex) => {
         return row.map((square, squareIndex) => {
           const key = `${rowIndex}-${squareIndex}`
