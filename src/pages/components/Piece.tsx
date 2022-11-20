@@ -16,7 +16,8 @@ export default function PiecePage (props: PieceProps) {
   // the grid is a list of <Square> components
   const [grid, setGrid] = useState<JSX.Element[]>([])
 
-  // the record of the piece we're displaying
+  // the record of the piece we're displaying.
+  // this use state is given a type of the record that we want to store in it
   const [piece, setPiece] = useState<Prisma.PieceGetPayload<{
     include: {
       color: true
@@ -55,10 +56,6 @@ export default function PiecePage (props: PieceProps) {
       }).flat(1))
     }
   }, [piece, props.size])
-
-  // const size = props.size ?? 10
-  // const color = 'red'
-  // const key = '0-0'
 
   return (
     <div className="grid grid-cols-5 gap-0 m-2">
