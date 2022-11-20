@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient({ log: ['query'] })
 
-async function main () {
+async function main (): Promise<void> {
   console.log('🍄')
   const colors = {
     white: '#ffffff',
@@ -158,7 +158,7 @@ async function main () {
       }
     })
 
-    if (!newPiece) {
+    if (newPiece == null) {
       throw new Error(`No piece created for ${piece.name}`)
     }
   }))
