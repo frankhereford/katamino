@@ -311,6 +311,58 @@ async function main (): Promise<void> {
   }))
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function test (): Promise<void> {
+  const availablePentas = await prisma.availablePenta.findMany({
+    include: {
+      availableBlocks: {
+        include: {
+          piece: {
+            include: {
+              color: true
+            }
+          },
+          availableTransformation: true
+        }
+      }
+    }
+  })
+
+  const frank = await prisma.user.findFirst({
+    where: {
+      email: 'frank@frankhereford.com'
+    }
+  })
+
+  availablePentas.map(async (availablePenta) => {
+    console.log('👋')
+    // console.log(availablePenta)
+    const penta = await prisma.penta.create({
+      data: {
+        user: { connect: { id: frank?.id } },
+        availablePenta: { connect: { id: availablePenta.id } },
+        columns: availablePenta.columns,
+        borderWidth: 2,
+        blocks: {
+          create: availablePenta.availableBlocks.map((availableBlock) => {
+            return {
+              piece: { connect: { id: availableBlock.piece.id } },
+              transformation: {
+                create: {
+                  visible: false
+                }
+              }
+            }
+          })
+        }
+      }
+    })
+    console.log(penta)
+
+    return true
+  })
+}
+
 main()
   .then(async () => {
     await prisma.$disconnect()
