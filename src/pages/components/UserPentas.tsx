@@ -50,7 +50,7 @@ export default function UserPentas () {
                 {penta.completed && <span className="text-primary text-2xl">️🔥</span>}
               </td>
               <td className="text-center">
-                <button data-available-penta={penta.id} className="btn btn-primary btn-circle">️🕹️</button>
+                <a href={'pentas/' + penta.id} role="button" className="btn btn-primary btn-circle">🕹️</a>
               </td>
               <td className="text-4xl text-center">
                 {showSlamEmoji(penta.availablePenta.slam.name)}
