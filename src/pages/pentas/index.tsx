@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react'
 import RingLoader from 'react-spinners/RingLoader'
 
 import HeaderContent from '../components/HeaderContent'
-// import UserPentas from '../components/UserPentas'
+import UserPentas from '../components/UserPentas'
 import AvailablePentas from '../components/AvailablePentas'
 
 const Pentas: NextPage = () => {
@@ -51,6 +51,7 @@ const Pentas: NextPage = () => {
             />
           </div>
         }
+        <UserPentas></UserPentas>
         <AvailablePentas></AvailablePentas>
       </main>
     </>
