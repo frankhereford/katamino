@@ -1,17 +1,7 @@
 import React, { useState } from 'react'
 import { trpc } from '../../utils/trpc'
 import Block from './Block'
-
-// show the difficulty bracket as a reptile
-/* eslint-disable no-multi-spaces, @typescript-eslint/brace-style, space-in-parens */
-function showSlamEmoji (slam: string) {
-  if      (slam === 'Small Slam'       ) { return '🦎' }
-  else if (slam === 'The Slam'         ) { return '🐊' }
-  else if (slam === 'The Ultimate Slam') { return '🐉' }
-  else if (slam === 'The Full Board'   ) { return '🦕' }
-  return slam
-}
-/* eslint-enable no-multi-spaces, @typescript-eslint/brace-style, space-in-parens */
+import { showSlamEmoji } from '../../utils/slam'
 
 export default function AvailablePentas () {
   const [availablePentaPage, setAvailablePentaPage] = useState(0)
