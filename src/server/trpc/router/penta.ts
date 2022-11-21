@@ -56,7 +56,8 @@ export const pentaRouter = router({
                 include: {
                   color: true
                 }
-              }
+              },
+              transformation: true
             },
             orderBy: {
               id: 'asc'
