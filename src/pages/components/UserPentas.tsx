@@ -1,15 +1,35 @@
 
 import React, { useState } from 'react'
 import { trpc } from '../../utils/trpc'
+import Block from './Block'
+import { showSlamEmoji } from '../../utils/slam'
 
 export default function UserPentas () {
-  const [pentaPage] = useState(0)
+  const [pentaPage, setPentaPage] = useState(0)
   const [pentasPerPage] = useState(5)
 
+  const { data: pentaCount } = trpc.penta.count.useQuery()
   const { data: pentas } = trpc.penta.getAll.useQuery({
     page: pentaPage,
     perPage: pentasPerPage
   })
+
+  // build up the pagination controls
+  let pagination = (<></>)
+  if (pentaCount != null) {
+    for (let i = 0; i < Math.ceil(pentaCount / pentasPerPage); i++) {
+      const classes = ['btn', 'btn-sm']
+      if (i === pentaPage) {
+        classes.push('btn-primary')
+      }
+      pagination = (
+        <>
+          {pagination}
+          <button className={classes.join(' ')} onClick={() => setPentaPage(i)}>{i + 1}</button>
+        </>
+      )
+    }
+  }
 
   return (
     <>
@@ -26,14 +46,36 @@ export default function UserPentas () {
         <tbody>
           {pentas?.map((penta) => (
             <tr key={penta?.id} className="hover">
-              <td className="text-2xl text-center">{ '🔥' }</td>
               <td className="text-center">
-                <button data-available-penta={penta.id} className="btn btn-secondary btn-circle">️🎮</button>
+                {penta.completed && <span className="text-primary text-2xl">️🔥</span>}
+              </td>
+              <td className="text-center">
+                <button data-available-penta={penta.id} className="btn btn-primary btn-circle">️🕹️</button>
+              </td>
+              <td className="text-4xl text-center">
+                {showSlamEmoji(penta.availablePenta.slam.name)}
+              </td>
+              <td className="text-2xl text-center">
+                {penta.availablePenta.rowName}
+              </td>
+              <td>
+                <div className="flex flex-wrap">
+                  {penta.blocks.map((block) => {
+                    return (
+                      <Block key={block.id} size={8} block={block}></Block>
+                    )
+                  })}
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div className="text-left mb-1">
+        <div className="btn-group">
+          {pagination}
+        </div>
+      </div>
     </>
   )
 }
