@@ -51,7 +51,7 @@ export default function Block (props: BlockProps) {
 
   return (
     <>
-      <div className="m-1 grid grid-cols-5 pb-[1px] pr-[1px] outline outline-1 outline-slate-500">
+      <div className="m-1 grid grid-cols-5 outline outline-1 outline-slate-400 p-0.5 bg-slate-100">
         {grid}
       </div>
     </>
