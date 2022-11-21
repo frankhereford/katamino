@@ -21,7 +21,7 @@ export const availablePentaRouter = router({
 
       if (availablePentaObject == null) { return false }
 
-      await ctx.prisma.penta.create({
+      const newPenta = await ctx.prisma.penta.create({
         data: {
           user: { connect: { id: ctx.session.user.id } },
           availablePenta: { connect: { id: availablePentaObject.id } },
@@ -41,6 +41,7 @@ export const availablePentaRouter = router({
           }
         }
       })
+      return newPenta
     }),
 
   count: publicProcedure.query(async ({ ctx }) => {
