@@ -13,15 +13,10 @@ export const availablePentaRouter = router({
         include: {
           availableBlocks: {
             include: {
-              piece: {
-                include: {
-                  color: true
-                }
-              }
+              piece: true
             }
           }
         }
-
       })
 
       if (availablePentaObject == null) { return false }
