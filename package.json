@@ -23,7 +23,7 @@
     "@tanstack/react-query": "^4.16.1",
     "@trpc/client": "10.0.0-rc.8",
     "@trpc/next": "10.0.0-rc.8",
-    "@trpc/react-query": "10.0.0-rc.8",
+    "@trpc/react-query": "10.0.0",
     "@trpc/server": "10.0.0-rc.8",
     "array2d": "^0.0.5",
     "colord": "^2.9.3",
