@@ -26,7 +26,7 @@ export const availablePentaRouter = router({
 
       if (availablePentaObject == null) { return false }
 
-      const penta = await ctx.prisma.penta.create({
+      await ctx.prisma.penta.create({
         data: {
           user: { connect: { id: ctx.session.user.id } },
           availablePenta: { connect: { id: availablePentaObject.id } },
