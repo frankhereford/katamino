@@ -96,6 +96,11 @@ export const pentaRouter = router({
                 }
               }
             }
+          },
+          availablePenta: {
+            include: {
+              slam: true
+            }
           }
         },
         orderBy: {
