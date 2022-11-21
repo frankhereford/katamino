@@ -25,20 +25,20 @@ export const availablePentaRouter = router({
       })
 
       if (availablePentaObject == null) { return false }
+      const transformation = await ctx.prisma.transformation.create({
+        data: { }
+      })
 
       return await ctx.prisma.penta.create({
         data: {
-          userId: ctx.session.user.id,
-          // ! This should use connect below 👇
-          availablePentaId: availablePentaObject.id,
+          user: { connect: { id: ctx.session.user.id } },
+          availablePenta: { connect: { id: availablePentaObject.id } },
           columns: availablePentaObject.columns,
           blocks: {
             create: availablePentaObject.availableBlocks.map((availableBlock) => {
               return {
                 piece: { connect: { id: availableBlock.pieceId } },
-                transformation: {
-                  create: true
-                }
+                transformation: { connect: { id: transformation.id } }
               }
             })
           }

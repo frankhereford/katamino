@@ -18,6 +18,12 @@ export default function AvailablePentas () {
   const [availablePentasPerPage] = useState(5)
   const { data: completedPentas } = trpc.penta.getCompleted.useQuery()
   const { data: availablePentaCount } = trpc.availablePenta.count.useQuery()
+  const startPentaMutation = trpc.availablePenta.start.useMutation({
+    onSuccess: () => {
+      // ! this should forward you to the game
+      // props.setRefresh(true);
+    }
+  })
   const {
     data: pentas,
     isLoading: pentaQueryLoading
@@ -44,6 +50,13 @@ export default function AvailablePentas () {
     }
   }
 
+  function startPenta (event: React.SyntheticEvent<HTMLButtonElement>) {
+    if (event.currentTarget.dataset.availablePenta == null) { return }
+    startPentaMutation.mutate({
+      id: event.currentTarget.dataset.availablePenta
+    })
+  }
+
   return (
     <>
       {!pentaQueryLoading &&
@@ -63,7 +76,7 @@ export default function AvailablePentas () {
                 <tr key={penta?.id} className="hover">
                   <td className="text-2xl text-center">{completedPentas?.includes(penta.id) ?? false ? '🔥' : ''}</td>
                   <td className="text-center">
-                    <button data-id={penta.id} className="btn btn-secondary btn-circle">️🎮</button>
+                    <button onClick={startPenta} data-available-penta={penta.id} className="btn btn-secondary btn-circle">️🎮</button>
                   </td>
                   <td className="text-center text-4xl">{showSlamEmoji(penta.slam.name)}</td>
                   <td className="text-center text-2xl">{penta.rowName}</td>
