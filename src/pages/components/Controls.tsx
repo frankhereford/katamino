@@ -35,10 +35,10 @@ export default function Controls (props: {
 }) {
   const gameContext = useContext(pentaContext)
   useKeyBindings({
-    q: keyQ
+    q: keyQ,
+    e: keyE
     /*
     w: keyW,
-    e: keyE,
     a: keyA,
     s: keyS,
     d: keyD,
@@ -62,6 +62,17 @@ export default function Controls (props: {
     } else { gameContext.setActiveBlock(props.activeBlock - 1) }
   }
 
+  function keyE () {
+    // if it's not set, set it to the leftmost
+    if (props.activeBlock == null && props.activeBlock !== 0) {
+      gameContext.setActiveBlock(0)
+    // if it's the rightmost, set it to the leftmost
+    } else if (props.activeBlock === props.penta?.blocks.length - 1) {
+      gameContext.setActiveBlock(0)
+    // otherwise, move it to the right one
+    } else { gameContext.setActiveBlock(props.activeBlock + 1) }
+  }
+
   return (
     <>
       <div className='relative m-auto w-fit h-[100px]'>
@@ -77,6 +88,14 @@ export default function Controls (props: {
           clickHandler={keyQ}
           icon={<BsArrowLeft size={20} style={{ color: '#ffffff' }} />}
           letter="Q"
+        ></ControlButton>
+
+        <ControlButton
+          position="absolute right-[30px] top-[0px] drop-shadow-lg"
+          classes="btn gap-2 m-2 btn-primary text-white"
+          clickHandler={keyE}
+          icon={<BsArrowRight size={20} style={{ color: "#ffffff" }} />}
+          letter="E"
         ></ControlButton>
 
       </div>
