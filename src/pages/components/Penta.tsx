@@ -31,6 +31,7 @@ export default function Penta (props: PentaProps) {
   const [grid, setGrid] = useState<JSX.Element[]>([])
 
   useEffect(() => {
+    if (props.penta == null) { return }
     const boardHeight = 5
     const boardColor = 'lightGrey'
 
@@ -89,7 +90,7 @@ export default function Penta (props: PentaProps) {
   }, [props.penta])
 
   const classes = ['grid', 'w-fit']
-  const boardColumns = (props.penta.columns ?? 12) + (props.penta.borderWidth * 2)
+  const boardColumns = props.penta.columns + (props.penta.borderWidth * 2)
   if (boardColumns === 0) { classes.push('grid-cols-none') }
   if (boardColumns === 1) { classes.push('grid-cols-1') }
   if (boardColumns === 2) { classes.push('grid-cols-2') }
