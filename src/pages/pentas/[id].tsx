@@ -61,7 +61,7 @@ const PentaPage: NextPage = () => {
     <>
       <pentaContext.Provider value={gameContext}>
         <Penta penta={penta}></Penta>
-        <Controls string='string'></Controls>
+        <Controls penta={penta} activeBlock={activeBlock}></Controls>
         <Blocks penta={penta} activeBlock={activeBlock}></Blocks>
       </pentaContext.Provider>
     </>
