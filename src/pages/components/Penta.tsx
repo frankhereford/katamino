@@ -88,25 +88,30 @@ export default function Penta (props: PentaProps) {
     setGrid(squares)
   }, [props.penta])
 
-  const classes = ['grid', 'w-fit']
-  const boardColumns = (props.penta.columns ?? 12) + (props.penta.borderWidth * 2)
-  if (boardColumns === 0) { classes.push('grid-cols-none') }
-  if (boardColumns === 1) { classes.push('grid-cols-1') }
-  if (boardColumns === 2) { classes.push('grid-cols-2') }
-  if (boardColumns === 3) { classes.push('grid-cols-3') }
-  if (boardColumns === 4) { classes.push('grid-cols-4') }
-  if (boardColumns === 5) { classes.push('grid-cols-5') }
-  if (boardColumns === 6) { classes.push('grid-cols-6') }
-  if (boardColumns === 7) { classes.push('grid-cols-7') }
-  if (boardColumns === 8) { classes.push('grid-cols-8') }
-  if (boardColumns === 9) { classes.push('grid-cols-9') }
-  if (boardColumns === 10) { classes.push('grid-cols-10') }
-  if (boardColumns === 11) { classes.push('grid-cols-11') }
-  if (boardColumns === 12) { classes.push('grid-cols-12') }
-  if (boardColumns === 13) { classes.push('grid-cols-13') }
-  if (boardColumns === 14) { classes.push('grid-cols-14') }
-  if (boardColumns === 15) { classes.push('grid-cols-15') }
-  if (boardColumns === 16) { classes.push('grid-cols-16') }
+  const [classes, setClasses] = useState(['grid', 'w-fit'])
+
+  useEffect(() => {
+    const boardColumns = (props.penta.columns ?? 12) + (props.penta.borderWidth * 2)
+    const newClasses = classes
+    if (boardColumns === 0) { newClasses.push('grid-cols-none') }
+    if (boardColumns === 1) { newClasses.push('grid-cols-1') }
+    if (boardColumns === 2) { newClasses.push('grid-cols-2') }
+    if (boardColumns === 3) { newClasses.push('grid-cols-3') }
+    if (boardColumns === 4) { newClasses.push('grid-cols-4') }
+    if (boardColumns === 5) { newClasses.push('grid-cols-5') }
+    if (boardColumns === 6) { newClasses.push('grid-cols-6') }
+    if (boardColumns === 7) { newClasses.push('grid-cols-7') }
+    if (boardColumns === 8) { newClasses.push('grid-cols-8') }
+    if (boardColumns === 9) { newClasses.push('grid-cols-9') }
+    if (boardColumns === 10) { newClasses.push('grid-cols-10') }
+    if (boardColumns === 11) { newClasses.push('grid-cols-11') }
+    if (boardColumns === 12) { newClasses.push('grid-cols-12') }
+    if (boardColumns === 13) { newClasses.push('grid-cols-13') }
+    if (boardColumns === 14) { newClasses.push('grid-cols-14') }
+    if (boardColumns === 15) { newClasses.push('grid-cols-15') }
+    if (boardColumns === 16) { newClasses.push('grid-cols-16') }
+    setClasses(newClasses)
+  }, [classes, props.penta])
 
   return (
     <>

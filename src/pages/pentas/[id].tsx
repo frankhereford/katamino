@@ -14,9 +14,9 @@ const PentaComponent: NextPage = () => {
     { enabled: routerReady }
   )
 
-  if (penta == null) { return <> </> }
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  console.log(penta)
+  if (penta == null) {
+    return <> </>
+  }
 
   return (
     <>
