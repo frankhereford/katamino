@@ -1,12 +1,9 @@
 import { useRouter } from 'next/router'
 import { trpc } from '../../utils/trpc'
 import Penta from '../components/Penta'
+import { type NextPage } from 'next'
 
-interface PentaProps {
-  id: string
-}
-
-export default function PentaComponent (props: PentaProps) {
+const PentaComponent: NextPage = () => {
   // access to the router to get the ID out of the URL
   const { query, isReady: routerReady } = useRouter()
 
@@ -18,6 +15,8 @@ export default function PentaComponent (props: PentaProps) {
   )
 
   if (penta == null) { return <> </> }
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+  console.log(penta)
 
   return (
     <>
@@ -25,3 +24,5 @@ export default function PentaComponent (props: PentaProps) {
     </>
   )
 }
+
+export default PentaComponent
