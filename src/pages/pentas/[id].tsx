@@ -51,7 +51,7 @@ const PentaPage: NextPage = () => {
   }, [pentaRecord])
 
   const [activeBlock, setActiveBlock] = useState<number | undefined>()
-  const activeBlockContext = { setActiveBlock, setPenta }
+  const gameContext = { setActiveBlock, setPenta }
 
   if (penta == null) {
     return <></>
@@ -59,7 +59,7 @@ const PentaPage: NextPage = () => {
 
   return (
     <>
-      <pentaContext.Provider value={activeBlockContext}>
+      <pentaContext.Provider value={gameContext}>
         <Penta penta={penta}></Penta>
         <Controls string='string'></Controls>
         <Blocks penta={penta} activeBlock={activeBlock}></Blocks>
