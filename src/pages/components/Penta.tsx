@@ -26,7 +26,7 @@ interface PentaProps {
   }>
 }
 
-export default function Penta (props: PentaProps) {
+export default function PentaBoard (props: PentaProps) {
   // state to hold the actual components we'll render
   const [grid, setGrid] = useState<JSX.Element[]>([])
 
