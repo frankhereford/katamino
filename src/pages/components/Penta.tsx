@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { type Prisma } from '@prisma/client'
 import Square from './Square'
+import { transformBlockShape } from '../../utils/transformations'
+import { colord, extend } from 'colord'
+import mixPlugin from 'colord/plugins/mix'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const Array2D = require('array2d')
+extend([mixPlugin])
 
 // this is a way to get at complex types out of the prisma db library
 interface PentaProps {
@@ -44,6 +48,38 @@ export default function Penta (props: PentaProps) {
       }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const sortedBlocks = props.penta.blocks.sort((a: any, b: any) => a.lastUpdate - b.lastUpdate)
+    sortedBlocks.forEach((block) => {
+      if (!block.transformation.visible) { return }
+      if (
+        block.piece.shape != null &&
+        typeof block.piece.shape === 'object' &&
+        Array.isArray(block.piece.shape)
+      ) {
+        let shape = block.piece.shape as number[][]
+        shape = transformBlockShape(shape, block.transformation, props.penta.borderWidth)
+
+        for (let row = 0; row < shape.length; row++) {
+          // these exceptions to the typing are the pain from storing JSON
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          for (let column = 0; column < shape[row]!.length; column++) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            if (shape[row]![column] === 1) {
+              const pieceColor = block.piece.color.hexCode
+              const squareColor = board[row][column]
+              if (squareColor[0] !== '#') {
+                board[row][column] = pieceColor
+              } else {
+                const mixedColor = colord(squareColor).mix(colord(pieceColor), 0.5).darken(0.05).toHex()
+                board[row][column] = mixedColor
+              }
+            }
+          }
+        }
+      }
+    })
+    // render `board` into the `grid` array
     for (let row = 0; row < board.length; row++) {
       for (let column = 0; column < board[row].length; column++) {
         squares.push(<Square key={`${row}-${column}`} color={board[row][column]} />)
@@ -52,9 +88,8 @@ export default function Penta (props: PentaProps) {
     setGrid(squares)
   }, [props.penta])
 
-  const boardColumns = props.penta.columns + (props.penta.borderWidth * 2)
-
   const classes = ['grid', 'w-fit']
+  const boardColumns = props.penta.columns + (props.penta.borderWidth * 2)
   if (boardColumns === 0) { classes.push('grid-cols-none') }
   if (boardColumns === 1) { classes.push('grid-cols-1') }
   if (boardColumns === 2) { classes.push('grid-cols-2') }
