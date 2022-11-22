@@ -1,28 +1,48 @@
+import React, { useState, createContext } from 'react'
 import { useRouter } from 'next/router'
 import { trpc } from '../../utils/trpc'
 import Penta from '../components/Penta'
 import { type NextPage } from 'next'
 
-const PentaComponent: NextPage = () => {
+import Controls from '../components/Controls'
+import Blocks from '../components/Blocks'
+
+interface setPentaType {
+  setActiveBlock: (block: number) => void
+}
+
+export const pentaContext = createContext<setPentaType>({
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setActiveBlock: () => {}
+})
+
+const PentaPage: NextPage = () => {
   // access to the router to get the ID out of the URL
   const { query, isReady: routerReady } = useRouter()
 
   // query the penta in question and grab a function to trigger a refetch
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: penta, refetch: pentaRefetch } = trpc.penta.get.useQuery(
-    { id: String(query.id) },
-    { enabled: routerReady }
+    { id: String(query.id) }, // what we're looking for
+    { enabled: routerReady } // when we're to look for it
   )
 
+  const [activeBlock, setActiveBlock] = useState<number | undefined>()
+  const activeBlockContext = { setActiveBlock }
+
   if (penta == null) {
-    return <> </>
+    return <></>
   }
 
   return (
     <>
-      <Penta penta={penta}></Penta>
+      <pentaContext.Provider value={activeBlockContext}>
+        <Penta penta={penta}></Penta>
+        <Controls string='string'></Controls>
+        <Blocks penta={penta} activeBlock={activeBlock}></Blocks>
+      </pentaContext.Provider>
     </>
   )
 }
 
-export default PentaComponent
+export default PentaPage
