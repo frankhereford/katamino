@@ -95,7 +95,8 @@ export const pentaRouter = router({
                 include: {
                   color: true
                 }
-              }
+              },
+              transformation: true
             }
           },
           availablePenta: {
