@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import type { Prisma } from '@prisma/client'
 import Square from './Square'
-import { transformBlockShape } from '../../utils/transformations'
 
 interface BlockProps {
   size?: number
-  block: Prisma.BlockGetPayload<{
+  block: Prisma.AvailableBlockGetPayload<{
     include: {
       piece: {
         include: {
           color: true
         }
       }
-      transformation: true
     }
   }>
 }
@@ -29,9 +27,7 @@ export default function Block (props: BlockProps) {
       typeof props.block.piece.shape === 'object' &&
       Array.isArray(props.block.piece.shape)
     ) {
-      let shape = props.block.piece.shape as number[][]
-
-      shape = transformBlockShape(shape, props.block.transformation, 0, false)
+      const shape = props.block.piece.shape as number[][]
 
       // map down two layers (array of arrays) to compose the square component
       // invocation, and then flatten it all out to dump into the page
