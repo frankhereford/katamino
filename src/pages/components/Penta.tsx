@@ -30,11 +30,23 @@ export default function Penta (props: PentaProps) {
     const boardHeight = 5
     const boardColor = 'lightGrey'
 
+    // we'll build up the grid in this array
     const squares = []
+    // blank board
     const board = Array2D.build((props.penta.columns ?? 12) + (props.penta.borderWidth * 2), boardHeight + (props.penta.borderWidth * 2), boardColor)
+
+    // recolor the border
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        if (row < props.penta?.borderWidth || row >= (board.length - props.penta?.borderWidth) || col < props.penta?.borderWidth || col >= (board[row].length - props.penta?.borderWidth)) {
+          board[row][col] = '#bbbbbb' // this should be a color in the database
+        }
+      }
+    }
+
     for (let row = 0; row < board.length; row++) {
       for (let column = 0; column < board[row].length; column++) {
-        squares.push(<Square key={row + column} color={board[row][column]} />)
+        squares.push(<Square key={`${row}-${column}`} color={board[row][column]} />)
       }
     }
     setGrid(squares)
