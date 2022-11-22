@@ -26,7 +26,7 @@ interface PentaProps {
   }>
 }
 
-export default function PentaBoard (props: PentaProps) {
+export default function Penta (props: PentaProps) {
   // state to hold the actual components we'll render
   const [grid, setGrid] = useState<JSX.Element[]>([])
 
@@ -89,7 +89,7 @@ export default function PentaBoard (props: PentaProps) {
   }, [props.penta])
 
   const classes = ['grid', 'w-fit']
-  const boardColumns = props.penta.columns + (props.penta.borderWidth * 2)
+  const boardColumns = (props.penta.columns ?? 12) + (props.penta.borderWidth * 2)
   if (boardColumns === 0) { classes.push('grid-cols-none') }
   if (boardColumns === 1) { classes.push('grid-cols-1') }
   if (boardColumns === 2) { classes.push('grid-cols-2') }
