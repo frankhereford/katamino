@@ -55,6 +55,10 @@ jobs:
           message: '🤖 Set version: ${{ steps.release.outputs.version }}'
           push: false
 
+      - name: Git Pull
+        run: >
+          git pull
+
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
@@ -63,7 +67,7 @@ jobs:
 
       - name: Make vercel configuration directory
         run: |
-         mkdir .vercel
+          mkdir .vercel
 
       - name: Create vercel config
         uses: jsdaniell/create-json@v1.2.1
@@ -74,30 +78,30 @@ jobs:
 
       - name: "Deploy production site"
         run: |
-         npm i -g @railway/cli
-         cd "$HOME"
-         mkdir .railway
-         cd .railway
-         echo "$RAILWAY_CONFIG" > config.json
-         cd "$GITHUB_WORKSPACE"
-         #echo "👀 Check railway auth"
-         #railway whoami
-         RAILWAY_ENVIRONMENT="production"
-         echo "🚉 Railway Environment: $RAILWAY_ENVIRONMENT"
-         railway environment "$RAILWAY_ENVIRONMENT"
-         echo "👀 Check railway status?"
-         railway status
-         RAILWAY_VARIABLES=$(railway vars)
-         DATABASE_URL="$(echo "$RAILWAY_VARIABLES" | \
-           grep -o "postgresql.*/railway")"
-         export DATABASE_URL=$DATABASE_URL
-         echo "🛠️ npm install"
-         npm install
-         echo "🌈 prisma migrate deploy"
-         npx prisma migrate deploy 
-         echo "🚀 Vercel build"
-         vercel --token=${{ secrets.VERCEL_TOKEN }} \
-           --env DATABASE_URL="$DATABASE_URL" --build-env \
-           DATABASE_URL="$DATABASE_URL" --prod
-         echo ""
-         echo "🏁 Finished"
+          npm i -g @railway/cli
+          cd "$HOME"
+          mkdir .railway
+          cd .railway
+          echo "$RAILWAY_CONFIG" > config.json
+          cd "$GITHUB_WORKSPACE"
+          #echo "👀 Check railway auth"
+          #railway whoami
+          RAILWAY_ENVIRONMENT="production"
+          echo "🚉 Railway Environment: $RAILWAY_ENVIRONMENT"
+          railway environment "$RAILWAY_ENVIRONMENT"
+          echo "👀 Check railway status?"
+          railway status
+          RAILWAY_VARIABLES=$(railway vars)
+          DATABASE_URL="$(echo "$RAILWAY_VARIABLES" | \
+            grep -o "postgresql.*/railway")"
+          export DATABASE_URL=$DATABASE_URL
+          echo "🛠️ npm install"
+          npm install
+          echo "🌈 prisma migrate deploy"
+          npx prisma migrate deploy 
+          echo "🚀 Vercel build"
+          vercel --token=${{ secrets.VERCEL_TOKEN }} \
+            --env DATABASE_URL="$DATABASE_URL" --build-env \
+            DATABASE_URL="$DATABASE_URL" --prod
+          echo ""
+          echo "🏁 Finished"
