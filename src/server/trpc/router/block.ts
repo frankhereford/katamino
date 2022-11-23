@@ -35,6 +35,7 @@ export const blockRouter = router({
         data: input.currentTransformation
       })
 
+      // ? Does this need to check for user ownership?
       await ctx.prisma.block.update({
         where: {
           id: input.blockId
