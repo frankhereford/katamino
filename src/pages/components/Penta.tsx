@@ -67,8 +67,18 @@ export default function Penta (props: PentaProps) {
         Array.isArray(block.piece.shape)
       ) {
         let shape = block.piece.shape as number[][]
-        shape = transformBlockShape(shape, block.transformation, props.penta.borderWidth, true, props.penta.columns)
+        shape = transformBlockShape(shape,
+          block.transformation,
+          props.penta.borderWidth,
+          true, // doTranslation
+          props.penta.columns)
 
+        shape = Array2D.crop(shape,
+          props.penta.borderWidth,
+          props.penta.borderWidth,
+          5 + props.penta.borderWidth,
+          5 + props.penta.borderWidth
+        )
         for (let row = 0; row < shape.length; row++) {
           // * these exceptions to the typing are the pain from storing JSON
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
