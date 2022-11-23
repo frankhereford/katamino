@@ -34,16 +34,17 @@ export default function Controls (props: {
   }>
   activeBlock: number | undefined
 }) {
-  const [visibilityIcon, setVisibilityIcon] = useState(<BiShow />)
-  const [reflectionIcon, setReflectionIcon] = useState(<TbFlipHorizontal />)
+  const [visibilityIcon, setVisibilityIcon] = useState(<BiShow size={20} style={{ color: '#ffffff' }} />)
+  const [reflectionIcon, setReflectionIcon] = useState(<TbFlipHorizontal size={20} style={{ color: '#ffffff' }} />)
+  const [rotationIcon, setRotationIcon] = useState(<AiOutlineRotateRight size={20} style={{ color: '#ffffff' }} />)
 
   // handle setting the visibility icon
   useEffect(() => {
     if (props.activeBlock == null) { return }
     if ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) {
-      setVisibilityIcon(<BiHide />)
+      setVisibilityIcon(<BiHide size={20} style={{ color: '#ffffff' }} />)
     } else {
-      setVisibilityIcon(<BiShow />)
+      setVisibilityIcon(<BiShow size={20} style={{ color: '#ffffff' }} />)
     }
   }, [props.penta, props.activeBlock])
 
@@ -51,12 +52,23 @@ export default function Controls (props: {
   useEffect(() => {
     if (props.activeBlock == null) { return }
     if (props.penta.blocks[props.activeBlock]?.transformation.rotation === 0) {
-      setReflectionIcon(<TbFlipHorizontal />)
+      setReflectionIcon(<TbFlipHorizontal size={20} style={{ color: '#ffffff' }} />)
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-non-null-assertion
     } else if (props.penta.blocks[props.activeBlock]!.transformation.rotation % 2) {
-      setReflectionIcon(<TbFlipVertical />)
+      setReflectionIcon(<TbFlipVertical size={20} style={{ color: '#ffffff' }} />)
     } else {
-      setReflectionIcon(<TbFlipHorizontal />)
+      setReflectionIcon(<TbFlipHorizontal size={20} style={{ color: '#ffffff' }} />)
+    }
+  }, [props.penta, props.activeBlock])
+
+  // handle setting the rotation icon
+  useEffect(() => {
+    if (props.activeBlock == null) { return }
+    const currentRotation = props.penta.blocks[props.activeBlock]?.transformation.rotation ?? 0
+    if (currentRotation === 0) {
+      setRotationIcon(<AiOutlineRotateRight size={20} style={{ color: '#ffffff' }} />)
+    } else {
+      setRotationIcon(<AiOutlineRotateRight size={20} style={{ color: '#ffffff', rotate: `${currentRotation * 90}deg` }} />)
     }
   }, [props.penta, props.activeBlock])
 
@@ -66,10 +78,10 @@ export default function Controls (props: {
     q: keyQ,
     w: keyW,
     e: keyE,
-    s: keyS
+    s: keyS,
+    d: keyD
     /*
     a: keyA,
-    d: keyD,
     r: keyR,
     ArrowUp: keyUp,
     ArrowDown: keyDown,
@@ -147,6 +159,17 @@ export default function Controls (props: {
     gameContext.setPenta(penta)
   }
 
+  function keyD () {
+    console.log('D')
+    if (!(isVisible() ?? false)) { return }
+    const penta = _.cloneDeep(props.penta)
+    if (props.activeBlock == null) { return }
+    const currentRotation = props.penta.blocks[props.activeBlock]?.transformation.rotation ?? 0
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    penta.blocks[props.activeBlock]!.transformation.rotation = (currentRotation + 1) % 4
+    gameContext.setPenta(penta)
+  }
+
   return (
     <>
       <div className='relative m-auto w-fit h-[120px]'>
@@ -186,6 +209,14 @@ export default function Controls (props: {
           clickHandler={keyS}
           icon={visibilityIcon}
           letter="S"
+        ></ControlButton>
+
+        <ControlButton
+          position="absolute right-[15px] top-[55px] drop-shadow-lg"
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) ? '' : ' btn-disabled')}
+          clickHandler={keyD}
+          icon={rotationIcon}
+          letter="D"
         ></ControlButton>
 
       </div>
