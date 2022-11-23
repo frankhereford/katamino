@@ -49,7 +49,7 @@ export default function Block (props: BlockProps) {
   const [gridClasses, setGridClasses] = useState(['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100'])
 
   useEffect(() => {
-    if (!props.block.transformation.visible) {
+    if (!(props.hideVisibilityIndicator ?? false) && !props.block.transformation.visible) {
       setGridClasses(['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100', 'opacity-30'])
     } else {
       setGridClasses(['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100'])
