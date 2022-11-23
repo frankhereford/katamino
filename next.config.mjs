@@ -19,6 +19,11 @@ const config = {
         protocol: 'https',
         hostname: 's.gravatar.com',
         pathname: '/avatar/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        pathname: '/u/**'
       }
     ]
   }
