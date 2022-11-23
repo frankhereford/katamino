@@ -46,10 +46,16 @@ export default function Block (props: BlockProps) {
     }
   }, [props.block, props.size])
 
-  const classes = ['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100']
-  if (!props.block.transformation.visible && !(props.hideVisibilityIndicator ?? false)) {
-    classes.push('opacity-30')
-  }
+  const [gridClasses, setGridClasses] = useState(['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100'])
+
+  useEffect(() => {
+    if (!props.block.transformation.visible) {
+      // setGridClasses(gridClasses.concat(['opacity-30']))
+      setGridClasses(['opacity-30'].concat(gridClasses))
+    } else {
+      setGridClasses(['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100'])
+    }
+  }, [gridClasses, props.block, props.hideVisibilityIndicator])
 
   return (
     <>
@@ -61,7 +67,7 @@ export default function Block (props: BlockProps) {
             }
           </div>
         }
-        <div className={classes.join(' ')}>
+        <div className={gridClasses.join(' ')}>
           {grid}
         </div>
       </div>
