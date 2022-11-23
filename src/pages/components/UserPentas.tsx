@@ -70,7 +70,9 @@ export default function UserPentas () {
                 </div>
               </td>
               <td>
-                <Penta penta={penta} size={10} noBorder={true}></Penta>
+                <div className='outline outline-1 outline-slate-400 bg-slate-100 w-fit p-1'>
+                  <Penta penta={penta} size={12} noBorder={true}></Penta>
+                </div>
               </td>
             </tr>
           ))}
