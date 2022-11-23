@@ -38,10 +38,12 @@ export const pentaContext = createContext<setPentaType>({
 })
 
 const PentaPage: NextPage = () => {
-  // access to the router to get the ID out of the URL
+  const setComplete = trpc.penta.setComplete.useMutation({})
+
+  // * access to the router to get the ID out of the URL
   const { query, isReady: routerReady } = useRouter()
 
-  // query the penta in question and grab a function to trigger a refetch
+  // * query the penta in question and grab a function to trigger a refetch
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: pentaRecord, refetch: pentaRefetch } = trpc.penta.get.useQuery(
     { id: String(query.id) }, // what we're looking for
@@ -53,7 +55,7 @@ const PentaPage: NextPage = () => {
   // This will cause our state to get checked against the DB 4 seconds after the last move and reset that
   // timer if the user moves again.
   //
-  // 💀 😢
+  // ! 💀 😢
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 4000, false)
 
@@ -70,10 +72,15 @@ const PentaPage: NextPage = () => {
     return <></>
   }
 
+  function completed () {
+    if (penta == null) { return }
+    setComplete.mutate({ id: penta.id })
+  }
+
   return (
     <>
       <pentaContext.Provider value={gameContext}>
-        <Penta penta={penta}></Penta>
+        <Penta penta={penta} completed={completed}></Penta>
         <Controls penta={penta} activeBlock={activeBlock}></Controls>
         <Blocks penta={penta} activeBlock={activeBlock}></Blocks>
       </pentaContext.Provider>

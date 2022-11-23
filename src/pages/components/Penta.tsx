@@ -27,6 +27,7 @@ interface PentaProps {
   }>
   size?: number
   noBorder?: boolean
+  completed?: () => void
 }
 
 export default function Penta (props: PentaProps) {
@@ -85,14 +86,29 @@ export default function Penta (props: PentaProps) {
       }
     })
 
+    const croppedBoard = Array2D.crop(
+      board,
+      props.penta.borderWidth,
+      props.penta.borderWidth,
+      board[0].length - (props.penta.borderWidth * 2),
+      board.length - (props.penta.borderWidth * 2)
+    )
+
+    let complete = true
+    for (let rows = 0; rows < croppedBoard.length; rows++) {
+      for (let columns = 0; columns < croppedBoard[rows].length; columns++) {
+        if (croppedBoard[rows][columns][0] !== '#') {
+          complete = false
+        }
+      }
+    }
+    if (complete) {
+      // ! TIL
+      props.completed?.()
+    }
+
     if (props.noBorder ?? false) {
-      board = Array2D.crop(
-        board,
-        props.penta.borderWidth,
-        props.penta.borderWidth,
-        board[0].length - (props.penta.borderWidth * 2),
-        board.length - (props.penta.borderWidth * 2)
-      )
+      board = croppedBoard
     }
 
     // * render `board` into the `grid` array
