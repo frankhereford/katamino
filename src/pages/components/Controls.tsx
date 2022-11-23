@@ -86,6 +86,7 @@ export default function Controls (props: {
       currentTransformation: newTransformation,
       now: new Date() // these dates can be used to truly serialize moves
     })
+    gameContext.refetchPenta()
   }
 
   useKeyBindings({
