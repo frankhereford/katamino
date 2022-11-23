@@ -26,6 +26,7 @@ interface PentaProps {
     }
   }>
   size?: number
+  noBorder?: boolean
 }
 
 export default function Penta (props: PentaProps) {
@@ -39,7 +40,7 @@ export default function Penta (props: PentaProps) {
     // * we'll build up the grid in this array
     const squares = []
     // * blank board
-    const board = Array2D.build((props.penta.columns ?? 12) + (props.penta.borderWidth * 2), boardHeight + (props.penta.borderWidth * 2), boardColor)
+    let board = Array2D.build((props.penta.columns ?? 12) + (props.penta.borderWidth * 2), boardHeight + (props.penta.borderWidth * 2), boardColor)
 
     // recolor the border
     for (let row = 0; row < board.length; row++) {
@@ -83,6 +84,17 @@ export default function Penta (props: PentaProps) {
         }
       }
     })
+
+    if (props.noBorder ?? false) {
+      board = Array2D.crop(
+        board,
+        props.penta.borderWidth,
+        props.penta.borderWidth,
+        board[0].length - (props.penta.borderWidth * 2),
+        board.length - (props.penta.borderWidth * 2)
+      )
+    }
+
     // * render `board` into the `grid` array
     for (let row = 0; row < board.length; row++) {
       for (let column = 0; column < board[row].length; column++) {
@@ -90,12 +102,12 @@ export default function Penta (props: PentaProps) {
       }
     }
     setGrid(squares)
-  }, [props.penta, props.size])
+  }, [props.noBorder, props.penta, props.size])
 
   const [classes, setClasses] = useState(['grid', 'w-fit'])
 
   useEffect(() => {
-    const boardColumns = (props.penta.columns ?? 12) + (props.penta.borderWidth * 2)
+    const boardColumns = (props.penta.columns ?? 12) + ((props.noBorder ?? false) ? 0 : props.penta.borderWidth * 2)
     const newClasses = classes
     // this silly construction lets the CSS classes be picked up by the framework
     if (boardColumns === 0) { newClasses.push('grid-cols-none') }
@@ -116,7 +128,7 @@ export default function Penta (props: PentaProps) {
     if (boardColumns === 15) { newClasses.push('grid-cols-15') }
     if (boardColumns === 16) { newClasses.push('grid-cols-16') }
     setClasses(newClasses)
-  }, [classes, props.penta])
+  }, [classes, props.noBorder, props.penta])
 
   return (
     <>
