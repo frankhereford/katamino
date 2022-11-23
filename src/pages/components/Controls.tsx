@@ -7,6 +7,7 @@ import { useKeyBindings } from 'rooks'
 import ControlButton from '../components/ControlButton'
 import { pentaContext } from '../pentas/[id]'
 import _ from 'lodash'
+import { trpc } from '../../utils/trpc'
 
 // icons
 import { BsArrowLeft, BsArrowRight, BsArrowBarDown, BsArrowBarUp, BsArrowBarLeft, BsArrowBarRight, BsPlay } from 'react-icons/bs'
@@ -34,6 +35,8 @@ export default function Controls (props: {
   }>
   activeBlock: number | undefined
 }) {
+  const saveMove = trpc.block.saveMove.useMutation({})
+
   const [visibilityIcon, setVisibilityIcon] = useState(<BiShow size={20} style={{ color: '#ffffff' }} />)
   const [reflectionIcon, setReflectionIcon] = useState(<TbFlipHorizontal size={20} style={{ color: '#ffffff' }} />)
   const [rotationIcon, setRotationIcon] = useState(<AiOutlineRotateRight size={20} style={{ color: '#ffffff' }} />)
@@ -73,6 +76,17 @@ export default function Controls (props: {
   }, [props.penta, props.activeBlock])
 
   const gameContext = useContext(pentaContext)
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  function transmitMove (newTransformation: Prisma.TransformationGetPayload<{}>) {
+    if (props.activeBlock == null) { return }
+    saveMove.mutate({
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      blockId: props.penta.blocks[props.activeBlock]!.id,
+      currentTransformation: newTransformation
+    })
+  }
+
   useKeyBindings({
     Tab: keyTab,
     q: keyQ,
@@ -116,6 +130,8 @@ export default function Controls (props: {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     penta.blocks[props.activeBlock]!.transformation.reflection = !(currentReflection ?? false)
     gameContext.setPenta(penta)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    transmitMove(penta.blocks[props.activeBlock]!.transformation)
   }
 
   function keyE () {
@@ -164,6 +180,8 @@ export default function Controls (props: {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     penta.blocks[props.activeBlock]!.transformation.translationRight = 0
     gameContext.setPenta(penta)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    transmitMove(penta.blocks[props.activeBlock]!.transformation)
   }
 
   function keyS () {
@@ -173,6 +191,8 @@ export default function Controls (props: {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     penta.blocks[props.activeBlock]!.transformation.visible = !(currentVisibility ?? false)
     gameContext.setPenta(penta)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    transmitMove(penta.blocks[props.activeBlock]!.transformation)
   }
 
   function keyD () {
@@ -183,6 +203,8 @@ export default function Controls (props: {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     penta.blocks[props.activeBlock]!.transformation.rotation = (currentRotation + 1) % 4
     gameContext.setPenta(penta)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    transmitMove(penta.blocks[props.activeBlock]!.transformation)
   }
 
   function keyUp () {
@@ -193,6 +215,8 @@ export default function Controls (props: {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     penta.blocks[props.activeBlock]!.transformation.translationUp = (currentTranslationUp ?? 0) + 1
     gameContext.setPenta(penta)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    transmitMove(penta.blocks[props.activeBlock]!.transformation)
   }
 
   function keyDown () {
@@ -203,6 +227,8 @@ export default function Controls (props: {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     penta.blocks[props.activeBlock]!.transformation.translationUp = (currentTranslationUp ?? 0) - 1
     gameContext.setPenta(penta)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    transmitMove(penta.blocks[props.activeBlock]!.transformation)
   }
 
   function keyRight () {
@@ -213,6 +239,8 @@ export default function Controls (props: {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     penta.blocks[props.activeBlock]!.transformation.translationRight = (currentTranslationRight ?? 0) + 1
     gameContext.setPenta(penta)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    transmitMove(penta.blocks[props.activeBlock]!.transformation)
   }
 
   function keyLeft () {
@@ -223,6 +251,8 @@ export default function Controls (props: {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     penta.blocks[props.activeBlock]!.transformation.translationRight = (currentTranslationRight ?? 0) - 1
     gameContext.setPenta(penta)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    transmitMove(penta.blocks[props.activeBlock]!.transformation)
   }
 
   return (
