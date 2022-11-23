@@ -1,9 +1,20 @@
+import { useEffect } from 'react'
 import { type NextPage } from 'next'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { AiOutlineArrowDown } from 'react-icons/ai'
 import HeaderContent from './components/HeaderContent'
+import { useRouter } from 'next/router'
 
 const Home: NextPage = () => {
+  const { data: sessionData } = useSession()
+  const nextRouter = useRouter()
+  useEffect(() => {
+    if (sessionData != null) {
+      nextRouter.push('/pentas')
+        .catch((err) => console.log(err))
+    }
+  }, [nextRouter, sessionData])
+
   return (
     <>
       <HeaderContent />
