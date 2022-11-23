@@ -52,41 +52,47 @@ export default function AvailablePentas () {
     <>
       {!pentaQueryLoading &&
         <>
-          <table className="table table-zebra">
-            <thead>
-              <tr>
-                <th className="text-center">️🔥</th>
-                <th className="text-center">️Start</th>
-                <th className="text-center">Slam</th>
-                <th className="text-center">Group</th>
-                <th>Pieces</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pentas?.map((penta) => (
-                <tr key={penta?.id} className="hover">
-                  <td className="text-2xl text-center">{completedPentas?.includes(penta.id) ?? false ? '🔥' : ''}</td>
-                  <td className="text-center">
-                    <button onClick={startPenta} data-available-penta={penta.id} className="btn btn-secondary btn-circle">️🎮</button>
-                  </td>
-                  <td className="text-center text-4xl">{showSlamEmoji(penta.slam.name)}</td>
-                  <td className="text-center text-2xl">{penta.rowName}</td>
-                  <td>
-                    <div className="flex flex-wrap">
-                      { penta.availableBlocks.map((block) => {
-                        return (
-                          <AvailableBlock key={block.id} size={8} block={block}></AvailableBlock>
-                        )
-                      })}
-                    </div>
-                  </td>
+          <div className='text-center font-sans text-4xl font-bold leading-normal text-gray-700 tracking-wide mt-[50px]'>
+            Available Pentas
+          </div>
+          <div className="outline outline-secondary outline-1 rounded-md m-auto w-fit">
+            <table className="table table-zebra">
+              <thead>
+                <tr>
+                  <th className="text-center">️🔥</th>
+                  <th className="text-center">️Start</th>
+                  <th className="text-center">Slam</th>
+                  <th className="text-center">Group</th>
+                  <th>Pieces</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="text-left mb-1">
-            <div className="btn-group">
-              {pagination}
+              </thead>
+              <tbody>
+                {pentas?.map((penta) => (
+                  <tr key={penta?.id} className="hover">
+                    <td className="text-2xl text-center">{completedPentas?.includes(penta.id) ?? false ? '🔥' : ''}</td>
+                    <td className="text-center">
+                      <button onClick={startPenta} data-available-penta={penta.id} className="btn btn-secondary btn-circle">️🎮</button>
+                    </td>
+                    <td className="text-center text-4xl">{showSlamEmoji(penta.slam.name)}</td>
+                    <td className="text-center text-2xl">{penta.rowName}</td>
+                    <td>
+                      <div className="flex flex-wrap">
+                        { penta.availableBlocks.map((block) => {
+                          return (
+                            <AvailableBlock key={block.id} size={8} block={block}></AvailableBlock>
+                          )
+                        }
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="text-right mb-1 p-1">
+              <div className="btn-group">
+                {pagination}
+              </div>
             </div>
           </div>
         </>
