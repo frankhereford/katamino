@@ -42,7 +42,7 @@ export default function Penta (props: PentaProps) {
     // * blank board
     let board = Array2D.build((props.penta.columns ?? 12) + (props.penta.borderWidth * 2), boardHeight + (props.penta.borderWidth * 2), boardColor)
 
-    // recolor the border
+    // * recolor the border
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
         if (row < props.penta?.borderWidth || row >= (board.length - props.penta?.borderWidth) || col < props.penta?.borderWidth || col >= (board[row].length - props.penta?.borderWidth)) {
@@ -52,7 +52,7 @@ export default function Penta (props: PentaProps) {
     }
 
     const blocks = _.cloneDeep(props.penta.blocks)
-    // ! these should be Block typed
+    // TODO: these should be Block typed
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const sortedBlocks = blocks.sort((a: any, b: any) => a.lastUpdate - b.lastUpdate)
     sortedBlocks.forEach((block) => {
@@ -109,7 +109,7 @@ export default function Penta (props: PentaProps) {
   useEffect(() => {
     const boardColumns = (props.penta.columns ?? 12) + ((props.noBorder ?? false) ? 0 : props.penta.borderWidth * 2)
     const newClasses = classes
-    // this silly construction lets the CSS classes be picked up by the framework
+    // * this silly construction lets the CSS classes be picked up by the framework
     if (boardColumns === 0) { newClasses.push('grid-cols-none') }
     if (boardColumns === 1) { newClasses.push('grid-cols-1') }
     if (boardColumns === 2) { newClasses.push('grid-cols-2') }
