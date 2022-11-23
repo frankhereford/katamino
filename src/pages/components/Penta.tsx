@@ -46,7 +46,10 @@ export default function Penta (props: PentaProps) {
     // * recolor the border
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
-        if (row < props.penta?.borderWidth || row >= (board.length - props.penta?.borderWidth) || col < props.penta?.borderWidth || col >= (board[row].length - props.penta?.borderWidth)) {
+        if (row < props.penta?.borderWidth ||
+          row >= (board.length - props.penta?.borderWidth) ||
+          col < props.penta?.borderWidth ||
+          col >= (board[row].length - props.penta?.borderWidth)) {
           board[row][col] = '#bbbbbb' // this should be a color in the database
         }
       }
@@ -104,6 +107,7 @@ export default function Penta (props: PentaProps) {
     }
     if (complete) {
       // ! TIL
+      // * This will cause your linter to want to put props in the dependency array 💀
       props.completed?.()
     }
 
@@ -118,7 +122,9 @@ export default function Penta (props: PentaProps) {
       }
     }
     setGrid(squares)
-  }, [props, props.noBorder, props.penta, props.size])
+  // * Don't let it fool you, you don't want props in the dependency array
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.noBorder, props.penta, props.size])
 
   const [classes, setClasses] = useState(['grid', 'w-fit'])
 
