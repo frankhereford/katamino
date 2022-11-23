@@ -78,10 +78,10 @@ export default function Controls (props: {
     q: keyQ,
     w: keyW,
     e: keyE,
+    a: keyA,
     s: keyS,
     d: keyD
     /*
-    a: keyA,
     r: keyR,
     ArrowUp: keyUp,
     ArrowDown: keyDown,
@@ -150,6 +150,23 @@ export default function Controls (props: {
     }
   }
 
+  function keyA () {
+    if (!(isVisible() ?? false)) { return }
+    const penta = _.cloneDeep(props.penta)
+    if (props.activeBlock == null) { return }
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    penta.blocks[props.activeBlock]!.transformation.reflection = false
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    penta.blocks[props.activeBlock]!.transformation.visible = false
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    penta.blocks[props.activeBlock]!.transformation.rotation = 0
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    penta.blocks[props.activeBlock]!.transformation.translationUp = 0
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    penta.blocks[props.activeBlock]!.transformation.translationRight = 0
+    gameContext.setPenta(penta)
+  }
+
   function keyS () {
     const penta = _.cloneDeep(props.penta)
     if (props.activeBlock == null) { return }
@@ -160,7 +177,6 @@ export default function Controls (props: {
   }
 
   function keyD () {
-    console.log('D')
     if (!(isVisible() ?? false)) { return }
     const penta = _.cloneDeep(props.penta)
     if (props.activeBlock == null) { return }
@@ -201,6 +217,14 @@ export default function Controls (props: {
           clickHandler={keyE}
           icon={<BsArrowRight size={20} style={{ color: '#ffffff' }} />}
           letter="E"
+        ></ControlButton>
+
+        <ControlButton
+          position="absolute right-[135px] top-[55px] drop-shadow-lg"
+          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) ? '' : ' btn-disabled')}
+          clickHandler={keyA}
+          icon={<RiFilePaperLine size={20} style={{ color: '#ffffff' }} />}
+          letter="A"
         ></ControlButton>
 
         <ControlButton
