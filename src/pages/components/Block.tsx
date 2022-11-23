@@ -50,12 +50,11 @@ export default function Block (props: BlockProps) {
 
   useEffect(() => {
     if (!props.block.transformation.visible) {
-      // setGridClasses(gridClasses.concat(['opacity-30']))
-      setGridClasses(['opacity-30'].concat(gridClasses))
+      setGridClasses(['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100', 'opacity-30'])
     } else {
       setGridClasses(['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100'])
     }
-  }, [gridClasses, props.block, props.hideVisibilityIndicator])
+  }, [props.block, props.hideVisibilityIndicator])
 
   return (
     <>
