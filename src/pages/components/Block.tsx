@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react'
 import type { Prisma } from '@prisma/client'
 import Square from './Square'
 import { transformBlockShape } from '../../utils/transformations'
+import { BsSlashLg } from 'react-icons/bs'
 
 interface BlockProps {
   size?: number
+  hideVisibilityIndicator?: boolean
   block: Prisma.BlockGetPayload<{
     include: {
       piece: {
@@ -30,7 +32,6 @@ export default function Block (props: BlockProps) {
       Array.isArray(props.block.piece.shape)
     ) {
       let shape = props.block.piece.shape as number[][]
-
       shape = transformBlockShape(shape, props.block.transformation, 0, false)
 
       // map down two layers (array of arrays) to compose the square component
@@ -45,10 +46,24 @@ export default function Block (props: BlockProps) {
     }
   }, [props.block, props.size])
 
+  const classes = ['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100']
+  if (!props.block.transformation.visible && !(props.hideVisibilityIndicator ?? false)) {
+    classes.push('opacity-30')
+  }
+
   return (
     <>
-      <div className="m-1 grid grid-cols-5 outline outline-1 outline-slate-400 p-0.5 bg-slate-100">
-        {grid}
+      <div className=''>
+        {props.hideVisibilityIndicator == null &&
+          <div className="absolute z-10">
+            {!props.block?.transformation.visible &&
+              <BsSlashLg size={112} style={{ color: '#00000066' }} />
+            }
+          </div>
+        }
+        <div className={classes.join(' ')}>
+          {grid}
+        </div>
       </div>
     </>
   )
