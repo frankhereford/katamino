@@ -12,13 +12,13 @@ export default function Footer () {
           <div className="grid grid-cols-1 gap-0">
             <Piece></Piece>
           </div>
-          <p className="mt-1 text-slate-400 text-2xl tracking-wide">
+          <p className="mt-1 text-slate-400 text-2xl tracking-widest font-thin">
             An experiment with the T3 stack
           </p>
         </div>
         <div className="grid-flow-col gap-4 md:place-self-center text-slate-500 md:justify-self-end">
-          <div className="h-full align-middle text-slate-400 text-2xl mt-1">
-            v{pjson.version}
+          <div className="h-full align-middle text-slate-400 text-2xl mt-1 font-thin tracking-wide">
+            v {pjson.version}
           </div>
           <a href='https://github.com/frankhereford/katamino'>
             <svg
