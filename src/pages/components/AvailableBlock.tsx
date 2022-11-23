@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import type { Prisma } from '@prisma/client'
 import Square from './Square'
-import { transformBlockShape } from '../../utils/transformations'
-import { BsSlashLg } from 'react-icons/bs'
 
 interface BlockProps {
   size?: number
-  hideVisibilityIndicator?: boolean
-  block: Prisma.BlockGetPayload<{
+  block: Prisma.AvailableBlockGetPayload<{
     include: {
       piece: {
         include: {
           color: true
         }
       }
-      transformation: true
     }
   }>
 }
@@ -31,8 +27,7 @@ export default function Block (props: BlockProps) {
       typeof props.block.piece.shape === 'object' &&
       Array.isArray(props.block.piece.shape)
     ) {
-      let shape = props.block.piece.shape as number[][]
-      shape = transformBlockShape(shape, props.block.transformation, 0, false)
+      const shape = props.block.piece.shape as number[][]
 
       // map down two layers (array of arrays) to compose the square component
       // invocation, and then flatten it all out to dump into the page
@@ -46,29 +41,10 @@ export default function Block (props: BlockProps) {
     }
   }, [props.block, props.size])
 
-  const [gridClasses, setGridClasses] = useState(['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100'])
-
-  useEffect(() => {
-    if (!props.block.transformation.visible) {
-      setGridClasses(['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100', 'opacity-30'])
-    } else {
-      setGridClasses(['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100'])
-    }
-  }, [props.block, props.hideVisibilityIndicator])
-
   return (
     <>
-      <div className=''>
-        {props.hideVisibilityIndicator == null &&
-          <div className="absolute z-10">
-            {!props.block?.transformation.visible &&
-              <BsSlashLg size={112} style={{ color: '#00000066' }} />
-            }
-          </div>
-        }
-        <div className={gridClasses.join(' ')}>
-          {grid}
-        </div>
+      <div className="m-1 grid grid-cols-5 outline outline-1 outline-slate-400 p-0.5 bg-slate-100">
+        {grid}
       </div>
     </>
   )

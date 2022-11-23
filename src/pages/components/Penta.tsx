@@ -58,7 +58,7 @@ export default function Penta (props: PentaProps) {
         Array.isArray(block.piece.shape)
       ) {
         let shape = block.piece.shape as number[][]
-        shape = transformBlockShape(shape, block.transformation, props.penta.borderWidth)
+        shape = transformBlockShape(shape, block.transformation, props.penta.borderWidth, true)
 
         for (let row = 0; row < shape.length; row++) {
           // these exceptions to the typing are the pain from storing JSON
@@ -93,6 +93,7 @@ export default function Penta (props: PentaProps) {
   useEffect(() => {
     const boardColumns = (props.penta.columns ?? 12) + (props.penta.borderWidth * 2)
     const newClasses = classes
+    // this silly construction lets the CSS classes be picked up by the framework
     if (boardColumns === 0) { newClasses.push('grid-cols-none') }
     if (boardColumns === 1) { newClasses.push('grid-cols-1') }
     if (boardColumns === 2) { newClasses.push('grid-cols-2') }
@@ -115,8 +116,10 @@ export default function Penta (props: PentaProps) {
 
   return (
     <>
-      <div className={classes.join(' ')}>
-        {grid}
+      <div className='w-fit m-auto'>
+        <div className={classes.join(' ')}>
+          {grid}
+        </div>
       </div>
     </>
   )

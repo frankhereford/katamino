@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { trpc } from '../../utils/trpc'
-import Block from './Block'
+import AvailableBlock from './AvailableBlock'
 import { showSlamEmoji } from '../../utils/slam'
 import Router from 'next/router'
 
@@ -76,7 +76,7 @@ export default function AvailablePentas () {
                     <div className="flex flex-wrap">
                       { penta.availableBlocks.map((block) => {
                         return (
-                          <Block key={block.id} size={8} block={block}></Block>
+                          <AvailableBlock key={block.id} size={8} block={block}></AvailableBlock>
                         )
                       })}
                     </div>

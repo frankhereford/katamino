@@ -62,7 +62,7 @@ export default function UserPentas () {
                 <div className="flex flex-wrap">
                   {penta.blocks.map((block) => {
                     return (
-                      <Block key={block.id} size={8} block={block}></Block>
+                      <Block key={block.id} size={8} block={block} hideVisibilityIndicator={true}></Block>
                     )
                   })}
                 </div>
