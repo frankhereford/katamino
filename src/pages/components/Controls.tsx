@@ -259,7 +259,7 @@ export default function Controls (props: {
 
   return (
     <>
-      <div className='relative m-auto w-fit h-[120px]'>
+      <div className='relative m-auto w-fit h-[120px] mt-[20px]'>
         <div className="absolute left-[-270px] top-[8px] drop-shadow-lg">
           <Link href='/pentas' className='btn btn-circle btn-md btn-primary'>
             <ImExit size={20} style={{ color: '#ffffff' }} />

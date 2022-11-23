@@ -32,7 +32,7 @@ export default function Blocks (props: {
 
   return (
     <>
-      <div className='flex place-content-center'>
+      <div className='flex place-content-center mt-[10px]'>
         {props.penta.blocks.map((block, index) => {
           let classes = ['w-fit', 'm-3']
           if (index === props.activeBlock) {
