@@ -1,8 +1,10 @@
 
-export function isBlockOwner (block: any, userId: string) {
-  return block.penta.userId === userId
-}
+import { type Prisma } from '@prisma/client'
 
-export function isPentaOwner (penta: any, userId: string) {
-  return penta.userId === userId
+export function isPentaOwner (
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  penta: Prisma.PentaGetPayload<{}> | null,
+  userId: string
+) {
+  return penta?.userId === userId
 }
