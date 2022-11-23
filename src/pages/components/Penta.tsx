@@ -4,6 +4,7 @@ import Square from './Square'
 import { transformBlockShape } from '../../utils/transformations'
 import { colord, extend } from 'colord'
 import mixPlugin from 'colord/plugins/mix'
+import _ from 'lodash'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const Array2D = require('array2d')
 extend([mixPlugin])
@@ -48,8 +49,10 @@ export default function Penta (props: PentaProps) {
       }
     }
 
+    const blocks = _.cloneDeep(props.penta.blocks)
+    // these should be Block typed
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const sortedBlocks = props.penta.blocks.sort((a: any, b: any) => a.lastUpdate - b.lastUpdate)
+    const sortedBlocks = blocks.sort((a: any, b: any) => a.lastUpdate - b.lastUpdate)
     sortedBlocks.forEach((block) => {
       if (!block.transformation.visible) { return }
       if (
