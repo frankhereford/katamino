@@ -33,8 +33,21 @@ export default function Controls (props: {
   }>
   activeBlock: number | undefined
 }) {
+  const [visibilityIcon, setVisibilityIcon] = useState(<BiShow />)
+
+  useEffect(() => {
+    if (props.activeBlock == null) { return }
+    console.log(props.penta.blocks[props.activeBlock]?.transformation.visible)
+    if ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) {
+      setVisibilityIcon(<BiHide />)
+    } else {
+      setVisibilityIcon(<BiShow />)
+    }
+  }, [props.penta, props.activeBlock])
+
   const gameContext = useContext(pentaContext)
   useKeyBindings({
+    Tab: keyTab,
     q: keyQ,
     e: keyE
     /*
@@ -43,7 +56,6 @@ export default function Controls (props: {
     s: keyS,
     d: keyD,
     r: keyR,
-    Tab: keyTab,
     ArrowUp: keyUp,
     ArrowDown: keyDown,
     ArrowLeft: keyLeft,
@@ -71,6 +83,29 @@ export default function Controls (props: {
       gameContext.setActiveBlock(0)
     // otherwise, move it to the right one
     } else { gameContext.setActiveBlock(props.activeBlock + 1) }
+  }
+
+  function keyTab (event: KeyboardEvent) {
+    event.preventDefault()
+    if (props.activeBlock == null && !event.shiftKey) {
+      gameContext.setActiveBlock(0)
+    } else if (props.activeBlock == null && event.shiftKey) {
+      gameContext.setActiveBlock(props.penta?.blocks.length - 1)
+    } else if ((props.activeBlock === props.penta?.blocks.length - 1) && !event.shiftKey) {
+      gameContext.setActiveBlock(0)
+    } else if ((props.activeBlock === props.penta?.blocks.length - 1) && event.shiftKey) {
+      gameContext.setActiveBlock(props.activeBlock - 1)
+    } else if (props.activeBlock === 0 && event.shiftKey) {
+      gameContext.setActiveBlock(props.penta?.blocks.length - 1)
+    } else if (props.activeBlock != null && !event.shiftKey) {
+      gameContext.setActiveBlock(props.activeBlock + 1)
+    } else if (props.activeBlock != null && event.shiftKey) {
+      gameContext.setActiveBlock(props.activeBlock - 1)
+    }
+  }
+
+  function keyS () {
+    console.log("S")
   }
 
   return (
