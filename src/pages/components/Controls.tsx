@@ -154,6 +154,7 @@ export default function Controls (props: {
     if (!(isVisible() ?? false)) { return }
     const penta = _.cloneDeep(props.penta)
     if (props.activeBlock == null) { return }
+    // ? 💀 typescript pain zone. How do you do this correctly?
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     penta.blocks[props.activeBlock]!.transformation.reflection = false
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
