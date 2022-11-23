@@ -83,7 +83,8 @@ export default function Controls (props: {
     saveMove.mutate({
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       blockId: props.penta.blocks[props.activeBlock]!.id,
-      currentTransformation: newTransformation
+      currentTransformation: newTransformation,
+      now: new Date() // these dates can be used to truly serialize moves
     })
   }
 

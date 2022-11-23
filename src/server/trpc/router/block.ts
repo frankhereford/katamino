@@ -5,6 +5,7 @@ export const blockRouter = router({
 
   saveMove: protectedProcedure
     .input(z.object({
+      now: z.date(),
       blockId: z.string(),
       currentTransformation: z.object(
         {
@@ -48,7 +49,8 @@ export const blockRouter = router({
           penta: { connect: { id: block.pentaId } },
           block: { connect: { id: block.id } },
           incomingTransformation: { connect: { id: block.transformationId } },
-          outgoingTransformation: { connect: { id: newTransformation.id } }
+          outgoingTransformation: { connect: { id: newTransformation.id } },
+          moveDate: input.now
         }
       })
     })
