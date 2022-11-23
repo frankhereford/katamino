@@ -64,7 +64,7 @@ export default function Penta (props: PentaProps) {
         Array.isArray(block.piece.shape)
       ) {
         let shape = block.piece.shape as number[][]
-        shape = transformBlockShape(shape, block.transformation, props.penta.borderWidth, true)
+        shape = transformBlockShape(shape, block.transformation, props.penta.borderWidth, true, props.penta.columns)
 
         for (let row = 0; row < shape.length; row++) {
           // * these exceptions to the typing are the pain from storing JSON
@@ -118,7 +118,7 @@ export default function Penta (props: PentaProps) {
       }
     }
     setGrid(squares)
-  }, [props.noBorder, props.penta, props.size])
+  }, [props, props.noBorder, props.penta, props.size])
 
   const [classes, setClasses] = useState(['grid', 'w-fit'])
 
