@@ -40,7 +40,7 @@ export default function Blocks (props: {
           }
           return (
             <div onClick={handleClick} data-index={index} key={block.id} className={classes.join(' ')}>
-              <Block block={block}></Block>
+              <Block size={20} block={block}></Block>
             </div>
           )
         })}
