@@ -78,16 +78,14 @@ export default function Controls (props: {
     q: keyQ,
     w: keyW,
     e: keyE,
+    // r: keyR,
     a: keyA,
     s: keyS,
-    d: keyD
-    /*
-    r: keyR,
+    d: keyD,
     ArrowUp: keyUp,
     ArrowDown: keyDown,
     ArrowLeft: keyLeft,
-    ArrowRight: keyRight,
-    */
+    ArrowRight: keyRight
   })
 
   function isVisible () {
@@ -187,6 +185,46 @@ export default function Controls (props: {
     gameContext.setPenta(penta)
   }
 
+  function keyUp () {
+    if (!(isVisible() ?? false)) { return }
+    const penta = _.cloneDeep(props.penta)
+    if (props.activeBlock == null) { return }
+    const currentTranslationUp = props.penta.blocks[props.activeBlock]?.transformation.translationUp
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    penta.blocks[props.activeBlock]!.transformation.translationUp = (currentTranslationUp ?? 0) + 1
+    gameContext.setPenta(penta)
+  }
+
+  function keyDown () {
+    if (!(isVisible() ?? false)) { return }
+    const penta = _.cloneDeep(props.penta)
+    if (props.activeBlock == null) { return }
+    const currentTranslationUp = props.penta.blocks[props.activeBlock]?.transformation.translationUp
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    penta.blocks[props.activeBlock]!.transformation.translationUp = (currentTranslationUp ?? 0) - 1
+    gameContext.setPenta(penta)
+  }
+
+  function keyRight () {
+    if (!(isVisible() ?? false)) { return }
+    const penta = _.cloneDeep(props.penta)
+    if (props.activeBlock == null) { return }
+    const currentTranslationRight = props.penta.blocks[props.activeBlock]?.transformation.translationRight
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    penta.blocks[props.activeBlock]!.transformation.translationRight = (currentTranslationRight ?? 0) + 1
+    gameContext.setPenta(penta)
+  }
+
+  function keyLeft () {
+    if (!(isVisible() ?? false)) { return }
+    const penta = _.cloneDeep(props.penta)
+    if (props.activeBlock == null) { return }
+    const currentTranslationRight = props.penta.blocks[props.activeBlock]?.transformation.translationRight
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    penta.blocks[props.activeBlock]!.transformation.translationRight = (currentTranslationRight ?? 0) - 1
+    gameContext.setPenta(penta)
+  }
+
   return (
     <>
       <div className='relative m-auto w-fit h-[120px]'>
@@ -242,6 +280,34 @@ export default function Controls (props: {
           clickHandler={keyD}
           icon={rotationIcon}
           letter="D"
+        ></ControlButton>
+
+        <ControlButton
+          position="absolute left-[80px] top-[0px] drop-shadow-lg"
+          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          clickHandler={keyUp}
+          icon={<BsArrowBarUp size={20} style={{ color: '#ffffff' }} />}
+        ></ControlButton>
+
+        <ControlButton
+          position="absolute left-[20px] top-[55px] drop-shadow-lg"
+          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          clickHandler={keyLeft}
+          icon={<BsArrowBarLeft size={20} style={{ color: '#ffffff' }} />}
+        ></ControlButton>
+
+        <ControlButton
+          position="absolute left-[80px] top-[55px] drop-shadow-lg"
+          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          clickHandler={keyDown}
+          icon={<BsArrowBarDown size={20} style={{ color: '#ffffff' }} />}
+        ></ControlButton>
+
+        <ControlButton
+          position="absolute left-[140px] top-[55px] drop-shadow-lg"
+          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          clickHandler={keyRight}
+          icon={<BsArrowBarRight size={20} style={{ color: '#ffffff' }} />}
         ></ControlButton>
 
       </div>
