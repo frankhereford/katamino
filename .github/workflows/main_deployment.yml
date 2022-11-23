@@ -55,6 +55,10 @@ jobs:
           message: '🤖 Set version: ${{ steps.release.outputs.version }}'
           push: false
 
+      - name: Git Pull
+        run: >
+          git pull
+
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
