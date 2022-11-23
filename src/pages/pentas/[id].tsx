@@ -28,7 +28,7 @@ interface setPentaType {
 
 export const pentaContext = createContext<setPentaType>({
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setActiveBlock: () => {},
+  setActiveBlock: () => {}, // these are not types, they are non-op functions
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setPenta: () => {}
 })
