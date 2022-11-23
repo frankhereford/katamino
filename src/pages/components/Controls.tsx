@@ -35,9 +35,9 @@ export default function Controls (props: {
 }) {
   const [visibilityIcon, setVisibilityIcon] = useState(<BiShow />)
 
+  // handle setting the visibility icon
   useEffect(() => {
     if (props.activeBlock == null) { return }
-    console.log(props.penta.blocks[props.activeBlock]?.transformation.visible)
     if ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) {
       setVisibilityIcon(<BiHide />)
     } else {
@@ -105,12 +105,12 @@ export default function Controls (props: {
   }
 
   function keyS () {
-    console.log("S")
+    console.log('S')
   }
 
   return (
     <>
-      <div className='relative m-auto w-fit h-[100px]'>
+      <div className='relative m-auto w-fit h-[120px]'>
         <div className="absolute left-[-270px] top-[8px] drop-shadow-lg">
           <Link href='/pentas' className='btn btn-circle btn-md btn-primary'>
             <ImExit size={20} style={{ color: '#ffffff' }} />
@@ -119,7 +119,7 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute right-[150px] top-[0px] drop-shadow-lg"
-          classes="btn gap-2 m-2 btn-primary text-white"
+          classes="btn gap-0 m-2 btn-primary text-white"
           clickHandler={keyQ}
           icon={<BsArrowLeft size={20} style={{ color: '#ffffff' }} />}
           letter="Q"
@@ -127,7 +127,7 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute right-[30px] top-[0px] drop-shadow-lg"
-          classes="btn gap-2 m-2 btn-primary text-white"
+          classes="btn gap-0 m-2 btn-primary text-white"
           clickHandler={keyE}
           icon={<BsArrowRight size={20} style={{ color: '#ffffff' }} />}
           letter="E"
@@ -135,7 +135,7 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute right-[75px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined ? '' : ' btn-disabled')}
           clickHandler={keyS}
           icon={visibilityIcon}
           letter="S"
