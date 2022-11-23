@@ -15,9 +15,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <NavBar></NavBar>
-      <Component {...pageProps} />
-      <Footer></Footer>
+      <div className='flex flex-col h-screen'>
+        <NavBar></NavBar>
+        <div className='flex-grow'>
+          <Component {...pageProps} />
+        </div>
+        <Footer></Footer>
+      </div>
     </SessionProvider>
   )
 }
