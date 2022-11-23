@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */ // take me out after all the icon imports are used
 
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { type Prisma } from '@prisma/client'
 import { useKeyBindings } from 'rooks'
@@ -129,8 +129,16 @@ export default function Controls (props: {
           position="absolute right-[30px] top-[0px] drop-shadow-lg"
           classes="btn gap-2 m-2 btn-primary text-white"
           clickHandler={keyE}
-          icon={<BsArrowRight size={20} style={{ color: "#ffffff" }} />}
+          icon={<BsArrowRight size={20} style={{ color: '#ffffff' }} />}
           letter="E"
+        ></ControlButton>
+
+        <ControlButton
+          position="absolute right-[75px] top-[55px] drop-shadow-lg"
+          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined ? '' : ' btn-disabled')}
+          clickHandler={keyS}
+          icon={visibilityIcon}
+          letter="S"
         ></ControlButton>
 
       </div>
