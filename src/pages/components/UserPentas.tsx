@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { trpc } from '../../utils/trpc'
 import Block from './Block'
 import Penta from './Penta'
@@ -14,6 +14,14 @@ export default function UserPentas () {
     page: pentaPage,
     perPage: pentasPerPage
   })
+
+  const [hidePagination, setHidePagination] = useState(true)
+  useEffect(() => {
+    if (pentaCount == null) { return }
+    if (pentaCount > pentasPerPage) {
+      setHidePagination(false)
+    }
+  }, [pentaCount, pentasPerPage])
 
   // build up the pagination controls
   let pagination = (<></>)
@@ -84,11 +92,13 @@ export default function UserPentas () {
                 ))}
               </tbody>
             </table>
-            <div className="text-right m-1 p-1">
-              <div className="btn-group">
-                {pagination}
+          {!hidePagination &&
+              <div className="text-right m-1 p-1">
+                <div className="btn-group">
+                  {pagination}
+                </div>
               </div>
-            </div>
+            }
           </div>
         </>
       }
