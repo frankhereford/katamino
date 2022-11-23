@@ -1,52 +1,65 @@
 import React, { useState, useEffect } from 'react'
-import { trpc } from "../../utils/trpc";
-import Square from "./Square";
-
-// One of the pieces in the game
+import { trpc } from '../../utils/trpc'
+import Square from './Square'
+import { type Prisma } from '@prisma/client'
 
 interface PieceProps {
-  id?: string;
-  size?: number;
+  id?: string
+  size?: number
 }
 
-export default function PiecePage(props: PieceProps) {
+export default function PiecePage (props: PieceProps) {
+  // query the data we may need
+  const { data: randomPiece } = trpc.piece.randomPiece.useQuery(undefined, { enabled: true })
+  const { data: propsPiece } = trpc.piece.getPiece.useQuery({ id: props.id }, { enabled: (props.id != null) })
 
-  // may not need this randomPiece call..., if i had an ID passed to me and could get the typing figured out
-  const { data: randomPiece } = trpc.piece.randomPiece.useQuery(undefined, { enabled: true });
-  const { data: propsPiece } = trpc.piece.getPiece.useQuery({ id: props.id }, { enabled: (props.id != null) });
+  // the grid is a list of <Square> components
+  const [grid, setGrid] = useState<JSX.Element[]>([])
 
-  const [piece, setPiece] = useState<typeof randomPiece | null | undefined>()
-  useEffect(() => {
-    if (!piece?.id && props.id) {
-      setPiece(propsPiece)
+  // the record of the piece we're displaying.
+  // this use state is given a type of the record that we want to store in it
+  const [piece, setPiece] = useState<Prisma.PieceGetPayload<{
+    include: {
+      color: true
     }
-    else if (!piece?.id && !props.id) {
+  }>>()
+
+  // monitor the inputs of the component and set the piece accordingly
+  useEffect(() => {
+    if ((props.id != null) && propsPiece != null) {
+      setPiece(propsPiece)
+    } else if (randomPiece != null) {
       setPiece(randomPiece)
     }
-  }, [piece, props.id, propsPiece, randomPiece])
-  
-  const size = props.size || 10;
-  
-  const [grid, setGrid] = useState<Array<JSX.Element>>([])
-  useEffect(() => {
-    if (!piece?.shape) { return }
-    
-    const grid = []
-    const shape = piece?.shape as Array<number[]>
-    for (let row = 0; row < shape.length; row++) {
-      for (let col = 0; col < (shape[row] || []).length; col++) { 
-        const key = `${row}-${col}`
-        const color = shape?.[row]?.[col] == 1 ? piece.color.name : 'lightGrey'
-        grid.push(<Square size={size} key={key} color={color}></Square>)
-      } 
-    }
-    setGrid(grid)
+  }, [props, randomPiece, propsPiece])
 
-  }, [piece])
+  // given a piece, set the grid to display it
+  useEffect(() => {
+    if (piece === null) { return }
+
+    // special typing checks for a JSON field, as it could contain anything
+    if (
+      piece?.shape != null &&
+      typeof piece?.shape === 'object' &&
+      Array.isArray(piece?.shape)
+    ) {
+      const shape = piece.shape as number[][]
+
+      // map down two layers (array of arrays) to compose the square component
+      // invocation, and then flatten it all out to dump into the page
+      setGrid(shape.map((row, rowIndex) => {
+        return row.map((square, squareIndex) => {
+          const key = `${rowIndex}-${squareIndex}`
+          const color = shape?.[rowIndex]?.[squareIndex] === 1 ? piece.color.name : 'lightGrey'
+          return (<Square size={props.size ?? 10} key={key} color={color}></Square>)
+        })
+      }).flat(1))
+    }
+  }, [piece, props.size])
 
   return (
     <div className="grid grid-cols-5 gap-0 m-2">
       {grid}
     </div>
-  );
+  )
 }

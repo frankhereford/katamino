@@ -1,191 +1,172 @@
 import React, { useState, useEffect } from 'react'
-import { trpc } from "../../utils/trpc";
-import Square from "./Square";
+import { type Prisma } from '@prisma/client'
+import Square from './Square'
+import { transformBlockShape } from '../../utils/transformations'
+import { colord, extend } from 'colord'
+import mixPlugin from 'colord/plugins/mix'
+import _ from 'lodash'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const Array2D = require('array2d')
-import _ from "lodash";
+extend([mixPlugin])
 
-import { colord, extend } from "colord";
-import mixPlugin from "colord/plugins/mix";
-extend([mixPlugin]);
-
-import { transformBlockShape } from "../../utils/transformations";
-
-import useWindowSize from 'react-use/lib/useWindowSize'
-import Confetti from 'react-confetti'
-import { useTimeoutWhen } from "rooks";
-
-// A given puzzle with blocks made out of pieces
-
+// * this is a way to get at complex types out of the prisma db library
 interface PentaProps {
-  penta: any;
-  size?: number;
-  trimBorder?: boolean;
-  confetti?: boolean;
-  solvedCallback: () => void;
+  penta: Prisma.PentaGetPayload<{
+    include: {
+      blocks: {
+        include: {
+          piece: {
+            include: {
+              color: true
+            }
+          }
+          transformation: true
+        }
+      }
+    }
+  }>
+  size?: number
+  noBorder?: boolean
+  completed?: () => void
 }
 
-export default function Penta(props: PentaProps) {
-
-  const { width: windowWidth, height: windowHeight } = useWindowSize()
-
-  const { data: colorLookup } = trpc.color.getColorLookup.useQuery();
-  const boardHeight = 5
-
-  // easier than typing an old library
-  const genericBoard = Array2D.build(12 + (props.penta?.borderWidth * 2), boardHeight + (props.penta?.borderWidth * 2))
-
-  const [board, setBoard] = useState(genericBoard);
-  const [solved, setSolved] = useState(false);
-  //set the solved state (the confetti state) false after 5 seconds
-  useTimeoutWhen(() => setSolved(false), 5000, solved);
-
-
-  useEffect(() => {
-    if (solved) {
-      props.solvedCallback()
-    }
-  }, [solved])
-  // 👆 what on earth is wrong with this...
-
-  const boardColor = "lightGrey"
+export default function Penta (props: PentaProps) {
+  // * state to hold the actual components we'll render
+  const [grid, setGrid] = useState<JSX.Element[]>([])
 
   useEffect(() => {
     const boardHeight = 5
-    let board = Array2D.build((props.penta?.columns || 12) + (props.penta?.borderWidth * 2), boardHeight + (props.penta?.borderWidth * 2), boardColor)
+    const boardColor = 'lightGrey'
 
-    if (!props.penta?.blocks) {
-      setBoard(board)
-      return
-    }
-    
-    if (props.confetti) {
-      const completionBoard = Array2D.build((props.penta?.columns || 12), boardHeight, false)
-      const completionBlocks = _.cloneDeep(props.penta?.blocks); // do i really need this slow op?
-      // im letting my lazy typing come in here with this old code
-      const sortedCompletionBlocks = completionBlocks.sort((a: any, b: any) => a.lastUpdate - b.lastUpdate)
-      sortedCompletionBlocks.forEach((block: any) => {
-        if (!block.visible) { return }
-        const shape = transformBlockShape(block, 0, true, 5)
-        for (let row = 0; row < shape.length; row++) {
-          for (let col = 0; col < (shape[row] || []).length; col++) {
-            if (shape?.[row]?.[col] && board?.[row]?.[col]) {
-              if (!completionBoard[row][col]) { // first piece to apply a color to this square
-                completionBoard[row][col] = true
-              }
-            }
-          }
-        }
-      })
-      let isSolved = true
-      for (let row = 0; row < completionBoard.length; row++) {
-        for (let col = 0; col < (completionBoard[row] || []).length; col++) {
-          if (!completionBoard[row][col]) {
-            isSolved = false
-          }
-        }
-      }
-      setSolved(isSolved)
-    }
+    // * we'll build up the grid in this array
+    const squares = []
+    // * blank board
+    let board = Array2D.build((props.penta.columns ?? 12) + (props.penta.borderWidth * 2), boardHeight + (props.penta.borderWidth * 2), boardColor)
 
-
+    // * recolor the border
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
-        if (row < props.penta?.borderWidth || row >= (board.length - props.penta?.borderWidth) || col < props.penta?.borderWidth || col >= (board[row].length - props.penta?.borderWidth)) {
-          board[row][col] = "#bbbbbb" // this should be a color in the database
+        if (row < props.penta?.borderWidth ||
+          row >= (board.length - props.penta?.borderWidth) ||
+          col < props.penta?.borderWidth ||
+          col >= (board[row].length - props.penta?.borderWidth)) {
+          board[row][col] = '#bbbbbb' // this should be a color in the database
         }
       }
     }
 
-    const blocks = _.cloneDeep(props.penta?.blocks);
-    // im letting my lazy typing come in here with this old code
+    const blocks = _.cloneDeep(props.penta.blocks)
+    // TODO: these should be Block typed
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const sortedBlocks = blocks.sort((a: any, b: any) => a.lastUpdate - b.lastUpdate)
-    sortedBlocks.forEach((block: any) => {
-      if (!block.visible) { return }
-      const shape = transformBlockShape(block, props.penta?.borderWidth, true, props.penta?.columns)
-      for (let row = 0; row < shape.length; row++) {
-        for (let col = 0; col < (shape[row] || []).length; col++) {
-          if (shape?.[row]?.[col] && board?.[row]?.[col]) {
-            if (board[row][col] === boardColor) { // first piece to apply a color to this square
-              board[row][col] = block.piece.color.name
-            } else {
-              let squareColor = board[row][col]
-              if (board[row][col][0] !== "#") {
-                squareColor = colorLookup?.[board[row][col]]?.hexCode || '#ffffff'
+    sortedBlocks.forEach((block) => {
+      if (!block.transformation.visible) { return }
+      if (
+        block.piece.shape != null &&
+        typeof block.piece.shape === 'object' &&
+        Array.isArray(block.piece.shape)
+      ) {
+        let shape = block.piece.shape as number[][]
+        shape = transformBlockShape(shape,
+          block.transformation,
+          props.penta.borderWidth,
+          true, // doTranslation
+          props.penta.columns)
+
+        shape = Array2D.crop(shape,
+          props.penta.borderWidth,
+          props.penta.borderWidth,
+          5 + props.penta.borderWidth,
+          5 + props.penta.borderWidth
+        )
+        for (let row = 0; row < shape.length; row++) {
+          // * these exceptions to the typing are the pain from storing JSON
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          for (let column = 0; column < shape[row]!.length; column++) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            if (shape[row]![column] === 1) {
+              const pieceColor = block.piece.color.hexCode
+              const squareColor = board[row][column]
+              if (squareColor[0] !== '#') {
+                board[row][column] = pieceColor
+              } else {
+                const mixedColor = colord(squareColor).mix(colord(pieceColor), 0.5).darken(0.05).toHex()
+                board[row][column] = mixedColor
               }
-              const pieceColor = colorLookup?.[block.piece.color.name]?.hexCode || '#ffffff'
-              const mixedColor = colord(squareColor).mix(colord(pieceColor), .5).darken(.05).toHex()
-              board[row][col] = mixedColor
             }
           }
         }
       }
     })
 
-    if (props.trimBorder) {
-      board = Array2D.crop(
-        board,
-        props.penta?.borderWidth,
-        props.penta?.borderWidth,
-        board[0].length - (props.penta?.borderWidth * 2),
-        board.length - (props.penta?.borderWidth * 2),
-      )
+    const croppedBoard = Array2D.crop(
+      board,
+      props.penta.borderWidth,
+      props.penta.borderWidth,
+      board[0].length - (props.penta.borderWidth * 2),
+      board.length - (props.penta.borderWidth * 2)
+    )
+
+    let complete = true
+    for (let rows = 0; rows < croppedBoard.length; rows++) {
+      for (let columns = 0; columns < croppedBoard[rows].length; columns++) {
+        if (croppedBoard[rows][columns][0] !== '#') {
+          complete = false
+        }
+      }
+    }
+    if (complete) {
+      // ! This will cause your linter to want to put props in the dependency array 💀
+      props.completed?.()
     }
 
-    setBoard(board)
-  }, [props.penta?.borderWidth, props.penta, props.confetti, props.trimBorder, colorLookup])
-
-  const squares = []
-  for (let row = 0; row < board?.length|| 0; row++) {
-    for (let col = 0; col < board?.[row].length || 0; col++) {
-      const key = `${row}-${col}`
-      const color = board?.[row][col]
-      squares.push(<Square key={key} color={color} size={props.size}></Square>)
-    }
-  }
-
-  if (!props.penta) { return <div></div> }
-
-  const classes = ["grid", "gap-0"]
-
-  let columns = props.penta?.columns + (props.penta?.borderWidth * 2) || 12;
-  if (props.trimBorder) {
-    columns = props.penta?.columns
+    if (props.noBorder ?? false) {
+      board = croppedBoard
     }
 
-  if (columns > 16 || columns < 0) { columns = 5; }
-  if (columns == 0) { classes.push("grid-cols-none") }
-  if (columns == 1) { classes.push("grid-cols-1") }
-  if (columns == 2) { classes.push("grid-cols-2") }
-  if (columns == 3) { classes.push("grid-cols-3") }
-  if (columns == 4) { classes.push("grid-cols-4") }
-  if (columns == 5) { classes.push("grid-cols-5") }
-  if (columns == 6) { classes.push("grid-cols-6") }
-  if (columns == 7) { classes.push("grid-cols-7") }
-  if (columns == 8) { classes.push("grid-cols-8") }
-  if (columns == 9) { classes.push("grid-cols-9") }
-  if (columns == 10) { classes.push("grid-cols-10") }
-  if (columns == 11) { classes.push("grid-cols-11") }
-  if (columns == 12) { classes.push("grid-cols-12") }
-  if (columns == 13) { classes.push("grid-cols-13") }
-  if (columns == 14) { classes.push("grid-cols-14") }
-  if (columns == 15) { classes.push("grid-cols-15") }
-  if (columns == 16) { classes.push("grid-cols-16") }
+    // * render `board` into the `grid` array
+    for (let row = 0; row < board.length; row++) {
+      for (let column = 0; column < board[row].length; column++) {
+        squares.push(<Square key={`${row}-${column}`} color={board[row][column]} size={props.size ?? 50} />)
+      }
+    }
+    setGrid(squares)
+  // ! don't put props in the dependency array
+  }, [props.noBorder, props.penta, props.size])
+
+  const [classes, setClasses] = useState(['grid', 'w-fit'])
+
+  useEffect(() => {
+    const boardColumns = (props.penta.columns ?? 12) + ((props.noBorder ?? false) ? 0 : props.penta.borderWidth * 2)
+    const newClasses = classes
+    // * this silly construction lets the CSS classes be picked up by the framework
+    if (boardColumns === 0) { newClasses.push('grid-cols-none') }
+    if (boardColumns === 1) { newClasses.push('grid-cols-1') }
+    if (boardColumns === 2) { newClasses.push('grid-cols-2') }
+    if (boardColumns === 3) { newClasses.push('grid-cols-3') }
+    if (boardColumns === 4) { newClasses.push('grid-cols-4') }
+    if (boardColumns === 5) { newClasses.push('grid-cols-5') }
+    if (boardColumns === 6) { newClasses.push('grid-cols-6') }
+    if (boardColumns === 7) { newClasses.push('grid-cols-7') }
+    if (boardColumns === 8) { newClasses.push('grid-cols-8') }
+    if (boardColumns === 9) { newClasses.push('grid-cols-9') }
+    if (boardColumns === 10) { newClasses.push('grid-cols-10') }
+    if (boardColumns === 11) { newClasses.push('grid-cols-11') }
+    if (boardColumns === 12) { newClasses.push('grid-cols-12') }
+    if (boardColumns === 13) { newClasses.push('grid-cols-13') }
+    if (boardColumns === 14) { newClasses.push('grid-cols-14') }
+    if (boardColumns === 15) { newClasses.push('grid-cols-15') }
+    if (boardColumns === 16) { newClasses.push('grid-cols-16') }
+    setClasses(newClasses)
+  }, [classes, props.noBorder, props.penta])
 
   return (
     <>
-      {solved &&
-        <Confetti
-          width={windowWidth}
-          height={windowHeight}
-          opacity={.5}
-        />
-      }
-      <div className="grid items-center justify-center">
+      <div className='w-fit m-auto'>
         <div className={classes.join(' ')}>
-          {squares}
+          {grid}
         </div>
       </div>
     </>
-  );
+  )
 }

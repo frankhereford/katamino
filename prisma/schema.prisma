@@ -1,20 +1,21 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// this says to generate the JS client for the app
 generator client {
   provider = "prisma-client-js"
 }
 
+// configure what database to use. hint: this can be sqlite too
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-// reminder - this cuid() isn't the only option, i think there's an autoincrement as well
 model Color {
   id      String  @id @default(cuid())
   name    String  @unique
-  hexCode String  @default("#ffffff")
+  hexCode String  @default("#ff00ff")
   pieces  Piece[]
 
   @@map(name: "colors")
@@ -23,43 +24,63 @@ model Color {
 // a piece is a particular tangible block from the game box, they are used in a penta
 model Piece {
   id             String           @id @default(cuid())
-  colorId        String           @unique
-  shape          Json
+  colorId        String
+  slug           String           @unique
+  shape          Json             @default("[[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]")
   color          Color            @relation(fields: [colorId], references: [id], onDelete: Cascade)
   blocks         Block[]
   AvailableBlock AvailableBlock[]
 
+  @@unique([colorId, shape])
   @@map(name: "pieces")
 }
 
 model Move {
-  id          String   @id @default(cuid())
-  pentaId     String
-  blockId     String
-  moveDate    DateTime @default(now())
-  incomingState Json @default("{}")
-  outgoingState Json @default("{}")
-  penta       Penta    @relation(fields: [pentaId], references: [id], onDelete: Cascade)
-  block       Block    @relation(fields: [blockId], references: [id], onDelete: Cascade)
+  id                       String         @id @default(cuid())
+  createdAt                DateTime       @default(now())
+  pentaId                  String
+  blockId                  String
+  moveDate                 DateTime       @default(now())
+  incomingTransformationId String
+  outgoingTransformationId String
+  penta                    Penta          @relation(fields: [pentaId], references: [id], onDelete: Cascade)
+  block                    Block          @relation(fields: [blockId], references: [id], onDelete: Cascade)
+  incomingTransformation   Transformation @relation(name: "incoming move state", fields: [incomingTransformationId], references: [id], onDelete: Cascade)
+  outgoingTransformation   Transformation @relation(name: "outgoing move state", fields: [outgoingTransformationId], references: [id], onDelete: Cascade)
 
   @@map(name: "moves")
 }
 
 // a block belongs to a penta
 model Block {
-  id          String   @id @default(cuid())
-  lastUpdate  DateTime @default(now()) @updatedAt
-  pieceId     String
-  pentaId     String
-  visible     Boolean  @default(false)
-  translation Json
-  rotation    Json
-  reflection  Boolean
-  piece       Piece    @relation(fields: [pieceId], references: [id], onDelete: Cascade)
-  penta       Penta    @relation(fields: [pentaId], references: [id], onDelete: Cascade)
-  moves       Move[]
+  id               String           @id @default(cuid())
+  lastUpdate       DateTime         @default(now()) @updatedAt
+  pieceId          String
+  pentaId          String
+  transformationId String
+  piece            Piece            @relation(fields: [pieceId], references: [id], onDelete: Cascade)
+  penta            Penta            @relation(fields: [pentaId], references: [id], onDelete: Cascade)
+  // the current transformation
+  transformation   Transformation   @relation(name: "current transformation", fields: [transformationId], references: [id], onDelete: Cascade)
+  // all past transformations
+  moves            Move[]
 
   @@map(name: "blocks")
+}
+
+model Transformation {
+  id               String   @id @default(cuid())
+  createdAt        DateTime @default(now())
+  visible          Boolean  @default(false)
+  reflection       Boolean  @default(false)
+  rotation         Int      @default(0)
+  translationUp    Int      @default(0)
+  translationRight Int      @default(0)
+  blocks           Block[]  @relation(name: "current transformation")
+  incomingMoves    Move[]   @relation(name: "incoming move state")
+  outgoingMoves    Move[]   @relation(name: "outgoing move state")
+
+  @@map(name: "transformations")
 }
 
 // a penta is a particular puzzle board configuration
@@ -69,7 +90,7 @@ model Penta {
   availablePentaId String
   completed        Boolean        @default(false)
   moveCount        Int            @default(0)
-  columns          Int
+  columns          Int            @default(5)
   borderWidth      Int            @default(2)
   blocks           Block[]
   user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -80,36 +101,47 @@ model Penta {
 }
 
 model AvailableBlock {
-  id               String         @id @default(cuid())
-  last_update      DateTime       @default(now()) @updatedAt
-  pieceId          String
-  availablePentaId String
-  visible          Boolean        @default(false)
-  translation      Json
-  rotation         Json
-  reflection       Boolean
-  piece            Piece          @relation(fields: [pieceId], references: [id], onDelete: Cascade)
-  availablePenta   AvailablePenta @relation(fields: [availablePentaId], references: [id], onDelete: Cascade)
+  id                        String                    @id @default(cuid())
+  last_update               DateTime                  @default(now()) @updatedAt
+  pieceId                   String
+  availablePentaId          String
+  availableTransformationId String
+  availableTransformation   AvailableTransformation   @relation(name: "available current transformation", fields: [availableTransformationId], references: [id], onDelete: Cascade)
+  piece                     Piece                     @relation(fields: [pieceId], references: [id], onDelete: Cascade)
+  availablePenta            AvailablePenta            @relation(fields: [availablePentaId], references: [id], onDelete: Cascade)
 
   @@map(name: "available_blocks")
+}
+
+model AvailableTransformation {
+  id               String           @id @default(cuid())
+  visible          Boolean          @default(false)
+  reflection       Boolean          @default(false)
+  rotation         Int              @default(0)
+  translationUp    Int              @default(0)
+  translationRight Int              @default(0)
+  availableBlocks  AvailableBlock[] @relation(name: "available current transformation")
+
+  @@map(name: "available_transformations")
 }
 
 model AvailablePenta {
   id              String           @id @default(cuid())
   slamId          String
-  rowName         String
-  columns         Int
+  rowName         String           @default("🤷🏻‍♂️")
+  columns         Int              @default(5)
   borderWidth     Int              @default(2)
   availableBlocks AvailableBlock[]
   slam            Slam             @relation(fields: [slamId], references: [id], onDelete: Cascade)
   pentas          Penta[]
 
+  @@unique([slamId, rowName, columns])
   @@map(name: "available_pentas")
 }
 
 model Slam {
   id              String           @id @default(cuid())
-  name            String
+  name            String           @unique @default("🤷🏼")
   slamOrder       Int              @default(0)
   availablePentas AvailablePenta[]
 
@@ -135,6 +167,7 @@ model Account {
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@map("accounts")
 }
 
 model Session {
@@ -143,6 +176,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
 }
 
 model User {
@@ -154,6 +189,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   pentas        Penta[]
+
+  @@map("users")
 }
 
 model VerificationToken {
@@ -162,4 +199,5 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+  @@map("verification_tokens")
 }

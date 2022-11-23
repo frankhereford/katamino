@@ -1,95 +1,62 @@
-import React, { useEffect, useState, type SyntheticEvent } from 'react'
-import { trpc } from "../../utils/trpc";
-import Block from "../components/Block";
-import type { CSSProperties } from "react";
-import RingLoader from "react-spinners/RingLoader";
-import { useRouter } from 'next/router'
+import React, { useState } from 'react'
+import { trpc } from '../../utils/trpc'
+import AvailableBlock from './AvailableBlock'
+import { showSlamEmoji } from '../../utils/slam'
+import Router from 'next/router'
 
-export default function AvailablePentas(props: any) {
-  const nextRouter = useRouter();
-  const [availablePentaPage, setAvailablePentaPage] = useState(0);
-  const [availablePentasPerPage, setAvailablePentasPerPage] = useState(5);
-
-  const { data: completedPentas } = trpc.penta.getCompleted.useQuery();
-  const { data: pentas, refetch: availablePentaRefetch, isLoading: pentaQueryLoading } = trpc.availablePenta.getAll.useQuery({page: availablePentaPage, perPage: availablePentasPerPage});
-  const { data: availablePentaCount } = trpc.availablePenta.count.useQuery();
-  const startPenta = trpc.availablePenta.start.useMutation({
-    onSuccess: () => {
-      props.setRefresh(true);
+export default function AvailablePentas () {
+  const [availablePentaPage, setAvailablePentaPage] = useState(0)
+  const [availablePentasPerPage] = useState(5)
+  const { data: completedPentas } = trpc.penta.getCompleted.useQuery()
+  const { data: availablePentaCount } = trpc.availablePenta.count.useQuery()
+  const startPentaMutation = trpc.availablePenta.start.useMutation({
+    onSuccess: (newPenta) => {
+      if (newPenta === false) { return }
+      Router.push(`/pentas/${newPenta.id}`).catch(console.error)
     }
-  });
-
-
-  useEffect(() => {
-    if (startPenta.data) {
-      const destination = '/pentas/' + startPenta.data.id;
-      nextRouter.push( destination )
-      }
-  }, [nextRouter, startPenta])
-
-  const override: CSSProperties = {
-    display: "block",
-    margin: "0 auto",
-    borderColor: "red",
-  };
-
-
-  function startPentaClick(event: any) {
-    props.setShowSpinner(true)
-    const update = startPenta.mutate({
-      id: event.target?.dataset.id || '',
+  })
+  const {
+    data: pentas,
+    isLoading: pentaQueryLoading
+  } =
+    trpc.availablePenta.getAll.useQuery({
+      page: availablePentaPage,
+      perPage: availablePentasPerPage
     })
-  }
 
-  function showSlamEmoji(slam: string) {
-         if (slam === 'Small Slam')        { return '🦎' }
-    else if (slam === 'The Slam')          { return '🐊' }
-    else if (slam === 'The Ultimate Slam') { return '🐉' }
-    else if (slam === 'Full Board')        { return '🦕' }
-    return slam
-  }
-
+  // build up the pagination controls
   let pagination = (<></>)
-  if (availablePentaCount) { 
+  if (availablePentaCount != null) {
     for (let i = 0; i < Math.ceil(availablePentaCount / availablePentasPerPage); i++) {
-      const classes = ["btn", "btn-sm"]
+      const classes = ['btn', 'btn-sm']
       if (i === availablePentaPage) {
-        classes.push("btn-secondary")
+        classes.push('btn-secondary')
       }
-
       pagination = (
         <>
           {pagination}
-          <button className={classes.join(" ")} onClick={() => setAvailablePentaPage(i)}>{i + 1}</button>
+          <button className={classes.join(' ')} onClick={() => setAvailablePentaPage(i)}>{i + 1}</button>
         </>
       )
     }
   }
 
-  if (!pentas) {
-    return (<>  </>)
+  function startPenta (event: React.SyntheticEvent<HTMLButtonElement>) {
+    if (event.currentTarget.dataset.availablePenta == null) { return }
+    startPentaMutation.mutate({
+      id: event.currentTarget.dataset.availablePenta
+    })
   }
 
   return (
-    <div className="grid grid-cols-10 mt-10">
-      <div className="col-start-2 col-end-10">
-        <div className="col-start-2 col-end-10 mt-10">
-          <div className="col-start-2 col-end-10">
-            <h1 className="text-center text-xl font-extrabold leading-normal text-gray-700 md:text-[2rem]">
-              <span className="text-secondary">A</span>vailable Pentas
-            </h1>
+    <>
+      {!pentaQueryLoading &&
+        <>
+          <div className='text-center font-sans text-4xl font-bold leading-normal text-gray-700 tracking-wide mt-[50px]'>
+            Available Pentas
           </div>
-
-          {!pentaQueryLoading &&
-            <div className="text-right mb-1">
-              <div className="btn-group">
-                {pagination}
-              </div>
-            </div>
-          }
-
-          {pentas ?
-            <table className="table table-zebra w-full outline rounded-md outline-1 mb-4 outline-secondary">
+          <div className="outline outline-secondary outline-1 rounded-md m-auto w-fit">
+            <table className="table table-zebra">
               <thead>
                 <tr>
                   <th className="text-center">️🔥</th>
@@ -100,44 +67,36 @@ export default function AvailablePentas(props: any) {
                 </tr>
               </thead>
               <tbody>
-                {pentas && pentas.map((penta) => (
-                  <tr key={penta.id} className="hover">
-                    <td className="text-2xl text-center">{completedPentas!.includes(penta.id) ? '🔥' : ''}</td>
+                {pentas?.map((penta) => (
+                  <tr key={penta?.id} className="hover">
+                    <td className="text-2xl text-center">{completedPentas?.includes(penta.id) ?? false ? '🔥' : ''}</td>
                     <td className="text-center">
-                      <button onClick={startPentaClick} data-id={penta.id} className="btn btn-secondary btn-circle">️🎮</button>
+                      <button onClick={startPenta} data-available-penta={penta.id} className="btn btn-secondary btn-circle">️🎮</button>
                     </td>
                     <td className="text-center text-4xl">{showSlamEmoji(penta.slam.name)}</td>
-                    <td className="text-center">{penta.rowName}</td>
+                    <td className="text-center text-2xl">{penta.rowName}</td>
                     <td>
-                      <div className="grid grid-cols-8">
-                        {penta?.availableBlocks.map((block) => {
-                          const classes = ["w-fit", "mx-auto"]
+                      <div className="flex flex-wrap">
+                        { penta.availableBlocks.map((block) => {
                           return (
-                            <div key={block.id} className="inline-block outline outline-1 m-1 w-fit">
-                              <div className={classes.join(" ")}>
-                                <Block block={block} size={8} hideVisibility={true}></Block>
-                              </div>
-                            </div>
+                            <AvailableBlock key={block.id} size={8} block={block}></AvailableBlock>
                           )
-                        })}
+                        }
+                        )}
                       </div>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            : <div className="mt-20">
-              <RingLoader
-                color={"hsl(var(--pf))"}
-                cssOverride={override}
-                size={75}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-              />
+            <div className="text-right mb-1 p-1">
+              <div className="btn-group">
+                {pagination}
+              </div>
             </div>
-          }
-        </div>
-      </div>
-    </div>
+          </div>
+        </>
+      }
+    </>
   )
 }

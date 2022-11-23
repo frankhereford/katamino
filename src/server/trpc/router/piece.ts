@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { router, publicProcedure } from "../trpc";
+import { z } from 'zod'
+import { router, publicProcedure } from '../trpc'
 
 export const pieceRouter = router({
 
@@ -23,6 +23,6 @@ export const pieceRouter = router({
         }
       })
       return piece
-    }),
+    })
 
-});
+})

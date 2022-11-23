@@ -1,181 +1,222 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient({ log: ['query'] })
 
-async function main() {
-
-  const user = await prisma.user.findFirst({
-    where: {
-      name: 'frank',
-    }
-  })
-
+async function main (): Promise<void> {
+  console.log('🍄')
   const colors = {
-    white: "#ffffff",
-    lightGrey: "#d3d3d3",
-    grey: "#808080",
-    red: "#b40d0d",
-    green: "#95ff85",
-    darkGrey: "#353535",
-    purple: "#66009d",
-    brown: "#583200",
-    darkBlue: "#0222b1",
-    darkGreen: "#004d00",
-    yellow: "#f9d237",
-    teal: "#00b3b3",
-    blue: "#39c9f1",
-    orange: "#ff6600",
-    pink: "#ff47c8"
+    white: '#ffffff',
+    lightGrey: '#d3d3d3',
+    grey: '#808080',
+    red: '#b40d0d',
+    green: '#95ff85',
+    darkGrey: '#353535',
+    purple: '#66009d',
+    brown: '#583200',
+    darkBlue: '#0222b1',
+    darkGreen: '#004d00',
+    yellow: '#f9d237',
+    teal: '#00b3b3',
+    blue: '#39c9f1',
+    orange: '#ff6600',
+    pink: '#ff47c8'
   }
 
   for await (const [key, value] of Object.entries(colors)) {
     await prisma.color.upsert({
-      where: { name: key},
+      where: { name: key },
       update: {},
       create: {
         name: key,
-        hexCode: value,
-        }
+        hexCode: value
+      }
     })
   }
 
-  const deletePieces = await prisma.piece.deleteMany({})
-
   const pieces = [
-    {name: 'darkBlue',
-     shape: [[0,0,1,0,0],
-             [0,0,1,0,0],
-             [0,0,1,0,0],
-             [0,0,1,0,0],
-             [0,0,1,0,0]]},
-    {name: 'orange',
-     shape: [[0,0,0,0,0],
-             [0,0,1,1,0],
-             [0,0,1,0,0],
-             [0,0,1,0,0],
-             [0,0,1,0,0]]},
-    {name: 'brown',
-     shape: [[0,0,0,0,0],
-             [0,1,0,0,0],
-             [0,1,1,0,0],
-             [0,1,0,0,0],
-             [0,1,0,0,0]]},
-    {name: 'purple',
-     shape: [[0,0,0,0,0],
-             [0,0,0,1,0],
-             [0,0,0,1,0],
-             [0,0,1,1,0],
-             [0,0,1,0,0]]},
-    {name: 'blue',
-     shape: [[0,0,0,0,0],
-             [0,1,1,1,0],
-             [0,1,0,0,0],
-             [0,1,0,0,0],
-             [0,0,0,0,0]]},
-    {name: 'pink',
-     shape: [[0,0,0,0,0],
-             [0,1,0,0,0],
-             [0,1,1,0,0],
-             [0,1,1,0,0],
-             [0,0,0,0,0]]},
-    {name: 'yellow',
-     shape: [[0,0,0,0,0],
-             [0,1,1,1,0],
-             [0,1,0,1,0],
-             [0,0,0,0,0],
-             [0,0,0,0,0]]},
-    {name: 'teal',
-     shape: [[0,0,0,0,0],
-             [0,0,0,1,0],
-             [0,1,1,1,0],
-             [0,1,0,0,0],
-             [0,0,0,0,0]]},
-    {name: 'darkGrey',
-     shape: [[0,0,0,0,0],
-             [0,0,1,0,0],
-             [0,1,1,1,0],
-             [0,1,0,0,0],
-             [0,0,0,0,0]]},
-    {name: 'darkGreen',
-     shape: [[0,0,0,0,0],
-             [0,1,1,1,0],
-             [0,0,1,0,0],
-             [0,0,1,0,0],
-             [0,0,0,0,0]]},
-    {name: 'green',
-     shape: [[0,0,0,0,0],
-             [0,0,0,1,0],
-             [0,0,1,1,0],
-             [0,1,1,0,0],
-             [0,0,0,0,0]]},
-    {name: 'red',
-     shape: [[0,0,0,0,0],
-             [0,0,1,0,0],
-             [0,1,1,1,0],
-             [0,0,1,0,0],
-             [0,0,0,0,0]]},
+    {
+      name: 'darkBlue',
+      shape: [[0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0]]
+    },
+    {
+      name: 'orange',
+      shape: [[0, 0, 0, 0, 0],
+        [0, 0, 1, 1, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0]]
+    },
+    {
+      name: 'brown',
+      shape: [[0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0],
+        [0, 1, 1, 0, 0],
+        [0, 1, 0, 0, 0],
+        [0, 1, 0, 0, 0]]
+    },
+    {
+      name: 'purple',
+      shape: [[0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0],
+        [0, 0, 0, 1, 0],
+        [0, 0, 1, 1, 0],
+        [0, 0, 1, 0, 0]]
+    },
+    {
+      name: 'blue',
+      shape: [[0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0],
+        [0, 1, 0, 0, 0],
+        [0, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0]]
+    },
+    {
+      name: 'pink',
+      shape: [[0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0],
+        [0, 1, 1, 0, 0],
+        [0, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0]]
+    },
+    {
+      name: 'yellow',
+      shape: [[0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0],
+        [0, 1, 0, 1, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0]]
+    },
+    {
+      name: 'teal',
+      shape: [[0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0],
+        [0, 1, 1, 1, 0],
+        [0, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0]]
+    },
+    {
+      name: 'darkGrey',
+      shape: [[0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 1, 1, 1, 0],
+        [0, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0]]
+    },
+    {
+      name: 'darkGreen',
+      shape: [[0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0]]
+    },
+    {
+      name: 'green',
+      shape: [[0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0],
+        [0, 0, 1, 1, 0],
+        [0, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0]]
+    },
+    {
+      name: 'red',
+      shape: [[0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 1, 1, 1, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0]]
+    }
   ]
 
   await Promise.all(pieces.map(async (piece) => {
     const color = await prisma.color.findFirst({
       where: {
-        name: piece.name,
+        name: piece.name
       }
     })
- 
-    const createdPiece = await prisma.piece.create({
-      data: {
-        shape: piece.shape,
-        color: { connect: { id: color?.id }, },
+
+    if (color == null) {
+      throw new Error(`No color found for ${piece.name}`)
+    }
+
+    const newPiece = await prisma.piece.upsert({
+      where: {
+        slug: piece.name
+      },
+      update: {},
+      create: {
+        slug: piece.name,
+        color: {
+          connect: {
+            id: color.id
+          }
+        },
+        shape: piece.shape
       }
     })
-    //console.log(createdPiece)
+
+    if (newPiece == null) {
+      throw new Error(`No piece created for ${piece.name}`)
+    }
   }))
 
-
-  await prisma.slam.create({
-    data: {
-      name: "Small Slam",
-      slamOrder: 1,
+  await prisma.slam.upsert({
+    where: {
+      name: 'Small Slam'
+    },
+    update: {},
+    create: {
+      name: 'Small Slam',
+      slamOrder: 1
     }
   })
 
-  await prisma.slam.create({
-    data: {
-      name: "The Slam",
-      slamOrder: 2,
+  await prisma.slam.upsert({
+    where: {
+      name: 'The Slam'
+    },
+    update: {},
+    create: {
+      name: 'The Slam',
+      slamOrder: 2
     }
   })
 
-  await prisma.slam.create({
-    data: {
-      name: "The Ultimate Slam",
-      slamOrder: 3,
+  await prisma.slam.upsert({
+    where: {
+      name: 'The Ultimate Slam'
+    },
+    update: {},
+    create: {
+      name: 'The Ultimate Slam',
+      slamOrder: 3
     }
   })
 
-  await prisma.slam.create({
-    data: {
-      name: "Full Board",
-      slamOrder: 4,
+  await prisma.slam.upsert({
+    where: {
+      name: 'The Full Board'
+    },
+    update: {},
+    create: {
+      name: 'The Full Board',
+      slamOrder: 4
     }
   })
-
-
-
-  const deletePentas = await prisma.penta.deleteMany()
-  const deleteAvailablePentas = await prisma.availablePenta.deleteMany()
 
   const pentas = [
-    { slamName: "Small Slam", rowName: "A", minColumns: 3, pieces: [ 'orange', 'brown', 'darkGreen', 'pink', 'green', 'teal', 'blue', 'purple' ] },
-    { slamName: "Small Slam", rowName: "B", minColumns: 3, pieces: [ 'purple', 'pink', 'yellow', 'orange', 'teal', 'brown', 'darkGreen', 'green' ] },
-    { slamName: "Small Slam", rowName: "C", minColumns: 3, pieces: [ 'orange', 'blue', 'pink', 'brown', 'purple', 'yellow', 'teal', 'darkGrey' ] },
-    { slamName: "Small Slam", rowName: "D", minColumns: 3, pieces: [ 'brown', 'pink', 'yellow', 'purple', 'blue', 'darkGrey', 'green', 'darkGreen' ] },
-    { slamName: "Small Slam", rowName: "E", minColumns: 3, pieces: ['orange', 'purple', 'blue', 'teal', 'yellow', 'darkGreen', 'brown', 'green' ] },
-    { slamName: "Small Slam", rowName: "F", minColumns: 3, pieces: ['pink', 'yellow', 'darkGrey', 'brown', 'green', 'purple', 'orange', 'green' ] },
-    { slamName: "Small Slam", rowName: "G", minColumns: 3, pieces: ['orange', 'blue', 'pink', 'teal', 'brown', 'green', 'purple', 'darkGrey' ] },
+    { slamName: 'Small Slam', rowName: 'A', minColumns: 3, pieces: ['orange', 'brown', 'darkGreen', 'pink', 'green', 'teal', 'blue', 'purple'] },
+    { slamName: 'Small Slam', rowName: 'B', minColumns: 3, pieces: ['purple', 'pink', 'yellow', 'orange', 'teal', 'brown', 'darkGreen', 'green'] },
+    { slamName: 'Small Slam', rowName: 'C', minColumns: 3, pieces: ['orange', 'blue', 'pink', 'brown', 'purple', 'yellow', 'teal', 'darkGrey'] },
+    { slamName: 'Small Slam', rowName: 'D', minColumns: 3, pieces: ['brown', 'pink', 'yellow', 'purple', 'blue', 'darkGrey', 'green', 'darkGreen'] },
+    { slamName: 'Small Slam', rowName: 'E', minColumns: 3, pieces: ['orange', 'purple', 'blue', 'teal', 'yellow', 'darkGreen', 'brown', 'green'] },
+    { slamName: 'Small Slam', rowName: 'F', minColumns: 3, pieces: ['pink', 'yellow', 'darkGrey', 'brown', 'green', 'purple', 'orange', 'green'] },
+    { slamName: 'Small Slam', rowName: 'G', minColumns: 3, pieces: ['orange', 'blue', 'pink', 'teal', 'brown', 'green', 'purple', 'darkGrey'] },
 
-
-    { slamName: "The Slam", rowName: "A", minColumns: 5, pieces: ['orange', 'pink', 'yellow', 'darkGrey', 'green', 'brown', 'teal', 'purple', 'blue'] },
+    { slamName: 'The Slam', rowName: 'A', minColumns: 5, pieces: ['orange', 'pink', 'yellow', 'darkGrey', 'green', 'brown', 'teal', 'purple', 'blue'] },
     /*
     { slamName: "The Slam", rowName: "B", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
     { slamName: "The Slam", rowName: "C", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
@@ -208,9 +249,7 @@ async function main() {
     { slamName: "The Slam", rowName: "️♧", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
     */
 
-
-
-    { slamName: "Full Board", rowName: "A", minColumns: 12, pieces: ['brown', 'pink', 'yellow', 'purple', 'blue', 'darkGrey', 'green', 'darkGreen', 'darkBlue', 'teal', 'red', 'orange' ] },
+    { slamName: 'The Full Board', rowName: 'A', minColumns: 12, pieces: ['brown', 'pink', 'yellow', 'purple', 'blue', 'darkGrey', 'green', 'darkGreen', 'darkBlue', 'teal', 'red', 'orange'] }
   ]
 
   await Promise.all(pentas.map(async (penta) => {
@@ -221,7 +260,7 @@ async function main() {
         where: {
           color: {
             name: {
-              in: colors,
+              in: colors
             }
           }
         }
@@ -231,23 +270,38 @@ async function main() {
           name: penta.slamName
         }
       })
-      const availablePentaRecord = await prisma.availablePenta.create({
-        data: {
-          columns: i,
-          slam: { connect: { id: slam?.id }, },
+
+      if (slam == null) {
+        throw new Error(`No slam found for ${penta.slamName}`)
+      }
+
+      await prisma.availablePenta.upsert({
+        where: {
+          slamId_rowName_columns: {
+            slamId: slam.id,
+            rowName: penta.rowName,
+            columns: i
+          }
+        },
+        update: {},
+        create: {
+          slam: { connect: { id: slam.id } },
           rowName: penta.rowName,
+          columns: i,
+          borderWidth: 2,
           availableBlocks: {
             create: pieces.map((piece) => {
               return {
-                piece: { connect: { id: piece.id }, },
-                translation: {
-                  up: 0,
-                  right: 0
-                },
-                rotation: {
-                  clockwise: 0
-                },
-                reflection: false,
+                piece: { connect: { id: piece.id } },
+                availableTransformation: {
+                  create: {
+                    visible: true,
+                    reflection: false,
+                    rotation: 0,
+                    translationUp: 0,
+                    translationRight: 0
+                  }
+                }
               }
             })
           }
@@ -255,6 +309,58 @@ async function main() {
       })
     }
   }))
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function test (): Promise<void> {
+  const availablePentas = await prisma.availablePenta.findMany({
+    include: {
+      availableBlocks: {
+        include: {
+          piece: {
+            include: {
+              color: true
+            }
+          },
+          availableTransformation: true
+        }
+      }
+    }
+  })
+
+  const frank = await prisma.user.findFirst({
+    where: {
+      email: 'frank@frankhereford.com'
+    }
+  })
+
+  availablePentas.map(async (availablePenta) => {
+    console.log('👋')
+    // console.log(availablePenta)
+    const penta = await prisma.penta.create({
+      data: {
+        user: { connect: { id: frank?.id } },
+        availablePenta: { connect: { id: availablePenta.id } },
+        columns: availablePenta.columns,
+        borderWidth: 2,
+        blocks: {
+          create: availablePenta.availableBlocks.map((availableBlock) => {
+            return {
+              piece: { connect: { id: availableBlock.piece.id } },
+              transformation: {
+                create: {
+                  visible: false
+                }
+              }
+            }
+          })
+        }
+      }
+    })
+    console.log(penta)
+
+    return true
+  })
 }
 
 main()

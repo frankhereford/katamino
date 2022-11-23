@@ -1,27 +1,30 @@
+import { type Prisma } from '@prisma/client'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const Array2D = require('array2d')
 
-export function transformBlockShape(
-  block: any,
+export function transformBlockShape (
+  shape: number[][],
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  transformation: Prisma.TransformationGetPayload<{}>,
   borderWidth: number,
   doTranslation: boolean,
-  columns: number,
-  ) {
-  let shape = block.piece.shape
-
-  // order of transformations matters
-  if (block.reflection) {
-    shape = Array2D.flip(shape, Array2D.AXES.X);
+  columns?: number
+) {
+  if (transformation.reflection) {
+    shape = Array2D.flip(shape, Array2D.AXES.X)
   }
 
-  for (let i = 0; i < block.rotation.clockwise; i++) {
+  for (let i = 0; i < transformation.rotation; i++) {
     shape = Array2D.rotate(shape, Array2D.DIRECTIONS.RIGHT)
   }
 
-  if (doTranslation) { 
+  if (doTranslation && (transformation.translationUp != null || transformation.translationRight != null)) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const translationColumns = columns ?? shape[0]!.length
 
-    if (columns > 5) {
-      shape = Array2D.pad(shape, Array2D.EDGES.RIGHT, columns - shape[0].length, 0)
+    if (translationColumns > 5) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      shape = Array2D.pad(shape, Array2D.EDGES.RIGHT, translationColumns - shape[0]!.length, 0)
     }
 
     for (let i = 0; i < borderWidth; i++) {
@@ -30,26 +33,14 @@ export function transformBlockShape(
       shape = Array2D.pad(shape, Array2D.EDGES.BOTTOM, 1, 0)
       shape = Array2D.pad(shape, Array2D.EDGES.RIGHT, 1, 0)
     }
-    if (block.translation.up > 0) {
-      for (let i = 0; i < block.translation.up; i++) {
-        shape = Array2D.slide(shape, Array2D.DIRECTIONS.UP, 1);
-      }
-    } else if (block.translation.up < 0) {
-      for (let i = block.translation.up; i < 0; i++) {
-        shape = Array2D.slide(shape, Array2D.DIRECTIONS.DOWN, 1);
-      }
+
+    for (let i = transformation.translationUp; i !== 0; (i > 0 ? i-- : i++)) { // ❤️
+      shape = Array2D.slide(shape, (i > 0 ? Array2D.DIRECTIONS.UP : Array2D.DIRECTIONS.DOWN), 1)
     }
 
-    if (block.translation.right > 0) {
-      for (let i = 0; i < block.translation.right; i++) {
-        shape = Array2D.slide(shape, Array2D.DIRECTIONS.RIGHT, 1);
-      }
-    } else if (block.translation.right < 0) {
-      for (let i = block.translation.right; i < 0; i++) {
-        shape = Array2D.slide(shape, Array2D.DIRECTIONS.LEFT, 1);
-      }
+    for (let i = transformation.translationRight; i !== 0; (i > 0 ? i-- : i++)) {
+      shape = Array2D.slide(shape, (i > 0 ? Array2D.DIRECTIONS.RIGHT : Array2D.DIRECTIONS.LEFT), 1)
     }
   }
-
   return shape
 }

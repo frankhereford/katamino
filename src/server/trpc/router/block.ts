@@ -1,151 +1,58 @@
-import { router, protectedProcedure } from "../trpc";
-import { z } from "zod";
-
-import { isBlockOwner } from "../../../utils/database";
-
-async function saveMove(ctx: any, originalBlock: any, block: any) {
-  const move = await ctx.prisma.move.create({
-    data: {
-      block: {
-        connect: {
-          id: block.id
-        }
-      },
-      penta: {
-        connect: {
-          id: block.pentaId
-        }
-      },
-      incomingState: {
-        visible: originalBlock.visible,
-        translation: originalBlock.translation || {},
-        rotation: originalBlock.rotation || {},
-        reflection: originalBlock.reflection
-      },
-      outgoingState: {
-        visible: block.visible,
-        translation: block.translation || {},
-        rotation: block.rotation || {},
-        reflection: block.reflection
-      }
-    }
-  })
-  return move
-}
+import { router, protectedProcedure } from '../trpc'
+import { z } from 'zod'
 
 export const blockRouter = router({
 
-  set_rotation: protectedProcedure
-    .input(z.object({ id: z.string(), clockwise: z.number() }))
-    .mutation(async ({ ctx, input }) => {
-
-      const blockOriginal = await ctx.prisma.block.findUnique({
-        where: {
-          id: input.id
-        },
-        include: {
-          penta: true
-        } 
-      })
-
-      if (!isBlockOwner(blockOriginal, ctx.session.user.id)) { return false }
-
-      const block = await ctx.prisma.block.update({
-        where: {
-          id: input.id
-        },
-        data: {
-          rotation: {
-            clockwise: input.clockwise ? input.clockwise : 0
-          }
+  saveMove: protectedProcedure
+    .input(z.object({
+      now: z.date(),
+      blockId: z.string(),
+      currentTransformation: z.object(
+        {
+          // key-value pairs not included here are NOT available below, which is actually
+          // useful for fields which have a default like 'createdAt' or 'id'
+          reflection: z.boolean(),
+          rotation: z.number(),
+          translationUp: z.number(),
+          translationRight: z.number(),
+          visible: z.boolean()
         }
-      });
-
-      await saveMove(ctx, blockOriginal, block)
-
-      return block;
-    }),
-
-  set_reflection: protectedProcedure
-    .input(z.object({ id: z.string(), reflection: z.boolean() }))
+      )
+    }))
     .mutation(async ({ ctx, input }) => {
-      
-      const blockOriginal = await ctx.prisma.block.findUnique({
+      // create a new transformation
+      // update the block to point to it
+      // create a new move
+      const block = await ctx.prisma.block.findUnique({
         where: {
-          id: input.id
-        },
-        include: {
-          penta: true
+          id: input.blockId
         }
       })
 
-      if (!isBlockOwner(blockOriginal, ctx.session.user.id)) { return false }
+      if (block == null) { return }
 
-      const block = await ctx.prisma.block.update({
+      const newTransformation = await ctx.prisma.transformation.create({
+        data: input.currentTransformation
+      })
+
+      // ? Does this need to check for user ownership?
+      await ctx.prisma.block.update({
         where: {
-          id: input.id
+          id: input.blockId
         },
         data: {
-          reflection: input.reflection
-        }
-      });
-      await saveMove(ctx, blockOriginal, block)
-      return block;
-    }),
-
-  set_translation: protectedProcedure
-    .input(z.object({ id: z.string(), translation: z.any() }))
-    .mutation(async ({ ctx, input }) => {
-      
-      const blockOriginal = await ctx.prisma.block.findUnique({
-        where: {
-          id: input.id
-        },
-        include: {
-          penta: true
+          transformation: { connect: { id: newTransformation.id } }
         }
       })
 
-      if (!isBlockOwner(blockOriginal, ctx.session.user.id)) { return false }
-
-      const block = await ctx.prisma.block.update({
-        where: {
-          id: input.id
-        },
+      await ctx.prisma.move.create({
         data: {
-          translation: input.translation
-        }
-      });
-      await saveMove(ctx, blockOriginal, block)
-      return block;
-    }),
-
-  set_visibility: protectedProcedure
-    .input(z.object({ id: z.string(), visible: z.boolean() }))
-    .mutation(async ({ ctx, input }) => {
-      
-      const blockOriginal = await ctx.prisma.block.findUnique({
-        where: {
-          id: input.id
-        },
-        include: {
-          penta: true
+          penta: { connect: { id: block.pentaId } },
+          block: { connect: { id: block.id } },
+          incomingTransformation: { connect: { id: block.transformationId } },
+          outgoingTransformation: { connect: { id: newTransformation.id } },
+          moveDate: input.now
         }
       })
-
-      if (!isBlockOwner(blockOriginal, ctx.session.user.id)) { return false }
-
-      const block = await ctx.prisma.block.update({
-        where: {
-          id: input.id
-        },
-        data: {
-          visible: input.visible ? input.visible : false
-        }
-      });
-      await saveMove(ctx, blockOriginal, block)
-      return block;
-    }),
-
-
-});
+    })
+})

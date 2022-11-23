@@ -1,68 +1,75 @@
 import React, { useState, useEffect } from 'react'
-import Square from "./Square";
-import { BsSlashLg } from 'react-icons/bs';
-import { transformBlockShape } from "../../utils/transformations";
-
-// One of the pieces in a game
+import type { Prisma } from '@prisma/client'
+import Square from './Square'
+import { transformBlockShape } from '../../utils/transformations'
+import { BsSlashLg } from 'react-icons/bs'
 
 interface BlockProps {
-  block: any;
-  size?: number;
-  hideVisibility?: boolean;
-  blockClickHandler?: any;
+  size?: number
+  hideVisibilityIndicator?: boolean
+  block: Prisma.BlockGetPayload<{
+    include: {
+      piece: {
+        include: {
+          color: true
+        }
+      }
+      transformation: true
+    }
+  }>
 }
 
-export default function PiecePage(props: BlockProps) {
-
-  const [squares, setSquares] = useState<Array<JSX.Element>>([])
+export default function Block (props: BlockProps) {
+  const [grid, setGrid] = useState<JSX.Element[]>([])
 
   useEffect(() => {
-    if (!props.block?.piece.shape) { return }
+    if (props.block.piece === null) { return }
 
-    let shape = props.block?.piece.shape as Array<number[]>
-    
-    shape = transformBlockShape(props.block, 0, false, 5)
-    
-    const squares = []
-    for (let row = 0; row < shape.length; row++) {
-      for (let col = 0; col < (shape[row] || []).length; col++) { 
-        const key = `${row}-${col}`
-        const color = shape?.[row]?.[col] == 1 ? props.block.piece.color.name : 'lightGrey'
-        squares.push(<Square key={key} color={color} size={props.size || 20}></Square>)
-      } 
+    // special typing checks for a JSON field, as it could contain anything
+    if (
+      props.block.piece.shape != null &&
+      typeof props.block.piece.shape === 'object' &&
+      Array.isArray(props.block.piece.shape)
+    ) {
+      let shape = props.block.piece.shape as number[][]
+      shape = transformBlockShape(shape, props.block.transformation, 0, false)
+
+      // map down two layers (array of arrays) to compose the square component
+      // invocation, and then flatten it all out to dump into the page
+      setGrid(shape.map((row, rowIndex) => {
+        return row.map((square, squareIndex) => {
+          const key = `${rowIndex}-${squareIndex}`
+          const color = shape?.[rowIndex]?.[squareIndex] === 1 ? props.block.piece.color.name : 'lightGrey'
+          return (<Square size={props.size ?? 10} key={key} color={color}></Square>)
+        })
+      }).flat(1))
     }
-    setSquares(squares)
-
   }, [props.block, props.size])
 
+  const [gridClasses, setGridClasses] = useState(['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100'])
 
-  function blockClickHandler() {
-    if (!props.blockClickHandler) { return }
-    props.blockClickHandler(props.block.id)
-  }
-
-  const outerClasses = ["grid", "items-center","justify-center"]
-  if (!props.block?.visible && !props.hideVisibility) {
-    outerClasses.push("opacity-50")
-  }
-  const innerClasses = ["grid", "gap-0", "grid-cols-5"]
+  useEffect(() => {
+    if (!(props.hideVisibilityIndicator ?? false) && !props.block.transformation.visible) {
+      setGridClasses(['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100', 'opacity-30'])
+    } else {
+      setGridClasses(['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100'])
+    }
+  }, [props.block, props.hideVisibilityIndicator])
 
   return (
     <>
-      <div>
-        {!props.hideVisibility &&
-          <div className="absolute">
-            {!props.block?.visible &&
-              <BsSlashLg size={100} style={{ color: "#00000099" }} />
+      <div className=''>
+        {props.hideVisibilityIndicator == null &&
+          <div className="absolute z-10">
+            {!props.block?.transformation.visible &&
+              <BsSlashLg size={112} style={{ color: '#00000066' }} />
             }
           </div>
         }
-        <div className={outerClasses.join(' ')} onClick={blockClickHandler}>
-          <div className={innerClasses.join(' ')}>
-            {squares}
-          </div>
+        <div className={gridClasses.join(' ')}>
+          {grid}
         </div>
       </div>
     </>
-  );
+  )
 }

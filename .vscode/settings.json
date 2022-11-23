@@ -1,7 +1,9 @@
 {
   "cSpell.words": [
     "atamino",
+    "Authed",
     "autoincrement",
+    "cmyk",
     "colord",
     "daisyui",
     "datasource",
@@ -10,10 +12,12 @@
     "marocchino",
     "NEXTAUTH",
     "norelease",
+    "ogin",
     "penta",
     "pentas",
     "pjson",
     "rymndhng",
+    "signin",
     "signoff",
     "subcomponents",
     "superjson",
@@ -24,9 +28,10 @@
     "usefavicon",
     "VERCEL"
   ],
-  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
-  "editor.formatOnPaste": false, // required
-  "editor.formatOnType": false, // required
+  // these feel a little prescriptive, they can be changed if needed
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint", 
+  "editor.formatOnPaste": true, // required
+  "editor.formatOnType": true, // required
   "editor.formatOnSave": false, // optional
   "editor.formatOnSaveMode": "file", // required to format on save
   "files.autoSave": "onFocusChange" // optional but recommended

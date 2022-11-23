@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { router, publicProcedure, protectedProcedure } from "../trpc";
+import { z } from 'zod'
+import { router, publicProcedure, protectedProcedure } from '../trpc'
 
 export const availablePentaRouter = router({
 
@@ -13,72 +13,62 @@ export const availablePentaRouter = router({
         include: {
           availableBlocks: {
             include: {
-              piece: {
-                include: {
-                  color: true
-                }
-              }
-            },
+              piece: true
+            }
           }
-        },
+        }
+      })
 
-      });
-    
-      if (!availablePentaObject) { return false }
-    
-      return await ctx.prisma.penta.create({
+      if (availablePentaObject == null) { return false }
+
+      const newPenta = await ctx.prisma.penta.create({
         data: {
-          userId: ctx.session.user.id,
-          // ! This should use connect below 👇
-          availablePentaId: availablePentaObject.id,
+          user: { connect: { id: ctx.session.user.id } },
+          availablePenta: { connect: { id: availablePentaObject.id } },
           columns: availablePentaObject.columns,
+          borderWidth: 2,
           blocks: {
             create: availablePentaObject.availableBlocks.map((availableBlock) => {
               return {
-                piece: { connect: { id: availableBlock.pieceId }, },
-                translation: {
-                  up: 0,
-                  right: 0
-                },
-                rotation: {
-                  clockwise: 0
-                },
-                reflection: false
+                piece: { connect: { id: availableBlock.piece.id } },
+                transformation: {
+                  create: {
+                    visible: false
+                  }
+                }
               }
             })
           }
         }
       })
-
+      return newPenta
     }),
 
-
   count: publicProcedure.query(async ({ ctx }) => {
-    const pentas = await ctx.prisma.availablePenta.findMany();
+    const pentas = await ctx.prisma.availablePenta.findMany()
     return pentas.length
   }),
-
 
   getAll: publicProcedure
     .input(z.object({ page: z.number(), perPage: z.number() }))
     .query(async ({ ctx, input }) => {
-    return await ctx.prisma.availablePenta.findMany({
-      skip: (input.page) * input.perPage,
-      take: input.perPage,
-      include: {
-        availableBlocks: {
-          include: {
-            piece: {
-              include: {
-                color: true
+      return await ctx.prisma.availablePenta.findMany({
+        skip: (input.page) * input.perPage,
+        take: input.perPage,
+        include: {
+          availableBlocks: {
+            include: {
+              piece: {
+                include: {
+                  color: true
+                }
               }
             }
           },
+          slam: true
         },
-        slam: true ,
-      },
-      orderBy: [{ slam: { slamOrder: "asc" } }, { rowName: "asc" }, { columns: "asc" } ]
-    });
-  }),
+        orderBy: [{ slam: { slamOrder: 'asc' } }, { rowName: 'asc' }, { columns: 'asc' }]
+      })
+    })
 
-});
+})
