@@ -32,9 +32,9 @@ export const pentaContext = createContext<setPentaType>({
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setActiveBlock: () => {}, // these are not types, they are non-op functions
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setPenta: () => {},
+  refetchPenta: () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  refetchPenta: () => {}
+  setPenta: () => {}
 })
 
 const PentaPage: NextPage = () => {
@@ -52,6 +52,9 @@ const PentaPage: NextPage = () => {
   // Instead, we call on this debouncedPentaRefetch every time we make a mutation, but then debounce it.
   // This will cause our state to get checked against the DB 4 seconds after the last move and reset that
   // timer if the user moves again.
+  //
+  // 💀 😢
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 4000, false)
 
   const [penta, setPenta] = useState(pentaRecord)
