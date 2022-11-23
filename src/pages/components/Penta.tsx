@@ -34,6 +34,8 @@ export default function Penta (props: PentaProps) {
   // * state to hold the actual components we'll render
   const [grid, setGrid] = useState<JSX.Element[]>([])
 
+  const completedCallback = props.completed
+
   useEffect(() => {
     const boardHeight = 5
     const boardColor = 'lightGrey'
@@ -108,7 +110,8 @@ export default function Penta (props: PentaProps) {
     if (complete) {
       // ! TIL
       // * This will cause your linter to want to put props in the dependency array 💀
-      props.completed?.()
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+      if (completedCallback) { completedCallback() }
     }
 
     if (props.noBorder ?? false) {
@@ -122,10 +125,7 @@ export default function Penta (props: PentaProps) {
       }
     }
     setGrid(squares)
-  // * Don't let it fool you, you don't want props in the dependency array
-  // TODO: Need to figure out how to add the react-hooks linting rules to super-linter
-  // ! eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.noBorder, props.penta, props.size])
+  }, [completedCallback, props.noBorder, props.penta, props.size])
 
   const [classes, setClasses] = useState(['grid', 'w-fit'])
 
