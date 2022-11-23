@@ -6,6 +6,7 @@ import { type Prisma } from '@prisma/client'
 import { useKeyBindings } from 'rooks'
 import ControlButton from '../components/ControlButton'
 import { pentaContext } from '../pentas/[id]'
+import _ from 'lodash'
 
 // icons
 import { BsArrowLeft, BsArrowRight, BsArrowBarDown, BsArrowBarUp, BsArrowBarLeft, BsArrowBarRight, BsPlay } from 'react-icons/bs'
@@ -34,6 +35,7 @@ export default function Controls (props: {
   activeBlock: number | undefined
 }) {
   const [visibilityIcon, setVisibilityIcon] = useState(<BiShow />)
+  const [reflectionIcon, setReflectionIcon] = useState(<TbFlipHorizontal />)
 
   // handle setting the visibility icon
   useEffect(() => {
@@ -45,15 +47,28 @@ export default function Controls (props: {
     }
   }, [props.penta, props.activeBlock])
 
+  // handle setting the reflection icon
+  useEffect(() => {
+    if (props.activeBlock == null) { return }
+    if (props.penta.blocks[props.activeBlock]?.transformation.rotation === 0) {
+      setReflectionIcon(<TbFlipHorizontal />)
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-non-null-assertion
+    } else if (props.penta.blocks[props.activeBlock]!.transformation.rotation % 2) {
+      setReflectionIcon(<TbFlipVertical />)
+    } else {
+      setReflectionIcon(<TbFlipHorizontal />)
+    }
+  }, [props.penta, props.activeBlock])
+
   const gameContext = useContext(pentaContext)
   useKeyBindings({
     Tab: keyTab,
     q: keyQ,
-    e: keyE
-    /*
     w: keyW,
+    e: keyE,
+    s: keyS
+    /*
     a: keyA,
-    s: keyS,
     d: keyD,
     r: keyR,
     ArrowUp: keyUp,
@@ -62,6 +77,15 @@ export default function Controls (props: {
     ArrowRight: keyRight,
     */
   })
+
+  function isVisible () {
+    if (props.activeBlock == null) { return }
+    if ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) {
+      return true
+    } else {
+      return false
+    }
+  }
 
   function keyQ () {
     // if it's not set, set it to the rightmost
@@ -72,6 +96,16 @@ export default function Controls (props: {
       gameContext.setActiveBlock(props.penta?.blocks.length - 1)
     // otherwise, move it to the left one
     } else { gameContext.setActiveBlock(props.activeBlock - 1) }
+  }
+
+  function keyW () {
+    if (!(isVisible() ?? false)) { return }
+    const penta = _.cloneDeep(props.penta)
+    if (props.activeBlock == null) { return }
+    const currentReflection = props.penta.blocks[props.activeBlock]?.transformation.reflection
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    penta.blocks[props.activeBlock]!.transformation.reflection = !(currentReflection ?? false)
+    gameContext.setPenta(penta)
   }
 
   function keyE () {
@@ -105,7 +139,12 @@ export default function Controls (props: {
   }
 
   function keyS () {
-    console.log('S')
+    const penta = _.cloneDeep(props.penta)
+    if (props.activeBlock == null) { return }
+    const currentVisibility = props.penta.blocks[props.activeBlock]?.transformation.visible
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    penta.blocks[props.activeBlock]!.transformation.visible = !(currentVisibility ?? false)
+    gameContext.setPenta(penta)
   }
 
   return (
@@ -123,6 +162,14 @@ export default function Controls (props: {
           clickHandler={keyQ}
           icon={<BsArrowLeft size={20} style={{ color: '#ffffff' }} />}
           letter="Q"
+        ></ControlButton>
+
+        <ControlButton
+          position="absolute right-[90px] top-[0px] drop-shadow-lg"
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) ? '' : ' btn-disabled')}
+          clickHandler={keyW}
+          icon={reflectionIcon}
+          letter="W"
         ></ControlButton>
 
         <ControlButton
