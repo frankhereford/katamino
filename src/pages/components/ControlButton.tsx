@@ -1,9 +1,10 @@
 import React from 'react'
+import type { ReactNode } from 'react'
 
 export default function ControlButton (props: {
   classes: string
-  clickHandler: any
-  icon: any
+  clickHandler: () => void
+  icon: ReactNode
   letter?: string
   position: string
 }) {
