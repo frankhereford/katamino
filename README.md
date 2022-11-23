@@ -1,5 +1,8 @@
 # Stuff I learned
 
+* 🧘 Release to main
+  * Works great for this project
+  * Is that a comment on a solo project?
 * 🤖 GitHub actions
   * dependabot combiner
   * Build prod/pr with respect to migrations
