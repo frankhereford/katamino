@@ -2,7 +2,7 @@
 CREATE TABLE "colors" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "hexCode" TEXT NOT NULL DEFAULT '#ffffff',
+    "hexCode" TEXT NOT NULL DEFAULT '#ff00ff',
 
     CONSTRAINT "colors_pkey" PRIMARY KEY ("id")
 );
@@ -11,6 +11,7 @@ CREATE TABLE "colors" (
 CREATE TABLE "pieces" (
     "id" TEXT NOT NULL,
     "colorId" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
     "shape" JSONB NOT NULL DEFAULT '[[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]',
 
     CONSTRAINT "pieces_pkey" PRIMARY KEY ("id")
@@ -44,7 +45,6 @@ CREATE TABLE "blocks" (
 CREATE TABLE "transformations" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "blockId" TEXT NOT NULL,
     "visible" BOOLEAN NOT NULL DEFAULT false,
     "reflection" BOOLEAN NOT NULL DEFAULT false,
     "rotation" INTEGER NOT NULL DEFAULT 0,
@@ -81,7 +81,6 @@ CREATE TABLE "available_blocks" (
 -- CreateTable
 CREATE TABLE "available_transformations" (
     "id" TEXT NOT NULL,
-    "availableBlockId" TEXT NOT NULL,
     "visible" BOOLEAN NOT NULL DEFAULT false,
     "reflection" BOOLEAN NOT NULL DEFAULT false,
     "rotation" INTEGER NOT NULL DEFAULT 0,
@@ -95,7 +94,7 @@ CREATE TABLE "available_transformations" (
 CREATE TABLE "available_pentas" (
     "id" TEXT NOT NULL,
     "slamId" TEXT NOT NULL,
-    "rowName" TEXT NOT NULL DEFAULT 'A',
+    "rowName" TEXT NOT NULL DEFAULT '🤷🏻‍♂️',
     "columns" INTEGER NOT NULL DEFAULT 5,
     "borderWidth" INTEGER NOT NULL DEFAULT 2,
 
@@ -105,7 +104,7 @@ CREATE TABLE "available_pentas" (
 -- CreateTable
 CREATE TABLE "slams" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL DEFAULT 'Slam',
+    "name" TEXT NOT NULL DEFAULT '🤷🏼',
     "slamOrder" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "slams_pkey" PRIMARY KEY ("id")
@@ -161,7 +160,16 @@ CREATE TABLE "verification_tokens" (
 CREATE UNIQUE INDEX "colors_name_key" ON "colors"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "pieces_colorId_key" ON "pieces"("colorId");
+CREATE UNIQUE INDEX "pieces_slug_key" ON "pieces"("slug");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "pieces_colorId_shape_key" ON "pieces"("colorId", "shape");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "available_pentas_slamId_rowName_columns_key" ON "available_pentas"("slamId", "rowName", "columns");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "slams_name_key" ON "slams"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "accounts_provider_providerAccountId_key" ON "accounts"("provider", "providerAccountId");
@@ -203,9 +211,6 @@ ALTER TABLE "blocks" ADD CONSTRAINT "blocks_pentaId_fkey" FOREIGN KEY ("pentaId"
 ALTER TABLE "blocks" ADD CONSTRAINT "blocks_transformationId_fkey" FOREIGN KEY ("transformationId") REFERENCES "transformations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "transformations" ADD CONSTRAINT "transformations_blockId_fkey" FOREIGN KEY ("blockId") REFERENCES "blocks"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "pentas" ADD CONSTRAINT "pentas_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -219,9 +224,6 @@ ALTER TABLE "available_blocks" ADD CONSTRAINT "available_blocks_pieceId_fkey" FO
 
 -- AddForeignKey
 ALTER TABLE "available_blocks" ADD CONSTRAINT "available_blocks_availablePentaId_fkey" FOREIGN KEY ("availablePentaId") REFERENCES "available_pentas"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "available_transformations" ADD CONSTRAINT "available_transformations_availableBlockId_fkey" FOREIGN KEY ("availableBlockId") REFERENCES "available_blocks"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "available_pentas" ADD CONSTRAINT "available_pentas_slamId_fkey" FOREIGN KEY ("slamId") REFERENCES "slams"("id") ON DELETE CASCADE ON UPDATE CASCADE;
