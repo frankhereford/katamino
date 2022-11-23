@@ -12,7 +12,6 @@ export default function AvailablePentas () {
   const startPentaMutation = trpc.availablePenta.start.useMutation({
     onSuccess: (newPenta) => {
       if (newPenta === false) { return }
-      console.log(newPenta)
       Router.push(`/pentas/${newPenta.id}`).catch(console.error)
     }
   })
