@@ -106,8 +106,7 @@ export default function Penta (props: PentaProps) {
       }
     }
     if (complete) {
-      // ! TIL
-      // * This will cause your linter to want to put props in the dependency array 💀
+      // ! This will cause your linter to want to put props in the dependency array 💀
       props.completed?.()
     }
 
