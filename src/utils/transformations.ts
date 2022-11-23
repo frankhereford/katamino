@@ -21,6 +21,7 @@ export function transformBlockShape (
   if (doTranslation && (transformation.translationUp != null || transformation.translationRight != null)) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const translationColumns = columns ?? shape[0]!.length
+
     if (translationColumns > 5) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       shape = Array2D.pad(shape, Array2D.EDGES.RIGHT, translationColumns - shape[0]!.length, 0)
