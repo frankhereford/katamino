@@ -42,7 +42,7 @@ export default function UserPentas () {
 
   return (
     <>
-      {!pentaQueryLoading &&
+      {!pentaQueryLoading && (pentaCount ?? 0) > 0 &&
         <>
           <div className='text-center font-sans text-4xl font-bold leading-normal text-gray-700 tracking-wide mt-[50px]'>
             Your Pentas
