@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import { trpc } from '../../utils/trpc'
 import Block from './Block'
+import Penta from './Penta'
 import { showSlamEmoji } from '../../utils/slam'
 
 export default function UserPentas () {
@@ -41,6 +42,7 @@ export default function UserPentas () {
             <th className="text-center">Slam</th>
             <th className="text-center">Group</th>
             <th>Pieces</th>
+            <th>Penta</th>
           </tr>
         </thead>
         <tbody>
@@ -65,6 +67,11 @@ export default function UserPentas () {
                       <Block key={block.id} size={8} block={block} hideVisibilityIndicator={true}></Block>
                     )
                   })}
+                </div>
+              </td>
+              <td>
+                <div className='outline outline-1 outline-slate-400 bg-slate-100 w-fit p-1'>
+                  <Penta penta={penta} size={12} noBorder={true}></Penta>
                 </div>
               </td>
             </tr>

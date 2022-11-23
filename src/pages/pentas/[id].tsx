@@ -5,6 +5,9 @@ import Penta from '../components/Penta'
 import { type Prisma } from '@prisma/client'
 import { type NextPage } from 'next'
 import { useDebounceCallback } from '@react-hook/debounce'
+import Confetti from 'react-confetti'
+import { useTimeoutWhen } from 'rooks'
+import useWindowSize from 'react-use/lib/useWindowSize'
 
 import Controls from '../components/Controls'
 import Blocks from '../components/Blocks'
@@ -38,10 +41,17 @@ export const pentaContext = createContext<setPentaType>({
 })
 
 const PentaPage: NextPage = () => {
-  // access to the router to get the ID out of the URL
+  const [showConfetti, setShowConfetti] = useState(false)
+  // set the solved state (the confetti state) false after 5 seconds
+  useTimeoutWhen(() => setShowConfetti(false), 5000, showConfetti)
+  const { width: windowWidth, height: windowHeight } = useWindowSize()
+
+  const setComplete = trpc.penta.setComplete.useMutation({})
+
+  // * access to the router to get the ID out of the URL
   const { query, isReady: routerReady } = useRouter()
 
-  // query the penta in question and grab a function to trigger a refetch
+  // * query the penta in question and grab a function to trigger a refetch
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: pentaRecord, refetch: pentaRefetch } = trpc.penta.get.useQuery(
     { id: String(query.id) }, // what we're looking for
@@ -53,7 +63,7 @@ const PentaPage: NextPage = () => {
   // This will cause our state to get checked against the DB 4 seconds after the last move and reset that
   // timer if the user moves again.
   //
-  // 💀 😢
+  // ! 💀 😢
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 4000, false)
 
@@ -70,10 +80,23 @@ const PentaPage: NextPage = () => {
     return <></>
   }
 
+  function completed () {
+    if (penta == null) { return }
+    setShowConfetti(true)
+    setComplete.mutate({ id: penta.id })
+  }
+
   return (
     <>
+      {showConfetti &&
+        <Confetti
+          width={windowWidth}
+          height={windowHeight}
+          opacity={0.5}
+        />
+      }
       <pentaContext.Provider value={gameContext}>
-        <Penta penta={penta}></Penta>
+        <Penta penta={penta} completed={completed}></Penta>
         <Controls penta={penta} activeBlock={activeBlock}></Controls>
         <Blocks penta={penta} activeBlock={activeBlock}></Blocks>
       </pentaContext.Provider>
