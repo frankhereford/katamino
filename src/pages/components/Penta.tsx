@@ -123,7 +123,8 @@ export default function Penta (props: PentaProps) {
     }
     setGrid(squares)
   // * Don't let it fool you, you don't want props in the dependency array
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // TODO: Need to figure out how to add the react-hooks linting rules to super-linter
+  // ! eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.noBorder, props.penta, props.size])
 
   const [classes, setClasses] = useState(['grid', 'w-fit'])
