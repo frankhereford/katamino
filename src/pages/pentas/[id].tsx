@@ -4,12 +4,14 @@ import { trpc } from '../../utils/trpc'
 import Penta from '../components/Penta'
 import { type Prisma } from '@prisma/client'
 import { type NextPage } from 'next'
+import { useDebounceCallback } from '@react-hook/debounce'
 
 import Controls from '../components/Controls'
 import Blocks from '../components/Blocks'
 
 interface setPentaType {
   setActiveBlock: (block: number) => void
+  refetchPenta: () => void
   setPenta: (penta: Prisma.PentaGetPayload<{
     include: {
       blocks: {
@@ -28,7 +30,9 @@ interface setPentaType {
 
 export const pentaContext = createContext<setPentaType>({
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setActiveBlock: () => {},
+  setActiveBlock: () => {}, // these are not types, they are non-op functions
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  refetchPenta: () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setPenta: () => {}
 })
@@ -44,6 +48,15 @@ const PentaPage: NextPage = () => {
     { enabled: routerReady } // when we're to look for it
   )
 
+  // In an ideal world, you'd check to see that the DB state and the app state match after every mutation.
+  // Instead, we call on this debouncedPentaRefetch every time we make a mutation, but then debounce it.
+  // This will cause our state to get checked against the DB 4 seconds after the last move and reset that
+  // timer if the user moves again.
+  //
+  // 💀 😢
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 4000, false)
+
   const [penta, setPenta] = useState(pentaRecord)
 
   useEffect(() => {
@@ -51,7 +64,7 @@ const PentaPage: NextPage = () => {
   }, [pentaRecord])
 
   const [activeBlock, setActiveBlock] = useState<number | undefined>()
-  const gameContext = { setActiveBlock, setPenta }
+  const gameContext = { setActiveBlock, setPenta, refetchPenta: debouncedPentaRefetch }
 
   if (penta == null) {
     return <></>
