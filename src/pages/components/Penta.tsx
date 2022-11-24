@@ -25,7 +25,7 @@ interface PentaProps {
       }
     }
   }>
-  size?: number
+  size?: 12
   noBorder?: boolean
   completed?: () => void
 }
@@ -133,12 +133,63 @@ export default function Penta (props: PentaProps) {
   // ! don't put props in the dependency array
   }, [props.noBorder, props.penta, props.size])
 
-  const [classes, setClasses] = useState(['grid', 'w-fit'])
+  // const gridWidthClass = 'grid-cols-[repeat('
+  // console.log(boardColumns.toString()
+  //  + ',_61px)]'
+  const defaultClasses = ['grid']
+
+  const [classes, setClasses] = useState(defaultClasses)
 
   useEffect(() => {
     const boardColumns = (props.penta.columns ?? 12) + ((props.noBorder ?? false) ? 0 : props.penta.borderWidth * 2)
-    const newClasses = classes
+    console.log('🚀 ~ file: Penta.tsx ~ line 146 ~ useEffect ~ boardColumns', boardColumns)
+
+    const newClasses = defaultClasses
+    // const newClasses = defaultClasses.concat(gridWidthClass)
+    console.log('Size: ', props.size)
+
     // * this silly construction lets the CSS classes be picked up by the framework
+    // ! this is annoying now, figure out how to prevent them from being tree-shaken
+
+    if (props.size == null) {
+      if (boardColumns === 0) { newClasses.push('grid-cols-[repeat(0,_61px)]') }
+      if (boardColumns === 1) { newClasses.push('grid-cols-[repeat(1,_61px)]') }
+      if (boardColumns === 2) { newClasses.push('grid-cols-[repeat(2,_61px)]') }
+      if (boardColumns === 3) { newClasses.push('grid-cols-[repeat(3,_61px)]') }
+      if (boardColumns === 4) { newClasses.push('grid-cols-[repeat(4,_61px)]') }
+      if (boardColumns === 5) { newClasses.push('grid-cols-[repeat(5,_61px)]') }
+      if (boardColumns === 6) { newClasses.push('grid-cols-[repeat(6,_61px)]') }
+      if (boardColumns === 7) { newClasses.push('grid-cols-[repeat(7,_61px)]') }
+      if (boardColumns === 8) { newClasses.push('grid-cols-[repeat(8,_61px)]') }
+      if (boardColumns === 9) { newClasses.push('grid-cols-[repeat(9,_61px)]') }
+      if (boardColumns === 10) { newClasses.push('grid-cols-[repeat(10,_61px)]') }
+      if (boardColumns === 11) { newClasses.push('grid-cols-[repeat(11,_61px)]') }
+      if (boardColumns === 12) { newClasses.push('grid-cols-[repeat(12,_61px)]') }
+      if (boardColumns === 13) { newClasses.push('grid-cols-[repeat(13,_61px)]') }
+      if (boardColumns === 14) { newClasses.push('grid-cols-[repeat(14,_61px)]') }
+      if (boardColumns === 15) { newClasses.push('grid-cols-[repeat(15,_61px)]') }
+      if (boardColumns === 16) { newClasses.push('grid-cols-[repeat(16,_61px)]') }
+    }
+    if (props.size === 12) {
+      if (boardColumns === 0) { newClasses.push('grid-cols-[repeat(0,_13px)]') }
+      if (boardColumns === 1) { newClasses.push('grid-cols-[repeat(1,_13px)]') }
+      if (boardColumns === 2) { newClasses.push('grid-cols-[repeat(2,_13px)]') }
+      if (boardColumns === 3) { newClasses.push('grid-cols-[repeat(3,_13px)]') }
+      if (boardColumns === 4) { newClasses.push('grid-cols-[repeat(4,_13px)]') }
+      if (boardColumns === 5) { newClasses.push('grid-cols-[repeat(5,_13px)]') }
+      if (boardColumns === 6) { newClasses.push('grid-cols-[repeat(6,_13px)]') }
+      if (boardColumns === 7) { newClasses.push('grid-cols-[repeat(7,_13px)]') }
+      if (boardColumns === 8) { newClasses.push('grid-cols-[repeat(8,_13px)]') }
+      if (boardColumns === 9) { newClasses.push('grid-cols-[repeat(9,_13px)]') }
+      if (boardColumns === 10) { newClasses.push('grid-cols-[repeat(10,_13px)]') }
+      if (boardColumns === 11) { newClasses.push('grid-cols-[repeat(11,_13px)]') }
+      if (boardColumns === 12) { newClasses.push('grid-cols-[repeat(12,_13px)]') }
+      if (boardColumns === 13) { newClasses.push('grid-cols-[repeat(13,_13px)]') }
+      if (boardColumns === 14) { newClasses.push('grid-cols-[repeat(14,_13px)]') }
+      if (boardColumns === 15) { newClasses.push('grid-cols-[repeat(15,_13px)]') }
+      if (boardColumns === 16) { newClasses.push('grid-cols-[repeat(16,_13px)]') }
+    }
+
     if (boardColumns === 0) { newClasses.push('grid-cols-none') }
     if (boardColumns === 1) { newClasses.push('grid-cols-1') }
     if (boardColumns === 2) { newClasses.push('grid-cols-2') }
@@ -157,7 +208,7 @@ export default function Penta (props: PentaProps) {
     if (boardColumns === 15) { newClasses.push('grid-cols-15') }
     if (boardColumns === 16) { newClasses.push('grid-cols-16') }
     setClasses(newClasses)
-  }, [classes, props.noBorder, props.penta])
+  }, [props.noBorder, props.penta])
 
   return (
     <>
