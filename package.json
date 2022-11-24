@@ -26,9 +26,9 @@
     "@trpc/server": "10.0.0-rc.4",
     "array2d": "^0.0.5",
     "colord": "^2.9.3",
-    "daisyui": "^2.41.0",
+    "daisyui": "^2.42.0",
     "lodash": "^4.17.21",
-    "next": "13.0.2",
+    "next": "13.0.5",
     "next-auth": "^4.15.1",
     "react": "18.2.0",
     "react-confetti": "^6.1.0",
@@ -37,12 +37,12 @@
     "react-spinners": "^0.13.6",
     "react-use": "^17.4.0",
     "rooks": "^7.4.2",
-    "superjson": "1.9.1",
+    "superjson": "1.11.0",
     "zod": "^3.18.0"
   },
   "devDependencies": {
     "@railway/cli": "^2.0.13",
-    "@types/lodash": "^4.14.189",
+    "@types/lodash": "^4.14.190",
     "@types/node": "^18.0.0",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
@@ -50,7 +50,7 @@
     "@typescript-eslint/parser": "^5.44.0",
     "autoprefixer": "^10.4.7",
     "eslint": "^8.26.0",
-    "eslint-config-next": "13.0.2",
+    "eslint-config-next": "13.0.5",
     "postcss": "^8.4.14",
     "prettier": "^2.8.0",
     "prettier-plugin-tailwindcss": "^0.1.13",
@@ -59,7 +59,7 @@
     "ts-node": "^10.9.1",
     "ts-standard": "^12.0.1",
     "typescript": "^4.8.4",
-    "vercel": "^28.5.5"
+    "vercel": "^28.5.6"
   },
   "ct3aMetadata": {
     "initVersion": "6.10.1"
