@@ -68,9 +68,6 @@ export default function Penta (props: PentaProps) {
       ) {
         let shape = block.piece.shape as number[][]
 
-        // console.log('shape')
-        // console.table(shape)
-
         shape = transformBlockShape(shape,
           block.transformation,
           props.penta.borderWidth,
@@ -94,7 +91,6 @@ export default function Penta (props: PentaProps) {
             }
           }
         }
-        // console.table(board)
       }
     })
 
@@ -133,24 +129,18 @@ export default function Penta (props: PentaProps) {
   // ! don't put props in the dependency array
   }, [props.noBorder, props.penta, props.size])
 
-  // const gridWidthClass = 'grid-cols-[repeat('
-  // console.log(boardColumns.toString()
-  //  + ',_61px)]'
   const defaultClasses = ['grid']
 
   const [classes, setClasses] = useState(defaultClasses)
 
   useEffect(() => {
     const boardColumns = (props.penta.columns ?? 12) + ((props.noBorder ?? false) ? 0 : props.penta.borderWidth * 2)
-    console.log('🚀 ~ file: Penta.tsx ~ line 146 ~ useEffect ~ boardColumns', boardColumns)
 
     const newClasses = defaultClasses
-    // const newClasses = defaultClasses.concat(gridWidthClass)
     console.log('Size: ', props.size)
 
     // * this silly construction lets the CSS classes be picked up by the framework
     // ! this is annoying now, figure out how to prevent them from being tree-shaken
-
     if (props.size == null) {
       if (boardColumns === 0) { newClasses.push('grid-cols-[repeat(0,_61px)]') }
       if (boardColumns === 1) { newClasses.push('grid-cols-[repeat(1,_61px)]') }
