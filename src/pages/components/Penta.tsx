@@ -137,7 +137,6 @@ export default function Penta (props: PentaProps) {
     const boardColumns = (props.penta.columns ?? 12) + ((props.noBorder ?? false) ? 0 : props.penta.borderWidth * 2)
 
     const newClasses = defaultClasses
-    console.log('Size: ', props.size)
 
     // * this silly construction lets the CSS classes be picked up by the framework
     // ! this is annoying now, figure out how to prevent them from being tree-shaken
