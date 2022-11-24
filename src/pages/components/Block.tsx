@@ -46,11 +46,11 @@ export default function Block (props: BlockProps) {
     }
   }, [props.block, props.size])
 
-  const [gridClasses, setGridClasses] = useState(['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100'])
+  const [gridClasses, setGridClasses] = useState(['z-0', 'm-1', 'grid', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100'])
 
   useEffect(() => {
     console.log('Size: ', props.size)
-    const gridClasses = ['z-0', 'm-1', 'grid', 'grid-cols-5', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100']
+    const gridClasses = ['z-0', 'm-1', 'grid', 'outline', 'outline-1', 'outline-slate-400', 'p-0.5', 'bg-slate-100']
     if (!(props.hideVisibilityIndicator ?? false) && !props.block.transformation.visible) {
       gridClasses.push('opacity-30')
     }

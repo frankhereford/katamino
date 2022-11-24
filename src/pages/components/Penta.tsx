@@ -179,6 +179,7 @@ export default function Penta (props: PentaProps) {
       if (boardColumns === 16) { newClasses.push('grid-cols-[repeat(16,_13px)]') }
     }
 
+    /*
     if (boardColumns === 0) { newClasses.push('grid-cols-none') }
     if (boardColumns === 1) { newClasses.push('grid-cols-1') }
     if (boardColumns === 2) { newClasses.push('grid-cols-2') }
@@ -196,6 +197,7 @@ export default function Penta (props: PentaProps) {
     if (boardColumns === 14) { newClasses.push('grid-cols-14') }
     if (boardColumns === 15) { newClasses.push('grid-cols-15') }
     if (boardColumns === 16) { newClasses.push('grid-cols-16') }
+    */
     setClasses(newClasses)
   }, [props.noBorder, props.penta])
 
