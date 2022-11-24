@@ -208,6 +208,7 @@ async function main (): Promise<void> {
   })
 
   const pentas = [
+    // { slamName: 'Small Slam', rowName: '🧪', minColumns: 3, pieces: ['darkBlue', 'orange', 'darkGreen', 'purple'] }
     { slamName: 'Small Slam', rowName: 'A', minColumns: 3, pieces: ['orange', 'brown', 'darkGreen', 'pink', 'green', 'teal', 'blue', 'purple'] },
     { slamName: 'Small Slam', rowName: 'B', minColumns: 3, pieces: ['purple', 'pink', 'yellow', 'orange', 'teal', 'brown', 'darkGreen', 'green'] },
     { slamName: 'Small Slam', rowName: 'C', minColumns: 3, pieces: ['orange', 'blue', 'pink', 'brown', 'purple', 'yellow', 'teal', 'darkGrey'] },
@@ -217,6 +218,7 @@ async function main (): Promise<void> {
     { slamName: 'Small Slam', rowName: 'G', minColumns: 3, pieces: ['orange', 'blue', 'pink', 'teal', 'brown', 'green', 'purple', 'darkGrey'] },
 
     { slamName: 'The Slam', rowName: 'A', minColumns: 5, pieces: ['orange', 'pink', 'yellow', 'darkGrey', 'green', 'brown', 'teal', 'purple', 'blue'] },
+
     /*
     { slamName: "The Slam", rowName: "B", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
     { slamName: "The Slam", rowName: "C", minColumns: 5, pieces: ['', '', '', '', '', '', '', '', ''] },
