@@ -67,18 +67,16 @@ export default function Penta (props: PentaProps) {
         Array.isArray(block.piece.shape)
       ) {
         let shape = block.piece.shape as number[][]
+
+        // console.log('shape')
+        // console.table(shape)
+
         shape = transformBlockShape(shape,
           block.transformation,
           props.penta.borderWidth,
           true, // doTranslation
           props.penta.columns)
 
-        shape = Array2D.crop(shape,
-          props.penta.borderWidth,
-          props.penta.borderWidth,
-          5 + props.penta.borderWidth,
-          5 + props.penta.borderWidth
-        )
         for (let row = 0; row < shape.length; row++) {
           // * these exceptions to the typing are the pain from storing JSON
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -96,6 +94,7 @@ export default function Penta (props: PentaProps) {
             }
           }
         }
+        // console.table(board)
       }
     })
 
@@ -132,6 +131,7 @@ export default function Penta (props: PentaProps) {
     }
     setGrid(squares)
   // ! don't put props in the dependency array
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.noBorder, props.penta, props.size])
 
   const [classes, setClasses] = useState(['grid', 'w-fit'])
