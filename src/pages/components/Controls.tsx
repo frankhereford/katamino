@@ -113,6 +113,25 @@ export default function Controls (props: {
     }
   }
 
+  function keyTab (event: KeyboardEvent) {
+    event.preventDefault()
+    if (props.activeBlock == null && !event.shiftKey) {
+      gameContext.setActiveBlock(0)
+    } else if (props.activeBlock == null && event.shiftKey) {
+      gameContext.setActiveBlock(props.penta?.blocks.length - 1)
+    } else if ((props.activeBlock === props.penta?.blocks.length - 1) && !event.shiftKey) {
+      gameContext.setActiveBlock(0)
+    } else if ((props.activeBlock === props.penta?.blocks.length - 1) && event.shiftKey) {
+      gameContext.setActiveBlock(props.activeBlock - 1)
+    } else if (props.activeBlock === 0 && event.shiftKey) {
+      gameContext.setActiveBlock(props.penta?.blocks.length - 1)
+    } else if (props.activeBlock != null && !event.shiftKey) {
+      gameContext.setActiveBlock(props.activeBlock + 1)
+    } else if (props.activeBlock != null && event.shiftKey) {
+      gameContext.setActiveBlock(props.activeBlock - 1)
+    }
+  }
+
   function keyQ () {
     // if it's not set, set it to the rightmost
     if (props.activeBlock == null && props.activeBlock !== 0) {
