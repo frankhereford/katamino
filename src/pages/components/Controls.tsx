@@ -166,23 +166,10 @@ export default function Controls (props: {
     } else { gameContext.setActiveBlock(props.activeBlock + 1) }
   }
 
-  function keyTab (event: KeyboardEvent) {
-    event.preventDefault()
-    if (props.activeBlock == null && !event.shiftKey) {
-      gameContext.setActiveBlock(0)
-    } else if (props.activeBlock == null && event.shiftKey) {
-      gameContext.setActiveBlock(props.penta?.blocks.length - 1)
-    } else if ((props.activeBlock === props.penta?.blocks.length - 1) && !event.shiftKey) {
-      gameContext.setActiveBlock(0)
-    } else if ((props.activeBlock === props.penta?.blocks.length - 1) && event.shiftKey) {
-      gameContext.setActiveBlock(props.activeBlock - 1)
-    } else if (props.activeBlock === 0 && event.shiftKey) {
-      gameContext.setActiveBlock(props.penta?.blocks.length - 1)
-    } else if (props.activeBlock != null && !event.shiftKey) {
-      gameContext.setActiveBlock(props.activeBlock + 1)
-    } else if (props.activeBlock != null && event.shiftKey) {
-      gameContext.setActiveBlock(props.activeBlock - 1)
-    }
+  function keyR () {
+    // replay mode
+    console.log('isReplay: ', isReplay)
+    setIsReplay(!isReplay)
   }
 
   function keyA () {
