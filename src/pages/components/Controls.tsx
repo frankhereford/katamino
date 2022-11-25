@@ -75,6 +75,15 @@ export default function Controls (props: {
     }
   }, [props.penta, props.activeBlock])
 
+  // handle setting the replay icon
+  useEffect(() => {
+    if (isReplay) {
+      setReplayIcon(<BsPlay size={20} style={{ color: '#ffffff' }} />)
+    } else {
+      setReplayIcon(<MdReplay size={20} style={{ color: '#ffffff' }} />)
+    }
+  }, [isReplay])
+
   const gameContext = useContext(pentaContext)
 
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -94,7 +103,7 @@ export default function Controls (props: {
     q: keyQ,
     w: keyW,
     e: keyE,
-    // r: keyR,
+    r: keyR,
     a: keyA,
     s: keyS,
     d: keyD,
@@ -297,8 +306,16 @@ export default function Controls (props: {
         ></ControlButton>
 
         <ControlButton
+          position="absolute right-[-30px] top-[0px] drop-shadow-lg"
+          classes="btn gap-0 m-2 btn-primary text-white"
+          clickHandler={keyR}
+          icon={replayIcon}
+          letter="R"
+        ></ControlButton>
+
+        <ControlButton
           position="absolute right-[135px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) ? '' : ' btn-disabled')}
           clickHandler={keyA}
           icon={<RiFilePaperLine size={20} style={{ color: '#ffffff' }} />}
           letter="A"
