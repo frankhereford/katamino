@@ -47,6 +47,9 @@ export const pentaContext = createContext<pentaContextType>({
 
 })
 
+// * React is cool and all, but I dare someone to read this and know what it does
+// * without boatloads of comments.
+// TODO: Comments, so many comments
 const PentaPage: NextPage = () => {
   const [showConfetti, setShowConfetti] = useState(false)
   // * set the solved state (the confetti state) false after 5 seconds
