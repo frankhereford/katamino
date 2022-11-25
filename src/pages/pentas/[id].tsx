@@ -8,6 +8,7 @@ import { useDebounceCallback } from '@react-hook/debounce'
 import Confetti from 'react-confetti'
 import { useTimeoutWhen } from 'rooks'
 import useWindowSize from 'react-use/lib/useWindowSize'
+import _ from 'lodash'
 
 import Controls from '../components/Controls'
 import Blocks from '../components/Blocks'
