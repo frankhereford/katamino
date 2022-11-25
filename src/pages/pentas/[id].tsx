@@ -64,6 +64,13 @@ const PentaPage: NextPage = () => {
     { enabled: routerReady } // when we're to look for it
   )
 
+  const [isReplay, setIsReplay] = useState(false)
+
+  const { data: pentaHistoryRecord, refetch: pentaHistoryRefetch, isLoading: pentaHistoryIsLoading } = trpc.penta.getHistory.useQuery(
+    { id: String(query.id) }, // what we're looking for
+    { enabled: isReplay } // when we're to look for it
+  )
+
   // In an ideal world, you'd check to see that the DB state and the app state match after every mutation.
   // Instead, we call on this debouncedPentaRefetch every time we make a mutation, but then debounce it.
   // This will cause our state to get checked against the DB 4 seconds after the last move and reset that
@@ -79,9 +86,13 @@ const PentaPage: NextPage = () => {
     setPenta(pentaRecord)
   }, [pentaRecord])
 
-  const [isReplay, setIsReplay] = useState(false)
   const [activeBlock, setActiveBlock] = useState<number | undefined>()
   const gameContext = { setActiveBlock, setPenta, refetchPenta: debouncedPentaRefetch, isReplay, setIsReplay }
+
+  useEffect(() => {
+    console.log('isReplay: ', isReplay)
+    console.log('pentaHistoryRecord: ', pentaHistoryRecord)
+  }, [isReplay, pentaHistoryIsLoading, pentaHistoryRecord])
 
   if (penta == null) {
     return <></>
@@ -104,7 +115,7 @@ const PentaPage: NextPage = () => {
       }
       <pentaContext.Provider value={gameContext}>
         <div className='mt-[30px]'>
-          { isReplay && <Penta penta={penta} completed={completed}></Penta> }
+          <Penta penta={penta} completed={completed}></Penta>
         </div>
         <Controls penta={penta} activeBlock={activeBlock}></Controls>
         <Blocks penta={penta} activeBlock={activeBlock}></Blocks>
