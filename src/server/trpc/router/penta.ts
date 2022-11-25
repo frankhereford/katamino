@@ -70,6 +70,45 @@ export const pentaRouter = router({
       })
     }),
 
+  getHistory: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.penta.findFirst({
+        where: {
+          user: ctx.session.user,
+          id: input.id
+        },
+        include: {
+          blocks: {
+            include: {
+              piece: {
+                include: {
+                  color: true
+                }
+              },
+              transformation: true
+            },
+            orderBy: {
+              id: 'asc'
+            }
+          },
+          moves: {
+            include: {
+              block: true,
+              incomingTransformation: true,
+              outgoingTransformation: true
+            },
+            orderBy: {
+              moveDate: 'asc'
+            }
+          }
+        },
+        orderBy: {
+          id: 'asc'
+        }
+      })
+    }),
+
   count: protectedProcedure.query(async ({ ctx }) => {
     const pentas = await ctx.prisma.penta.findMany({
       where: {
