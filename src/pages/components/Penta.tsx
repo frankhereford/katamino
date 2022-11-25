@@ -129,14 +129,12 @@ export default function Penta (props: PentaProps) {
   // ! don't put props in the dependency array
   }, [props.noBorder, props.penta, props.size])
 
-  const defaultClasses = ['grid']
-
-  const [classes, setClasses] = useState(defaultClasses)
-
+  // * this is quickly overwritten in the following useEffect
+  const [classes, setClasses] = useState(['grid'])
   useEffect(() => {
     const boardColumns = (props.penta.columns ?? 12) + ((props.noBorder ?? false) ? 0 : props.penta.borderWidth * 2)
 
-    const newClasses = defaultClasses
+    const newClasses = ['grid']
 
     // * this silly construction lets the CSS classes be picked up by the framework
     // ! this is annoying now, figure out how to prevent them from being tree-shaken
@@ -180,7 +178,7 @@ export default function Penta (props: PentaProps) {
     }
 
     setClasses(newClasses)
-  }, [props.noBorder, props.penta])
+  }, [props.noBorder, props.penta, props.size])
 
   return (
     <>
