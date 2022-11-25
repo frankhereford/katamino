@@ -108,6 +108,7 @@ const PentaPage: NextPage = () => {
 
 
   useEffect(() => {
+    if (pentaHistoryRecord == null) return
     console.log('pentaHistoryRecord: ', pentaHistoryRecord)
   }, [pentaHistoryRecord])
 
