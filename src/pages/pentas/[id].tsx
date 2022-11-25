@@ -1,4 +1,5 @@
-import React, { useState, createContext, useEffect } from 'react'
+/* eslint-disable no-multiple-empty-lines */
+import React, { useState, createContext, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { trpc } from '../../utils/trpc'
 import Penta from '../components/Penta'
@@ -70,6 +71,7 @@ const PentaPage: NextPage = () => {
 
   const [isReplay, setIsReplay] = useState(false)
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: pentaHistoryRecord, refetch: pentaHistoryRefetch, isLoading: pentaHistoryIsLoading } = trpc.penta.getHistory.useQuery(
     { id: String(query.id) }, // what we're looking for
     { enabled: isReplay } // when we're to look for it
@@ -95,8 +97,39 @@ const PentaPage: NextPage = () => {
 
   useEffect(() => {
     console.log('isReplay: ', isReplay)
+    if (isReplay) {
+      pentaHistoryRefetch().catch((err) => console.error(err))
+    }
+  }, [isReplay, pentaHistoryRefetch])
+
+
+
+
+
+
+  useEffect(() => {
     console.log('pentaHistoryRecord: ', pentaHistoryRecord)
-  }, [isReplay, pentaHistoryIsLoading, pentaHistoryRecord])
+  }, [pentaHistoryRecord])
+
+  const wheelHandler = (event: React.WheelEvent) => {
+    let forward = true
+    if (event.deltaY < 0) {
+      forward = false
+    }
+    console.log('wheel!: ', event.deltaY)
+  }
+
+  const debouncedWheelHandler = useMemo(
+    () => _.throttle(wheelHandler, 250)
+    // * the items in this dependency array are what are operated on or from for
+    // * the wheelHandler function.
+    , [])
+
+
+
+
+
+
 
   if (penta == null) {
     return <></>
@@ -118,11 +151,13 @@ const PentaPage: NextPage = () => {
         />
       }
       <pentaContext.Provider value={gameContext}>
-        <div className='mt-[30px]'>
-          <Penta penta={penta} completed={completed}></Penta>
+        <div onWheel={debouncedWheelHandler}>
+          <div className='mt-[30px]'>
+            <Penta penta={penta} completed={completed}></Penta>
+          </div>
+          <Controls penta={penta} activeBlock={activeBlock}></Controls>
+          <Blocks penta={penta} activeBlock={activeBlock}></Blocks>
         </div>
-        <Controls penta={penta} activeBlock={activeBlock}></Controls>
-        <Blocks penta={penta} activeBlock={activeBlock}></Blocks>
       </pentaContext.Provider>
     </>
   )
