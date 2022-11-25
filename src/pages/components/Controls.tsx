@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */ // take me out after all the icon imports are used
-
 import { useContext, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { type Prisma } from '@prisma/client'
@@ -9,7 +7,7 @@ import { pentaContext } from '../pentas/[id]'
 import _ from 'lodash'
 import { trpc } from '../../utils/trpc'
 
-// icons
+// * icons
 import { BsArrowLeft, BsArrowRight, BsArrowBarDown, BsArrowBarUp, BsArrowBarLeft, BsArrowBarRight, BsPlay } from 'react-icons/bs'
 import { TbFlipHorizontal, TbFlipVertical } from 'react-icons/tb'
 import { RiFilePaperLine } from 'react-icons/ri'
@@ -43,7 +41,7 @@ export default function Controls (props: {
   const [isReplay, setIsReplay] = useState(false)
   const [replayIcon, setReplayIcon] = useState(<MdReplay size={20} style={{ color: '#ffffff' }} />)
 
-  // handle setting the visibility icon
+  // * handle setting the visibility icon
   useEffect(() => {
     if (props.activeBlock == null) { return }
     if ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) {
@@ -53,7 +51,7 @@ export default function Controls (props: {
     }
   }, [props.penta, props.activeBlock])
 
-  // handle setting the reflection icon
+  // * handle setting the reflection icon
   useEffect(() => {
     if (props.activeBlock == null) { return }
     if (props.penta.blocks[props.activeBlock]?.transformation.rotation === 0) {
@@ -66,7 +64,7 @@ export default function Controls (props: {
     }
   }, [props.penta, props.activeBlock])
 
-  // handle setting the rotation icon
+  // * handle setting the rotation icon
   useEffect(() => {
     if (props.activeBlock == null) { return }
     const currentRotation = props.penta.blocks[props.activeBlock]?.transformation.rotation ?? 0
@@ -77,7 +75,7 @@ export default function Controls (props: {
     }
   }, [props.penta, props.activeBlock])
 
-  // handle setting the replay icon
+  // * handle setting the replay icon
   useEffect(() => {
     if (isReplay) {
       setReplayIcon(<BsPlay size={20} style={{ color: '#ffffff' }} />)
@@ -95,7 +93,7 @@ export default function Controls (props: {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       blockId: props.penta.blocks[props.activeBlock]!.id,
       currentTransformation: newTransformation,
-      now: new Date() // these dates can be used to truly serialize moves
+      now: new Date() // * these dates can be used to truly serialize moves
     })
     gameContext.refetchPenta()
   }
@@ -144,10 +142,10 @@ export default function Controls (props: {
   }
 
   function keyQ () {
-    // if it's not set, set it to the rightmost
+    // * if it's not set, set it to the rightmost
     if (props.activeBlock == null && props.activeBlock !== 0) {
       gameContext.setActiveBlock(props.penta?.blocks.length - 1)
-    // if it's zero, set it to the right most
+    // * if it's zero, set it to the right most
     } else if (props.activeBlock === 0) {
       gameContext.setActiveBlock(props.penta?.blocks.length - 1)
     // otherwise, move it to the left one
@@ -167,18 +165,18 @@ export default function Controls (props: {
   }
 
   function keyE () {
-    // if it's not set, set it to the leftmost
+    // * if it's not set, set it to the leftmost
     if (props.activeBlock == null && props.activeBlock !== 0) {
       gameContext.setActiveBlock(0)
-    // if it's the rightmost, set it to the leftmost
+    // * if it's the rightmost, set it to the leftmost
     } else if (props.activeBlock === props.penta?.blocks.length - 1) {
       gameContext.setActiveBlock(0)
-    // otherwise, move it to the right one
+    // * otherwise, move it to the right one
     } else { gameContext.setActiveBlock(props.activeBlock + 1) }
   }
 
   function keyR () {
-    // replay mode
+    // * replay mode
     console.log('isReplay: ', isReplay)
     setIsReplay(!isReplay)
   }
