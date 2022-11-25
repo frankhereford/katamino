@@ -107,24 +107,35 @@ const PentaPage: NextPage = () => {
 
 
 
+
+  const [historyIndex, setHistoryIndex] = useState(0)
+
+  useEffect(() => {
+    console.log('📚 historyIndex: ', historyIndex)
+  }, [historyIndex])
+
   useEffect(() => {
     if (pentaHistoryRecord == null) return
     console.log('pentaHistoryRecord: ', pentaHistoryRecord)
   }, [pentaHistoryRecord])
 
-  const wheelHandler = (event: React.WheelEvent) => {
-    let forward = true
-    if (event.deltaY < 0) {
-      forward = false
-    }
-    console.log('wheel!: ', event.deltaY)
-  }
-
   const debouncedWheelHandler = useMemo(
-    () => _.throttle(wheelHandler, 250)
+    () => _.throttle((event: React.WheelEvent) => {
+      let forward = true
+      if (event.deltaY < 0) {
+        forward = false
+      }
+      if (!forward && historyIndex === 0) return
+
+      if (forward) {
+        setHistoryIndex(historyIndex + 1)
+      } else {
+        setHistoryIndex(historyIndex - 1)
+      }
+    }, 250)
     // * the items in this dependency array are what are operated on or from for
     // * the wheelHandler function.
-    , [])
+    , [historyIndex])
 
 
 
