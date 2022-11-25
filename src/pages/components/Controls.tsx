@@ -40,6 +40,8 @@ export default function Controls (props: {
   const [visibilityIcon, setVisibilityIcon] = useState(<BiShow size={20} style={{ color: '#ffffff' }} />)
   const [reflectionIcon, setReflectionIcon] = useState(<TbFlipHorizontal size={20} style={{ color: '#ffffff' }} />)
   const [rotationIcon, setRotationIcon] = useState(<AiOutlineRotateRight size={20} style={{ color: '#ffffff' }} />)
+  const [isReplay, setIsReplay] = useState(false)
+  const [replayIcon, setReplayIcon] = useState(<MdReplay size={20} style={{ color: '#ffffff' }} />)
 
   // handle setting the visibility icon
   useEffect(() => {
@@ -339,28 +341,28 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute left-[80px] top-[0px] drop-shadow-lg"
-          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
           clickHandler={keyUp}
           icon={<BsArrowBarUp size={20} style={{ color: '#ffffff' }} />}
         ></ControlButton>
 
         <ControlButton
           position="absolute left-[20px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
           clickHandler={keyLeft}
           icon={<BsArrowBarLeft size={20} style={{ color: '#ffffff' }} />}
         ></ControlButton>
 
         <ControlButton
           position="absolute left-[80px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
           clickHandler={keyDown}
           icon={<BsArrowBarDown size={20} style={{ color: '#ffffff' }} />}
         ></ControlButton>
 
         <ControlButton
           position="absolute left-[140px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
           clickHandler={keyRight}
           icon={<BsArrowBarRight size={20} style={{ color: '#ffffff' }} />}
         ></ControlButton>
