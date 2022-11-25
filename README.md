@@ -18,6 +18,7 @@
 * 💨 Tailwind CSS
   * Bootstrap but mega-🍄
   * Closely watch the animation on <https://tailwindcss.com/>, it's not an exaggeration
+  * Meaningful classes in DOM
 * 🌈 Prisma
   * TypeScript Safe Apollo but with [useQuery](https://tanstack.com/query/v4/docs/reference/useQuery)
   * Generated library specific to your schema with all the typing information in it, so your IDE goes brrr. 💪
