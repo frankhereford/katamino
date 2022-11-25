@@ -12,7 +12,7 @@ import useWindowSize from 'react-use/lib/useWindowSize'
 import Controls from '../components/Controls'
 import Blocks from '../components/Blocks'
 
-interface setPentaType {
+interface pentaContextType {
   setActiveBlock: (block: number) => void
   refetchPenta: () => void
   setPenta: (penta: Prisma.PentaGetPayload<{
@@ -29,20 +29,26 @@ interface setPentaType {
       }
     }
   }>) => void
+  isReplay: boolean
+  setIsReplay: (isReplay: boolean) => void
 }
 
-export const pentaContext = createContext<setPentaType>({
+export const pentaContext = createContext<pentaContextType>({
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setActiveBlock: () => {}, // these are not types, they are non-op functions
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   refetchPenta: () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setPenta: () => {}
+  setPenta: () => {},
+  isReplay: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setIsReplay: () => {}
+
 })
 
 const PentaPage: NextPage = () => {
   const [showConfetti, setShowConfetti] = useState(false)
-  // set the solved state (the confetti state) false after 5 seconds
+  // * set the solved state (the confetti state) false after 5 seconds
   useTimeoutWhen(() => setShowConfetti(false), 5000, showConfetti)
   const { width: windowWidth, height: windowHeight } = useWindowSize()
 
@@ -73,8 +79,9 @@ const PentaPage: NextPage = () => {
     setPenta(pentaRecord)
   }, [pentaRecord])
 
+  const [isReplay, setIsReplay] = useState(false)
   const [activeBlock, setActiveBlock] = useState<number | undefined>()
-  const gameContext = { setActiveBlock, setPenta, refetchPenta: debouncedPentaRefetch }
+  const gameContext = { setActiveBlock, setPenta, refetchPenta: debouncedPentaRefetch, isReplay, setIsReplay }
 
   if (penta == null) {
     return <></>
@@ -97,7 +104,7 @@ const PentaPage: NextPage = () => {
       }
       <pentaContext.Provider value={gameContext}>
         <div className='mt-[30px]'>
-          <Penta penta={penta} completed={completed}></Penta>
+          { isReplay && <Penta penta={penta} completed={completed}></Penta> }
         </div>
         <Controls penta={penta} activeBlock={activeBlock}></Controls>
         <Blocks penta={penta} activeBlock={activeBlock}></Blocks>

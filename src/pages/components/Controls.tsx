@@ -38,7 +38,6 @@ export default function Controls (props: {
   const [visibilityIcon, setVisibilityIcon] = useState(<BiShow size={20} style={{ color: '#ffffff' }} />)
   const [reflectionIcon, setReflectionIcon] = useState(<TbFlipHorizontal size={20} style={{ color: '#ffffff' }} />)
   const [rotationIcon, setRotationIcon] = useState(<AiOutlineRotateRight size={20} style={{ color: '#ffffff' }} />)
-  const [isReplay, setIsReplay] = useState(false)
   const [replayIcon, setReplayIcon] = useState(<MdReplay size={20} style={{ color: '#ffffff' }} />)
 
   // * handle setting the visibility icon
@@ -75,16 +74,16 @@ export default function Controls (props: {
     }
   }, [props.penta, props.activeBlock])
 
+  const gameContext = useContext(pentaContext)
+
   // * handle setting the replay icon
   useEffect(() => {
-    if (isReplay) {
+    if (gameContext.isReplay) {
       setReplayIcon(<BsPlay size={20} style={{ color: '#ffffff' }} />)
     } else {
       setReplayIcon(<MdReplay size={20} style={{ color: '#ffffff' }} />)
     }
-  }, [isReplay])
-
-  const gameContext = useContext(pentaContext)
+  }, [gameContext.isReplay])
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   function transmitMove (newTransformation: Prisma.TransformationGetPayload<{}>) {
@@ -177,8 +176,8 @@ export default function Controls (props: {
 
   function keyR () {
     // * replay mode
-    console.log('isReplay: ', isReplay)
-    setIsReplay(!isReplay)
+    console.log('isReplay: ', gameContext.isReplay)
+    gameContext.setIsReplay(!gameContext.isReplay)
   }
 
   function keyA () {
