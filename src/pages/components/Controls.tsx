@@ -153,6 +153,7 @@ export default function Controls (props: {
 
   function keyW () {
     if (!(isVisible() ?? false)) { return }
+    if (gameContext.isReplay) { return }
     const penta = _.cloneDeep(props.penta)
     if (props.activeBlock == null) { return }
     const currentReflection = props.penta.blocks[props.activeBlock]?.transformation.reflection
@@ -201,6 +202,7 @@ export default function Controls (props: {
 
   function keyS () {
     const penta = _.cloneDeep(props.penta)
+    if (gameContext.isReplay) { return }
     if (props.activeBlock == null) { return }
     const currentVisibility = props.penta.blocks[props.activeBlock]?.transformation.visible
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -212,6 +214,7 @@ export default function Controls (props: {
 
   function keyD () {
     if (!(isVisible() ?? false)) { return }
+    if (gameContext.isReplay) { return }
     const penta = _.cloneDeep(props.penta)
     if (props.activeBlock == null) { return }
     const currentRotation = props.penta.blocks[props.activeBlock]?.transformation.rotation ?? 0
@@ -224,6 +227,7 @@ export default function Controls (props: {
 
   function keyUp () {
     if (!(isVisible() ?? false)) { return }
+    if (gameContext.isReplay) { return }
     const penta = _.cloneDeep(props.penta)
     if (props.activeBlock == null) { return }
     const currentTranslationUp = props.penta.blocks[props.activeBlock]?.transformation.translationUp
@@ -236,6 +240,7 @@ export default function Controls (props: {
 
   function keyDown () {
     if (!(isVisible() ?? false)) { return }
+    if (gameContext.isReplay) { return }
     const penta = _.cloneDeep(props.penta)
     if (props.activeBlock == null) { return }
     const currentTranslationUp = props.penta.blocks[props.activeBlock]?.transformation.translationUp
@@ -248,6 +253,7 @@ export default function Controls (props: {
 
   function keyRight () {
     if (!(isVisible() ?? false)) { return }
+    if (gameContext.isReplay) { return }
     const penta = _.cloneDeep(props.penta)
     if (props.activeBlock == null) { return }
     const currentTranslationRight = props.penta.blocks[props.activeBlock]?.transformation.translationRight
@@ -260,6 +266,7 @@ export default function Controls (props: {
 
   function keyLeft () {
     if (!(isVisible() ?? false)) { return }
+    if (gameContext.isReplay) { return }
     const penta = _.cloneDeep(props.penta)
     if (props.activeBlock == null) { return }
     const currentTranslationRight = props.penta.blocks[props.activeBlock]?.transformation.translationRight
