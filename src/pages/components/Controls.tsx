@@ -176,7 +176,6 @@ export default function Controls (props: {
 
   function keyR () {
     // * replay mode
-    console.log('isReplay: ', gameContext.isReplay)
     gameContext.setIsReplay(!gameContext.isReplay)
   }
 
