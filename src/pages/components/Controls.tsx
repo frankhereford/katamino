@@ -281,7 +281,7 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute right-[150px] top-[0px] drop-shadow-lg"
-          classes="btn gap-0 m-2 btn-primary text-white"
+          classes={'btn gap-0 m-2 text-white btn-primary ' + (gameContext.isReplay ? 'btn-disabled' : '')}
           clickHandler={keyQ}
           icon={<BsArrowLeft size={20} style={{ color: '#ffffff' }} />}
           letter="Q"
@@ -289,7 +289,7 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute right-[90px] top-[0px] drop-shadow-lg"
-          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (((props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) && !gameContext.isReplay) ?? false) ? '' : ' btn-disabled')}
           clickHandler={keyW}
           icon={reflectionIcon}
           letter="W"
@@ -297,7 +297,7 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute right-[30px] top-[0px] drop-shadow-lg"
-          classes="btn gap-0 m-2 btn-primary text-white"
+          classes={'btn gap-0 m-2 btn-primary text-white' + (gameContext.isReplay ? ' btn-disabled' : '')}
           clickHandler={keyE}
           icon={<BsArrowRight size={20} style={{ color: '#ffffff' }} />}
           letter="E"
@@ -313,7 +313,7 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute right-[135px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) && !gameContext.isReplay ? '' : ' btn-disabled')}
           clickHandler={keyA}
           icon={<RiFilePaperLine size={20} style={{ color: '#ffffff' }} />}
           letter="A"
@@ -321,7 +321,7 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute right-[75px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && !gameContext.isReplay ? '' : ' btn-disabled')}
           clickHandler={keyS}
           icon={visibilityIcon}
           letter="S"
@@ -329,7 +329,7 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute right-[15px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) && !gameContext.isReplay ? '' : ' btn-disabled')}
           clickHandler={keyD}
           icon={rotationIcon}
           letter="D"
@@ -337,28 +337,28 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute left-[80px] top-[0px] drop-shadow-lg"
-          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) && !gameContext.isReplay ? '' : ' btn-disabled')}
           clickHandler={keyUp}
           icon={<BsArrowBarUp size={20} style={{ color: '#ffffff' }} />}
         ></ControlButton>
 
         <ControlButton
           position="absolute left-[20px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) && !gameContext.isReplay ? '' : ' btn-disabled')}
           clickHandler={keyLeft}
           icon={<BsArrowBarLeft size={20} style={{ color: '#ffffff' }} />}
         ></ControlButton>
 
         <ControlButton
           position="absolute left-[80px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) && !gameContext.isReplay ? '' : ' btn-disabled')}
           clickHandler={keyDown}
           icon={<BsArrowBarDown size={20} style={{ color: '#ffffff' }} />}
         ></ControlButton>
 
         <ControlButton
           position="absolute left-[140px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) && !gameContext.isReplay ? '' : ' btn-disabled')}
           clickHandler={keyRight}
           icon={<BsArrowBarRight size={20} style={{ color: '#ffffff' }} />}
         ></ControlButton>
