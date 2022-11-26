@@ -1,9 +1,6 @@
-/* eslint-disable padded-blocks */
-/* eslint-disable no-multiple-empty-lines */
 import React, { useState, createContext, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { trpc } from '../../utils/trpc'
-import Penta from '../components/Penta'
 import { type Prisma } from '@prisma/client'
 import { type NextPage } from 'next'
 import { useDebounceCallback } from '@react-hook/debounce'
@@ -12,6 +9,7 @@ import { useTimeoutWhen } from 'rooks'
 import useWindowSize from 'react-use/lib/useWindowSize'
 import _ from 'lodash'
 
+import Penta from '../components/Penta'
 import Controls from '../components/Controls'
 import Blocks from '../components/Blocks'
 
@@ -78,10 +76,10 @@ const PentaPage: NextPage = () => {
     { enabled: isReplay } // when we're to look for it
   )
 
-  // In an ideal world, you'd check to see that the DB state and the app state match after every mutation.
-  // Instead, we call on this debouncedPentaRefetch every time we make a mutation, but then debounce it.
-  // This will cause our state to get checked against the DB 4 seconds after the last move and reset that
-  // timer if the user moves again.
+  // * In an ideal world, you'd check to see that the DB state and the app state match after every mutation.
+  // * Instead, we call on this debouncedPentaRefetch every time we make a mutation, but then debounce it.
+  // * This will cause our state to get checked against the DB 4 seconds after the last move and reset that
+  // * timer if the user moves again.
   //
   // ! 💀 😢
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -96,9 +94,8 @@ const PentaPage: NextPage = () => {
   const [activeBlock, setActiveBlock] = useState<number | undefined>()
   const gameContext = { setActiveBlock, setPenta, refetchPenta: debouncedPentaRefetch, isReplay, setIsReplay }
 
-
-
-
+  // * 👇 Replay handling
+  // ? This feels like it could be pulled into its own hook maybe?
   const [historyIndex, setHistoryIndex] = useState(0)
   const [previousHistoryIndex, setPrevHistoryIndex] = useState<number | undefined>()
 
@@ -156,12 +153,7 @@ const PentaPage: NextPage = () => {
     // * the items in this dependency array are what are operated on or from for
     // * the wheelHandler function.
     , [historyIndex, isReplay, pentaHistoryRecord])
-
-
-
-
-
-
+  // * 👆 Replay handling
 
   if (penta == null) {
     return <></>
