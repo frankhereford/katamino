@@ -35,16 +35,13 @@ interface pentaContextType {
 }
 
 export const pentaContext = createContext<pentaContextType>({
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  /* eslint-disable @typescript-eslint/no-empty-function */
   setActiveBlock: () => {}, // these are not types, they are non-op functions
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   refetchPenta: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setPenta: () => {},
   isReplay: false,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setIsReplay: () => {}
-
+  /* eslint-enable @typescript-eslint/no-empty-function */
 })
 
 // * React is cool and all, but I dare someone to read this and know what it does
