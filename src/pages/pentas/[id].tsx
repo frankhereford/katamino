@@ -97,7 +97,6 @@ const PentaPage: NextPage = () => {
   const [previousHistoryIndex, setPrevHistoryIndex] = useState<number | undefined>()
 
   useEffect(() => {
-    console.log('isReplay: ', isReplay)
     if (isReplay) {
       pentaHistoryRefetch().catch((err) => console.error(err))
       setHistoryIndex(0)
