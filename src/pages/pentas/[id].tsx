@@ -96,12 +96,6 @@ const PentaPage: NextPage = () => {
   const [activeBlock, setActiveBlock] = useState<number | undefined>()
   const gameContext = { setActiveBlock, setPenta, refetchPenta: debouncedPentaRefetch, isReplay, setIsReplay }
 
-  useEffect(() => {
-    console.log('isReplay: ', isReplay)
-    if (isReplay) {
-      pentaHistoryRefetch().catch((err) => console.error(err))
-    }
-  }, [isReplay, pentaHistoryRefetch])
 
 
 
@@ -109,29 +103,40 @@ const PentaPage: NextPage = () => {
   const [previousHistoryIndex, setPrevHistoryIndex] = useState<number | undefined>()
 
   useEffect(() => {
+    console.log('isReplay: ', isReplay)
+    if (isReplay) {
+      pentaHistoryRefetch().catch((err) => console.error(err))
+      setHistoryIndex(0)
+      setActiveBlock(undefined)
+    } else {
+      pentaRefetch().catch((err) => console.error(err))
+    }
+  }, [isReplay, pentaHistoryRecord?.moves.length, pentaHistoryRefetch, pentaRefetch])
+
+  useEffect(() => {
     if (pentaHistoryRecord == null) return
     const workingPenta = _.cloneDeep(penta)
     if (workingPenta == null) return
-    console.log('📚 historyIndex: ', historyIndex)
-    console.log('📚 previousHistoryIndex: ', previousHistoryIndex)
-    const block = pentaHistoryRecord.moves[historyIndex]?.block.id
-    let move = pentaHistoryRecord.moves[historyIndex]?.outgoingTransformation
-    // if ((previousHistoryIndex != null) && previousHistoryIndex > historyIndex) { move = pentaHistoryRecord.moves[historyIndex]?.incomingTransformation }
+
+    const antiHistoryIndex = pentaHistoryRecord.moves.length - historyIndex - 1
+    const block = pentaHistoryRecord.moves[antiHistoryIndex]?.block.id
+
+    let move = pentaHistoryRecord.moves[antiHistoryIndex]?.outgoingTransformation
+    if ((previousHistoryIndex ?? 0) < historyIndex) { move = pentaHistoryRecord.moves[antiHistoryIndex]?.incomingTransformation }
+
     if (move == null) return
+
     const blockIndex = workingPenta?.blocks.findIndex((workingBlock) => workingBlock.id === block)
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     workingPenta.blocks[blockIndex]!.transformation = move
     setPenta(workingPenta)
     setPrevHistoryIndex(historyIndex)
+  // ! don't put penta in this dependency array because we take a deepClone of it
   }, [historyIndex, pentaHistoryRecord])
-
-  useEffect(() => {
-    if (pentaHistoryRecord == null) return
-    console.log('pentaHistoryRecord: ', pentaHistoryRecord)
-  }, [pentaHistoryRecord])
 
   const throttledWheelHandler = useMemo(
     () => _.throttle((event: React.WheelEvent) => {
+      if (!isReplay) return
       if (pentaHistoryRecord == null) return
       let forward = true
       if (event.deltaY < 0) {
@@ -150,7 +155,7 @@ const PentaPage: NextPage = () => {
     }, 250)
     // * the items in this dependency array are what are operated on or from for
     // * the wheelHandler function.
-    , [historyIndex, pentaHistoryRecord])
+    , [historyIndex, isReplay, pentaHistoryRecord])
 
 
 
