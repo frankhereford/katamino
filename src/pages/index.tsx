@@ -56,6 +56,14 @@ const Home: NextPage = () => {
         setTimeout(replayRefetch, 1000)
       } else {
         console.log('replayIndex: ', replayIndex)
+        const move = replay.history.moves[replayIndex]
+        const localPenta = _.cloneDeep(penta)
+        if (localPenta == null) return
+        const blockIndex = localPenta?.blocks.findIndex((workingBlock) => workingBlock.id === move?.blockId)
+        if (move?.outgoingTransformation == null) return
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        localPenta.blocks[blockIndex]!.transformation = move?.outgoingTransformation
+        setPenta(localPenta)
         setReplayIndex(replayIndex + 1)
       }
     },
