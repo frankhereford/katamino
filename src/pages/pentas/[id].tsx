@@ -1,3 +1,4 @@
+/* eslint-disable padded-blocks */
 /* eslint-disable no-multiple-empty-lines */
 import React, { useState, createContext, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/router'
@@ -104,28 +105,42 @@ const PentaPage: NextPage = () => {
 
 
 
-
-
-
-
   const [historyIndex, setHistoryIndex] = useState(0)
+  const [previousHistoryIndex, setPrevHistoryIndex] = useState<number | undefined>()
 
   useEffect(() => {
+    if (pentaHistoryRecord == null) return
+    const workingPenta = _.cloneDeep(penta)
+    if (workingPenta == null) return
     console.log('📚 historyIndex: ', historyIndex)
-  }, [historyIndex])
+    console.log('📚 previousHistoryIndex: ', previousHistoryIndex)
+    const block = pentaHistoryRecord.moves[historyIndex]?.block.id
+    let move = pentaHistoryRecord.moves[historyIndex]?.outgoingTransformation
+    // if ((previousHistoryIndex != null) && previousHistoryIndex > historyIndex) { move = pentaHistoryRecord.moves[historyIndex]?.incomingTransformation }
+    if (move == null) return
+    const blockIndex = workingPenta?.blocks.findIndex((workingBlock) => workingBlock.id === block)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    workingPenta.blocks[blockIndex]!.transformation = move
+    setPenta(workingPenta)
+    setPrevHistoryIndex(historyIndex)
+  }, [historyIndex, pentaHistoryRecord])
 
   useEffect(() => {
     if (pentaHistoryRecord == null) return
     console.log('pentaHistoryRecord: ', pentaHistoryRecord)
   }, [pentaHistoryRecord])
 
-  const debouncedWheelHandler = useMemo(
+  const throttledWheelHandler = useMemo(
     () => _.throttle((event: React.WheelEvent) => {
+      if (pentaHistoryRecord == null) return
       let forward = true
       if (event.deltaY < 0) {
         forward = false
       }
+
+      // * Put bounds on what is the valid scroll interval
       if (!forward && historyIndex === 0) return
+      if (forward && historyIndex >= pentaHistoryRecord.moves.length - 1) return
 
       if (forward) {
         setHistoryIndex(historyIndex + 1)
@@ -135,7 +150,7 @@ const PentaPage: NextPage = () => {
     }, 250)
     // * the items in this dependency array are what are operated on or from for
     // * the wheelHandler function.
-    , [historyIndex])
+    , [historyIndex, pentaHistoryRecord])
 
 
 
@@ -163,7 +178,7 @@ const PentaPage: NextPage = () => {
         />
       }
       <pentaContext.Provider value={gameContext}>
-        <div onWheel={debouncedWheelHandler}>
+        <div onWheel={throttledWheelHandler}>
           <div className='mt-[30px]'>
             <Penta penta={penta} completed={completed}></Penta>
           </div>
