@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import { trpc } from '../utils/trpc'
 import { type Prisma } from '@prisma/client'
 import { useInterval } from 'usehooks-ts'
+import _ from 'lodash'
 
 const Home: NextPage = () => {
   const { data: sessionData } = useSession()
@@ -50,7 +51,6 @@ const Home: NextPage = () => {
       if (replay.history == null) return
       if (replayIndex === replay.history.moves.length - 1) {
         setIsPlaying(false)
-        console.log('done')
         // ! 💀 how do you get this promise out into a void returning function?
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         setTimeout(replayRefetch, 1000)
@@ -67,8 +67,21 @@ const Home: NextPage = () => {
     if (replay != null) {
       setPenta(replay.penta)
     }
-    setIsPlaying(true)
+    const localPenta = _.cloneDeep(replay?.penta)
+    localPenta?.blocks.forEach((block) => {
+      block.transformation = {
+        rotation: 0,
+        reflection: false,
+        translationRight: 0,
+        translationUp: 0,
+        visible: false,
+        id: block.transformation.id,
+        createdAt: block.transformation.createdAt
+      }
+      setPenta(localPenta)
+    })
     setReplayIndex(0)
+    setIsPlaying(true)
     setShowReplay(true)
   }, [replay])
 
