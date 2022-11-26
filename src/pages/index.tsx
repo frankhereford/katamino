@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { type NextPage } from 'next'
 import { signIn, useSession } from 'next-auth/react'
 import { AiOutlineArrowDown } from 'react-icons/ai'
@@ -7,6 +7,8 @@ import HeaderContent from './components/HeaderContent'
 import Penta from './components/Penta'
 import { useRouter } from 'next/router'
 import { trpc } from '../utils/trpc'
+import { type Prisma } from '@prisma/client'
+import { useInterval } from 'usehooks-ts'
 
 const Home: NextPage = () => {
   const { data: sessionData } = useSession()
@@ -20,6 +22,34 @@ const Home: NextPage = () => {
 
   const { data: replay, refetch: replayRefetch } = trpc.penta.getRandomHistory.useQuery()
 
+  const [showReplay, setShowReplay] = useState(false)
+
+  const [replayIndex, setReplayIndex] = useState(0)
+  const [delay, setDelay] = useState(200)
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  const [penta, setPenta] = useState<Prisma.PentaGetPayload<{
+    include: {
+      blocks: {
+        include: {
+          piece: {
+            include: {
+              color: true
+            }
+          }
+          transformation: true
+        }
+      }
+    }
+  }>>()
+
+  useEffect(() => {
+    if (replay != null) {
+      setPenta(replay.penta)
+    }
+    setShowReplay(true)
+  }, [replay])
+
   return (
     <>
       <HeaderContent />
@@ -32,8 +62,8 @@ const Home: NextPage = () => {
             </h1>
           </div>
           <div className='col-span-2'>
-            {(replay != null) && (
-              <Penta size={35} penta={replay.penta}></Penta>
+            {(penta != null) && showReplay && (
+              <Penta size={35} penta={penta}></Penta>
             )}
           </div>
           <div className='col-span-1 relative top-[-50px]'>
