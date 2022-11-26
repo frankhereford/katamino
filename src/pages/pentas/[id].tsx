@@ -69,15 +69,15 @@ const PentaPage: NextPage = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: pentaHistoryRecord, refetch: pentaHistoryRefetch, isLoading: pentaHistoryIsLoading } = trpc.penta.getHistory.useQuery(
-    { id: String(query.id) }, // what we're looking for
-    { enabled: isReplay } // when we're to look for it
+    { id: String(query.id) }, // * what we're looking for
+    { enabled: isReplay } // * when we're to look for it
   )
 
   // * In an ideal world, you'd check to see that the DB state and the app state match after every mutation.
   // * Instead, we call on this debouncedPentaRefetch every time we make a mutation, but then debounce it.
   // * This will cause our state to get checked against the DB 4 seconds after the last move and reset that
   // * timer if the user moves again.
-  //
+  // *
   // ! 💀 😢
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 4000, false)
