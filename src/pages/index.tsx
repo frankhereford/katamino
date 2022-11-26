@@ -50,7 +50,7 @@ const Home: NextPage = () => {
       if (replay == null) return
       if (replay.history == null) return
       if (replayIndex === replay.history.moves.length) {
-        // * this should never really be called under valid data, it's trapped in the 
+        // * this should never really be called under valid data, it's trapped in the
         // * `nextDemoPenta()` function below called back up by the <Penta> component
         setIsPlaying(false)
       } else {
@@ -112,12 +112,20 @@ const Home: NextPage = () => {
             </h1>
           </div>
           <div className='col-span-2'>
-            {(penta != null) && showReplay && (
-              <Penta size={35} penta={penta} completed={nextDemoPenta}></Penta>
-            )}
+            <div className='text-center text-4xl mb-5 text-slate-400 tracking-wide'>
+              You fit pieces together..
+            </div>
+            <div>
+              {(penta != null) && showReplay && (
+                <Penta size={35} penta={penta} completed={nextDemoPenta}></Penta>
+              )}
+            </div>
+            <div className='text-center text-4xl mt-5 text-slate-400 tracking-wide'>
+              ..and you fill the board.
+            </div>
           </div>
           <div className='col-span-1 relative top-[-50px]'>
-            <div className='grid grid-cols-2 gap-3 w-[250px]'>
+            <div className='grid grid-cols-2 gap-3 w-[250px] mt-[100px]'>
                 <button onClick={() => { void signIn('auth0') }} className='btn btn-primary btn-md drop-shadow-lg w-fit m-auto relative top-[40px]'>
                   Auth0
                 </button>
