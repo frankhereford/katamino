@@ -35,16 +35,13 @@ interface pentaContextType {
 }
 
 export const pentaContext = createContext<pentaContextType>({
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  /* eslint-disable @typescript-eslint/no-empty-function */
   setActiveBlock: () => {}, // these are not types, they are non-op functions
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   refetchPenta: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setPenta: () => {},
   isReplay: false,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setIsReplay: () => {}
-
+  /* eslint-enable @typescript-eslint/no-empty-function */
 })
 
 // * React is cool and all, but I dare someone to read this and know what it does
@@ -72,15 +69,15 @@ const PentaPage: NextPage = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: pentaHistoryRecord, refetch: pentaHistoryRefetch, isLoading: pentaHistoryIsLoading } = trpc.penta.getHistory.useQuery(
-    { id: String(query.id) }, // what we're looking for
-    { enabled: isReplay } // when we're to look for it
+    { id: String(query.id) }, // * what we're looking for
+    { enabled: isReplay } // * when we're to look for it
   )
 
   // * In an ideal world, you'd check to see that the DB state and the app state match after every mutation.
   // * Instead, we call on this debouncedPentaRefetch every time we make a mutation, but then debounce it.
   // * This will cause our state to get checked against the DB 4 seconds after the last move and reset that
   // * timer if the user moves again.
-  //
+  // *
   // ! 💀 😢
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   const debouncedPentaRefetch = useDebounceCallback(pentaRefetch, 4000, false)
@@ -100,7 +97,6 @@ const PentaPage: NextPage = () => {
   const [previousHistoryIndex, setPrevHistoryIndex] = useState<number | undefined>()
 
   useEffect(() => {
-    console.log('isReplay: ', isReplay)
     if (isReplay) {
       pentaHistoryRefetch().catch((err) => console.error(err))
       setHistoryIndex(0)
@@ -155,14 +151,23 @@ const PentaPage: NextPage = () => {
     , [historyIndex, isReplay, pentaHistoryRecord])
   // * 👆 Replay handling
 
-  if (penta == null) {
-    return <></>
-  }
-
   function completed () {
     if (penta == null) { return }
+    // * bail out if we've already completed this penta
+    if (penta.completed) { return }
+
+    // * set our local copy of the penta to completed
+    const workingPenta = _.cloneDeep(penta)
+    if (workingPenta == null) return
+    workingPenta.completed = true
+    setPenta(workingPenta)
+
     setShowConfetti(true)
     setComplete.mutate({ id: penta.id })
+  }
+
+  if (penta == null) {
+    return <></>
   }
 
   return (
@@ -177,7 +182,7 @@ const PentaPage: NextPage = () => {
       <pentaContext.Provider value={gameContext}>
         <div onWheel={throttledWheelHandler}>
           <div className='mt-[30px]'>
-            <Penta penta={penta} completed={completed}></Penta>
+            <Penta penta={penta} completed={completed} fire={penta.completed}></Penta>
           </div>
           <Controls penta={penta} activeBlock={activeBlock}></Controls>
           <Blocks penta={penta} activeBlock={activeBlock}></Blocks>

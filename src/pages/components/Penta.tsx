@@ -1,3 +1,4 @@
+import Fire from './Fire'
 import React, { useState, useEffect } from 'react'
 import { type Prisma } from '@prisma/client'
 import Square from './Square'
@@ -28,6 +29,7 @@ interface PentaProps {
   size?: 12
   noBorder?: boolean
   completed?: () => void
+  fire?: boolean
 }
 
 export default function Penta (props: PentaProps) {
@@ -150,6 +152,7 @@ export default function Penta (props: PentaProps) {
   return (
     <>
       <div className='w-fit m-auto'>
+        {(props.fire ?? false) && <Fire visible={props.penta.completed}></Fire>}
         <div className={classes.join(' ')}>
           {grid}
         </div>
