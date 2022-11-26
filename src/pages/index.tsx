@@ -43,10 +43,32 @@ const Home: NextPage = () => {
     }
   }>>()
 
+  useInterval(
+    () => {
+      // Your custom logic here
+      if (replay == null) return
+      if (replay.history == null) return
+      if (replayIndex === replay.history.moves.length - 1) {
+        setIsPlaying(false)
+        console.log('done')
+        // ! 💀 how do you get this promise out into a void returning function?
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        setTimeout(replayRefetch, 1000)
+      } else {
+        console.log('replayIndex: ', replayIndex)
+        setReplayIndex(replayIndex + 1)
+      }
+    },
+    // Delay in milliseconds or null to stop it
+    isPlaying ? delay : null
+  )
+
   useEffect(() => {
     if (replay != null) {
       setPenta(replay.penta)
     }
+    setIsPlaying(true)
+    setReplayIndex(0)
     setShowReplay(true)
   }, [replay])
 
