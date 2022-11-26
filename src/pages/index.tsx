@@ -53,7 +53,6 @@ const Home: NextPage = () => {
         // * `nextDemoPenta()` function below called back up by the <Penta> component
         setIsPlaying(false)
       } else {
-        console.log('replayIndex: ', replayIndex)
         const move = replay.history.moves[replayIndex]
         const localPenta = _.cloneDeep(penta)
         if (localPenta == null) return
@@ -92,7 +91,6 @@ const Home: NextPage = () => {
   }, [replay])
 
   function nextDemoPenta () {
-    console.log('stopping on done')
     setIsPlaying(false)
     // ! 💀 how do you get this promise out into a void returning function?
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
