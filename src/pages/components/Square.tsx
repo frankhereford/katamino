@@ -16,15 +16,14 @@ export default function Square (props: { color: string, size?: number }) {
   }, [props.color, colorLookup])
 
   const inlineStyle = {
-    backgroundColor: color,
-    transition: 'all .2s ease'
+    backgroundColor: color
   }
 
   let roundedClass = 'rounded-md'
   // think of the 60 as the default value of the size prop
   if ((props.size ?? 60) <= 20) { roundedClass = 'rounded-sm' }
 
-  const classes = [roundedClass, 'm-[.5px]']
+  const classes = [roundedClass, 'm-[.5px]', 'transition-color', 'duration-200', 'ease-in-out']
 
   /* eslint-disable no-multi-spaces, @typescript-eslint/brace-style */
   if      (props.size === 8)  { classes.push('w-[8px]  h-[8px] ') }
