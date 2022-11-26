@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from 'react'
 import { type NextPage } from 'next'
 import { signIn, useSession } from 'next-auth/react'
