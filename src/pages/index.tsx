@@ -4,7 +4,9 @@ import { type NextPage } from 'next'
 import { signIn, useSession } from 'next-auth/react'
 import { AiOutlineArrowDown } from 'react-icons/ai'
 import HeaderContent from './components/HeaderContent'
+import Penta from './components/Penta'
 import { useRouter } from 'next/router'
+import { trpc } from '../utils/trpc'
 
 const Home: NextPage = () => {
   const { data: sessionData } = useSession()
@@ -16,19 +18,23 @@ const Home: NextPage = () => {
     }
   }, [nextRouter, sessionData])
 
+  const { data: replay, refetch: replayRefetch } = trpc.penta.getRandomHistory.useQuery()
+
   return (
     <>
       <HeaderContent />
       <main className='container mx-auto flex flex-col items-center p-4'>
 
         <div className='grid grid-cols-3 gap-5'>
-          <div className='col-span-12 mb-[50px] mt-[25px]'>
+          <div className='col-span-3 mb-[50px] mt-[25px]'>
             <h1 className='text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem] text-center'>
               <span className='text-primary'>K</span>atamino
             </h1>
           </div>
           <div className='col-span-2'>
-            <img src='https://via.placeholder.com/450x150' alt='placeholder' />
+            {(replay != null) && (
+              <Penta size={35} penta={replay.penta}></Penta>
+            )}
           </div>
           <div className='col-span-1 relative top-[-50px]'>
             <div className='grid grid-cols-2 gap-3 w-[250px]'>
