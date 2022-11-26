@@ -112,6 +112,18 @@ export const pentaRouter = router({
   getRandomHistory: publicProcedure
     .query(async ({ ctx }) => {
       const pentas = await ctx.prisma.penta.findMany({
+        include: {
+          blocks: {
+            include: {
+              piece: {
+                include: {
+                  color: true
+                }
+              },
+              transformation: true
+            }
+          }
+        },
         where: {
           completed: true
         }
