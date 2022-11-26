@@ -152,14 +152,23 @@ const PentaPage: NextPage = () => {
     , [historyIndex, isReplay, pentaHistoryRecord])
   // * 👆 Replay handling
 
-  if (penta == null) {
-    return <></>
-  }
-
   function completed () {
     if (penta == null) { return }
+    // * bail out if we've already completed this penta
+    if (penta.completed) { return }
+
+    // * set our local copy of the penta to completed
+    const workingPenta = _.cloneDeep(penta)
+    if (workingPenta == null) return
+    workingPenta.completed = true
+    setPenta(workingPenta)
+
     setShowConfetti(true)
     setComplete.mutate({ id: penta.id })
+  }
+
+  if (penta == null) {
+    return <></>
   }
 
   return (
@@ -174,7 +183,7 @@ const PentaPage: NextPage = () => {
       <pentaContext.Provider value={gameContext}>
         <div onWheel={throttledWheelHandler}>
           <div className='mt-[30px]'>
-            <Penta penta={penta} completed={completed}></Penta>
+            <Penta penta={penta} completed={completed} fire={penta.completed}></Penta>
           </div>
           <Controls penta={penta} activeBlock={activeBlock}></Controls>
           <Blocks penta={penta} activeBlock={activeBlock}></Blocks>
