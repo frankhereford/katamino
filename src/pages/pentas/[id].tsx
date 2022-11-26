@@ -48,6 +48,8 @@ export const pentaContext = createContext<pentaContextType>({
 // * without boatloads of comments.
 // TODO: Comments, so many comments
 const PentaPage: NextPage = () => {
+  const [progressBarValue, setProgressBarValue] = useState(1)
+  const [progressBarMax, setProgressBarMax] = useState(1)
   const [showConfetti, setShowConfetti] = useState(false)
   // * set the solved state (the confetti state) false after 5 seconds
   useTimeoutWhen(() => setShowConfetti(false), 5000, showConfetti)
@@ -104,7 +106,7 @@ const PentaPage: NextPage = () => {
     } else {
       pentaRefetch().catch((err) => console.error(err))
     }
-  }, [isReplay, pentaHistoryRecord?.moves.length, pentaHistoryRefetch, pentaRefetch])
+  }, [isReplay, pentaHistoryRefetch, pentaRefetch])
 
   useEffect(() => {
     if (pentaHistoryRecord == null) return
@@ -112,6 +114,8 @@ const PentaPage: NextPage = () => {
     if (workingPenta == null) return
 
     const antiHistoryIndex = pentaHistoryRecord.moves.length - historyIndex - 1
+    setProgressBarValue(antiHistoryIndex)
+    setProgressBarMax(pentaHistoryRecord.moves.length - 1)
     const block = pentaHistoryRecord.moves[antiHistoryIndex]?.block.id
 
     let move = pentaHistoryRecord.moves[antiHistoryIndex]?.outgoingTransformation
@@ -181,9 +185,10 @@ const PentaPage: NextPage = () => {
       }
       <pentaContext.Provider value={gameContext}>
         <div onWheel={throttledWheelHandler}>
-          <div className='mt-[30px]'>
-            <Penta penta={penta} completed={completed} fire={penta.completed}></Penta>
-          </div>
+            <div className='mt-[30px] w-fit m-auto'>
+              <Penta penta={penta} completed={completed} fire={penta.completed}></Penta>
+            <progress className={'progress progress-primary w-100 ' + (isReplay ? 'opacity-100' : 'opacity-0')} value={progressBarValue} max={progressBarMax}></progress>
+            </div>
           <Controls penta={penta} activeBlock={activeBlock}></Controls>
           <Blocks penta={penta} activeBlock={activeBlock}></Blocks>
         </div>
