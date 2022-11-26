@@ -49,11 +49,10 @@ const Home: NextPage = () => {
       // Your custom logic here
       if (replay == null) return
       if (replay.history == null) return
-      if (replayIndex === replay.history.moves.length - 1) {
+      if (replayIndex === replay.history.moves.length) {
+        // * this should never really be called under valid data, it's trapped in the 
+        // * `nextDemoPenta()` function below called back up by the <Penta> component
         setIsPlaying(false)
-        // ! 💀 how do you get this promise out into a void returning function?
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        setTimeout(replayRefetch, 1000)
       } else {
         console.log('replayIndex: ', replayIndex)
         const move = replay.history.moves[replayIndex]
@@ -93,6 +92,14 @@ const Home: NextPage = () => {
     setShowReplay(true)
   }, [replay])
 
+  function nextDemoPenta () {
+    console.log('stopping on done')
+    setIsPlaying(false)
+    // ! 💀 how do you get this promise out into a void returning function?
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    setTimeout(replayRefetch, 1000)
+  }
+
   return (
     <>
       <HeaderContent />
@@ -106,7 +113,7 @@ const Home: NextPage = () => {
           </div>
           <div className='col-span-2'>
             {(penta != null) && showReplay && (
-              <Penta size={35} penta={penta}></Penta>
+              <Penta size={35} penta={penta} completed={nextDemoPenta}></Penta>
             )}
           </div>
           <div className='col-span-1 relative top-[-50px]'>
