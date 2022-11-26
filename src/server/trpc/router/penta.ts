@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { router, protectedProcedure } from '../trpc'
+import { router, protectedProcedure, publicProcedure } from '../trpc'
 import { isPentaOwner } from '../../../utils/database'
 
 export const pentaRouter = router({
@@ -107,6 +107,58 @@ export const pentaRouter = router({
           id: 'asc'
         }
       })
+    }),
+
+  getRandomHistory: publicProcedure
+    .query(async ({ ctx }) => {
+      const pentas = await ctx.prisma.penta.findMany({
+        where: {
+          completed: true
+        }
+      })
+      // * 👇 a random, completed penta
+      const penta = pentas[Math.floor(Math.random() * pentas.length)]
+
+      if (penta == null) { return null }
+
+      const history = await ctx.prisma.penta.findFirst({
+        where: {
+          id: penta.id
+        },
+        include: {
+          blocks: {
+            include: {
+              piece: {
+                include: {
+                  color: true
+                }
+              },
+              transformation: true
+            },
+            orderBy: {
+              id: 'asc'
+            }
+          },
+          moves: {
+            include: {
+              block: true,
+              incomingTransformation: true,
+              outgoingTransformation: true
+            },
+            orderBy: {
+              moveDate: 'asc'
+            }
+          }
+        },
+        orderBy: {
+          id: 'asc'
+        }
+      })
+
+      return {
+        penta,
+        history
+      }
     }),
 
   count: protectedProcedure.query(async ({ ctx }) => {
