@@ -26,7 +26,7 @@ interface PentaProps {
       }
     }
   }>
-  size?: 12
+  size?: 12 | 35
   noBorder?: boolean
   completed?: () => void
   fire?: boolean
@@ -136,14 +136,11 @@ export default function Penta (props: PentaProps) {
   useEffect(() => {
     const boardColumns = (props.penta.columns ?? 12) + ((props.noBorder ?? false) ? 0 : props.penta.borderWidth * 2)
 
-    const newClasses = ['grid']
     let width = 61
-    if (props.size === 12) {
-      width = 13
-    } else {
-      width = 61
-    }
+    if (props.size === 12) width = 13
+    if (props.size === 35) width = 36
 
+    const newClasses = ['grid']
     const widthClass = `grid-cols-[repeat(${boardColumns},_${width}px)]`
     newClasses.push(widthClass)
     setClasses(newClasses)

@@ -31,6 +31,9 @@ export default function Square (props: { color: string, size?: number }) {
   else if (props.size === 12) { classes.push('w-[12px] h-[12px]') }
   else if (props.size === 15) { classes.push('w-[15px] h-[15px]') }
   else if (props.size === 20) { classes.push('w-[20px] h-[20px]') }
+  else if (props.size === 25) { classes.push('w-[25px] h-[25px]') }
+  else if (props.size === 30) { classes.push('w-[30px] h-[30px]') }
+  else if (props.size === 35) { classes.push('w-[35px] h-[35px]') }
   else if (props.size === 40) { classes.push('w-[40px] h-[40px]') }
   else                        { classes.push('w-[60px] h-[60px]') }
   /* eslint-enable no-multi-spaces, @typescript-eslint/brace-style */

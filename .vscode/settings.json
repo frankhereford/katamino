@@ -26,6 +26,7 @@
     "testid",
     "trpc",
     "usefavicon",
+    "usehooks",
     "VERCEL"
   ],
   // these feel a little prescriptive, they can be changed if needed
