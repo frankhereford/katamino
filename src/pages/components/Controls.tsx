@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */ // take me out after all the icon imports are used
-
 import { useContext, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { type Prisma } from '@prisma/client'
@@ -9,7 +7,7 @@ import { pentaContext } from '../pentas/[id]'
 import _ from 'lodash'
 import { trpc } from '../../utils/trpc'
 
-// icons
+// * icons
 import { BsArrowLeft, BsArrowRight, BsArrowBarDown, BsArrowBarUp, BsArrowBarLeft, BsArrowBarRight, BsPlay } from 'react-icons/bs'
 import { TbFlipHorizontal, TbFlipVertical } from 'react-icons/tb'
 import { RiFilePaperLine } from 'react-icons/ri'
@@ -40,8 +38,9 @@ export default function Controls (props: {
   const [visibilityIcon, setVisibilityIcon] = useState(<BiShow size={20} style={{ color: '#ffffff' }} />)
   const [reflectionIcon, setReflectionIcon] = useState(<TbFlipHorizontal size={20} style={{ color: '#ffffff' }} />)
   const [rotationIcon, setRotationIcon] = useState(<AiOutlineRotateRight size={20} style={{ color: '#ffffff' }} />)
+  const [replayIcon, setReplayIcon] = useState(<MdReplay size={20} style={{ color: '#ffffff' }} />)
 
-  // handle setting the visibility icon
+  // * handle setting the visibility icon
   useEffect(() => {
     if (props.activeBlock == null) { return }
     if ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) {
@@ -51,7 +50,7 @@ export default function Controls (props: {
     }
   }, [props.penta, props.activeBlock])
 
-  // handle setting the reflection icon
+  // * handle setting the reflection icon
   useEffect(() => {
     if (props.activeBlock == null) { return }
     if (props.penta.blocks[props.activeBlock]?.transformation.rotation === 0) {
@@ -64,7 +63,7 @@ export default function Controls (props: {
     }
   }, [props.penta, props.activeBlock])
 
-  // handle setting the rotation icon
+  // * handle setting the rotation icon
   useEffect(() => {
     if (props.activeBlock == null) { return }
     const currentRotation = props.penta.blocks[props.activeBlock]?.transformation.rotation ?? 0
@@ -77,6 +76,15 @@ export default function Controls (props: {
 
   const gameContext = useContext(pentaContext)
 
+  // * handle setting the replay icon
+  useEffect(() => {
+    if (gameContext.isReplay) {
+      setReplayIcon(<BsPlay size={20} style={{ color: '#ffffff' }} />)
+    } else {
+      setReplayIcon(<MdReplay size={20} style={{ color: '#ffffff' }} />)
+    }
+  }, [gameContext.isReplay])
+
   // eslint-disable-next-line @typescript-eslint/ban-types
   function transmitMove (newTransformation: Prisma.TransformationGetPayload<{}>) {
     if (props.activeBlock == null) { return }
@@ -84,7 +92,7 @@ export default function Controls (props: {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       blockId: props.penta.blocks[props.activeBlock]!.id,
       currentTransformation: newTransformation,
-      now: new Date() // these dates can be used to truly serialize moves
+      now: new Date() // * these dates can be used to truly serialize moves
     })
     gameContext.refetchPenta()
   }
@@ -94,7 +102,7 @@ export default function Controls (props: {
     q: keyQ,
     w: keyW,
     e: keyE,
-    // r: keyR,
+    r: keyR,
     a: keyA,
     s: keyS,
     d: keyD,
@@ -111,40 +119,6 @@ export default function Controls (props: {
     } else {
       return false
     }
-  }
-
-  function keyQ () {
-    // if it's not set, set it to the rightmost
-    if (props.activeBlock == null && props.activeBlock !== 0) {
-      gameContext.setActiveBlock(props.penta?.blocks.length - 1)
-    // if it's zero, set it to the right most
-    } else if (props.activeBlock === 0) {
-      gameContext.setActiveBlock(props.penta?.blocks.length - 1)
-    // otherwise, move it to the left one
-    } else { gameContext.setActiveBlock(props.activeBlock - 1) }
-  }
-
-  function keyW () {
-    if (!(isVisible() ?? false)) { return }
-    const penta = _.cloneDeep(props.penta)
-    if (props.activeBlock == null) { return }
-    const currentReflection = props.penta.blocks[props.activeBlock]?.transformation.reflection
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    penta.blocks[props.activeBlock]!.transformation.reflection = !(currentReflection ?? false)
-    gameContext.setPenta(penta)
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    transmitMove(penta.blocks[props.activeBlock]!.transformation)
-  }
-
-  function keyE () {
-    // if it's not set, set it to the leftmost
-    if (props.activeBlock == null && props.activeBlock !== 0) {
-      gameContext.setActiveBlock(0)
-    // if it's the rightmost, set it to the leftmost
-    } else if (props.activeBlock === props.penta?.blocks.length - 1) {
-      gameContext.setActiveBlock(0)
-    // otherwise, move it to the right one
-    } else { gameContext.setActiveBlock(props.activeBlock + 1) }
   }
 
   function keyTab (event: KeyboardEvent) {
@@ -164,6 +138,46 @@ export default function Controls (props: {
     } else if (props.activeBlock != null && event.shiftKey) {
       gameContext.setActiveBlock(props.activeBlock - 1)
     }
+  }
+
+  function keyQ () {
+    // * if it's not set, set it to the rightmost
+    if (props.activeBlock == null && props.activeBlock !== 0) {
+      gameContext.setActiveBlock(props.penta?.blocks.length - 1)
+    // * if it's zero, set it to the right most
+    } else if (props.activeBlock === 0) {
+      gameContext.setActiveBlock(props.penta?.blocks.length - 1)
+    // otherwise, move it to the left one
+    } else { gameContext.setActiveBlock(props.activeBlock - 1) }
+  }
+
+  function keyW () {
+    if (!(isVisible() ?? false)) { return }
+    if (gameContext.isReplay) { return }
+    const penta = _.cloneDeep(props.penta)
+    if (props.activeBlock == null) { return }
+    const currentReflection = props.penta.blocks[props.activeBlock]?.transformation.reflection
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    penta.blocks[props.activeBlock]!.transformation.reflection = !(currentReflection ?? false)
+    gameContext.setPenta(penta)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    transmitMove(penta.blocks[props.activeBlock]!.transformation)
+  }
+
+  function keyE () {
+    // * if it's not set, set it to the leftmost
+    if (props.activeBlock == null && props.activeBlock !== 0) {
+      gameContext.setActiveBlock(0)
+    // * if it's the rightmost, set it to the leftmost
+    } else if (props.activeBlock === props.penta?.blocks.length - 1) {
+      gameContext.setActiveBlock(0)
+    // * otherwise, move it to the right one
+    } else { gameContext.setActiveBlock(props.activeBlock + 1) }
+  }
+
+  function keyR () {
+    // * replay mode
+    gameContext.setIsReplay(!gameContext.isReplay)
   }
 
   function keyA () {
@@ -188,6 +202,7 @@ export default function Controls (props: {
 
   function keyS () {
     const penta = _.cloneDeep(props.penta)
+    if (gameContext.isReplay) { return }
     if (props.activeBlock == null) { return }
     const currentVisibility = props.penta.blocks[props.activeBlock]?.transformation.visible
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -199,6 +214,7 @@ export default function Controls (props: {
 
   function keyD () {
     if (!(isVisible() ?? false)) { return }
+    if (gameContext.isReplay) { return }
     const penta = _.cloneDeep(props.penta)
     if (props.activeBlock == null) { return }
     const currentRotation = props.penta.blocks[props.activeBlock]?.transformation.rotation ?? 0
@@ -211,6 +227,7 @@ export default function Controls (props: {
 
   function keyUp () {
     if (!(isVisible() ?? false)) { return }
+    if (gameContext.isReplay) { return }
     const penta = _.cloneDeep(props.penta)
     if (props.activeBlock == null) { return }
     const currentTranslationUp = props.penta.blocks[props.activeBlock]?.transformation.translationUp
@@ -223,6 +240,7 @@ export default function Controls (props: {
 
   function keyDown () {
     if (!(isVisible() ?? false)) { return }
+    if (gameContext.isReplay) { return }
     const penta = _.cloneDeep(props.penta)
     if (props.activeBlock == null) { return }
     const currentTranslationUp = props.penta.blocks[props.activeBlock]?.transformation.translationUp
@@ -235,6 +253,7 @@ export default function Controls (props: {
 
   function keyRight () {
     if (!(isVisible() ?? false)) { return }
+    if (gameContext.isReplay) { return }
     const penta = _.cloneDeep(props.penta)
     if (props.activeBlock == null) { return }
     const currentTranslationRight = props.penta.blocks[props.activeBlock]?.transformation.translationRight
@@ -247,6 +266,7 @@ export default function Controls (props: {
 
   function keyLeft () {
     if (!(isVisible() ?? false)) { return }
+    if (gameContext.isReplay) { return }
     const penta = _.cloneDeep(props.penta)
     if (props.activeBlock == null) { return }
     const currentTranslationRight = props.penta.blocks[props.activeBlock]?.transformation.translationRight
@@ -268,7 +288,7 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute right-[150px] top-[0px] drop-shadow-lg"
-          classes="btn gap-0 m-2 btn-primary text-white"
+          classes={'btn gap-0 m-2 text-white btn-primary ' + (gameContext.isReplay ? 'btn-disabled' : '')}
           clickHandler={keyQ}
           icon={<BsArrowLeft size={20} style={{ color: '#ffffff' }} />}
           letter="Q"
@@ -276,7 +296,7 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute right-[90px] top-[0px] drop-shadow-lg"
-          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (((props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) && !gameContext.isReplay) ?? false) ? '' : ' btn-disabled')}
           clickHandler={keyW}
           icon={reflectionIcon}
           letter="W"
@@ -284,15 +304,23 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute right-[30px] top-[0px] drop-shadow-lg"
-          classes="btn gap-0 m-2 btn-primary text-white"
+          classes={'btn gap-0 m-2 btn-primary text-white' + (gameContext.isReplay ? ' btn-disabled' : '')}
           clickHandler={keyE}
           icon={<BsArrowRight size={20} style={{ color: '#ffffff' }} />}
           letter="E"
         ></ControlButton>
 
         <ControlButton
+          position="absolute right-[-30px] top-[0px] drop-shadow-lg"
+          classes="btn gap-0 m-2 btn-primary text-white"
+          clickHandler={keyR}
+          icon={replayIcon}
+          letter="R"
+        ></ControlButton>
+
+        <ControlButton
           position="absolute right-[135px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) && !gameContext.isReplay ? '' : ' btn-disabled')}
           clickHandler={keyA}
           icon={<RiFilePaperLine size={20} style={{ color: '#ffffff' }} />}
           letter="A"
@@ -300,7 +328,7 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute right-[75px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && !gameContext.isReplay ? '' : ' btn-disabled')}
           clickHandler={keyS}
           icon={visibilityIcon}
           letter="S"
@@ -308,7 +336,7 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute right-[15px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && ((props.penta.blocks[props.activeBlock]?.transformation.visible) ?? false) && !gameContext.isReplay ? '' : ' btn-disabled')}
           clickHandler={keyD}
           icon={rotationIcon}
           letter="D"
@@ -316,28 +344,28 @@ export default function Controls (props: {
 
         <ControlButton
           position="absolute left-[80px] top-[0px] drop-shadow-lg"
-          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) && !gameContext.isReplay ? '' : ' btn-disabled')}
           clickHandler={keyUp}
           icon={<BsArrowBarUp size={20} style={{ color: '#ffffff' }} />}
         ></ControlButton>
 
         <ControlButton
           position="absolute left-[20px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) && !gameContext.isReplay ? '' : ' btn-disabled')}
           clickHandler={keyLeft}
           icon={<BsArrowBarLeft size={20} style={{ color: '#ffffff' }} />}
         ></ControlButton>
 
         <ControlButton
           position="absolute left-[80px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) && !gameContext.isReplay ? '' : ' btn-disabled')}
           clickHandler={keyDown}
           icon={<BsArrowBarDown size={20} style={{ color: '#ffffff' }} />}
         ></ControlButton>
 
         <ControlButton
           position="absolute left-[140px] top-[55px] drop-shadow-lg"
-          classes={'btn gap-2 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) ? '' : ' btn-disabled')}
+          classes={'btn gap-0 m-2 btn-primary text-white' + (props.activeBlock !== undefined && (Boolean((props.penta.blocks[props.activeBlock]?.transformation.visible))) && !gameContext.isReplay ? '' : ' btn-disabled')}
           clickHandler={keyRight}
           icon={<BsArrowBarRight size={20} style={{ color: '#ffffff' }} />}
         ></ControlButton>

@@ -48,7 +48,7 @@ export function transformBlockShape (
     // * at least one square in the left most column, ensuring that
     // * it's not occupying the rightmost columns. Then, the number
     // * of columns on the right are chopped off. Finally, the piece
-    // * is slid back to the right the same number of times that it was
+    // * is slid back to the right same number of times that it was
     // * slide to the left. By doing getting the board size right, the
     // * wrap-around behavior of the piece moving is preserved.
 
