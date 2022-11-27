@@ -246,8 +246,34 @@ async function main (): Promise<void> {
     { slamName: 'The Slam', rowName: '️♡', minColumns: 6, pieces: ['orange', 'purple', 'blue', 'yellow', 'darkGrey', 'green', 'brown', 'darkGreen'] },
     { slamName: 'The Slam', rowName: '♢️', minColumns: 6, pieces: ['orange', 'purple', 'blue', 'pink', 'darkGrey', 'darkGreen', 'green', 'teal'] },
     { slamName: 'The Slam', rowName: '️♧', minColumns: 6, pieces: ['orange', 'blue', 'pink', 'yellow', 'darkGrey', 'darkGreen', 'purple', 'brown'] },
+    { slamName: 'The Ultimate Slam', rowName: 'A', minColumns: 4, pieces: ['orange', 'purple', 'blue', 'teal', 'yellow', 'darkGreen', 'pink', 'red', 'darkGrey', 'darkBlue', 'green'] },
+    { slamName: 'The Ultimate Slam', rowName: 'B', minColumns: 4, pieces: ['orange', 'brown', 'yellow', 'darkGrey', 'teal', 'blue', 'red', 'pink', 'darkBlue', 'purple', 'darkGreen'] },
+    { slamName: 'The Ultimate Slam', rowName: 'C', minColumns: 4, pieces: ['orange', 'brown', 'blue', 'pink', 'darkGrey', 'green', 'purple', 'yellow', 'teal', 'darkGreen', 'darkBlue'] },
+    { slamName: 'The Ultimate Slam', rowName: 'D', minColumns: 4, pieces: ['brown', 'pink', 'yellow', 'darkGrey', 'darkGreen', 'red', 'orange', 'blue', 'green', 'teal', 'purple'] },
+    { slamName: 'The Ultimate Slam', rowName: 'E', minColumns: 4, pieces: ['orange', 'brown', 'pink', 'teal', 'green', 'purple', 'darkGreen', 'darkGrey', 'darkBlue', 'yellow', 'red'] },
+    { slamName: 'The Ultimate Slam', rowName: 'F', minColumns: 4, pieces: ['orange', 'pink', 'yellow', 'darkGrey', 'red', 'brown', 'darkBlue', 'purple', 'darkGreen', 'green', 'blue'] },
+    { slamName: 'The Ultimate Slam', rowName: 'G', minColumns: 4, pieces: ['orange', 'brown', 'pink', 'green', 'purple', 'yellow', 'blue', 'teal', 'red', 'darkBlue', 'darkGrey'] },
+    { slamName: 'The Ultimate Slam', rowName: 'H', minColumns: 4, pieces: ['brown', 'purple', 'blue', 'darkGreen', 'darkGrey', 'darkBlue', 'teal', 'green', 'orange', 'red', 'yellow'] },
+    { slamName: 'The Ultimate Slam', rowName: 'I', minColumns: 4, pieces: ['orange', 'blue', 'pink', 'teal', 'purple', 'darkGrey', 'green', 'darkBlue', 'purple', 'darkGreen', 'red'] },
+    { slamName: 'The Ultimate Slam', rowName: 'J', minColumns: 4, pieces: ['orange', 'brown', 'pink', 'darkGreen', 'green', 'purple', 'darkBlue', 'blue', 'yellow', 'red', 'teal'] },
+    { slamName: 'The Ultimate Slam', rowName: 'K', minColumns: 4, pieces: ['brown', 'purple', 'pink', 'yellow', 'blue', 'teal', 'red', 'darkBlue', 'green', 'darkGrey', 'darkGreen'] },
+    { slamName: 'The Ultimate Slam', rowName: 'L', minColumns: 4, pieces: ['orange', 'brown', 'blue', 'yellow', 'teal', 'darkBlue', 'darkGrey', 'darkGreen', 'red', 'pink', 'green'] },
+    { slamName: 'The Ultimate Slam', rowName: 'A′', minColumns: 5, pieces: ['orange', 'purple', 'pink', 'darkGreen', 'green', 'teal', 'blue', 'darkBlue', 'yellow', 'brown', 'darkGrey'] },
+    /*
+    { slamName: 'The Ultimate Slam', rowName: 'B′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
+    { slamName: 'The Ultimate Slam', rowName: 'C′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
+    { slamName: 'The Ultimate Slam', rowName: 'D′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
+    { slamName: 'The Ultimate Slam', rowName: 'E′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
+    { slamName: 'The Ultimate Slam', rowName: 'F′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
+    { slamName: 'The Ultimate Slam', rowName: 'G′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
+    { slamName: 'The Ultimate Slam', rowName: 'H′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
+    { slamName: 'The Ultimate Slam', rowName: 'I′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
+    { slamName: 'The Ultimate Slam', rowName: 'J′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
+    { slamName: 'The Ultimate Slam', rowName: 'K′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
+    { slamName: 'The Ultimate Slam', rowName: 'L′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
+    */
 
-    { slamName: 'The Full Board', rowName: 'A', minColumns: 12, pieces: ['brown', 'pink', 'yellow', 'purple', 'blue', 'darkGrey', 'green', 'darkGreen', 'darkBlue', 'teal', 'red', 'orange'] }
+    { slamName: 'The Full Board', rowName: '😉', minColumns: 12, pieces: ['brown', 'pink', 'yellow', 'purple', 'blue', 'darkGrey', 'green', 'darkGreen', 'darkBlue', 'teal', 'red', 'orange'] }
   ]
 
   await Promise.all(pentas.map(async (penta) => {
