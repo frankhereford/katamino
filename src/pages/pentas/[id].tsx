@@ -51,8 +51,8 @@ const PentaPage: NextPage = () => {
   const [progressBarValue, setProgressBarValue] = useState(1)
   const [progressBarMax, setProgressBarMax] = useState(1)
   const [showConfetti, setShowConfetti] = useState(false)
-  // * set the solved state (the confetti state) false after 5 seconds
-  useTimeoutWhen(() => setShowConfetti(false), 5000, showConfetti)
+  // * set the solved state (the confetti state) false after 8 seconds
+  useTimeoutWhen(() => setShowConfetti(false), 8000, showConfetti)
   const { width: windowWidth, height: windowHeight } = useWindowSize()
 
   const setComplete = trpc.penta.setComplete.useMutation({})
@@ -181,6 +181,8 @@ const PentaPage: NextPage = () => {
           width={windowWidth}
           height={windowHeight}
           opacity={0.5}
+          recycle={false}
+          numberOfPieces={5000}
         />
       }
       <pentaContext.Provider value={gameContext}>
