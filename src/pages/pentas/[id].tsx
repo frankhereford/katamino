@@ -180,9 +180,9 @@ const PentaPage: NextPage = () => {
         <Confetti
           width={windowWidth}
           height={windowHeight}
-          opacity={0.5}
+          opacity={1.0}
           recycle={false}
-          numberOfPieces={5000}
+          numberOfPieces={2500}
         />
       }
       <pentaContext.Provider value={gameContext}>
