@@ -279,7 +279,7 @@ async function main (): Promise<void> {
     for (let i = penta.minColumns; i <= penta.pieces.length; i++) {
       // ? how do I keep the .map() above from firing into each of these iterations
       // ? all at once?
-      // * 💀 hacky way to spread out the processing of the pentas from above over time
+      // ! 💀 hacky way to spread out the processing of the pentas from above over time
       // eslint-disable-next-line promise/param-names
       await new Promise(r => setTimeout(r, Math.random() * 30 * 1000))
       colors = penta.pieces.slice(0, i)
