@@ -25,7 +25,7 @@ const Home: NextPage = () => {
   const [showReplay, setShowReplay] = useState(false)
 
   const [replayIndex, setReplayIndex] = useState(0)
-  const [delay] = useState(200)
+  const [delay] = useState(300)
   const [isPlaying, setIsPlaying] = useState(false)
 
   const [penta, setPenta] = useState<Prisma.PentaGetPayload<{
