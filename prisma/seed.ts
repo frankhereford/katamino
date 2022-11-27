@@ -259,19 +259,17 @@ async function main (): Promise<void> {
     { slamName: 'The Ultimate Slam', rowName: 'K', minColumns: 4, pieces: ['brown', 'purple', 'pink', 'yellow', 'blue', 'teal', 'red', 'darkBlue', 'green', 'darkGrey', 'darkGreen'] },
     { slamName: 'The Ultimate Slam', rowName: 'L', minColumns: 4, pieces: ['orange', 'brown', 'blue', 'yellow', 'teal', 'darkBlue', 'darkGrey', 'darkGreen', 'red', 'pink', 'green'] },
     { slamName: 'The Ultimate Slam', rowName: 'A′', minColumns: 5, pieces: ['orange', 'purple', 'pink', 'darkGreen', 'green', 'teal', 'blue', 'darkBlue', 'yellow', 'brown', 'darkGrey'] },
-    /*
-    { slamName: 'The Ultimate Slam', rowName: 'B′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
-    { slamName: 'The Ultimate Slam', rowName: 'C′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
-    { slamName: 'The Ultimate Slam', rowName: 'D′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
-    { slamName: 'The Ultimate Slam', rowName: 'E′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
-    { slamName: 'The Ultimate Slam', rowName: 'F′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
-    { slamName: 'The Ultimate Slam', rowName: 'G′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
-    { slamName: 'The Ultimate Slam', rowName: 'H′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
-    { slamName: 'The Ultimate Slam', rowName: 'I′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
-    { slamName: 'The Ultimate Slam', rowName: 'J′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
-    { slamName: 'The Ultimate Slam', rowName: 'K′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
-    { slamName: 'The Ultimate Slam', rowName: 'L′', minColumns: 5, pieces: ['', '', '', '', '', '', '', '', '', '', ''] },
-    */
+    { slamName: 'The Ultimate Slam', rowName: 'B′', minColumns: 5, pieces: ['orange', 'brown', 'purple', 'blue', 'pink', 'darkGreen', 'green', 'red', 'darkGrey', 'darkBlue', 'teal'] },
+    { slamName: 'The Ultimate Slam', rowName: 'C′', minColumns: 5, pieces: ['orange', 'pink', 'yellow', 'darkGrey', 'green', 'darkBlue', 'teal', 'purple', 'blue', 'darkGreen', 'red'] },
+    { slamName: 'The Ultimate Slam', rowName: 'D′', minColumns: 5, pieces: ['brown', 'purple', 'pink', 'yellow', 'teal', 'orange', 'red', 'blue', 'darkGreen', 'green', 'darkBlue'] },
+    { slamName: 'The Ultimate Slam', rowName: 'E′', minColumns: 5, pieces: ['brown', 'blue', 'pink', 'teal', 'green', 'purple', 'darkGreen', 'darkBlue', 'red', 'yellow', 'darkGrey'] },
+    { slamName: 'The Ultimate Slam', rowName: 'F′', minColumns: 5, pieces: ['purple', 'blue', 'pink', 'yellow', 'darkGrey', 'red', 'brown', 'orange', 'darkBlue', 'darkGreen', 'green'] },
+    { slamName: 'The Ultimate Slam', rowName: 'G′', minColumns: 5, pieces: ['orange', 'pink', 'yellow', 'darkGreen', 'red', 'darkGrey', 'purple', 'teal', 'brown', 'blue', 'darkBlue'] },
+    { slamName: 'The Ultimate Slam', rowName: 'H′', minColumns: 5, pieces: ['orange', 'blue', 'pink', 'darkGrey', 'green', 'darkBlue', 'yellow', 'darkGreen', 'red', 'teal', 'brown'] },
+    { slamName: 'The Ultimate Slam', rowName: 'I′', minColumns: 5, pieces: ['orange', 'pink', 'yellow', 'teal', 'darkGreen', 'brown', 'darkBlue', 'red', 'purple', 'darkGrey', 'green'] },
+    { slamName: 'The Ultimate Slam', rowName: 'J′', minColumns: 5, pieces: ['orange', 'brown', 'blue', 'darkGreen', 'green', 'teal', 'darkGrey', 'darkBlue', 'yellow', 'red', 'purple'] },
+    { slamName: 'The Ultimate Slam', rowName: 'K′', minColumns: 5, pieces: ['orange', 'purple', 'pink', 'yellow', 'teal', 'red', 'darkBlue', 'brown', 'green', 'darkGrey', 'blue'] },
+    { slamName: 'The Ultimate Slam', rowName: 'L′', minColumns: 5, pieces: ['orange', 'blue', 'pink', 'yellow', 'green', 'brown', 'red', 'darkGrey', 'teal', 'purple', 'darkGreen'] },
 
     { slamName: 'The Full Board', rowName: '😉', minColumns: 12, pieces: ['brown', 'pink', 'yellow', 'purple', 'blue', 'darkGrey', 'green', 'darkGreen', 'darkBlue', 'teal', 'red', 'orange'] }
   ]
