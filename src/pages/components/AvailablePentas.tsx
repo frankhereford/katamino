@@ -28,16 +28,23 @@ export default function AvailablePentas () {
   let pagination = (<></>)
   if (availablePentaCount != null) {
     for (let i = 0; i < Math.ceil(availablePentaCount / availablePentasPerPage); i++) {
-      const classes = ['btn', 'btn-sm']
-      if (i === availablePentaPage) {
-        classes.push('btn-secondary')
+      const border = 5
+      if ( // * do we want to draw a link?
+        (i === 0 && border < Math.ceil(availablePentaCount / availablePentasPerPage)) || // * first page
+        (Math.abs(availablePentaPage - i) < border) ||
+        (i === Math.ceil(availablePentaCount / availablePentasPerPage) - 1) // * last page
+      ) {
+        const classes = ['btn', 'btn-sm']
+        if (i === availablePentaPage) {
+          classes.push('btn-secondary')
+        }
+        pagination = (
+          <>
+            {pagination}
+            <button className={classes.join(' ')} onClick={() => setAvailablePentaPage(i)}>{i + 1}</button>
+          </>
+        )
       }
-      pagination = (
-        <>
-          {pagination}
-          <button className={classes.join(' ')} onClick={() => setAvailablePentaPage(i)}>{i + 1}</button>
-        </>
-      )
     }
   }
 
