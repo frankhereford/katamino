@@ -129,6 +129,7 @@ const PentaPage: NextPage = () => {
     setPenta(workingPenta)
     setPrevHistoryIndex(historyIndex)
   // ! don't put penta in this dependency array because we take a deepClone of it
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [historyIndex, pentaHistoryRecord])
 
   const throttledWheelHandler = useMemo(
