@@ -11,8 +11,7 @@ function shapeInFirstColumn (shape: number[][]): boolean {
 
 export function transformBlockShape (
   shape: number[][],
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  transformation: Prisma.TransformationGetPayload<{}>,
+  transformation: Prisma.TransformationGetPayload<object>,
   borderWidth: number,
   doTranslation: boolean,
   columns?: number
