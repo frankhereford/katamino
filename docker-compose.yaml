@@ -21,8 +21,6 @@ services:
       context: ./app
       dockerfile: Dockerfile
     restart: unless-stopped
-    ports:
-      - "3000:3000"
     depends_on:
       db:
         condition: service_healthy
@@ -30,6 +28,38 @@ services:
       - ./app/.env
     environment:
       DATABASE_URL: postgresql://katamino:katamino@db:5432/katamino
+
+  certbot:
+    image: certbot/dns-route53
+    env_file:
+      - .aws.credentials
+    volumes:
+      - ./certs/letsencrypt:/etc/letsencrypt
+    command: >
+      certonly --dns-route53
+      -d katamino.frankhereford.com
+      --agree-tos
+      --email frank@frankhereford.com
+      --non-interactive
+      --keep-until-expiring
+
+  haproxy:
+    image: haproxy:lts-alpine
+    user: root
+    restart: unless-stopped
+    ports:
+      - "12443:12443"
+    volumes:
+      - ./certs/letsencrypt:/etc/letsencrypt:ro
+      - ./certs/haproxy:/certs
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ./haproxy/entrypoint.sh:/entrypoint.sh:ro
+    entrypoint: ["/bin/sh", "/entrypoint.sh"]
+    depends_on:
+      app:
+        condition: service_started
+      certbot:
+        condition: service_completed_successfully
 
 volumes:
   postgres_data:
