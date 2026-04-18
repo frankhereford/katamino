@@ -36,5 +36,25 @@
   "editor.formatOnType": true, // required
   "editor.formatOnSave": false, // optional
   "editor.formatOnSaveMode": "file", // required to format on save
-  "files.autoSave": "onFocusChange" // optional but recommended
+  "files.autoSave": "onFocusChange",
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#dcb945",
+    "activityBar.background": "#dcb945",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#19866d",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#15202b99",
+    "sash.hoverBorder": "#dcb945",
+    "statusBar.background": "#c8a326",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#9d801e",
+    "statusBarItem.remoteBackground": "#c8a326",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#c8a326",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#c8a32699",
+    "titleBar.inactiveForeground": "#15202b99"
+  },
+  "peacock.remoteColor": "#c8a326" // optional but recommended
 }
