@@ -48,7 +48,7 @@ services:
     user: root
     restart: unless-stopped
     ports:
-      - "12443:12443"
+      - "12443:443"
     volumes:
       - ./certs/letsencrypt:/etc/letsencrypt:ro
       - ./certs/haproxy:/certs
