@@ -1,0 +1,65 @@
+services:
+  db:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: katamino
+      POSTGRES_PASSWORD: katamino
+      POSTGRES_DB: katamino
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # ports:
+    #   - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U katamino"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - ./app/.env
+    environment:
+      DATABASE_URL: postgresql://katamino:katamino@db:5432/katamino
+
+  certbot:
+    image: certbot/dns-route53
+    env_file:
+      - .aws.credentials
+    volumes:
+      - ./certs/letsencrypt:/etc/letsencrypt
+    command: >
+      certonly --dns-route53
+      -d katamino.frankhereford.com
+      --agree-tos
+      --email frank@frankhereford.com
+      --non-interactive
+      --keep-until-expiring
+
+  haproxy:
+    image: haproxy:lts-alpine
+    user: root
+    restart: unless-stopped
+    ports:
+      - "12443:443"
+    volumes:
+      - ./certs/letsencrypt:/etc/letsencrypt:ro
+      - ./certs/haproxy:/certs
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ./haproxy/entrypoint.sh:/entrypoint.sh:ro
+    entrypoint: ["/bin/sh", "/entrypoint.sh"]
+    depends_on:
+      app:
+        condition: service_started
+      certbot:
+        condition: service_completed_successfully
+
+volumes:
+  postgres_data:
