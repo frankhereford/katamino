@@ -6,18 +6,11 @@ export default function ControlButton (props: {
   clickHandler: () => void
   icon: ReactNode
   letter?: string
-  position: string
 }) {
   return (
-    <>
-      <div className={ props.position }>
-        <button
-          className={ props.classes }
-          onClick={ props.clickHandler}>
-          { props.icon }
-          { props.letter }
-        </button>
-      </div>
-    </>
+    <button className={props.classes} onClick={props.clickHandler}>
+      {props.icon}
+      {props.letter}
+    </button>
   )
 }
