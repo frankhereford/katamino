@@ -27,7 +27,7 @@ export default function UserPentas () {
   let pagination = (<></>)
   if (pentaCount != null) {
     for (let i = 0; i < Math.ceil(pentaCount / pentasPerPage); i++) {
-      const classes = ['btn', 'btn-sm']
+      const classes = ['btn', 'btn-sm', 'join-item']
       if (i === pentaPage) {
         classes.push('btn-primary')
       }
@@ -94,7 +94,7 @@ export default function UserPentas () {
             </table>
           {!hidePagination &&
               <div className="text-right m-1 p-1">
-                <div className="btn-group">
+                <div className="join">
                   {pagination}
                 </div>
               </div>

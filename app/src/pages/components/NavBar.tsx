@@ -20,7 +20,7 @@ export default function NavBar () {
                   <Image width={45} height={45} alt="user profile" src={sessionData?.user?.image ?? ''} />
                 </div>
               </label>
-              <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
+              <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
                 <li className='text-center'>👋 {sessionData?.user?.name}</li>
                 <li>
                   <button onClick={() => { void signOut() }} className="btn btn-sm btn-primary align-middle" style={ { lineHeight: '.85rem' } }>Sign Out</button>

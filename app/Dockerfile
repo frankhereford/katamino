@@ -1,9 +1,10 @@
-FROM node:20-slim AS base
+FROM node:22-slim AS base
 
 FROM base AS deps
 RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY package.json package-lock.json ./
+COPY prisma ./prisma
 RUN npm ci
 
 FROM base AS builder
@@ -27,11 +28,11 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma/compiled/seed.js ./prisma/seed.js
+# Install Prisma CLI first so its transitive deps (effect, etc.) land in node_modules
+RUN npm install --no-save --ignore-scripts prisma@^6.0.0 && npm cache clean --force
+# Then overlay the builder's generated Prisma client artifacts (overrides npm-installed @prisma)
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
-# Prisma CLI needed for migrate deploy at runtime
-COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
-RUN mkdir -p ./node_modules/.bin && ln -s ../prisma/build/index.js ./node_modules/.bin/prisma
 COPY --chown=nextjs:nodejs entrypoint.sh ./entrypoint.sh
 RUN chmod +x entrypoint.sh
 USER nextjs

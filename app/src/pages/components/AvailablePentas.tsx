@@ -34,7 +34,7 @@ export default function AvailablePentas () {
         (Math.abs(availablePentaPage - i) < border) ||
         (i === Math.ceil(availablePentaCount / availablePentasPerPage) - 1) // * last page
       ) {
-        const classes = ['btn', 'btn-sm']
+        const classes = ['btn', 'btn-sm', 'join-item']
         if (i === availablePentaPage) {
           classes.push('btn-secondary')
         }
@@ -97,7 +97,7 @@ export default function AvailablePentas () {
               </tbody>
             </table>
             <div className="text-right mb-1 p-1">
-              <div className="btn-group">
+              <div className="join">
                 {pagination}
               </div>
             </div>
