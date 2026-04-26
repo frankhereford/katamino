@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-export default function HeaderContent (props: { description?: string }): JSX.Element {
+export default function HeaderContent (props: { description?: string }) {
   return (
     <Head>
       <title>Katamino</title>

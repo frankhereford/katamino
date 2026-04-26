@@ -34,7 +34,7 @@ interface PentaProps {
 
 export default function Penta (props: PentaProps) {
   // * state to hold the actual components we'll render
-  const [grid, setGrid] = useState<JSX.Element[]>([])
+  const [grid, setGrid] = useState<React.JSX.Element[]>([])
 
   useEffect(() => {
     const boardHeight = 5

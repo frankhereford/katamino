@@ -14,7 +14,7 @@ export default function PiecePage (props: PieceProps) {
   const { data: propsPiece } = trpc.piece.getPiece.useQuery({ id: props.id }, { enabled: (props.id != null) })
 
   // the grid is a list of <Square> components
-  const [grid, setGrid] = useState<JSX.Element[]>([])
+  const [grid, setGrid] = useState<React.JSX.Element[]>([])
 
   // the record of the piece we're displaying.
   // this use state is given a type of the record that we want to store in it

@@ -20,7 +20,7 @@ interface BlockProps {
 }
 
 export default function Block (props: BlockProps) {
-  const [grid, setGrid] = useState<JSX.Element[]>([])
+  const [grid, setGrid] = useState<React.JSX.Element[]>([])
 
   useEffect(() => {
     if (props.block.piece === null) { return }
