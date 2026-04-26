@@ -283,7 +283,8 @@ export default function Controls (props: {
   const canToggleVisibility = props.activeBlock !== undefined && !gameContext.isReplay
   const notReplay = !gameContext.isReplay
 
-  const btn = 'btn btn-primary text-white drop-shadow-md'
+  const btn = 'btn btn-primary text-white'
+  const btnJ = btn + ' join-item'
   const dis = ' btn-disabled'
 
   return (
@@ -294,44 +295,32 @@ export default function Controls (props: {
           <ImExit size={20} style={{ color: '#ffffff' }} />
         </Link>
 
+        {/* QWER / ASD joined groups */}
+        <div className='flex flex-col gap-1 drop-shadow-md'>
+          <div className='join'>
+            <ControlButton classes={btnJ + (notReplay ? '' : dis)} clickHandler={keyQ} icon={<BsArrowLeft size={20} style={{ color: '#ffffff' }} />} letter="Q" />
+            <ControlButton classes={btnJ + (blockVisible && notReplay ? '' : dis)} clickHandler={keyW} icon={reflectionIcon} letter="W" />
+            <ControlButton classes={btnJ + (notReplay ? '' : dis)} clickHandler={keyE} icon={<BsArrowRight size={20} style={{ color: '#ffffff' }} />} letter="E" />
+            <ControlButton classes={btnJ} clickHandler={keyR} icon={replayIcon} letter="R" />
+          </div>
+          <div className='join'>
+            <ControlButton classes={btnJ + (blockVisible && notReplay ? '' : dis)} clickHandler={keyA} icon={<RiFilePaperLine size={20} style={{ color: '#ffffff' }} />} letter="A" />
+            <ControlButton classes={btnJ + (canToggleVisibility ? '' : dis)} clickHandler={keyS} icon={visibilityIcon} letter="S" />
+            <ControlButton classes={btnJ + (blockVisible && notReplay ? '' : dis)} clickHandler={keyD} icon={rotationIcon} letter="D" />
+          </div>
+        </div>
+
         {/* Arrow keys: ↑ above, ← ↓ → in a row */}
-        <div className='flex flex-col items-center gap-1'>
+        <div className='flex flex-col items-center gap-1 drop-shadow-md'>
           <ControlButton
             classes={btn + (canTranslate ? '' : dis)}
             clickHandler={keyUp}
             icon={<BsArrowBarUp size={20} style={{ color: '#ffffff' }} />}
           />
-          <div className='flex gap-1'>
-            <ControlButton
-              classes={btn + (canTranslate ? '' : dis)}
-              clickHandler={keyLeft}
-              icon={<BsArrowBarLeft size={20} style={{ color: '#ffffff' }} />}
-            />
-            <ControlButton
-              classes={btn + (canTranslate ? '' : dis)}
-              clickHandler={keyDown}
-              icon={<BsArrowBarDown size={20} style={{ color: '#ffffff' }} />}
-            />
-            <ControlButton
-              classes={btn + (canTranslate ? '' : dis)}
-              clickHandler={keyRight}
-              icon={<BsArrowBarRight size={20} style={{ color: '#ffffff' }} />}
-            />
-          </div>
-        </div>
-
-        {/* QWER row / ASD row */}
-        <div className='flex flex-col gap-1'>
-          <div className='flex gap-1'>
-            <ControlButton classes={btn + (notReplay ? '' : dis)} clickHandler={keyQ} icon={<BsArrowLeft size={20} style={{ color: '#ffffff' }} />} letter="Q" />
-            <ControlButton classes={btn + (blockVisible && notReplay ? '' : dis)} clickHandler={keyW} icon={reflectionIcon} letter="W" />
-            <ControlButton classes={btn + (notReplay ? '' : dis)} clickHandler={keyE} icon={<BsArrowRight size={20} style={{ color: '#ffffff' }} />} letter="E" />
-            <ControlButton classes={btn} clickHandler={keyR} icon={replayIcon} letter="R" />
-          </div>
-          <div className='flex gap-1'>
-            <ControlButton classes={btn + (blockVisible && notReplay ? '' : dis)} clickHandler={keyA} icon={<RiFilePaperLine size={20} style={{ color: '#ffffff' }} />} letter="A" />
-            <ControlButton classes={btn + (canToggleVisibility ? '' : dis)} clickHandler={keyS} icon={visibilityIcon} letter="S" />
-            <ControlButton classes={btn + (blockVisible && notReplay ? '' : dis)} clickHandler={keyD} icon={rotationIcon} letter="D" />
+          <div className='join'>
+            <ControlButton classes={btnJ + (canTranslate ? '' : dis)} clickHandler={keyLeft} icon={<BsArrowBarLeft size={20} style={{ color: '#ffffff' }} />} />
+            <ControlButton classes={btnJ + (canTranslate ? '' : dis)} clickHandler={keyDown} icon={<BsArrowBarDown size={20} style={{ color: '#ffffff' }} />} />
+            <ControlButton classes={btnJ + (canTranslate ? '' : dis)} clickHandler={keyRight} icon={<BsArrowBarRight size={20} style={{ color: '#ffffff' }} />} />
           </div>
         </div>
 
