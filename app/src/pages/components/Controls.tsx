@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { type Prisma } from '@prisma/client'
 import { useKeyBindings } from 'rooks'
 import ControlButton from '../components/ControlButton'
-import { pentaContext } from '../pentas/[id]'
+import { pentaContext } from '../../context/pentaContext'
 import _ from 'lodash'
 import { trpc } from '../../utils/trpc'
 

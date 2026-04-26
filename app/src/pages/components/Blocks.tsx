@@ -1,7 +1,7 @@
 import { type SyntheticEvent, useContext } from 'react'
 import { type Prisma } from '@prisma/client'
 import Block from './Block'
-import { pentaContext } from '../pentas/[id]'
+import { pentaContext } from '../../context/pentaContext'
 
 export default function Blocks (props: {
   penta: Prisma.PentaGetPayload<{

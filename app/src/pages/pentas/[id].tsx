@@ -1,8 +1,8 @@
-import React, { useState, createContext, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { trpc } from '../../utils/trpc'
-import { type Prisma } from '@prisma/client'
 import { type NextPage } from 'next'
+import { pentaContext } from '../../context/pentaContext'
 import { useDebounceCallback } from '@react-hook/debounce'
 import Confetti from 'react-confetti'
 import { useTimeoutWhen } from 'rooks'
@@ -12,37 +12,6 @@ import _ from 'lodash'
 import Penta from '../components/Penta'
 import Controls from '../components/Controls'
 import Blocks from '../components/Blocks'
-
-interface pentaContextType {
-  setActiveBlock: (block: number) => void
-  refetchPenta: () => void
-  setPenta: (penta: Prisma.PentaGetPayload<{
-    include: {
-      blocks: {
-        include: {
-          piece: {
-            include: {
-              color: true
-            }
-          }
-          transformation: true
-        }
-      }
-    }
-  }>) => void
-  isReplay: boolean
-  setIsReplay: (isReplay: boolean) => void
-}
-
-export const pentaContext = createContext<pentaContextType>({
-  /* eslint-disable @typescript-eslint/no-empty-function */
-  setActiveBlock: () => {}, // these are not types, they are non-op functions
-  refetchPenta: () => {},
-  setPenta: () => {},
-  isReplay: false,
-  setIsReplay: () => {}
-  /* eslint-enable @typescript-eslint/no-empty-function */
-})
 
 // * React is cool and all, but I dare someone to read this and know what it does
 // * without boatloads of comments.
